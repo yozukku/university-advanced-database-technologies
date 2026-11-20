@@ -6,5 +6,5 @@ export async function login(page: Page, username: 'anna' | 'jan') {
   await page.locator('#username').fill(username)
   await page.locator('#password').fill('demo')
   await page.locator('#kc-login').click()
-  await page.waitForURL('http://localhost:5173/')
+  await page.waitForURL(url => url.origin === 'http://localhost:5173' && url.pathname === '/' && !url.searchParams.has('code'))
 }

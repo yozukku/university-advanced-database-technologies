@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from '../fixtures'
 import { login } from '../login'
 
 test('Anna loguje się i widzi swoje imię', async ({ page }) => {

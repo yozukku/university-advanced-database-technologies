@@ -1,4 +1,5 @@
 import { Link, createBrowserRouter } from 'react-router'
+import { LockersPage } from '../features/lockers/LockersPage'
 import { EmptyState, Page } from '../ui'
 import { paths } from './paths'
 import { Shell } from './Shell'
@@ -7,7 +8,7 @@ export const router = createBrowserRouter([
   {
     element: <Shell />,
     children: [
-      { index: true, element: <Placeholder title="Punkty" /> },
+      { index: true, element: <LockersPage /> },
       { path: 'rezerwacje', element: <Placeholder title="Moje rezerwacje" /> },
       { path: 'rezerwacje/:orderId', element: <Placeholder title="Rezerwacja" /> },
       { path: 'rezerwacje/:orderId/platnosc', element: <Placeholder title="Płatność" /> },
