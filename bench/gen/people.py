@@ -10,12 +10,16 @@ class Person:
     phone: str
 
 
-def person_pools(profile, count=4096):
+@dataclass(frozen=True)
+class Company:
+    name: str
+    address: str
+
+
+def person_pools(profile, customers=4096, recipients=4096):
     fake = Faker("pl_PL")
     fake.seed_instance(profile.seed)
-    customers = make_pool(fake, "500", count)
-    recipients = make_pool(fake, "501", count)
-    return customers, recipients
+    return make_pool(fake, "500", customers), make_pool(fake, "501", recipients)
 
 
 def make_pool(fake, prefix, count):
@@ -23,3 +27,9 @@ def make_pool(fake, prefix, count):
         Person(fake.name(), f"{fake.user_name().lower()}.{prefix}{index}@example.test", f"+48{prefix}{index:06d}")
         for index in range(count)
     )
+
+
+def company_pool(profile, count):
+    fake = Faker("pl_PL")
+    fake.seed_instance(profile.seed + 1)
+    return tuple(Company(fake.company(), fake.address().replace("\n", ", ")) for _ in range(count))

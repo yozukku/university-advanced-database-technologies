@@ -25,3 +25,5 @@ Frontend korzysta z Node.js 22, Vite 8, React 19, TypeScript 6 i `react-oidc-con
 ## Generator benchmarku
 
 Runner używa Pythona 3.13 i uv 0.13.8. Zależności generatora to Faker 40.54.0, NumPy 2.5.5, PyArrow 26.0.1 i PyYAML 6.0.3. `uv.lock` ustala też wersje zależności pośrednich. `make data SIZE=XS` zapisuje dane w `out/xs/data/`. Rozmiary S, M i L trafiają do `data/<rozmiar>/`. Współrzędne w kolumnie `location_` są binarnym EWKB Point o SRID 4326, w kolejności długość, szerokość.
+
+DuckDB 2.0.1 sprawdza pliki Parquet bez uruchamiania testowanych SZBD.

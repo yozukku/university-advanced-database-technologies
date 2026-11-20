@@ -1,11 +1,8 @@
 import argparse
 from pathlib import Path
 
-import pyarrow.parquet as pq
-
-from .plan import make_plan
+from .dataset import write_dataset
 from .profiles import load_profile
-from .static import static_tables
 
 
 def main():
@@ -14,12 +11,8 @@ def main():
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     profile = load_profile(args.size)
-    output = args.output or profile.destination
-    output.mkdir(parents=True, exist_ok=True)
-
-    plan = make_plan(profile)
-    for name, table in static_tables(profile, plan):
-        pq.write_table(table, output / f"{name}.parquet", compression="zstd")
+    _, tables = write_dataset(profile, args.output or profile.destination)
+    for name, table in tables.items():
         print(f"{name}: {table.num_rows:,}")
 
 
