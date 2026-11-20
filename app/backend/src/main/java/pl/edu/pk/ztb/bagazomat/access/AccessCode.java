@@ -65,6 +65,18 @@ public class AccessCode {
 		return id;
 	}
 
+	public Purpose getPurpose() {
+		return purpose;
+	}
+
+	public Instant getValidFrom() {
+		return validFrom;
+	}
+
+	public Instant getValidTo() {
+		return validTo;
+	}
+
 	public enum Purpose {
 		DROP_OFF, PICK_UP
 	}

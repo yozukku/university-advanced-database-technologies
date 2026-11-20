@@ -47,4 +47,17 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	@NativeQuery(STORAGE_ORDERS + "and o.id_ = :id")
 	Optional<OrderView> findStorageOrder(UUID subject, long id);
+
+	@NativeQuery("""
+			select o.id_
+			from order_ o
+			         join customer_ u on u.id_ = o.customer_id_
+			where o.id_ = :id and u.keycloak_id_ = :subject and o.type_ = 'STORAGE'
+			for update of o
+			""")
+	Optional<Long> lockStorageOrder(UUID subject, long id);
+
+	@Modifying
+	@NativeQuery("update order_ set status_ = 'PAID' where id_ = :id and status_ = 'AWAITING_PAYMENT'")
+	void markPaid(long id);
 }

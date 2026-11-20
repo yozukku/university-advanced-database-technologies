@@ -70,6 +70,14 @@ public class Reservation {
 		return id;
 	}
 
+	public Instant getFrom() {
+		return from;
+	}
+
+	public Instant getTo() {
+		return to;
+	}
+
 	public enum Leg {
 		STORAGE, ORIGIN, DESTINATION
 	}

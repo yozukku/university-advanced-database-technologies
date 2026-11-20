@@ -15,3 +15,8 @@ spring:
         jwt:
           issuer-uri: ${KEYCLOAK_ISSUER:http://localhost:8081/realms/bagazomat}
           jwk-set-uri: ${KEYCLOAK_JWKS:http://localhost:8081/realms/bagazomat/protocol/openid-connect/certs}
+
+bagazomat:
+  access:
+    pin-secret: ${ACCESS_PIN_SECRET:dev-pin-secret}
+    code-secret: ${ACCESS_CODE_SECRET:dev-code-secret}
