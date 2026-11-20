@@ -134,9 +134,13 @@
     },
     "tariff_.tariff_no_overlap__ex": {
       "pg": [{"scope": "tariff_", "name": "tariff_no_overlap__ex", "kind": "exclude", "keys": ["size_", "tstzrange(valid_from_, valid_to_, '[)')"]}],
-      "mysql": [{"scope": "tariff_", "name": "tariff_no_overlap__ex", "kind": "exclude", "keys": ["size_", "tstzrange(valid_from_, valid_to_, '[)')"]}],
-      "mongo": {"not_needed": "Children are accessed in the document identified by the parent id."},
-      "neo4j": {"not_needed": "Traverse the corresponding relationship from the parent node."}
+      "mysql": [
+        {"scope": "tariff_", "name": "tariff_no_overlap__bi", "kind": "trigger", "event": "before insert", "lock": "excl_guard_", "probe": "tariff_size_from__idx"},
+        {"scope": "tariff_", "name": "tariff_no_overlap__bu", "kind": "trigger", "event": "before update", "lock": "excl_guard_", "probe": "tariff_size_from__idx"},
+        {"scope": "tariff_", "name": "tariff_size_from__idx", "kind": "btree", "keys": ["size_", "valid_from_"]}
+      ],
+      "mongo": {"not_needed": "Not enforced: PostgreSQL validates the dataset, and no benchmark write changes tariff_."},
+      "neo4j": {"not_needed": "Not enforced: PostgreSQL validates the dataset, and no benchmark write changes tariff_."}
     },
     "customer_.customer__pkey": {
       "pg": [{"scope": "customer_", "name": "customer__pkey", "kind": "primary", "keys": ["id_"]}],
@@ -284,15 +288,23 @@
     },
     "reservation_.reservation_no_double_booking__ex": {
       "pg": [{"scope": "reservation_", "name": "reservation_no_double_booking__ex", "kind": "exclude", "keys": ["cell_id_", "tstzrange(from_, to_, '[)')"], "predicate": "status_ in ('BOOKED', 'OCCUPIED')"}],
-      "mysql": [{"scope": "reservation_", "name": "reservation_no_double_booking__ex", "kind": "functional", "keys": ["CASE WHEN status_ in ('BOOKED', 'OCCUPIED') THEN cell_id_ END", "CASE WHEN status_ in ('BOOKED', 'OCCUPIED') THEN tstzrange(from_, to_, '[)') END"], "predicate": "status_ in ('BOOKED', 'OCCUPIED')", "unique": false}],
-      "mongo": {"not_needed": "Children are accessed in the document identified by the parent id."},
-      "neo4j": {"not_needed": "Traverse the corresponding relationship from the parent node."}
+      "mysql": [
+        {"scope": "reservation_", "name": "reservation_no_double_booking__bi", "kind": "trigger", "event": "before insert", "lock": "lockermat_cell_", "probe": "reservation_cell_from__idx"},
+        {"scope": "reservation_", "name": "reservation_no_double_booking__bu", "kind": "trigger", "event": "before update", "lock": "lockermat_cell_", "probe": "reservation_cell_from__idx"},
+        {"scope": "reservation_", "name": "reservation_cell_from__idx", "kind": "btree", "keys": ["cell_id_", "from_"]}
+      ],
+      "mongo": [{"scope": "orders", "name": "reservation_cell_from__idx", "kind": "multikey", "keys": ["reservations.cellId", "reservations.from"]}],
+      "neo4j": {"not_needed": "Traverse incoming IN_CELL from the locked Cell; a cell has about 11 legs."}
     },
     "reservation_.reservation_actual_occupancy__ex": {
       "pg": [{"scope": "reservation_", "name": "reservation_actual_occupancy__ex", "kind": "exclude", "keys": ["cell_id_", "tstzrange(deposited_at_, collected_at_, '[)')"], "predicate": "deposited_at_ is not null"}],
-      "mysql": [{"scope": "reservation_", "name": "reservation_actual_occupancy__ex", "kind": "functional", "keys": ["CASE WHEN deposited_at_ is not null THEN cell_id_ END", "CASE WHEN deposited_at_ is not null THEN tstzrange(deposited_at_, collected_at_, '[)') END"], "predicate": "deposited_at_ is not null", "unique": false}],
-      "mongo": {"not_needed": "Children are accessed in the document identified by the parent id."},
-      "neo4j": {"not_needed": "Traverse the corresponding relationship from the parent node."}
+      "mysql": [
+        {"scope": "reservation_", "name": "reservation_actual_occupancy__bi", "kind": "trigger", "event": "before insert", "lock": "lockermat_cell_", "probe": "reservation_cell_from__idx"},
+        {"scope": "reservation_", "name": "reservation_actual_occupancy__bu", "kind": "trigger", "event": "before update", "lock": "lockermat_cell_", "probe": "reservation_cell_from__idx"},
+        {"scope": "reservation_", "name": "reservation_cell_from__idx", "kind": "btree", "keys": ["cell_id_", "from_"]}
+      ],
+      "mongo": [{"scope": "orders", "name": "reservation_cell_from__idx", "kind": "multikey", "keys": ["reservations.cellId", "reservations.from"]}],
+      "neo4j": {"not_needed": "Traverse incoming IN_CELL from the locked Cell; a cell has about 11 legs."}
     },
     "shipment_.shipment__pkey": {
       "pg": [{"scope": "shipment_", "name": "shipment__pkey", "kind": "primary", "keys": ["id_"]}],
@@ -386,15 +398,22 @@
     },
     "access_code_.access_code_hmac_window__ex": {
       "pg": [{"scope": "access_code_", "name": "access_code_hmac_window__ex", "kind": "exclude", "keys": ["code_hmac_", "tstzrange(valid_from_, valid_to_, '[)')"]}],
-      "mysql": [{"scope": "access_code_", "name": "access_code_hmac_window__ex", "kind": "exclude", "keys": ["code_hmac_", "tstzrange(valid_from_, valid_to_, '[)')"]}],
-      "mongo": {"not_needed": "Children are accessed in the document identified by the parent id."},
-      "neo4j": {"not_needed": "Traverse the corresponding relationship from the parent node."}
+      "mysql": [
+        {"scope": "access_code_", "name": "access_code_hmac_window__bi", "kind": "trigger", "event": "before insert", "lock": "excl_guard_", "probe": "access_code_hmac_from__idx"},
+        {"scope": "access_code_", "name": "access_code_hmac_window__bu", "kind": "trigger", "event": "before update", "lock": "excl_guard_", "probe": "access_code_hmac_from__idx"},
+        {"scope": "access_code_", "name": "access_code_hmac_from__idx", "kind": "btree", "keys": ["code_hmac_", "valid_from_"]}
+      ],
+      "mongo": {"not_needed": "Not enforced: PostgreSQL validates the dataset, and each benchmark insert derives a new digest from its new code id."},
+      "neo4j": {"not_needed": "Not enforced: PostgreSQL validates the dataset, and each benchmark insert derives a new digest from its new code id."}
     },
     "access_code_.access_code_active_purpose__ex": {
       "pg": [{"scope": "access_code_", "name": "access_code_active_purpose__ex", "kind": "exclude", "keys": ["reservation_id_", "purpose_", "tstzrange(valid_from_, valid_to_, '[)')"], "predicate": "status_ = 'ACTIVE'"}],
-      "mysql": [{"scope": "access_code_", "name": "access_code_active_purpose__ex", "kind": "functional", "keys": ["CASE WHEN status_ = 'ACTIVE' THEN reservation_id_ END", "CASE WHEN status_ = 'ACTIVE' THEN purpose_ END", "CASE WHEN status_ = 'ACTIVE' THEN tstzrange(valid_from_, valid_to_, '[)') END"], "predicate": "status_ = 'ACTIVE'", "unique": false}],
-      "mongo": {"not_needed": "Children are accessed in the document identified by the parent id."},
-      "neo4j": {"not_needed": "Traverse the corresponding relationship from the parent node."}
+      "mysql": [
+        {"scope": "access_code_", "name": "access_code_active_purpose__bi", "kind": "trigger", "event": "before insert", "lock": "reservation_", "probe": "access_code_reservation__idx"},
+        {"scope": "access_code_", "name": "access_code_active_purpose__bu", "kind": "trigger", "event": "before update", "lock": "reservation_", "probe": "access_code_reservation__idx"}
+      ],
+      "mongo": {"not_needed": "Not enforced: PostgreSQL validates the dataset, and benchmark writes issue one code per purpose on a fresh leg."},
+      "neo4j": {"not_needed": "Not enforced: PostgreSQL validates the dataset, and benchmark writes issue one code per purpose on a fresh leg."}
     },
     "incident_.incident__pkey": {
       "pg": [{"scope": "incident_", "name": "incident__pkey", "kind": "primary", "keys": ["id_"]}],
@@ -486,13 +505,19 @@
     "cell_opening_.cell_opening_channel__ck": {
       "pg": [{"scope": "cell_opening_", "name": "cell_opening_channel__ck", "kind": "check"}],
       "mysql": [{"scope": "cell_opening_", "name": "cell_opening_channel__ck", "kind": "check"}],
-      "mongo": [{"scope": "orders", "name": "$jsonSchema", "kind": "validator"}],
+      "mongo": [
+        {"scope": "orders", "name": "$jsonSchema", "kind": "validator"},
+        {"scope": "incidents", "name": "$jsonSchema", "kind": "validator"}
+      ],
       "neo4j": {"not_needed": "PostgreSQL validates the domain; Neo4j Community does not enforce CHECK or property existence."}
     },
     "cell_opening_.cell_opening_result__ck": {
       "pg": [{"scope": "cell_opening_", "name": "cell_opening_result__ck", "kind": "check"}],
       "mysql": [{"scope": "cell_opening_", "name": "cell_opening_result__ck", "kind": "check"}],
-      "mongo": [{"scope": "orders", "name": "$jsonSchema", "kind": "validator"}],
+      "mongo": [
+        {"scope": "orders", "name": "$jsonSchema", "kind": "validator"},
+        {"scope": "incidents", "name": "$jsonSchema", "kind": "validator"}
+      ],
       "neo4j": {"not_needed": "PostgreSQL validates the domain; Neo4j Community does not enforce CHECK or property existence."}
     },
     "cell_opening_.cell_opening_grant__ck": {
@@ -582,8 +607,8 @@
     "payment_.payment_provider_ref__uq": {
       "pg": [{"scope": "payment_", "name": "payment_provider_ref__uq", "kind": "unique", "keys": ["provider_", "provider_ref_"]}],
       "mysql": [{"scope": "payment_", "name": "payment_provider_ref__uq", "kind": "unique", "keys": ["provider_", "provider_ref_"]}],
-      "mongo": {"not_needed": "PostgreSQL validates the pair before import; a unique multikey index cannot enforce it within an order."},
-      "neo4j": {"not_needed": "Validated by PostgreSQL; unique ids and edge traversal already identify referenced nodes."}
+      "mongo": {"not_needed": "PostgreSQL validates the pair; a unique multikey index cannot enforce it within one orders document and treats absent refs as equal nulls."},
+      "neo4j": [{"scope": "Payment", "name": "payment_provider_ref__uq", "kind": "unique", "keys": ["provider", "providerRef"]}]
     },
     "audit_event_.audit_event__pkey": {
       "pg": [{"scope": "audit_event_", "name": "audit_event__pkey", "kind": "primary", "keys": ["id_"]}],
@@ -659,7 +684,7 @@
     },
     "shipment_.shipment_courier__idx": {
       "pg": [{"scope": "shipment_", "name": "shipment_courier__idx", "kind": "btree", "keys": ["courier_keycloak_id_"], "predicate": "courier_keycloak_id_ is not null"}],
-      "mysql": [{"scope": "shipment_", "name": "shipment_courier__idx", "kind": "functional", "keys": ["CASE WHEN courier_keycloak_id_ is not null THEN courier_keycloak_id_ END"], "predicate": "courier_keycloak_id_ is not null", "unique": false}],
+      "mysql": [{"scope": "shipment_", "name": "shipment_courier__idx", "kind": "btree", "keys": ["courier_keycloak_id_"]}],
       "mongo": [{"scope": "orders", "name": "shipment_courier__idx", "kind": "btree", "keys": ["shipment.courierKeycloakId"], "predicate": {"shipment.courierKeycloakId": {"$exists": true}}}],
       "neo4j": [{"scope": "Shipment", "name": "shipment_courier__idx", "kind": "range", "keys": ["courierKeycloakId"]}]
     },
@@ -695,7 +720,7 @@
     },
     "cell_opening_.cell_opening_incident__idx": {
       "pg": [{"scope": "cell_opening_", "name": "cell_opening_incident__idx", "kind": "btree", "keys": ["incident_id_"], "predicate": "incident_id_ is not null"}],
-      "mysql": [{"scope": "cell_opening_", "name": "cell_opening_incident__idx", "kind": "functional", "keys": ["CASE WHEN incident_id_ is not null THEN incident_id_ END"], "predicate": "incident_id_ is not null", "unique": false}],
+      "mysql": {"not_needed": "The automatic FK index cell_opening_incident__fk has the same key; an equality seek never returns NULL."},
       "mongo": {"not_needed": "Service openings are embedded in the addressed incident."},
       "neo4j": [{"scope": "CellOpening", "name": "cell_opening_incident__idx", "kind": "range", "keys": ["incidentId"]}]
     },
@@ -719,13 +744,13 @@
     },
     "payment_.payment_refund_of__idx": {
       "pg": [{"scope": "payment_", "name": "payment_refund_of__idx", "kind": "btree", "keys": ["refund_of_id_"], "predicate": "refund_of_id_ is not null"}],
-      "mysql": [{"scope": "payment_", "name": "payment_refund_of__idx", "kind": "functional", "keys": ["CASE WHEN refund_of_id_ is not null THEN refund_of_id_ END"], "predicate": "refund_of_id_ is not null", "unique": false}],
+      "mysql": {"not_needed": "The automatic FK index payment_payment__refund_of_fk leads with refund_of_id_; an equality seek never returns NULL."},
       "mongo": {"not_needed": "Refunds and their captures are embedded in the addressed order."},
       "neo4j": [{"scope": "Payment", "name": "payment_refund_of__idx", "kind": "range", "keys": ["refundOfId"]}]
     },
     "payment_.payment_incident__idx": {
       "pg": [{"scope": "payment_", "name": "payment_incident__idx", "kind": "btree", "keys": ["incident_id_"], "predicate": "incident_id_ is not null"}],
-      "mysql": [{"scope": "payment_", "name": "payment_incident__idx", "kind": "functional", "keys": ["CASE WHEN incident_id_ is not null THEN incident_id_ END"], "predicate": "incident_id_ is not null", "unique": false}],
+      "mysql": {"not_needed": "The automatic FK index payment_incident__fk leads with incident_id_; an equality seek never returns NULL."},
       "mongo": {"not_needed": "Payments are embedded in their orders; no scenario performs a payment-only lookup by incident."},
       "neo4j": [{"scope": "Payment", "name": "payment_incident__idx", "kind": "range", "keys": ["incidentId"]}]
     },
@@ -739,9 +764,9 @@
   "base_extras": {
     "reservation_cell_fk_support": {
       "pg": [{"scope": "reservation_", "name": "reservation_cell_size__idx", "kind": "btree", "keys": ["cell_id_", "size_"]}],
-      "mysql": {"not_needed": "PostgreSQL requires an unconditional child-side FK access path here; other engine objects are mapped separately."},
-      "mongo": {"not_needed": "PostgreSQL requires an unconditional child-side FK access path here; other engine objects are mapped separately."},
-      "neo4j": {"not_needed": "PostgreSQL requires an unconditional child-side FK access path here; other engine objects are mapped separately."}
+      "mysql": {"not_needed": "MySQL creates reservation_lockermat_cell__fk automatically; see mysql_fk_support."},
+      "mongo": [{"scope": "orders", "name": "reservation_cell_from__idx", "kind": "multikey", "keys": ["reservations.cellId", "reservations.from"]}],
+      "neo4j": {"not_needed": "Traverse incoming IN_CELL from the Cell."}
     },
     "opening_access_code_fk_support": {
       "pg": [{"scope": "cell_opening_", "name": "cell_opening_access_code__idx", "kind": "btree", "keys": ["access_code_id_"]}],
@@ -788,6 +813,12 @@
         {"scope": "nodes", "name": "node_label_lookup", "kind": "lookup", "keys": [], "catalog_match": "type and entity_type", "entity_type": "node"},
         {"scope": "relationships", "name": "relationship_type_lookup", "kind": "lookup", "keys": [], "catalog_match": "type and entity_type", "entity_type": "relationship"}
       ]
+    },
+    "mysql_changes_new": {
+      "pg": {"not_needed": "Only MySQL derives the non-null string values of changes_ for its multi-valued JX2 index; the other engines index changes_ directly."},
+      "mysql": [{"scope": "audit_event_", "name": "changes_new_", "kind": "column", "translation_only": true}],
+      "mongo": {"not_needed": "Only MySQL derives the non-null string values of changes_ for its multi-valued JX2 index; the other engines index changes_ directly."},
+      "neo4j": {"not_needed": "Only MySQL derives the non-null string values of changes_ for its multi-valued JX2 index; the other engines index changes_ directly."}
     }
   },
   "mysql_fk_support": {
@@ -809,7 +840,7 @@
       "engines": {
         "pg": [{"scope": "shipment_", "name": "ix1__idx", "kind": "btree", "keys": ["recipient_phone_"]}],
         "mysql": [{"scope": "shipment_", "name": "ix1__idx", "kind": "btree", "keys": ["recipient_phone_"]}],
-        "mongo": [{"scope": "orders", "name": "ix1__idx", "kind": "btree", "keys": ["shipment.recipientPhone"]}],
+        "mongo": [{"scope": "orders", "name": "ix1__idx", "kind": "btree", "keys": ["shipment.recipientPhone"], "predicate": {"shipment.recipientPhone": {"$exists": true}}}],
         "neo4j": [{"scope": "Shipment", "name": "ix1__idx", "kind": "range", "keys": ["recipientPhone"]}]
       }
     },
@@ -831,18 +862,18 @@
       "engines": {
         "pg": [{"scope": "payment_", "name": "ix3__idx", "kind": "btree", "keys": ["created_at_"]}],
         "mysql": [{"scope": "payment_", "name": "ix3__idx", "kind": "btree", "keys": ["created_at_"]}],
-        "mongo": [{"scope": "orders", "name": "ix3__idx", "kind": "multikey", "keys": ["payments.createdAt"]}],
+        "mongo": [{"scope": "orders", "name": "ix3__idx", "kind": "multikey", "keys": ["payments.createdAt"], "predicate": {"payments.createdAt": {"$exists": true}}}],
         "neo4j": [{"scope": "Payment", "name": "ix3__idx", "kind": "range", "keys": ["createdAt"]}]
       }
     },
     "IX4": {
-      "reason": "Select opening requests in the measured window; the query excludes service openings.",
+      "reason": "Select opening requests in the measured window; the query excludes service openings, so MongoDB indexes only the code openings under orders.",
       "serves": ["R7"],
       "maintained_by": ["C2"],
       "engines": {
         "pg": [{"scope": "cell_opening_", "name": "ix4__idx", "kind": "btree", "keys": ["requested_at_"]}],
         "mysql": [{"scope": "cell_opening_", "name": "ix4__idx", "kind": "btree", "keys": ["requested_at_"]}],
-        "mongo": [{"scope": "orders", "name": "ix4__idx", "kind": "multikey", "keys": ["reservations.accessCodes.openings.requestedAt"]}],
+        "mongo": [{"scope": "orders", "name": "ix4__idx", "kind": "multikey", "keys": ["reservations.accessCodes.openings.requestedAt"], "predicate": {"reservations.accessCodes.openings.requestedAt": {"$exists": true}}}],
         "neo4j": [{"scope": "CellOpening", "name": "ix4__idx", "kind": "range", "keys": ["requestedAt"]}]
       }
     },
@@ -863,7 +894,7 @@
       "maintained_by": ["J1"],
       "engines": {
         "pg": [{"scope": "audit_event_", "name": "jx2__idx", "kind": "gin", "keys": ["changes_"], "opclass": "jsonb_path_ops", "fastupdate": false}],
-        "mysql": [{"scope": "audit_event_", "name": "jx2__idx", "kind": "multi_valued", "keys": ["CAST(changes_->'$[*].new' AS CHAR(32) ARRAY)"]}],
+        "mysql": [{"scope": "audit_event_", "name": "jx2__idx", "kind": "multi_valued", "keys": ["CAST(changes_new_ AS CHAR(32) ARRAY)"]}],
         "mongo": [{"scope": "auditEvents", "name": "jx2__idx", "kind": "multikey", "keys": ["changes.f", "changes.new"]}],
         "neo4j": {"not_needed": "Changes is a JSON string; Neo4j cannot index its array paths and does not run J4."}
       }

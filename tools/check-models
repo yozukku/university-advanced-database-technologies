@@ -13,9 +13,97 @@ TABLE = re.compile(r"^create table\s+(\w+)\s*\(", re.IGNORECASE | re.MULTILINE)
 INDEX = re.compile(r"^create\s+(unique\s+)?index\s+(\w+)\s+on\s+(\w+)\s*(?:using\s+(\w+)\s*)?\(", re.I | re.M)
 CONSTRAINT = re.compile(r"\bconstraint\s+(\w+)\s+(foreign key|references|unique|check|exclude)\b", re.I)
 INDEX_KINDS = {"primary", "unique", "btree", "range", "multikey", "functional", "multi_valued",
-               "gist", "gin", "spatial", "point", "2dsphere", "fulltext", "exclusion", "lookup"}
+               "gist", "gin", "spatial", "point", "2dsphere", "fulltext", "exclude", "lookup"}
+KINDS = INDEX_KINDS | {"check", "foreign key", "validator", "edge", "label", "table", "column", "trigger"}
 BA_READS = {"IX1": "R4", "IX2": "R5", "IX3": "R6", "IX4": "R7", "JX1": "J2", "JX2": "J4"}
 H1_WRITES = {"C2", "C3", "C4", "C6", "U1", "U5", "J1"}
+EXCLUSION_LOCKS = {
+    "tariff_no_overlap__ex": "excl_guard_",
+    "reservation_no_double_booking__ex": "lockermat_cell_",
+    "reservation_actual_occupancy__ex": "lockermat_cell_",
+    "access_code_hmac_window__ex": "excl_guard_",
+    "access_code_active_purpose__ex": "reservation_",
+}
+TRIGGER_EVENTS = {"before insert": "__bi", "before update": "__bu"}
+MYSQL_EMAIL = "CAST(actor_->>'$.email' AS CHAR(320) CHARACTER SET utf8mb4) COLLATE utf8mb4_0900_bin"
+MYSQL_PHONE = "CAST(actor_->>'$.phone' AS CHAR(16) CHARACTER SET utf8mb4) COLLATE utf8mb4_0900_bin"
+READ_KEYS = {
+    "R4": {"pg": [("shipment_", ["recipient_phone_"])], "mysql": [("shipment_", ["recipient_phone_"])],
+           "mongo": [("orders", ["shipment.recipientPhone"])], "neo4j": [("Shipment", ["recipientPhone"])]},
+    "R5": {"pg": [("order_", ["status_", "created_at_"])], "mysql": [("order_", ["status_", "created_at_"])],
+           "mongo": [("orders", ["status", "createdAt"])], "neo4j": [("Order", ["status", "createdAt"])]},
+    "R6": {"pg": [("payment_", ["created_at_"])], "mysql": [("payment_", ["created_at_"])],
+           "mongo": [("orders", ["payments.createdAt"])], "neo4j": [("Payment", ["createdAt"])]},
+    "R7": {"pg": [("cell_opening_", ["requested_at_"])], "mysql": [("cell_opening_", ["requested_at_"])],
+           "mongo": [("orders", ["reservations.accessCodes.openings.requestedAt"])],
+           "neo4j": [("CellOpening", ["requestedAt"])]},
+    "J2": {"pg": [("audit_event_", ["actor_->>'email'"]), ("audit_event_", ["actor_->>'phone'"])],
+           "mysql": [("audit_event_", [MYSQL_EMAIL]), ("audit_event_", [MYSQL_PHONE])],
+           "mongo": [("auditEvents", ["actor.email"]), ("auditEvents", ["actor.phone"])], "neo4j": []},
+    "J4": {"pg": [("audit_event_", ["changes_"])], "mysql": [("audit_event_", ["CAST(changes_new_ AS CHAR(32) ARRAY)"])],
+           "mongo": [("auditEvents", ["changes.f", "changes.new"])], "neo4j": []},
+}
+ROW = "*"
+NEW = "+"
+STORAGE = {"order_": ROW, "reservation_": ROW, "access_code_": ROW, "payment_": ROW}
+STORAGE_MONGO = [NEW, "status", "createdAt", "reservations.id", "reservations.cellId", "reservations.from",
+                 "reservations.accessCodes.id", "payments.id", "payments.createdAt"]
+STORAGE_GRAPH = {"Order": ROW, "Reservation": ROW, "AccessCode": ROW, "Payment": ROW, "Cell": ["_guard"]}
+WRITES = {
+    "C2": {"pg": {"cell_opening_": ROW}, "mysql": {"cell_opening_": ROW},
+           "mongo": {"orders": ["reservations.accessCodes.openings.id", "reservations.accessCodes.openings.requestedAt"]},
+           "neo4j": {"CellOpening": ROW}},
+    "C3": {"pg": STORAGE, "mysql": STORAGE,
+           "mongo": {"orders": STORAGE_MONGO, "lockermats": ["cells.guardSeq"]}, "neo4j": STORAGE_GRAPH},
+    "C4": {"pg": {**STORAGE, "shipment_": ROW}, "mysql": {**STORAGE, "shipment_": ROW},
+           "mongo": {"orders": [*STORAGE_MONGO, "shipment.recipientPhone"], "shipLinks": [NEW], "lockermats": ["cells.guardSeq"]},
+           "neo4j": {**STORAGE_GRAPH, "Shipment": ROW, "SHIPS_TO": ROW}},
+    "C6": {"pg": {"payment_": ROW}, "mysql": {"payment_": ROW},
+           "mongo": {"orders": ["payments.id", "payments.createdAt"]}, "neo4j": {"Payment": ROW}},
+    "U1": {"pg": {"order_": ["status_", "closed_at_"]}, "mysql": {"order_": ["status_", "closed_at_"]},
+           "mongo": {"orders": ["status", "closedAt"]}, "neo4j": {"Order": ["status", "closedAt"]}},
+    "U3": {"pg": {"order_": ["status_", "closed_at_"], "reservation_": ["status_"]},
+           "mysql": {"order_": ["status_", "closed_at_"], "reservation_": ["status_"]},
+           "mongo": {"orders": ["status", "closedAt", "reservations.status"]},
+           "neo4j": {"Order": ["status", "closedAt"], "Reservation": ["status"]}},
+    "U5": {"pg": {"shipment_": ["recipient_phone_"]}, "mysql": {"shipment_": ["recipient_phone_"]},
+           "mongo": {"orders": ["shipment.recipientPhone"]}, "neo4j": {"Shipment": ["recipientPhone"]}},
+    "J1": {"pg": {"audit_event_": ROW}, "mysql": {"audit_event_": ROW},
+           "mongo": {"auditEvents": [NEW, "actor.email", "actor.phone", "changes.f", "changes.new"]}},
+    "J5": {"pg": {"audit_event_": ["actor_"]}, "mysql": {"audit_event_": ["actor_"]},
+           "mongo": {"auditEvents": ["actor.email", "actor.name", "actor.phone"]}},
+}
+GRAPH_LABELS = ("Lockermat", "OpeningHours", "Cell", "Tariff", "Customer", "Order", "Reservation", "AccessCode",
+                "Incident", "CellOpening", "Payment", "AuditEvent")
+REQUIRED_BASE = {
+    "mongo": [
+        *((scope, "primary", ["_id"], False) for scope in
+          ("lockermats", "tariffs", "customers", "orders", "incidents", "auditEvents", "shipLinks")),
+        ("lockermats", "unique", ["code"], False), ("customers", "unique", ["keycloakId"], False),
+        ("orders", "unique", ["number"], False), ("lockermats", "2dsphere", ["location"], False),
+        ("orders", "btree", ["customerId", "createdAt desc"], False),
+        ("orders", "btree", ["paymentDeadline"], True), ("incidents", "btree", ["createdAt"], True),
+        ("orders", "btree", ["shipment.courierKeycloakId"], True),
+        ("incidents", "btree", ["orderId"], False), ("incidents", "btree", ["cellId"], False),
+        ("orders", "btree", ["tariffId"], False),
+        ("orders", "multikey", ["reservations.cellId", "reservations.from"], False),
+        ("orders", "multikey", ["reservations.id"], False), ("orders", "multikey", ["reservations.accessCodes.id"], False),
+        ("orders", "multikey", ["reservations.accessCodes.openings.id"], False), ("orders", "multikey", ["payments.id"], False),
+        ("shipLinks", "btree", ["orderId"], False), ("shipLinks", "btree", ["from", "at"], False),
+        ("auditEvents", "btree", ["entity", "entityId", "at"], False),
+    ],
+    "neo4j": [
+        *((label, "unique", ["id"], False) for label in GRAPH_LABELS), ("Shipment", "unique", ["shipmentId"], False),
+        ("Lockermat", "unique", ["code"], False), ("Customer", "unique", ["keycloakId"], False),
+        ("Order", "unique", ["number"], False), ("Lockermat", "point", ["location"], False),
+        ("Order", "range", ["customerId", "createdAt"], False),
+        ("Order", "range", ["paymentDeadline"], False), ("Incident", "range", ["createdAt"], False),
+        ("Shipment", "range", ["courierKeycloakId"], False),
+        ("Incident", "range", ["orderId"], False), ("Incident", "range", ["cellId"], False),
+        ("Order", "range", ["tariffId"], False), ("SHIPS_TO", "range", ["orderId"], False),
+        ("AuditEvent", "range", ["entity", "entityId", "at"], False),
+    ],
+}
 
 
 def require(condition, problem):
@@ -98,6 +186,9 @@ def check_entry(label, entry):
         require(isinstance(value, list) and bool(value), f"{label}/{engine} needs objects or a reason")
         for obj in value:
             require(all(obj.get(field) for field in ("scope", "name", "kind")), f"{label}/{engine} has an unnamed object")
+            require(obj["kind"] in KINDS, f"{label}/{engine} has an unknown kind: {obj['kind']}")
+            require(engine == "pg" or (obj["kind"] != "exclude" and not any("tstzrange" in key for key in obj.get("keys", []))),
+                    f"{label}/{engine} copies a PostgreSQL exclusion instead of an engine object")
             if obj["kind"] in INDEX_KINDS:
                 require(isinstance(obj.get("keys"), list), f"{label}/{engine} needs an ordered key list")
 
@@ -152,10 +243,31 @@ def index_inventory(plan, engine):
     return inventory.values()
 
 
+def touches(obj, spec):
+    fields = spec.get(obj["scope"])
+    if fields is None:
+        return False
+    if fields == ROW or (NEW in fields and not obj.get("predicate")):
+        return True
+    return any(re.search(rf"(?<![\w.]){re.escape(field)}(?!\w)", key)
+               for key in key_columns(obj) for field in fields if field != NEW)
+
+
+def verify_writes(idx):
+    for name, row in idx.items():
+        require(set(row["maintained_by"]) <= WRITES.keys(), f"{name} lists an unmapped write: {row['maintained_by']}")
+    for write, specs in WRITES.items():
+        for engine, spec in specs.items():
+            indexed = {name: objects_for(row["engines"], engine) for name, row in idx.items()}
+            written = {name for name, added in indexed.items() if any(touches(obj, spec) for obj in added)}
+            listed = {name for name, added in indexed.items() if added and write in idx[name]["maintained_by"]}
+            require(written == listed, f"{write} writes {sorted(written)} in {engine}, but maintained_by lists it for {sorted(listed)}")
+            require(write not in H1_WRITES or written, f"H1 write {write} maintains no added index in {engine}")
+
+
 def verify_idx(plan):
     idx = plan["idx"]
     require(set(idx) == set(BA_READS), "IDX must contain IX1–IX4 and JX1–JX2")
-    writes = {engine: set() for engine in ENGINES}
     inventories = {engine: list(index_inventory(plan, engine)) for engine in ENGINES}
     pg_leading = {(obj["scope"], key_columns(obj)[0]) for obj in inventories["pg"]
                   if obj["keys"] and not obj.get("predicate")}
@@ -163,14 +275,13 @@ def verify_idx(plan):
     for name, row in idx.items():
         check_entry(name, row["engines"])
         require(row["reason"] and row["maintained_by"], f"Incomplete IDX entry: {name}")
-        require(row["serves"] == [BA_READS[name]], f"{name} must serve {BA_READS[name]}")
+        read = BA_READS[name]
+        require(row["serves"] == [read], f"{name} must serve {read}")
         pg = objects_for(row["engines"], "pg")
         for engine in ENGINES:
             added = objects_for(row["engines"], engine)
-            expected = 0 if engine == "neo4j" and name.startswith("J") else 2 if name == "JX1" else 1
-            require(len(added) == expected, f"Wrong number of IDX objects for {name}/{engine}")
-            if added:
-                writes[engine].update(row["maintained_by"])
+            actual = [(obj["scope"], key_columns(obj)) for obj in added]
+            require(actual == READ_KEYS[read][engine], f"{name}/{engine} does not index the {read} filter: {actual}")
 
             for candidate, logical in zip(added, pg):
                 keys = key_columns(candidate)
@@ -181,10 +292,44 @@ def verify_idx(plan):
                     has_pg_prefix = (logical["scope"], key_columns(logical)[0]) in pg_leading
                     require(key_columns(base)[0] != keys[0] or has_pg_prefix,
                             f"BASE {engine}/{base['name']} shares the leading {name} key")
+    verify_writes(idx)
 
-    for engine in ENGINES:
-        expected = H1_WRITES - {"J1"} if engine == "neo4j" else H1_WRITES
-        require(expected <= writes[engine], f"H1 writes without added index maintenance in {engine}: {expected - writes[engine]}")
+
+def check_exclusions(plan):
+    probes = {(obj["scope"], obj["name"]): obj for obj in index_inventory(plan, "mysql")}
+    tables = {obj["name"] for entry in plan["base_extras"].values()
+              for obj in objects_for(entry, "mysql") if obj["kind"] == "table"}
+    rules = set()
+    for key, entry in plan["base"].items():
+        pg, = objects_for(entry, "pg")
+        if pg["kind"] != "exclude":
+            continue
+        rule = pg["name"]
+        rules.add(rule)
+        lock = EXCLUSION_LOCKS.get(rule)
+        triggers = [obj for obj in objects_for(entry, "mysql") if obj["kind"] == "trigger"]
+        require(sorted(obj.get("event") for obj in triggers) == sorted(TRIGGER_EVENTS),
+                f"{key}/mysql needs one BEFORE INSERT and one BEFORE UPDATE trigger")
+        for trigger in triggers:
+            expected = rule.removesuffix("__ex") + TRIGGER_EVENTS[trigger["event"]]
+            require(trigger["name"] == expected and trigger["scope"] == pg["scope"], f"{key}/mysql trigger must be {expected}")
+            require(trigger.get("lock") == lock, f"{expected} must lock {lock}")
+            require(lock != "excl_guard_" or lock in tables, f"{expected} locks a missing excl_guard_ table")
+            probe = probes.get((pg["scope"], trigger.get("probe")), {})
+            require(probe.get("kind") == "btree" and not probe.get("predicate") and key_columns(probe)[:1] == pg["keys"][:1],
+                    f"{expected} needs an unconditional B-tree probe led by {pg['keys'][0]}")
+    require(rules == EXCLUSION_LOCKS.keys(), f"Unexpected PostgreSQL exclusion rules: {sorted(rules)}")
+    return len(rules)
+
+
+def check_required(plan):
+    for engine, required in REQUIRED_BASE.items():
+        inventory = list(index_inventory(plan, engine))
+        for scope, kind, keys, partial in required:
+            require(any(obj["scope"] == scope and obj["kind"] == kind and obj["keys"] == keys
+                        and bool(obj.get("predicate")) == partial for obj in inventory),
+                    f"Missing {engine} BASE object: {scope} {kind} {keys}")
+    return sum(map(len, REQUIRED_BASE.values()))
 
 
 def check_plan(schema, models, plan):
@@ -215,9 +360,13 @@ def check_plan(schema, models, plan):
 
     derived = derive_mysql_fk_indexes(foreign_keys, base, extras)
     require(derived == plan["mysql_fk_support"], f"MySQL FK indexes differ from schema-derived list: {sorted(derived)}")
+    exclusions = check_exclusions(plan)
+    required = check_required(plan)
     verify_idx(plan)
     print(f"{len(tables)} tables, {len(columns)} columns, {len(base)} BASE entries, "
-          f"{len(derived)} automatic MySQL FK indexes, {len(BA_READS)} BA reads, {len(H1_WRITES)} H1 writes")
+          f"{len(derived)} automatic MySQL FK indexes, {exclusions} MySQL exclusion trigger pairs, "
+          f"{required} required MongoDB and Neo4j BASE objects, {len(BA_READS)} BA reads, "
+          f"{len(WRITES)} mapped writes ({len(H1_WRITES)} H1)")
 
 
 def main():
