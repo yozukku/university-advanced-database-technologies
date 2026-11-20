@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,12 +23,24 @@ class ApiErrorHandler {
 	private static final Set<String> CONFLICT_STATES = Set.of("23P01", "23505");
 
 	private static final ApiError BAD_REQUEST = new ApiError("BAD_REQUEST", "Nieprawidłowe parametry żądania.");
+	private static final ApiError NOT_FOUND = new ApiError("NOT_FOUND", "Nie znaleziono żądanych danych.");
 	private static final ApiError CONFLICT = new ApiError("CONFLICT", "Ktoś właśnie zmienił te dane. Odśwież widok i spróbuj ponownie.");
 	private static final ApiError INTERNAL_ERROR = new ApiError("INTERNAL_ERROR", "Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.");
 
-	@ExceptionHandler({InvalidRequestException.class, MissingServletRequestParameterException.class, MethodArgumentTypeMismatchException.class})
+	@ExceptionHandler({InvalidRequestException.class, MissingServletRequestParameterException.class, MethodArgumentTypeMismatchException.class,
+			HttpMessageNotReadableException.class})
 	ResponseEntity<ApiError> handleInvalidRequest() {
 		return ResponseEntity.badRequest().body(BAD_REQUEST);
+	}
+
+	@ExceptionHandler(NotFoundException.class)
+	ResponseEntity<ApiError> handleNotFound() {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(NOT_FOUND);
+	}
+
+	@ExceptionHandler(ConflictException.class)
+	ResponseEntity<ApiError> handleConflict(ConflictException exception) {
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiError(CONFLICT.code(), exception.getMessage()));
 	}
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
