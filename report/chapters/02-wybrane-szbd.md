@@ -1,6 +1,6 @@
 # Wybrane systemy zarządzania bazami danych
 
-Projekt porównuje dwa relacyjne i dwa nierelacyjne SZBD. Każdy z nich opisujemy według tej samej siatki jedenastu punktów. Ta część obejmuje systemy relacyjne PostgreSQL 17 i MySQL 8.4 LTS. Opisy opierają się na dokumentacji i stronach producentów, sprawdzonych 20 listopada 2026 r.
+Projekt porównuje dwa relacyjne i dwa nierelacyjne SZBD. Każdy z nich opisujemy według tej samej siatki jedenastu punktów: najpierw relacyjne PostgreSQL 17 i MySQL 8.4 LTS, potem dokumentowy MongoDB 8.0 i grafowy Neo4j 5.26 Community. Rozdział zamyka tabela porównawcza. Opisy opierają się na dokumentacji i stronach producentów, sprawdzonych 20 listopada 2026 r.
 
 ## PostgreSQL 17
 
@@ -177,3 +177,186 @@ Producent podaje, że MySQL obsługuje witryny o dużym ruchu, systemy krytyczne
 [^my-grlim]: Dokumentacja MySQL 8.4, rozdz. 20.3.2, <https://dev.mysql.com/doc/refman/8.4/en/group-replication-limitations.html>.
 [^my-ndb]: Dokumentacja MySQL 8.4, rozdz. 25.2, <https://dev.mysql.com/doc/refman/8.4/en/mysql-cluster-overview.html>.
 [^my-why]: MySQL, „Why MySQL?”, <https://www.mysql.com/why-mysql/>.
+
+## MongoDB 8.0
+
+### Opis
+
+MongoDB to dokumentowa baza danych. Rekord jest dokumentem, czyli zbiorem par pole–wartość podobnym do obiektu JSON[^mg-intro]. Dokumenty są zapisane w binarnym formacie BSON[^mg-bson]. Firmę MongoDB, wcześniej 10gen, założono w 2007 r.[^mg-company] Wersje Community Server wydane od 16 października 2018 r. mają licencję SSPL. OSI jej nie zatwierdziła, więc według OSI nie jest to licencja open source[^mg-sspl]. Wersja 8.0.0 ukazała się 2 października 2024 r. jako wydanie główne[^mg-80]. Producent wspiera ją do 31 października 2029 r.[^mg-lifecycle] Operacja na jednym dokumencie jest atomowa[^mg-tx].
+
+### Zalety
+
+Dokumenty odpowiadają typom danych języków programowania. Osadzone dokumenty i tablice ograniczają kosztowne złączenia, a dynamiczny schemat pozwala na różną strukturę dokumentów jednej kolekcji[^mg-intro]. Główna zasada modelowania brzmi: dane czytane razem przechowuj razem[^mg-model]. Gdy operacja obejmuje wiele dokumentów, baza oferuje transakcje ACID[^mg-tx]. Replikacja z automatycznym przełączaniem i podział danych między serwery (sharding) są wbudowane[^mg-intro]. Według producenta wersja 8.0 ma do 36% większą przepustowość odczytów niż 7.0[^mg-80].
+
+### Wady
+
+Transakcja na wielu dokumentach zwykle kosztuje więcej niż zapis jednego dokumentu i nie zastępuje dobrego projektu schematu[^mg-tx]. Osadzanie powiela dane. Zwiększa to zajętość dysku, a częste zmiany powielonych danych obciążają bazę[^mg-dup]. Walidacja schematu sprawdza pola dokumentu, np. typy i zakresy wartości[^mg-validation]. Regułę obejmującą wiele dokumentów, np. zakaz podwójnej rezerwacji skrytki, musi więc pilnować aplikacja (rozdz. 3). Kontrola dostępu jest domyślnie wyłączona[^mg-authz]. We własnej instalacji szyfrowanie plików danych i audyt są tylko w edycji Enterprise[^mg-ear][^mg-audit].
+
+### Udogodnienia
+
+Potok agregacji przetwarza dokumenty etapami: filtruje je, grupuje i liczy wartości[^mg-agg]. Etap `$lookup` wykonuje lewe złączenie zewnętrzne z kolekcją tej samej bazy[^mg-lookup], a `$graphLookup` przeszukuje kolekcję rekurencyjnie[^mg-graphlookup]. Indeksy mogą być złożone, wielokluczowe (na polach tablic) i geoprzestrzenne[^mg-indexes]. Indeks 2dsphere znajduje punkty w obszarze i liczy odległość od punktu na modelu kuli ziemskiej[^mg-2dsphere]. Indeks częściowy obejmuje tylko dokumenty spełniające filtr, a indeks TTL sam usuwa dokumenty po upływie czasu[^mg-idxprop]. Reguły walidacji, np. w JSON Schema, domyślnie odrzucają wstawienie lub zmianę, która dałaby niepoprawny dokument[^mg-validation]. Metoda `explain()` w trybie `executionStats` wykonuje zapytanie i zwraca statystyki wybranego planu[^mg-explain].
+
+### Ograniczenia
+
+Dokument BSON ma najwyżej 16 MiB i 100 poziomów zagnieżdżenia. Kolekcja ma najwyżej 64 indeksy, a indeks złożony do 32 pól[^mg-limits]. Unikalny indeks wielokluczowy działa tylko między dokumentami: jeden dokument może mieć w tablicy powtórzone wartości klucza[^mg-unique]. Transakcja domyślnie musi skończyć się w ciągu minuty. Samodzielny serwer (standalone) nie obsługuje transakcji[^mg-txprod], dlatego stanowisko pomiarowe uruchamia MongoDB jako zbiór replik (rozdz. 5). Etap `$graphLookup` musi zmieścić się w 100 MB pamięci[^mg-graphlookup].
+
+### Awaryjność
+
+Silnik WiredTiger zapisuje punkty kontrolne i dziennik (journal). Po awarii baza wraca do ostatniego punktu kontrolnego i powtarza operacje z dziennika. Dziennik trafia na dysk co 100 ms albo od razu przy zapisie z `j: true`. Zmiany czekające jeszcze w buforze mogą zginąć przy nagłym wyłączeniu serwera[^mg-journal]. Zbiór replik (replica set) to grupa serwerów z tymi samymi danymi. Gdy serwer główny milczy dłużej niż 10 s, serwer zapasowy ogłasza wybór nowego serwera głównego. Mediana czasu wyboru zwykle nie przekracza 12 s[^mg-repl]. Od wersji 5.0 domyślne potwierdzenie zapisu to `w: "majority"`[^mg-tx]. Kopie zapasowe tworzy się migawkami systemu plików, narzędziem `mongodump` albo w Ops Managerze i Cloud Managerze[^mg-backup].
+
+### Bezpieczeństwo
+
+Dostęp opiera się na rolach (RBAC). Rola nadaje uprawnienia do akcji na zasobie: bazie, kolekcji lub klastrze. Są role wbudowane i definiowane przez użytkownika. Kontrolę dostępu włącza opcja `security.authorization`[^mg-authz]. Domyślny mechanizm uwierzytelniania to SCRAM. Edycja Community obsługuje też certyfikaty x.509, a Kerberos, LDAP i OpenID Connect są w edycji Enterprise[^mg-authn]. Producent zaleca TLS dla wszystkich połączeń[^mg-checklist]. Szyfrowanie w spoczynku (AES-256) obejmuje wszystkie pliki danych, tylko w edycji Enterprise[^mg-ear]. Queryable Encryption szyfruje pola po stronie klienta i pozwala je przeszukiwać bez ujawniania danych serwerowi. Od wersji 8.0 obsługuje też zapytania zakresowe[^mg-qe][^mg-80].
+
+### Migracje
+
+`mongodump` tworzy binarną kopię zawartości bazy, a `mongorestore` ją wczytuje[^mg-dump]. Producent przeznacza te narzędzia dla małych wdrożeń[^mg-backup]. `mongoimport` importuje pliki Extended JSON, CSV i TSV[^mg-import]. Tak ładujemy dane w projekcie (rozdz. 3). Do wersji 8.0 przechodzi się z serii 7.0, a starsze wdrożenie aktualizuje się kolejno przez każdą wersję główną. Nowe funkcje 8.0 włącza dopiero zmiana `featureCompatibilityVersion`[^mg-upgrade]. Nowe pola można dodawać bez przepisywania dokumentów i bez migracji schematu[^mg-model]. Bezpłatny Relational Migrator przenosi dane z Oracle, SQL Server, MySQL i PostgreSQL. Klucze obce może przy tym zamienić na osadzone dokumenty i tablice[^mg-relmig].
+
+### Integracje
+
+Producent rozwija oficjalne sterowniki dla 13 języków, m.in. C, C#, Go, Javy, Pythona i Rusta[^mg-drivers]. Sterowniki i konektory mają licencję Apache 2.0[^mg-sspl]. Strumienie zmian (change streams) pozwalają subskrybować zmiany kolekcji, bazy lub całego wdrożenia bez ręcznego czytania dziennika operacji (oplog). Działają w zbiorach replik i klastrach z shardingiem[^mg-cs]. Konektor Apache Kafka zapisuje dane z tematów Kafki w MongoDB i publikuje zmiany z MongoDB do Kafki[^mg-kafka].
+
+### Skalowalność
+
+MongoDB skaluje się poziomo przez sharding, czyli podział danych i obciążenia między serwery, kosztem bardziej złożonej infrastruktury. Klucz shardingu rozdziela dokumenty kolekcji między shardy, a każdy shard jest zbiorem replik. Router `mongos` kieruje zapytania, a serwery konfiguracyjne trzymają metadane klastra. Podział zakresowy kieruje zapytanie o zakres kluczy tylko do potrzebnych shardów. Podział haszowy równo rozkłada klucze rosnące, ale wtedy zapytania o zakres trafiają do wielu shardów[^mg-shard]. Wersja 8.0 pozwala cofnąć sharding kolekcji i przenieść kolekcję na inny shard, a resharding trwa w niej wyraźnie krócej[^mg-80]. Indeks unikalny działa między shardami tylko wtedy, gdy zaczyna się od klucza shardingu[^mg-limits]. Odczyty można kierować do serwerów zapasowych, ale replikacja jest asynchroniczna, więc mogą zwrócić nieaktualne dane[^mg-repl].
+
+### Obszary biznesowe
+
+Producent podaje ponad 70 tys. klientów[^mg-company]. Wśród zastosowań wymienia katalogi produktów, zarządzanie treścią, Internet rzeczy, aplikacje mobilne, płatności, personalizację, gry i jednolity widok danych operacyjnych[^mg-usecases]. W Bagażomacie MongoDB zapisuje zamówienie z odcinkami, kodami i płatnościami w jednym dokumencie, ale zakazu podwójnej rezerwacji skrytki musi pilnować aplikacja (rozdz. 3), więc MongoDB występuje tylko w pomiarach.
+
+[^mg-intro]: Dokumentacja MongoDB 8.0, „What is MongoDB?”, <https://www.mongodb.com/docs/v8.0/>.
+[^mg-bson]: Dokumentacja MongoDB 8.0, „BSON Types”, <https://www.mongodb.com/docs/v8.0/reference/bson-types/>.
+[^mg-company]: MongoDB, „About MongoDB”, <https://www.mongodb.com/company>.
+[^mg-sspl]: MongoDB, „Server Side Public License FAQ”, <https://www.mongodb.com/legal/licensing/server-side-public-license/faq>.
+[^mg-80]: Dokumentacja MongoDB 8.0, „Release Notes for MongoDB 8.0”, <https://www.mongodb.com/docs/v8.0/release-notes/8.0/>.
+[^mg-lifecycle]: MongoDB, „Software Lifecycle Schedules”, <https://www.mongodb.com/legal/support-policy/lifecycles>.
+[^mg-tx]: Dokumentacja MongoDB 8.0, „Transactions”, <https://www.mongodb.com/docs/v8.0/core/transactions/>.
+[^mg-model]: Dokumentacja MongoDB 8.0, „Data Modeling”, <https://www.mongodb.com/docs/v8.0/data-modeling/>.
+[^mg-dup]: Dokumentacja MongoDB 8.0, „Handle Duplicate Data”, <https://www.mongodb.com/docs/v8.0/data-modeling/handle-duplicate-data/>.
+[^mg-validation]: Dokumentacja MongoDB 8.0, „Schema Validation”, <https://www.mongodb.com/docs/v8.0/core/schema-validation/>.
+[^mg-authz]: Dokumentacja MongoDB 8.0, „Role-Based Access Control”, <https://www.mongodb.com/docs/v8.0/core/authorization/>.
+[^mg-ear]: Dokumentacja MongoDB 8.0, „Encryption at Rest”, <https://www.mongodb.com/docs/v8.0/core/security-encryption-at-rest/>.
+[^mg-audit]: Dokumentacja MongoDB 8.0, „Auditing”, <https://www.mongodb.com/docs/v8.0/core/auditing/>.
+[^mg-agg]: Dokumentacja MongoDB 8.0, „Aggregation Operations”, <https://www.mongodb.com/docs/v8.0/aggregation/>.
+[^mg-lookup]: Dokumentacja MongoDB 8.0, „$lookup”, <https://www.mongodb.com/docs/v8.0/reference/operator/aggregation/lookup/>.
+[^mg-graphlookup]: Dokumentacja MongoDB 8.0, „$graphLookup”, <https://www.mongodb.com/docs/v8.0/reference/operator/aggregation/graphlookup/>.
+[^mg-indexes]: Dokumentacja MongoDB 8.0, „Indexes”, <https://www.mongodb.com/docs/v8.0/indexes/>.
+[^mg-2dsphere]: Dokumentacja MongoDB 8.0, „2dsphere Indexes”, <https://www.mongodb.com/docs/v8.0/core/indexes/index-types/geospatial/2dsphere/>.
+[^mg-idxprop]: Dokumentacja MongoDB 8.0, „Index Properties”, <https://www.mongodb.com/docs/v8.0/core/indexes/index-properties/>.
+[^mg-explain]: Dokumentacja MongoDB 8.0, „db.collection.explain()”, <https://www.mongodb.com/docs/v8.0/reference/method/db.collection.explain/>.
+[^mg-limits]: Dokumentacja MongoDB 8.0, „MongoDB Limits and Thresholds”, <https://www.mongodb.com/docs/v8.0/reference/limits/>.
+[^mg-unique]: Dokumentacja MongoDB 8.0, „Unique Indexes”, <https://www.mongodb.com/docs/v8.0/core/index-unique/>.
+[^mg-txprod]: Dokumentacja MongoDB 8.0, „Production Considerations”, <https://www.mongodb.com/docs/v8.0/core/transactions-production-consideration/>.
+[^mg-journal]: Dokumentacja MongoDB 8.0, „Journaling”, <https://www.mongodb.com/docs/v8.0/core/journaling/>.
+[^mg-repl]: Dokumentacja MongoDB 8.0, „Replication”, <https://www.mongodb.com/docs/v8.0/replication/>.
+[^mg-backup]: Dokumentacja MongoDB 8.0, „Backup Methods”, <https://www.mongodb.com/docs/v8.0/core/backups/>.
+[^mg-authn]: Dokumentacja MongoDB 8.0, „Authentication”, <https://www.mongodb.com/docs/v8.0/core/authentication/>.
+[^mg-checklist]: Dokumentacja MongoDB 8.0, „Security Checklist”, <https://www.mongodb.com/docs/v8.0/administration/security-checklist/>.
+[^mg-qe]: Dokumentacja MongoDB 8.0, „Queryable Encryption”, <https://www.mongodb.com/docs/v8.0/core/queryable-encryption/>.
+[^mg-dump]: Dokumentacja MongoDB Database Tools, „mongodump”, <https://www.mongodb.com/docs/database-tools/mongodump/>.
+[^mg-import]: Dokumentacja MongoDB Database Tools, „mongoimport”, <https://www.mongodb.com/docs/database-tools/mongoimport/>.
+[^mg-upgrade]: Dokumentacja MongoDB 8.0, „Upgrade a Replica Set to 8.0”, <https://www.mongodb.com/docs/v8.0/release-notes/8.0-upgrade-replica-set/>.
+[^mg-relmig]: Dokumentacja MongoDB Relational Migrator, <https://www.mongodb.com/docs/relational-migrator/>.
+[^mg-drivers]: Dokumentacja MongoDB, „MongoDB Drivers”, <https://www.mongodb.com/docs/drivers/>.
+[^mg-cs]: Dokumentacja MongoDB 8.0, „Change Streams”, <https://www.mongodb.com/docs/v8.0/changestreams/>.
+[^mg-kafka]: Dokumentacja MongoDB Kafka Connector, <https://www.mongodb.com/docs/kafka-connector/current/>.
+[^mg-shard]: Dokumentacja MongoDB 8.0, „Sharding”, <https://www.mongodb.com/docs/v8.0/sharding/>.
+[^mg-usecases]: MongoDB, „Use Cases”, <https://www.mongodb.com/solutions/use-cases>.
+
+## Neo4j 5.26 Community
+
+### Opis
+
+Neo4j to grafowa baza danych. Zapisuje dane jako węzły, relacje i właściwości, a nie jako tabele czy dokumenty[^neo-graphdb]. Stosuje model grafu właściwości (property graph)[^neo-intro]. Pierwszy prototyp powstał w 2000 r., a w 2007 r. powstała szwedzka firma, która go rozwija[^neo-company]. Edycja Community ma otwarty kod na licencji GPLv3. Obejmuje transakcje ACID, język Cypher i interfejsy programistyczne, ale jest przeznaczona na jeden serwer[^neo-intro]. Wersja 5.26 ukazała się 6 grudnia 2024 r.[^neo-versions] Jest ostatnią z serii 5 i wersją z długim wsparciem (LTS) do czerwca 2028 r. Po niej zmienia się numeracja, a pierwsza nowa wersja to 2025.01[^neo-lts].
+
+### Zalety
+
+Relacje są zapisane natywnie, obok węzłów[^neo-graphdb]. Każdy węzeł wskazuje bezpośrednio swoich sąsiadów (index-free adjacency). Przejście po relacji nie wymaga więc wyszukiwania w indeksie, a czas zapytania zależy od ilości przetworzonych danych[^neo-native]. Cypher jest deklaratywny jak SQL. Wzorce zapisuje się składnią przypominającą rysunek, np. `(a)-[:SHIPS_TO]->(b)`, a zapytania są często krótsze niż w SQL[^neo-cypher]. Cypher obsługuje większość obowiązkowych cech standardu ISO/IEC 39075:2024 (GQL)[^neo-gql]. Model grafu można zmieniać wraz z aplikacją[^neo-graphdb].
+
+### Wady
+
+Edycja Community nie ma klastra, kopii zapasowych online, kontroli dostępu opartej na rolach ani baz poza systemową i domyślną[^neo-intro]. Z ograniczeń integralności ma tylko unikalność właściwości. Ograniczenia istnienia, typu i klucza są w edycji Enterprise, a ograniczeń CHECK nie ma wcale[^neo-constraints]. Właściwość nie może przechowywać mapy, tylko wartość prostą albo jednorodną listę[^neo-types]. Zagnieżdżony JSON trzeba więc zapisać jako tekst. Tak Neo4j przechowuje zdarzenia `audit_event_` i dlatego pomija scenariusze JSON (rozdz. 9). Community wykonuje zapytania tylko środowiskiem slotted, a środowiska potokowe i równoległe są w edycji Enterprise[^neo-intro].
+
+### Udogodnienia
+
+Słowo kluczowe `SHORTEST` (od wersji 5.21) znajduje najkrótsze ścieżki, a `ANY` sprawdza osiągalność węzłów[^neo-shortest]. Typ `POINT` przechowuje współrzędne WGS-84 lub kartezjańskie. Indeksuje się go indeksem punktowym, a odległość liczy funkcja `point.distance()`[^neo-spatial]. Indeksy zakresowe, tekstowe, punktowe oraz etykiet i typów relacji planista wybiera sam. Indeksy pełnotekstowe i wektorowe służą do wyszukiwania leksykalnego i semantycznego[^neo-indexes]. `EXPLAIN` pokazuje plan bez wykonania zapytania, a `PROFILE` wykonuje je i podaje rzeczywiste wartości, np. liczbę odwołań do bazy (db hits)[^neo-plans]. Biblioteka APOC Core ma ponad 450 procedur i funkcji, a wtyczkę Graph Data Science instaluje się osobno[^neo-intro]. `neo4j-admin database import` zapisuje dane z plików CSV wprost w natywnym formacie bazy[^neo-import].
+
+### Ograniczenia
+
+Domyślny format magazynu w Community (aligned) mieści do 2^35^ (ok. 34 mld) węzłów i tyle samo relacji, 2^36^ właściwości i 65 536 typów relacji[^neo-formats]. Community ma tylko bazę systemową i jedną bazę domyślną[^neo-intro]. Kopię zapasową, czyli zrzut `neo4j-admin database dump`, wykonuje się przy zatrzymanym serwerze[^neo-dump]. Import `neo4j-admin` też wymaga wyłączenia bazy, a import przyrostowy jest tylko w edycji Enterprise[^neo-import]. Szybkość zależy od pamięci. Pamięć podręczna stron trzyma dane z dysku i zwykle opłaca się zmieścić w niej jak najwięcej danych i indeksów[^neo-memory].
+
+### Awaryjność
+
+Dziennik transakcji zapisuje wszystkie zmiany danych, indeksów i ograniczeń[^neo-txlog]. Punkt kontrolny zapisuje oczekujące zmiany z pamięci na dysk, domyślnie co 15 min lub co 100 000 transakcji. Po awarii baza przy starcie powtarza transakcje, których nie utrwalił jeszcze punkt kontrolny[^neo-checkpoint]. Edycja Community nie ma klastra ani automatycznego przełączania na inny serwer. Kopie zapasowe wykonuje tylko offline[^neo-intro][^neo-dump]. W edycji Enterprise baza przyjmuje zapisy, dopóki działa większość jej serwerów głównych. Trzy takie serwery przetrwają awarię jednego, a pięć – awarię dwóch[^neo-cluster].
+
+### Bezpieczeństwo
+
+Edycja Community uwierzytelnia użytkowników natywnie, hasłem. Nie ma w niej ról, a każdy użytkownik ma uprawnienia administratora[^neo-users]. Kontrola dostępu oparta na rolach i do podgrafu, integracja z LDAP i Active Directory oraz Kerberos są tylko w edycji Enterprise[^neo-intro]. Połączenia przez Bolt i HTTPS szyfruje TLS[^neo-ssl].
+
+### Migracje
+
+`neo4j-admin database import` ładuje pliki CSV do nowej, pustej bazy przy wyłączonym serwerze. Użytkownicy bez uprawnień administratora mogą wczytać CSV poleceniem Cypher `LOAD CSV`[^neo-import]. W projekcie Neo4j dostaje dane pierwszym sposobem (rozdz. 3). Edycja Community potrafi też odtworzyć bazę ze zrzutu[^neo-backup]. Z wersji 5.26 LTS bazę można zaktualizować online do każdej wersji 2025–2026. Przejście z 4.4 na 5.26 wymaga migracji baz na nowy serwer[^neo-upgrade].
+
+### Integracje
+
+Klienci łączą się z bazą protokołem Bolt. Oficjalne sterowniki są dla .NET, Go, Javy, JavaScriptu i Pythona[^neo-intro]. Interfejs HTTP wykonuje polecenia Cypher przez żądania HTTP, ale dokumentacja zaleca sterownik, jeśli istnieje dla danego języka[^neo-http]. Konektor Kafka zapisuje w bazie komunikaty z tematów Kafki i publikuje do nich zmiany z bazy[^neo-kafka]. Jest też konektor Apache Spark[^neo-spark]. Przechwytywanie zmian (Change Data Capture) jest tylko w edycji Enterprise[^neo-intro].
+
+### Skalowalność
+
+Edycja Community działa na jednym serwerze, więc skaluje się tylko w pionie[^neo-intro]. Pomaga tu duża pamięć podręczna stron[^neo-memory]. W edycji Enterprise klaster rozkłada odczyty na serwery pomocnicze (secondaries)[^neo-cluster]. Bazy złożone (composite databases), także z edycji Enterprise, pozwalają jednym zapytaniem Cypher czytać dane podzielone między wiele baz, np. shardy o wspólnym modelu[^neo-composite].
+
+### Obszary biznesowe
+
+Według producenta Neo4j używają tysiące organizacji, od startupów po firmy z listy Fortune 500[^neo-company]. Producent wymienia wykrywanie oszustw, rekomendacje w czasie rzeczywistym, łańcuchy dostaw, zarządzanie tożsamością i dostępem, sieci i operacje IT oraz grafy wiedzy[^neo-usecases]. W Bagażomacie Neo4j zapisuje sieć przesyłek między automatami jako relacje `SHIPS_TO` i odpowiada na pytanie o osiągalność automatów (scenariusz R8), ale edycja Community bez ról, ograniczeń CHECK i klastra nie nadaje się na główną bazę aplikacji, więc Neo4j występuje tylko w pomiarach.
+
+[^neo-graphdb]: Neo4j, „What is a graph database”, <https://neo4j.com/docs/getting-started/graph-database/>.
+[^neo-intro]: Dokumentacja Neo4j 5, Operations Manual, „Introduction”, <https://neo4j.com/docs/operations-manual/5/introduction/>.
+[^neo-company]: Neo4j, „About Neo4j”, <https://neo4j.com/company/>.
+[^neo-versions]: Neo4j, „Neo4j Supported Versions”, <https://support.neo4j.com/s/article/115013134648-Neo4j-Supported-Versions>.
+[^neo-lts]: Neo4j, „Neo4j v5 long-term support and the continued evolution”, <https://neo4j.com/blog/developer/neo4j-v5-lts-evolution/>.
+[^neo-native]: Neo4j, „Native vs. Non-Native Graph Database”, <https://neo4j.com/blog/cypher-and-gql/native-vs-non-native-graph-technology/>.
+[^neo-cypher]: Dokumentacja Neo4j 5, Cypher Manual, „Cypher overview”, <https://neo4j.com/docs/cypher-manual/5/introduction/cypher-overview/>.
+[^neo-gql]: Dokumentacja Neo4j 5, Cypher Manual, „GQL conformance”, <https://neo4j.com/docs/cypher-manual/5/appendix/gql-conformance/>.
+[^neo-constraints]: Dokumentacja Neo4j 5, Cypher Manual, „Constraints”, <https://neo4j.com/docs/cypher-manual/5/constraints/>.
+[^neo-types]: Dokumentacja Neo4j 5, Cypher Manual, „Property, structural, and constructed values”, <https://neo4j.com/docs/cypher-manual/5/values-and-types/property-structural-constructed/>.
+[^neo-shortest]: Dokumentacja Neo4j 5, Cypher Manual, „Shortest paths”, <https://neo4j.com/docs/cypher-manual/5/patterns/shortest-paths/>.
+[^neo-spatial]: Dokumentacja Neo4j 5, Cypher Manual, „Spatial values”, <https://neo4j.com/docs/cypher-manual/5/values-and-types/spatial/>.
+[^neo-indexes]: Dokumentacja Neo4j 5, Cypher Manual, „Indexes”, <https://neo4j.com/docs/cypher-manual/5/indexes/>.
+[^neo-plans]: Dokumentacja Neo4j 5, Cypher Manual, „Execution plans”, <https://neo4j.com/docs/cypher-manual/5/planning-and-tuning/execution-plans/>.
+[^neo-import]: Dokumentacja Neo4j 5, Operations Manual, „Import”, <https://neo4j.com/docs/operations-manual/5/tools/neo4j-admin/neo4j-admin-import/>.
+[^neo-formats]: Dokumentacja Neo4j 5, Operations Manual, „Store formats”, <https://neo4j.com/docs/operations-manual/5/database-internals/store-formats/>.
+[^neo-dump]: Dokumentacja Neo4j 5, Operations Manual, „Back up an offline database”, <https://neo4j.com/docs/operations-manual/5/backup-restore/offline-backup/>.
+[^neo-memory]: Dokumentacja Neo4j 5, Operations Manual, „Memory configuration”, <https://neo4j.com/docs/operations-manual/5/performance/memory-configuration/>.
+[^neo-txlog]: Dokumentacja Neo4j 5, Operations Manual, „Transaction logging”, <https://neo4j.com/docs/operations-manual/5/database-internals/transaction-logs/>.
+[^neo-checkpoint]: Dokumentacja Neo4j 5, Operations Manual, „Checkpointing and log pruning”, <https://neo4j.com/docs/operations-manual/5/database-internals/checkpointing/>.
+[^neo-cluster]: Dokumentacja Neo4j 5, Operations Manual, „Clustering: Introduction”, <https://neo4j.com/docs/operations-manual/5/clustering/introduction/>.
+[^neo-users]: Dokumentacja Neo4j 5, Operations Manual, „Manage users”, <https://neo4j.com/docs/operations-manual/5/authentication-authorization/manage-users/>.
+[^neo-ssl]: Dokumentacja Neo4j 5, Operations Manual, „SSL framework”, <https://neo4j.com/docs/operations-manual/5/security/ssl-framework/>.
+[^neo-backup]: Dokumentacja Neo4j 5, Operations Manual, „Backup and restore”, <https://neo4j.com/docs/operations-manual/5/backup-restore/>.
+[^neo-upgrade]: Neo4j, „Upgrade and Migration Guide”, <https://neo4j.com/docs/upgrade-migration-guide/current/>.
+[^neo-http]: Neo4j, „HTTP API”, <https://neo4j.com/docs/http-api/current/>.
+[^neo-kafka]: Neo4j, „Neo4j Connector for Kafka”, <https://neo4j.com/docs/kafka/current/>.
+[^neo-spark]: Neo4j, „Neo4j Connector for Apache Spark”, <https://neo4j.com/docs/spark/current/>.
+[^neo-composite]: Dokumentacja Neo4j 5, Operations Manual, „Composite databases: concepts”, <https://neo4j.com/docs/operations-manual/5/database-administration/composite-databases/concepts/>.
+[^neo-usecases]: Neo4j, „Use Cases”, <https://neo4j.com/use-cases/>.
+
+## Porównanie czterech SZBD
+
+Tabela zestawia najważniejsze różnice. Każda komórka streszcza opis z tego rozdziału, a źródła podano przy opisach.
+
+| Cecha | PostgreSQL 17 | MySQL 8.4 LTS | MongoDB 8.0 | Neo4j 5.26 Community |
+|---|---|---|---|---|
+| Model danych | obiektowo-relacyjny | relacyjny | dokumentowy (BSON) | graf właściwości |
+| Licencja | PostgreSQL, podobna do BSD i MIT | GPL lub komercyjna | SSPL | GPLv3 |
+| Język zapytań | SQL | SQL | zapytania o dokumenty, potok agregacji | Cypher, większość obowiązkowych cech GQL |
+| Transakcje | ACID, domyślnie READ COMMITTED | ACID w InnoDB, domyślnie REPEATABLE READ | atomowy dokument; ACID na wielu dokumentach, ale nie na samodzielnym serwerze | ACID |
+| Integralność | PK, FK, UNIQUE, CHECK, EXCLUDE | PK, FK, UNIQUE, CHECK; wykluczenia przez wyzwalacze | walidacja pól dokumentu, indeksy unikalne | tylko unikalność właściwości |
+| Awaryjność | WAL, PITR, replikacja; przełączanie narzędziem zewnętrznym | redo, doublewrite, binlog; InnoDB Cluster przełącza sam | dziennik i punkty kontrolne; zbiór replik przełącza sam | dziennik transakcji; kopia tylko offline |
+| Bezpieczeństwo | role, RLS, SCRAM, TLS | role, SHA-256, TLS, szyfrowanie InnoDB | RBAC domyślnie wyłączony, SCRAM, TLS; szyfrowanie plików i audyt w Enterprise | brak ról, każdy użytkownik jest administratorem |
+| Migracje | pg_dump, pg_upgrade, transakcyjny DDL | mysqldump, MySQL Shell, clone; DDL nietransakcyjny | mongodump, mongoimport, Relational Migrator | import CSV i zrzut offline, LOAD CSV |
+| Integracje | libpq, FDW, dekodowanie logiczne | sterowniki Connector, X DevAPI | 13 sterowników, strumienie zmian, Kafka | Bolt, 5 sterowników, HTTP, Kafka, Spark |
+| Skalowalność | zapytania równoległe, partycje, repliki do odczytu | partycje, repliki, Group Replication do 9 serwerów | wbudowany sharding, repliki do odczytu | jeden serwer, tylko w pionie |
+| JSON | jsonb z indeksami | JSON z indeksem funkcyjnym i wielowartościowym | natywne dokumenty | brak map we właściwościach |
+| Rola w projekcie | pomiary i aplikacja Bagażomat | pomiary | pomiary | pomiary bez scenariuszy JSON |
+
+: Porównanie czterech SZBD. Źródło: opracowanie własne na podstawie źródeł podanych w tym rozdziale.
