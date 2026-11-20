@@ -14,7 +14,6 @@ createRoot(document.getElementById('root')!).render(
     redirect_uri={new URL('/', window.location.origin).href}
     response_type="code"
     scope="openid profile email"
-    automaticSilentRenew={false}
     onSigninCallback={() => void router.navigate(paths.lockers, { replace: true })}
   >
     <App />
