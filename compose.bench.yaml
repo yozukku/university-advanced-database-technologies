@@ -85,7 +85,9 @@ services:
     profiles: [tools]
     platform: linux/arm64
     cpus: 4
-    build: ./docker/runner
+    build:
+      context: .
+      dockerfile: docker/runner/Dockerfile
     environment:
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME:-ztb}
       ZTB_HOST_MACOS: ${ZTB_HOST_MACOS:-unknown}
@@ -93,6 +95,7 @@ services:
       ZTB_HOST_ORBSTACK: ${ZTB_HOST_ORBSTACK:-unknown}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - .:/workspace
 
 volumes:
   pg-data:

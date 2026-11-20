@@ -5,18 +5,21 @@ export ZTB_HOST_MACOS = $(shell sw_vers -productVersion 2>/dev/null || echo unkn
 export ZTB_HOST_MODEL = $(shell sysctl -n hw.model 2>/dev/null || echo unknown)
 export ZTB_HOST_ORBSTACK = $(shell orb version 2>/dev/null || echo unknown)
 
+SIZE ?= S
+
 BENCH = docker compose -f compose.bench.yaml
 APP = docker compose -p "$(COMPOSE_PROJECT_NAME)-app" -f compose.app.yaml
 ENGINES = pg mysql mongo neo4j
 
-.PHONY: help check up ping down require-engine app-up app-down
+.PHONY: help check up ping down require-engine app-up app-down data
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
 	    'up ENGINE=pg|mysql|mongo|neo4j    Uruchom bazę do pomiarów' \
 	    'ping ENGINE=pg|mysql|mongo|neo4j  Sprawdź wersję i architekturę bazy' \
 	    'down ENGINE=pg|mysql|mongo|neo4j  Zatrzymaj bazę do pomiarów' \
-	    'app-up   Uruchom aplikację' 'app-down Zatrzymaj aplikację'
+	    'app-up   Uruchom aplikację' 'app-down Zatrzymaj aplikację' \
+	    'data SIZE=XS|S|M|L Wygeneruj dane benchmarku'
 
 check:
 	@tools/check-comments
@@ -52,3 +55,6 @@ app-up:
 
 app-down:
 	@$(APP) down
+
+data:
+	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.gen --size "$(SIZE)"

@@ -21,3 +21,7 @@ Spring Boot zarządza wersjami zależności. Do drzew JSON służy `tools.jackso
 Keycloak 26.4 używa własnego woluminu z bazą deweloperską. `make app-up` uruchamia PostgreSQL, Keycloak, backend i frontend. W przeglądarce issuer to `http://localhost:8081/realms/bagazomat`. Backend weryfikuje ten issuer i pobiera klucze z wewnętrznego adresu `http://keycloak:8080/realms/bagazomat/protocol/openid-connect/certs`.
 
 Frontend korzysta z Node.js 22, Vite 8, React 19, TypeScript 6 i `react-oidc-context`. Po `make app-up` otwórz `http://localhost:5173`. Konto demonstracyjne to `anna` lub `jan` z hasłem `demo`. Uruchom `npm ci && npm run build` w `app/frontend`. Testy uruchomisz w `e2e` poleceniami `npm ci`, `npx playwright install chromium` oraz `npx playwright test`.
+
+## Generator benchmarku
+
+Runner używa Pythona 3.13 i uv 0.13.8. Zależności generatora to Faker 40.54.0, NumPy 2.5.5, PyArrow 26.0.1 i PyYAML 6.0.3. `uv.lock` ustala też wersje zależności pośrednich. `make data SIZE=XS` zapisuje dane w `out/xs/data/`. Rozmiary S, M i L trafiają do `data/<rozmiar>/`. Współrzędne w kolumnie `location_` są binarnym EWKB Point o SRID 4326, w kolejności długość, szerokość.

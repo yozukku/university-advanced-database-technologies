@@ -1,0 +1,8 @@
+*
+!pyproject.toml
+!uv.lock
+!docker/
+docker/*
+!docker/runner/
+docker/runner/*
+!docker/runner/entrypoint.py
