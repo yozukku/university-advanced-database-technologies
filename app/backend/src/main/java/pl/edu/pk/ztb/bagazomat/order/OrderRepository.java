@@ -57,6 +57,16 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			""")
 	Optional<Order.Status> lockStorageOrder(UUID subject, long id);
 
+	@NativeQuery("""
+			select o.id_
+			from order_ o
+			         join customer_ u on u.id_ = o.customer_id_
+			         join reservation_ r on r.order_id_ = o.id_
+			where r.id_ = :reservationId and r.leg_ = 'STORAGE' and u.keycloak_id_ = :subject
+			for update of o
+			""")
+	Optional<Long> lockStorageOrderOfLeg(UUID subject, long reservationId);
+
 	@NativeQuery("select id_ from order_ where id_ = :id for update")
 	Optional<Long> lockOrder(long id);
 
@@ -71,6 +81,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			  and not exists (select 1 from reservation_ r where r.order_id_ = o.id_ and r.status_ in ('OCCUPIED', 'COMPLETED'))
 			""")
 	int markCancelled(long id);
+
+	@Modifying
+	@NativeQuery("""
+			update order_ o set status_ = 'COMPLETED', closed_at_ = current_timestamp
+			where o.id_ = :id and o.status_ = 'PAID'
+			  and not exists (select 1 from reservation_ r where r.order_id_ = o.id_ and r.status_ in ('BOOKED', 'OCCUPIED'))
+			""")
+	void markCompleted(long id);
 
 	@NativeQuery("""
 			select id_
