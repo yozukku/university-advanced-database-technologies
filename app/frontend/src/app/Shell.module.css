@@ -1,0 +1,131 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'brand account'
+    'nav nav';
+  align-items: center;
+  column-gap: var(--space-4);
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.brand {
+  grid-area: brand;
+  padding: var(--space-3) 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.nav {
+  grid-area: nav;
+  display: flex;
+  gap: var(--space-5);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) 0;
+  margin-bottom: -1px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.link:hover {
+  color: var(--color-text);
+}
+
+.active {
+  color: var(--color-text);
+  border-bottom-color: var(--color-accent);
+}
+
+.account {
+  grid-area: account;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.name {
+  display: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.main {
+  flex: 1;
+}
+
+.signIn {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: var(--space-4);
+}
+
+.signInCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 22rem;
+  text-align: center;
+}
+
+.signInTitle {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+}
+
+.signInText {
+  color: var(--color-text-muted);
+}
+
+.signInError {
+  font-size: var(--text-sm);
+  color: var(--color-danger);
+}
+
+@media (min-width: 40rem) {
+  .bar {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'brand nav account';
+    column-gap: var(--space-6);
+    height: var(--header-height);
+  }
+
+  .nav {
+    align-self: stretch;
+  }
+
+  .link {
+    padding: 0;
+  }
+
+  .name {
+    display: inline;
+  }
+}

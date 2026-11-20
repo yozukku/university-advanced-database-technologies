@@ -3,7 +3,7 @@ import { login } from '../login'
 
 test('Anna loguje się i widzi swoje imię', async ({ page }) => {
   await login(page, 'anna')
-  await expect(page.getByText('Witaj, Anna Kowalska')).toBeVisible()
+  await expect(page.getByRole('banner').getByText('Anna Kowalska')).toBeVisible()
 })
 
 test('Chromium obsługuje WebGL2', async ({ page }) => {

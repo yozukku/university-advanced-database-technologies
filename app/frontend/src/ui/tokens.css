@@ -1,0 +1,53 @@
+:root {
+  color-scheme: light;
+
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-subtle: #f5f6f7;
+  --color-border: #e3e5e8;
+  --color-border-strong: #c9cdd2;
+  --color-text: #15181c;
+  --color-text-muted: #5f6670;
+  --color-accent: #1d6b52;
+  --color-accent-hover: #17573f;
+  --color-accent-soft: #e7f2ee;
+  --color-on-accent: #ffffff;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdeceb;
+  --color-danger-border: #f5c2bd;
+  --color-overlay: rgb(21 24 28 / 0.4);
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-full: 999px;
+
+  --shadow-raised: 0 1px 2px rgb(21 24 28 / 0.06), 0 8px 24px rgb(21 24 28 / 0.08);
+
+  --control-height: 2.75rem;
+  --header-height: 3.5rem;
+  --content-width: 72rem;
+
+  --z-header: 10;
+  --z-sheet: 50;
+  --z-toast: 100;
+}
