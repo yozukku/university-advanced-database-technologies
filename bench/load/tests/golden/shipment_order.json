@@ -1,0 +1,386 @@
+{
+  "_id": {
+    "$numberLong": "17"
+  },
+  "number": "BAG-0000000017",
+  "customerId": {
+    "$numberLong": "23"
+  },
+  "type": "SHIPMENT",
+  "size": "S",
+  "tariffId": {
+    "$numberLong": "2"
+  },
+  "status": "COMPLETED",
+  "price": {
+    "$numberLong": "3800"
+  },
+  "paymentDeadline": {
+    "$date": {
+      "$numberLong": "1732171524000"
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1732170624000"
+    }
+  },
+  "closedAt": {
+    "$date": {
+      "$numberLong": "1733042367000"
+    }
+  },
+  "shipment": {
+    "id": {
+      "$numberLong": "5"
+    },
+    "recipientName": "pan Gustaw Sieradzan",
+    "recipientPhone": "+48501000054",
+    "declaredValue": {
+      "$numberLong": "10000"
+    },
+    "courierKeycloakId": "ece29b5f-c2c7-485e-ac64-78baa35f023d",
+    "courierAssignedAt": {
+      "$date": {
+        "$numberLong": "1732275042000"
+      }
+    },
+    "originLockermatId": {
+      "$numberLong": "1"
+    },
+    "destinationLockermatId": {
+      "$numberLong": "3"
+    }
+  },
+  "reservations": [
+    {
+      "id": {
+        "$numberLong": "21"
+      },
+      "size": "S",
+      "cellId": {
+        "$numberLong": "3"
+      },
+      "lockermatId": {
+        "$numberLong": "1"
+      },
+      "leg": "ORIGIN",
+      "from": {
+        "$date": {
+          "$numberLong": "1732359634000"
+        }
+      },
+      "to": {
+        "$date": {
+          "$numberLong": "1732456503000"
+        }
+      },
+      "status": "COMPLETED",
+      "depositedAt": {
+        "$date": {
+          "$numberLong": "1732371107000"
+        }
+      },
+      "collectedAt": {
+        "$date": {
+          "$numberLong": "1732410351000"
+        }
+      },
+      "accessCodes": [
+        {
+          "id": {
+            "$numberLong": "39"
+          },
+          "purpose": "DROP_OFF",
+          "codeHmac": {
+            "$binary": {
+              "base64": "I6raP4Qj0GFDFqrAp4j/AB1BJkcoBJHiFc2OJ7AO5do=",
+              "subType": "00"
+            }
+          },
+          "validFrom": {
+            "$date": {
+              "$numberLong": "1732359634000"
+            }
+          },
+          "validTo": {
+            "$date": {
+              "$numberLong": "1732456503000"
+            }
+          },
+          "status": "USED",
+          "createdAt": {
+            "$date": {
+              "$numberLong": "1732170742000"
+            }
+          },
+          "usedAt": {
+            "$date": {
+              "$numberLong": "1732371107000"
+            }
+          },
+          "openings": [
+            {
+              "id": {
+                "$numberLong": "39"
+              },
+              "channel": "KEYPAD",
+              "result": "OPENED",
+              "requestedAt": {
+                "$date": {
+                  "$numberLong": "1732371107000"
+                }
+              },
+              "closedAt": {
+                "$date": {
+                  "$numberLong": "1732371108000"
+                }
+              }
+            },
+            {
+              "id": {
+                "$numberLong": "2092"
+              },
+              "channel": "KEYPAD",
+              "result": "DOOR_FAILED",
+              "requestedAt": {
+                "$date": {
+                  "$numberLong": "1732371106999"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": {
+            "$numberLong": "40"
+          },
+          "purpose": "PICK_UP",
+          "codeHmac": {
+            "$binary": {
+              "base64": "nNfwNxNkRLXxi/UxpMPboKBu1cBx4FpqHEJlQQmjhCw=",
+              "subType": "00"
+            }
+          },
+          "validFrom": {
+            "$date": {
+              "$numberLong": "1732359634000"
+            }
+          },
+          "validTo": {
+            "$date": {
+              "$numberLong": "1732456503000"
+            }
+          },
+          "status": "USED",
+          "createdAt": {
+            "$date": {
+              "$numberLong": "1732170742000"
+            }
+          },
+          "usedAt": {
+            "$date": {
+              "$numberLong": "1732410351000"
+            }
+          },
+          "openings": [
+            {
+              "id": {
+                "$numberLong": "40"
+              },
+              "channel": "KEYPAD",
+              "result": "OPENED",
+              "requestedAt": {
+                "$date": {
+                  "$numberLong": "1732410351000"
+                }
+              },
+              "closedAt": {
+                "$date": {
+                  "$numberLong": "1732410352000"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": {
+        "$numberLong": "22"
+      },
+      "size": "S",
+      "cellId": {
+        "$numberLong": "84"
+      },
+      "lockermatId": {
+        "$numberLong": "3"
+      },
+      "leg": "DESTINATION",
+      "from": {
+        "$date": {
+          "$numberLong": "1732888503000"
+        }
+      },
+      "to": {
+        "$date": {
+          "$numberLong": "1733121874000"
+        }
+      },
+      "status": "COMPLETED",
+      "depositedAt": {
+        "$date": {
+          "$numberLong": "1732920686000"
+        }
+      },
+      "collectedAt": {
+        "$date": {
+          "$numberLong": "1733042367000"
+        }
+      },
+      "accessCodes": [
+        {
+          "id": {
+            "$numberLong": "41"
+          },
+          "purpose": "DROP_OFF",
+          "codeHmac": {
+            "$binary": {
+              "base64": "PqATGtwdFm8PHe1w/kVBc+Pu+4e2SJYVscVpiGOaqLA=",
+              "subType": "00"
+            }
+          },
+          "validFrom": {
+            "$date": {
+              "$numberLong": "1732888503000"
+            }
+          },
+          "validTo": {
+            "$date": {
+              "$numberLong": "1733121874000"
+            }
+          },
+          "status": "USED",
+          "createdAt": {
+            "$date": {
+              "$numberLong": "1732170742000"
+            }
+          },
+          "usedAt": {
+            "$date": {
+              "$numberLong": "1732920686000"
+            }
+          },
+          "openings": [
+            {
+              "id": {
+                "$numberLong": "41"
+              },
+              "channel": "KEYPAD",
+              "result": "OPENED",
+              "requestedAt": {
+                "$date": {
+                  "$numberLong": "1732920686000"
+                }
+              },
+              "closedAt": {
+                "$date": {
+                  "$numberLong": "1732920687000"
+                }
+              }
+            },
+            {
+              "id": {
+                "$numberLong": "2047"
+              },
+              "channel": "KEYPAD",
+              "result": "DOOR_FAILED",
+              "requestedAt": {
+                "$date": {
+                  "$numberLong": "1732920685999"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": {
+            "$numberLong": "42"
+          },
+          "purpose": "PICK_UP",
+          "codeHmac": {
+            "$binary": {
+              "base64": "6ScWM8MOPWMyMeQAqPekTlrDvpq020svulmO3wLATG0=",
+              "subType": "00"
+            }
+          },
+          "sentToPhone": "+48501000054",
+          "validFrom": {
+            "$date": {
+              "$numberLong": "1732888503000"
+            }
+          },
+          "validTo": {
+            "$date": {
+              "$numberLong": "1733121874000"
+            }
+          },
+          "status": "USED",
+          "createdAt": {
+            "$date": {
+              "$numberLong": "1732170742000"
+            }
+          },
+          "usedAt": {
+            "$date": {
+              "$numberLong": "1733042367000"
+            }
+          },
+          "openings": [
+            {
+              "id": {
+                "$numberLong": "42"
+              },
+              "channel": "KEYPAD",
+              "result": "OPENED",
+              "requestedAt": {
+                "$date": {
+                  "$numberLong": "1733042367000"
+                }
+              },
+              "closedAt": {
+                "$date": {
+                  "$numberLong": "1733042368000"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "payments": [
+    {
+      "id": {
+        "$numberLong": "17"
+      },
+      "kind": "CHARGE",
+      "amount": {
+        "$numberLong": "3800"
+      },
+      "status": "COMPLETED",
+      "provider": "MOCK",
+      "providerRef": "MOCK-0000000017",
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1732170624001"
+        }
+      },
+      "completedAt": {
+        "$date": {
+          "$numberLong": "1732170742000"
+        }
+      }
+    }
+  ]
+}

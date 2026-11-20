@@ -1,0 +1,27 @@
+{
+  "_id": {
+    "$numberLong": "17"
+  },
+  "at": {
+    "$date": {
+      "$numberLong": "1732170624000"
+    }
+  },
+  "entity": "ORDER",
+  "entityId": {
+    "$numberLong": "17"
+  },
+  "action": "CREATED",
+  "actor": {
+    "email": "wojtynaalbert.50022@example.test",
+    "keycloak_id": "7f73bb26-b6df-48ed-89b0-a025d8d9eb6e",
+    "kind": "CUSTOMER"
+  },
+  "changes": [
+    {
+      "f": "status_",
+      "new": "AWAITING_PAYMENT",
+      "old": null
+    }
+  ]
+}

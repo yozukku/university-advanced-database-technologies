@@ -1,0 +1,188 @@
+[
+  {
+    "createIndexes": "lockermats",
+    "indexes": [
+      {
+        "key": {
+          "code": 1
+        },
+        "name": "lockermat_code__uq",
+        "unique": true
+      },
+      {
+        "key": {
+          "location": "2dsphere"
+        },
+        "name": "lockermat_location_geog__idx"
+      }
+    ]
+  },
+  {
+    "createIndexes": "customers",
+    "indexes": [
+      {
+        "key": {
+          "keycloakId": 1
+        },
+        "name": "customer_keycloak_id__uq",
+        "unique": true
+      }
+    ]
+  },
+  {
+    "createIndexes": "orders",
+    "indexes": [
+      {
+        "key": {
+          "number": 1
+        },
+        "name": "order_number__uq",
+        "unique": true
+      },
+      {
+        "key": {
+          "customerId": 1,
+          "createdAt": -1
+        },
+        "name": "order_customer_created__idx"
+      },
+      {
+        "key": {
+          "paymentDeadline": 1
+        },
+        "name": "order_awaiting_payment__idx",
+        "partialFilterExpression": {
+          "status": "AWAITING_PAYMENT"
+        }
+      },
+      {
+        "key": {
+          "tariffId": 1
+        },
+        "name": "order_tariff__idx"
+      },
+      {
+        "key": {
+          "shipment.courierKeycloakId": 1
+        },
+        "name": "shipment_courier__idx",
+        "partialFilterExpression": {
+          "shipment.courierKeycloakId": {
+            "$exists": true
+          }
+        }
+      },
+      {
+        "key": {
+          "reservations.id": 1
+        },
+        "name": "reservations_id__idx"
+      },
+      {
+        "key": {
+          "reservations.cellId": 1,
+          "reservations.from": 1
+        },
+        "name": "reservation_cell_from__idx"
+      },
+      {
+        "key": {
+          "reservations.to": 1
+        },
+        "name": "reservation_overdue__idx"
+      },
+      {
+        "key": {
+          "reservations.accessCodes.id": 1
+        },
+        "name": "reservations_accessCodes_id__idx"
+      },
+      {
+        "key": {
+          "reservations.accessCodes.openings.id": 1
+        },
+        "name": "reservations_accessCodes_openings_id__idx"
+      },
+      {
+        "key": {
+          "payments.id": 1
+        },
+        "name": "payments_id__idx"
+      }
+    ]
+  },
+  {
+    "createIndexes": "incidents",
+    "indexes": [
+      {
+        "key": {
+          "reservationId": 1
+        },
+        "name": "incident_reservation__idx"
+      },
+      {
+        "key": {
+          "cellId": 1
+        },
+        "name": "incident_cell__idx"
+      },
+      {
+        "key": {
+          "createdAt": 1
+        },
+        "name": "incident_open__idx",
+        "partialFilterExpression": {
+          "status": {
+            "$in": [
+              "OPEN",
+              "IN_PROGRESS"
+            ]
+          }
+        }
+      },
+      {
+        "key": {
+          "orderId": 1
+        },
+        "name": "incident_order__idx"
+      },
+      {
+        "key": {
+          "serviceOpenings.id": 1
+        },
+        "name": "service_openings_id__idx"
+      }
+    ]
+  },
+  {
+    "createIndexes": "auditEvents",
+    "indexes": [
+      {
+        "key": {
+          "entity": 1,
+          "entityId": 1,
+          "at": 1
+        },
+        "name": "audit_event_entity_at__idx"
+      }
+    ]
+  },
+  {
+    "createIndexes": "shipLinks",
+    "indexes": [
+      {
+        "key": {
+          "orderId": 1
+        },
+        "name": "shiplinks_order__idx"
+      },
+      {
+        "key": {
+          "from": 1,
+          "at": 1
+        },
+        "name": "shiplinks_from_at__idx"
+      }
+    ]
+  }
+]

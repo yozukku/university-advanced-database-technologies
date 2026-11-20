@@ -10,6 +10,7 @@ dependencies = [
     "numpy==2.5.5",
     "psycopg[binary]==3.3.9",
     "pyarrow==26.0.1",
+    "pymongo==4.19.0",
     "pytest==9.2.0",
     "PyYAML==6.0.3",
 ]

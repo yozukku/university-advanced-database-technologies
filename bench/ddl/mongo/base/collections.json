@@ -1,0 +1,723 @@
+[
+  {
+    "create": "lockermats",
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "code",
+          "name",
+          "address",
+          "location",
+          "timeZone",
+          "status",
+          "createdAt"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "long"
+          },
+          "code": {
+            "bsonType": "string"
+          },
+          "name": {
+            "bsonType": "string"
+          },
+          "address": {
+            "bsonType": "string"
+          },
+          "location": {
+            "bsonType": "object",
+            "required": [
+              "type",
+              "coordinates"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "Point"
+                ]
+              },
+              "coordinates": {
+                "bsonType": "array",
+                "items": {
+                  "bsonType": "double"
+                }
+              }
+            }
+          },
+          "timeZone": {
+            "bsonType": "string"
+          },
+          "status": {
+            "enum": [
+              "ACTIVE",
+              "SUSPENDED",
+              "DECOMMISSIONED"
+            ]
+          },
+          "createdAt": {
+            "bsonType": "date"
+          },
+          "cells": {
+            "bsonType": "array",
+            "items": {
+              "bsonType": "object",
+              "required": [
+                "id",
+                "number",
+                "size",
+                "status"
+              ],
+              "properties": {
+                "id": {
+                  "bsonType": "long"
+                },
+                "number": {
+                  "bsonType": "int"
+                },
+                "size": {
+                  "enum": [
+                    "S",
+                    "M",
+                    "L"
+                  ]
+                },
+                "status": {
+                  "enum": [
+                    "IN_SERVICE",
+                    "OUT_OF_SERVICE"
+                  ]
+                }
+              }
+            }
+          },
+          "openingHours": {
+            "bsonType": "array",
+            "items": {
+              "bsonType": "object",
+              "required": [
+                "id",
+                "weekday",
+                "opensAt",
+                "closesAt"
+              ],
+              "properties": {
+                "id": {
+                  "bsonType": "long"
+                },
+                "weekday": {
+                  "bsonType": "int"
+                },
+                "opensAt": {
+                  "bsonType": "string"
+                },
+                "closesAt": {
+                  "bsonType": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "create": "tariffs",
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "size",
+          "validFrom",
+          "storagePricePerDay",
+          "shipmentPrice",
+          "overstayPricePerDay"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "long"
+          },
+          "size": {
+            "enum": [
+              "S",
+              "M",
+              "L"
+            ]
+          },
+          "validFrom": {
+            "bsonType": "date"
+          },
+          "validTo": {
+            "bsonType": "date"
+          },
+          "storagePricePerDay": {
+            "bsonType": "long"
+          },
+          "shipmentPrice": {
+            "bsonType": "long"
+          },
+          "overstayPricePerDay": {
+            "bsonType": "long"
+          }
+        }
+      }
+    }
+  },
+  {
+    "create": "customers",
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "keycloakId",
+          "termsVersion",
+          "termsAcceptedAt",
+          "createdAt"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "long"
+          },
+          "keycloakId": {
+            "bsonType": "string"
+          },
+          "phone": {
+            "bsonType": "string"
+          },
+          "companyName": {
+            "bsonType": "string"
+          },
+          "taxId": {
+            "bsonType": "string"
+          },
+          "billingAddress": {
+            "bsonType": "string"
+          },
+          "termsVersion": {
+            "bsonType": "string"
+          },
+          "termsAcceptedAt": {
+            "bsonType": "date"
+          },
+          "createdAt": {
+            "bsonType": "date"
+          }
+        }
+      }
+    }
+  },
+  {
+    "create": "orders",
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "number",
+          "customerId",
+          "type",
+          "size",
+          "tariffId",
+          "status",
+          "price",
+          "paymentDeadline",
+          "createdAt"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "long"
+          },
+          "number": {
+            "bsonType": "string"
+          },
+          "customerId": {
+            "bsonType": "long"
+          },
+          "type": {
+            "enum": [
+              "STORAGE",
+              "SHIPMENT"
+            ]
+          },
+          "size": {
+            "enum": [
+              "S",
+              "M",
+              "L"
+            ]
+          },
+          "tariffId": {
+            "bsonType": "long"
+          },
+          "status": {
+            "enum": [
+              "AWAITING_PAYMENT",
+              "PAID",
+              "COMPLETED",
+              "CANCELLED",
+              "EXPIRED"
+            ]
+          },
+          "price": {
+            "bsonType": "long"
+          },
+          "paymentDeadline": {
+            "bsonType": "date"
+          },
+          "createdAt": {
+            "bsonType": "date"
+          },
+          "closedAt": {
+            "bsonType": "date"
+          },
+          "shipment": {
+            "bsonType": "object",
+            "required": [
+              "id",
+              "recipientName",
+              "recipientPhone",
+              "declaredValue",
+              "originLockermatId",
+              "destinationLockermatId"
+            ],
+            "properties": {
+              "id": {
+                "bsonType": "long"
+              },
+              "recipientName": {
+                "bsonType": "string"
+              },
+              "recipientPhone": {
+                "bsonType": "string"
+              },
+              "declaredValue": {
+                "bsonType": "long"
+              },
+              "courierKeycloakId": {
+                "bsonType": "string"
+              },
+              "courierAssignedAt": {
+                "bsonType": "date"
+              },
+              "originLockermatId": {
+                "bsonType": "long"
+              },
+              "destinationLockermatId": {
+                "bsonType": "long"
+              }
+            }
+          },
+          "reservations": {
+            "bsonType": "array",
+            "items": {
+              "bsonType": "object",
+              "required": [
+                "id",
+                "size",
+                "cellId",
+                "lockermatId",
+                "leg",
+                "from",
+                "to",
+                "status"
+              ],
+              "properties": {
+                "id": {
+                  "bsonType": "long"
+                },
+                "size": {
+                  "enum": [
+                    "S",
+                    "M",
+                    "L"
+                  ]
+                },
+                "cellId": {
+                  "bsonType": "long"
+                },
+                "lockermatId": {
+                  "bsonType": "long"
+                },
+                "leg": {
+                  "enum": [
+                    "STORAGE",
+                    "ORIGIN",
+                    "DESTINATION"
+                  ]
+                },
+                "from": {
+                  "bsonType": "date"
+                },
+                "to": {
+                  "bsonType": "date"
+                },
+                "status": {
+                  "enum": [
+                    "BOOKED",
+                    "OCCUPIED",
+                    "COMPLETED",
+                    "CANCELLED",
+                    "NO_SHOW"
+                  ]
+                },
+                "depositedAt": {
+                  "bsonType": "date"
+                },
+                "collectedAt": {
+                  "bsonType": "date"
+                },
+                "accessCodes": {
+                  "bsonType": "array",
+                  "items": {
+                    "bsonType": "object",
+                    "required": [
+                      "id",
+                      "purpose",
+                      "codeHmac",
+                      "validFrom",
+                      "validTo",
+                      "status",
+                      "createdAt"
+                    ],
+                    "properties": {
+                      "id": {
+                        "bsonType": "long"
+                      },
+                      "purpose": {
+                        "enum": [
+                          "DROP_OFF",
+                          "PICK_UP"
+                        ]
+                      },
+                      "codeHmac": {
+                        "bsonType": "binData"
+                      },
+                      "sentToPhone": {
+                        "bsonType": "string"
+                      },
+                      "validFrom": {
+                        "bsonType": "date"
+                      },
+                      "validTo": {
+                        "bsonType": "date"
+                      },
+                      "status": {
+                        "enum": [
+                          "ACTIVE",
+                          "USED",
+                          "REVOKED"
+                        ]
+                      },
+                      "createdAt": {
+                        "bsonType": "date"
+                      },
+                      "usedAt": {
+                        "bsonType": "date"
+                      },
+                      "openings": {
+                        "bsonType": "array",
+                        "items": {
+                          "bsonType": "object",
+                          "required": [
+                            "id",
+                            "channel",
+                            "result",
+                            "requestedAt"
+                          ],
+                          "properties": {
+                            "id": {
+                              "bsonType": "long"
+                            },
+                            "channel": {
+                              "enum": [
+                                "KEYPAD",
+                                "APP",
+                                "SERVICE"
+                              ]
+                            },
+                            "actorKeycloakId": {
+                              "bsonType": "string"
+                            },
+                            "result": {
+                              "enum": [
+                                "PENDING",
+                                "OPENED",
+                                "DOOR_FAILED"
+                              ]
+                            },
+                            "requestedAt": {
+                              "bsonType": "date"
+                            },
+                            "closedAt": {
+                              "bsonType": "date"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "payments": {
+            "bsonType": "array",
+            "items": {
+              "bsonType": "object",
+              "required": [
+                "id",
+                "kind",
+                "amount",
+                "status",
+                "provider",
+                "createdAt"
+              ],
+              "properties": {
+                "id": {
+                  "bsonType": "long"
+                },
+                "kind": {
+                  "enum": [
+                    "CHARGE",
+                    "EXTENSION",
+                    "OVERSTAY",
+                    "REFUND",
+                    "COMPENSATION"
+                  ]
+                },
+                "amount": {
+                  "bsonType": "long"
+                },
+                "status": {
+                  "enum": [
+                    "PENDING",
+                    "COMPLETED",
+                    "FAILED",
+                    "CANCELLED"
+                  ]
+                },
+                "provider": {
+                  "bsonType": "string"
+                },
+                "providerRef": {
+                  "bsonType": "string"
+                },
+                "refundOfId": {
+                  "bsonType": "long"
+                },
+                "incidentId": {
+                  "bsonType": "long"
+                },
+                "createdAt": {
+                  "bsonType": "date"
+                },
+                "completedAt": {
+                  "bsonType": "date"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "create": "incidents",
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "cellId",
+          "source",
+          "type",
+          "description",
+          "status",
+          "createdAt"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "long"
+          },
+          "cellId": {
+            "bsonType": "long"
+          },
+          "reservationId": {
+            "bsonType": "long"
+          },
+          "orderId": {
+            "bsonType": "long"
+          },
+          "source": {
+            "enum": [
+              "CUSTOMER",
+              "COURIER",
+              "SUPPORT",
+              "TERMINAL"
+            ]
+          },
+          "reportedByKeycloakId": {
+            "bsonType": "string"
+          },
+          "type": {
+            "enum": [
+              "DOOR_WONT_OPEN",
+              "CELL_NOT_EMPTY",
+              "DOOR_LEFT_OPEN",
+              "LUGGAGE_DAMAGED",
+              "LUGGAGE_MISSING",
+              "DELIVERY_DELAYED",
+              "OTHER"
+            ]
+          },
+          "description": {
+            "bsonType": "string"
+          },
+          "status": {
+            "enum": [
+              "OPEN",
+              "IN_PROGRESS",
+              "RESOLVED",
+              "REJECTED"
+            ]
+          },
+          "resolution": {
+            "bsonType": "string"
+          },
+          "resolvedByKeycloakId": {
+            "bsonType": "string"
+          },
+          "createdAt": {
+            "bsonType": "date"
+          },
+          "resolvedAt": {
+            "bsonType": "date"
+          },
+          "serviceOpenings": {
+            "bsonType": "array",
+            "items": {
+              "bsonType": "object",
+              "required": [
+                "id",
+                "channel",
+                "result",
+                "requestedAt"
+              ],
+              "properties": {
+                "id": {
+                  "bsonType": "long"
+                },
+                "channel": {
+                  "enum": [
+                    "KEYPAD",
+                    "APP",
+                    "SERVICE"
+                  ]
+                },
+                "actorKeycloakId": {
+                  "bsonType": "string"
+                },
+                "result": {
+                  "enum": [
+                    "PENDING",
+                    "OPENED",
+                    "DOOR_FAILED"
+                  ]
+                },
+                "requestedAt": {
+                  "bsonType": "date"
+                },
+                "closedAt": {
+                  "bsonType": "date"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "create": "auditEvents",
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "at",
+          "entity",
+          "entityId",
+          "action",
+          "actor"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "long"
+          },
+          "at": {
+            "bsonType": "date"
+          },
+          "entity": {
+            "bsonType": "string"
+          },
+          "entityId": {
+            "bsonType": "long"
+          },
+          "action": {
+            "bsonType": "string"
+          },
+          "actor": {
+            "bsonType": "object",
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "bsonType": "string"
+              }
+            }
+          },
+          "changes": {
+            "bsonType": "array"
+          }
+        }
+      }
+    }
+  },
+  {
+    "create": "shipLinks",
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "orderId",
+          "from",
+          "to",
+          "at"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "long"
+          },
+          "orderId": {
+            "bsonType": "long"
+          },
+          "from": {
+            "bsonType": "long"
+          },
+          "to": {
+            "bsonType": "long"
+          },
+          "at": {
+            "bsonType": "date"
+          }
+        }
+      }
+    }
+  }
+]

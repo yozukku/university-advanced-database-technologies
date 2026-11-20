@@ -51,3 +51,13 @@ Testy reguł korzystają z mysql-connector-python 26.10.0 i pytest 9.2.0. Przy d
 DuckDB zapisuje każdą tabelę do tymczasowego pliku CSV. Każda wartość jest w cudzysłowie, a NULL to słowo `NULL` bez cudzysłowu. Plik nie ma znaku ucieczki (`escaped by ''`). Znaczniki czasu trafiają do pliku jako czas UTC bez strefy. `code_hmac_` przechodzi jako hex przez `unhex`, a `location_` jako WKT przez `ST_GeomFromText(…, 4326, 'axis-order=long-lat')`. Loader wylicza `changes_new_` z `changes_`. Skrót `code_hmac_` o długości innej niż 32 bajty przerywa ładowanie, bo `BINARY(32)` dopełnia krótszą wartość zerami. `LOAD DATA LOCAL` zamienia błędy wierszy na ostrzeżenia, więc każde ostrzeżenie też przerywa ładowanie. `docker/conf/mysql/my.cnf` włącza `local-infile`.
 
 Test przekształcenia nie wymaga bazy. Uruchom go poleceniem `docker compose -f compose.bench.yaml run --rm runner python -m unittest bench.load.tests.test_mysql`.
+
+## Ładowanie MongoDB
+
+`make load ENGINE=mongo SIZE=S` uruchamia MongoDB i tworzy od nowa bazę `bagazomat`. Transformacja `bench/transform/mongo/` buduje w DuckDB dokumenty Extended JSON siedmiu kolekcji: `lockermats`, `tariffs`, `customers`, `orders`, `incidents`, `auditEvents` i `shipLinks`. Zapisuje je w `data/<rozmiar>/mongo/`, a dla XS w `out/xs/data/mongo/`. Transformacja pomija pola z wartością NULL i puste tablice osadzone.
+
+Loader korzysta z pymongo 4.19.0 i działa tylko w kontenerze `runner`. Najpierw `bench/ddl/mongo/base/collections.json` tworzy kolekcje z walidatorami `$jsonSchema`. Następnie `mongoimport` z obrazu MongoDB importuje każdą kolekcję, a walidatory sprawdzają każdy dokument. Narzędzie działa w kontenerze pomocniczym, który widzi katalog roboczy tylko do odczytu. Potem `base/indexes.json` tworzy indeksy BASE. Na końcu loader porównuje liczbę wierszy każdej tabeli logicznej, także elementów osadzonych, z manifestem.
+
+Funkcja `apply_index` z `bench/load/mongo/loader.py` dodaje indeksy z `bench/ddl/mongo/idx/indexes.json`.
+
+Testy MongoDB wymagają danych XS (`make data SIZE=XS`) i działającego MongoDB (`make up ENGINE=mongo`). Uruchom je poleceniem `docker compose -f compose.bench.yaml run --rm runner python -m pytest -p no:cacheprovider bench/load/tests/test_mongo.py`. Testy importują zamówienia i zdarzenia audytowe XS do osobnej bazy `ddl_rules_`. Porównują jedno zamówienie przesyłki i jedno zdarzenie audytowe z plikami w `bench/load/tests/golden/`. Sprawdzają też odrzucenie niepoprawnego statusu i tworzą indeksy BASE oraz IDX. Na końcu usuwają bazę `ddl_rules_`.

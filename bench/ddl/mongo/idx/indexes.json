@@ -1,0 +1,81 @@
+[
+  {
+    "createIndexes": "orders",
+    "indexes": [
+      {
+        "key": {
+          "shipment.recipientPhone": 1
+        },
+        "name": "ix1__idx",
+        "partialFilterExpression": {
+          "shipment.recipientPhone": {
+            "$exists": true
+          }
+        }
+      },
+      {
+        "key": {
+          "status": 1,
+          "createdAt": 1
+        },
+        "name": "ix2__idx"
+      },
+      {
+        "key": {
+          "payments.createdAt": 1
+        },
+        "name": "ix3__idx",
+        "partialFilterExpression": {
+          "payments.createdAt": {
+            "$exists": true
+          }
+        }
+      },
+      {
+        "key": {
+          "reservations.accessCodes.openings.requestedAt": 1
+        },
+        "name": "ix4__idx",
+        "partialFilterExpression": {
+          "reservations.accessCodes.openings.requestedAt": {
+            "$exists": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "createIndexes": "auditEvents",
+    "indexes": [
+      {
+        "key": {
+          "actor.email": 1
+        },
+        "name": "jx1_email__idx",
+        "partialFilterExpression": {
+          "actor.email": {
+            "$exists": true
+          }
+        }
+      },
+      {
+        "key": {
+          "actor.phone": 1
+        },
+        "name": "jx1_phone__idx",
+        "partialFilterExpression": {
+          "actor.phone": {
+            "$exists": true
+          }
+        }
+      },
+      {
+        "key": {
+          "changes.f": 1,
+          "changes.new": 1
+        },
+        "name": "jx2__idx"
+      }
+    ]
+  }
+]
