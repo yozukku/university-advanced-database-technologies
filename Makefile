@@ -21,7 +21,7 @@ help:
 	    'app-up   Uruchom aplikację' 'app-down Zatrzymaj aplikację' \
 	    'data SIZE=XS|S|M|L Wygeneruj dane benchmarku' \
 	    'validate SIZE=XS|S|M|L Sprawdź dane benchmarku' \
-	    'load ENGINE=pg|mysql|mongo SIZE=XS|S|M|L Załaduj dane benchmarku do bazy'
+	    'load ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L Załaduj dane benchmarku do bazy'
 
 check:
 	@tools/check-comments

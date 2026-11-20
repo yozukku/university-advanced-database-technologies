@@ -1,0 +1,17 @@
+create constraint Lockermat_id__uq for (n:Lockermat) require n.id is unique;
+create constraint lockermat_code__uq for (n:Lockermat) require n.code is unique;
+create constraint OpeningHours_id__uq for (n:OpeningHours) require n.id is unique;
+create constraint Cell_id__uq for (n:Cell) require n.id is unique;
+create constraint Tariff_id__uq for (n:Tariff) require n.id is unique;
+create constraint Customer_id__uq for (n:Customer) require n.id is unique;
+create constraint customer_keycloak_id__uq for (n:Customer) require n.keycloakId is unique;
+create constraint Order_id__uq for (n:Order) require n.id is unique;
+create constraint order_number__uq for (n:Order) require n.number is unique;
+create constraint Reservation_id__uq for (n:Reservation) require n.id is unique;
+create constraint Shipment_id__uq for (n:Shipment) require n.shipmentId is unique;
+create constraint AccessCode_id__uq for (n:AccessCode) require n.id is unique;
+create constraint Incident_id__uq for (n:Incident) require n.id is unique;
+create constraint CellOpening_id__uq for (n:CellOpening) require n.id is unique;
+create constraint Payment_id__uq for (n:Payment) require n.id is unique;
+create constraint payment_provider_ref__uq for (n:Payment) require (n.provider, n.providerRef) is unique;
+create constraint AuditEvent_id__uq for (n:AuditEvent) require n.id is unique;

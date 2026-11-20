@@ -1,0 +1,17 @@
+create point index lockermat_location_geog__idx for (n:Lockermat) on (n.location);
+create range index lockermat_cell_lockermat_size__idx for (n:Cell) on (n.size);
+create range index order_customer_created__idx for (n:Order) on (n.customerId, n.createdAt);
+create range index order_awaiting_payment__idx for (n:Order) on (n.paymentDeadline);
+create range index order_tariff__idx for (n:Order) on (n.tariffId);
+create range index reservation_overdue__idx for (n:Reservation) on (n.to);
+create range index shipment_courier__idx for (n:Shipment) on (n.courierKeycloakId);
+create range index incident_cell__idx for (n:Incident) on (n.cellId);
+create range index incident_open__idx for (n:Incident) on (n.createdAt);
+create range index cell_opening_incident__idx for (n:CellOpening) on (n.incidentId);
+create range index payment_refund_of__idx for (n:Payment) on (n.refundOfId);
+create range index payment_incident__idx for (n:Payment) on (n.incidentId);
+create range index audit_event_entity_at__idx for (n:AuditEvent) on (n.entity, n.entityId, n.at);
+create range index incident_order__idx for (n:Incident) on (n.orderId);
+create range index ships_to_order__idx for ()-[r:SHIPS_TO]-() on (r.orderId);
+call db.resampleOutdatedIndexes();
+call db.awaitIndexes(3600);

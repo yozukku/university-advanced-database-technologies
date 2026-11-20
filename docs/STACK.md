@@ -63,3 +63,11 @@ Loader korzysta z pymongo 4.19.0 i działa tylko w kontenerze `runner`. Najpierw
 Funkcja `apply_index` z `bench/load/mongo/loader.py` dodaje indeksy z `bench/ddl/mongo/idx/indexes.json`.
 
 Testy MongoDB wymagają danych XS (`make data SIZE=XS`) i działającego MongoDB (`make up ENGINE=mongo`). Uruchom je poleceniem `docker compose -f compose.bench.yaml run --rm runner python -m pytest -p no:cacheprovider bench/load/tests/test_mongo.py`. Testy importują zamówienia i zdarzenia audytowe XS do osobnej bazy `ddl_rules_`. Porównują jedno zamówienie przesyłki i jedno zdarzenie audytowe z plikami w `bench/load/tests/golden/`. Sprawdzają też odrzucenie niepoprawnego statusu i tworzą indeksy BASE oraz IDX. Na końcu usuwają bazę `ddl_rules_`.
+
+## Ładowanie Neo4j
+
+`make load ENGINE=neo4j SIZE=S` uruchamia Neo4j. Loader korzysta ze sterownika neo4j 6.4.1 i działa tylko w kontenerze `runner`, bo ścieżkę plików importu na hoście odczytuje z montowań tego kontenera. `bench/transform/neo4j/` zapisuje pliki CSV w katalogu `neo4j/` obok plików Parquet. Powstaje 12 etykiet węzłów, a zamówienie przesyłki ma dodatkowo etykietę `Shipment`. Do tego dochodzi 15 typów relacji, w tym `SHIPS_TO`. Znaczniki czasu mają strefę UTC i milisekundy. Kwoty są w groszach, a `codeHmac` jest zapisany szesnastkowo. Pola `actor` i `changes` zdarzeń audytu pozostają tekstem JSON.
+
+Loader zatrzymuje kontener Neo4j i uruchamia `neo4j-admin database import full` w kontenerze pomocniczym. Ten kontener ma ten sam obraz, wolumin danych i limity. Import przerywa się przy pierwszym błędnym wierszu, a loader usuwa wtedy niepełny magazyn bazy `neo4j`. Potem loader uruchamia bazę, usuwa pliki CSV i porównuje liczbę węzłów każdej etykiety oraz relacji każdego typu z danymi kanonicznymi. Na końcu wykonuje `bench/ddl/neo4j/base/constraints.cypher` i `base/indexes.cypher`. Skrypty indeksów kończą się wywołaniem `db.resampleOutdatedIndexes()`, a po nim `db.awaitIndexes(3600)`. Próbkowanie indeksów w tle wyłącza `docker/conf/neo4j/settings.env`.
+
+Funkcja `apply_index` z `bench/load/neo4j/loader.py` wykonuje `bench/ddl/neo4j/idx/indexes.cypher` z IX1–IX4.
