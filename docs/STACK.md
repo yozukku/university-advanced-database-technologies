@@ -90,7 +90,7 @@ Funkcja `apply_index` z `bench/load/neo4j/loader.py` wykonuje `bench/ddl/neo4j/i
 
 Weryfikacja sprawdza też dane pochodne: `lockermatId` nóg, punkty przesyłki i `shipLinks` w MongoDB, `SHIPS_TO` w Neo4j oraz `changes_new_` w MySQL. W Neo4j skopiowane identyfikatory (np. `Order.customerId`) muszą zgadzać się z końcem relacji, a węzeł ma najwyżej jedną taką relację. Każda baza liczy własną funkcją odległość Kraków Główny → Warszawa Centralna. Wynik musi mieścić się w 250–253 km.
 
-Na końcu `python -m bench.check.verify --size S` liczy te same skróty z Parquet i drukuje tabelę 13 × 4. Każda różnica kończy polecenie błędem. Wynik trafia do `results/load/<rozmiar>.json`, a dla XS do `out/xs/results/load/XS.json`. Plik zawiera liczby wierszy, skróty, odległości, czas ładowania i rozmiar bazy na dysku. Czas ładowania zapisuje `make load`. Rozmiar to `pg_database_size` w PostgreSQL, suma plików przestrzeni tabel w MySQL, `totalSize` z `dbStats` w MongoDB i `du` katalogu bazy w Neo4j.
+Na końcu `python -m bench.check.verify --size S` liczy te same skróty z Parquet i drukuje tabelę 13 × 4. Każda różnica kończy polecenie błędem. Wynik trafia do `results/load/<rozmiar>.json`, a dla XS do `out/xs/results/load/XS.json`. Plik zawiera liczby wierszy, skróty, odległości, czas ładowania i rozmiar bazy na dysku. Czas ładowania zapisuje `make load`, który bez `ENGINE=…` ładuje po kolei cztery bazy. Rozmiar to `pg_database_size` w PostgreSQL, suma plików przestrzeni tabel w MySQL, `totalSize` z `dbStats` w MongoDB i `du` katalogu bazy w Neo4j.
 
 ## Konfiguracje i migawki
 

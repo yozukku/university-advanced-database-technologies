@@ -23,7 +23,7 @@ help:
 	    'app-up   Uruchom aplikację' 'app-down Zatrzymaj aplikację' \
 	    'data SIZE=XS|S|M|L Wygeneruj dane benchmarku' \
 	    'validate SIZE=XS|S|M|L Sprawdź dane benchmarku' \
-	    'load ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L Załaduj dane benchmarku do bazy' \
+	    'load SIZE=XS|S|M|L [ENGINE=…] Załaduj dane benchmarku do czterech baz po kolei' \
 	    'verify SIZE=XS|S|M|L Porównaj dane w czterech bazach z danymi kanonicznymi' \
 	    'snapshots SIZE=XS|S|M|L [ENGINE=…] Zapisz migawki BASE i IDX załadowanych baz' \
 	    'restore ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L CONFIG=base|idx Odtwórz bazę z migawki'
@@ -69,8 +69,17 @@ data:
 validate:
 	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.check --size "$(SIZE)"
 
+ifdef ENGINE
 load: up
 	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.load.$(ENGINE) --size "$(SIZE)"
+else
+load:
+	@$(BENCH) stop $(ENGINES)
+	@for engine in $(ENGINES); do \
+	    $(MAKE) --no-print-directory load ENGINE=$$engine && \
+	    $(BENCH) stop $$engine || exit 1; \
+	done
+endif
 
 verify:
 	@$(BENCH) stop $(ENGINES)
