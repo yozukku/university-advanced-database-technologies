@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 
+from bench.check.verify.results import record_load
 from bench.gen.profiles import load_profile
 
 from .loader import load
@@ -16,6 +17,7 @@ def main():
     for table, count in counts.items():
         print(f"{table}: {count:,}")
     print(f"shipLinks: {links:,}")
+    record_load(profile.size, "mongo", timings)
     phases = ", ".join(f"{phase} {seconds:.1f} s" for phase, seconds in timings.items())
     print(f"{profile.size}: {sum(counts.values()):,} rows loaded in {sum(timings.values()):.1f} s ({phases})")
 

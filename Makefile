@@ -11,7 +11,7 @@ BENCH = docker compose -f compose.bench.yaml
 APP = docker compose -p "$(COMPOSE_PROJECT_NAME)-app" -f compose.app.yaml
 ENGINES = pg mysql mongo neo4j
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -21,7 +21,8 @@ help:
 	    'app-up   Uruchom aplikację' 'app-down Zatrzymaj aplikację' \
 	    'data SIZE=XS|S|M|L Wygeneruj dane benchmarku' \
 	    'validate SIZE=XS|S|M|L Sprawdź dane benchmarku' \
-	    'load ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L Załaduj dane benchmarku do bazy'
+	    'load ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L Załaduj dane benchmarku do bazy' \
+	    'verify SIZE=XS|S|M|L Porównaj dane w czterech bazach z danymi kanonicznymi'
 
 check:
 	@tools/check-comments
@@ -66,3 +67,12 @@ validate:
 
 load: up
 	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.load.$(ENGINE) --size "$(SIZE)"
+
+verify:
+	@$(BENCH) stop $(ENGINES)
+	@for engine in $(ENGINES); do \
+	    $(MAKE) --no-print-directory up ENGINE=$$engine && \
+	    $(BENCH) run --rm -T --no-deps --build runner python -m bench.check.verify --size "$(SIZE)" --engine $$engine && \
+	    $(BENCH) stop $$engine || exit 1; \
+	done
+	@$(BENCH) run --rm -T --no-deps runner python -m bench.check.verify --size "$(SIZE)"

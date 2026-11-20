@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 
+from bench.check.verify.results import record_load
 from bench.gen.profiles import load_profile
 
 from .loader import load
@@ -15,6 +16,7 @@ def main():
     counts, timings = load(args.data or profile.destination)
     for name, count in counts.items():
         print(f"{name}: {count:,}")
+    record_load(profile.size, "neo4j", timings)
     phases = ", ".join(f"{phase} {seconds:.1f} s" for phase, seconds in timings.items())
     print(f"{profile.size}: {len(counts)} labels and relationship types equal canonical, "
           f"loaded in {sum(timings.values()):.1f} s ({phases})")
