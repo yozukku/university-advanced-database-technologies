@@ -9,7 +9,8 @@ ENGINES = {"pg", "mysql", "mongo", "neo4j"}
 def main():
     project = os.environ["COMPOSE_PROJECT_NAME"]
     client = docker.from_env()
-    containers = client.containers.list(filters={"label": f"com.docker.compose.project={project}"})
+    containers = client.containers.list(
+        filters={"label": [f"com.docker.compose.project={project}", "com.docker.compose.oneoff=False"]})
     engines = sorted(container.name for container in containers
                      if container.labels.get("com.docker.compose.service") in ENGINES)
     if len(engines) > 1:

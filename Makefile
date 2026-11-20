@@ -10,8 +10,10 @@ SIZE ?= S
 BENCH = docker compose -f compose.bench.yaml
 APP = docker compose -p "$(COMPOSE_PROJECT_NAME)-app" -f compose.app.yaml
 ENGINES = pg mysql mongo neo4j
+SNAPSHOTS = out/snapshots/$(COMPOSE_PROJECT_NAME)
+STATE = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner.state
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -22,7 +24,9 @@ help:
 	    'data SIZE=XS|S|M|L Wygeneruj dane benchmarku' \
 	    'validate SIZE=XS|S|M|L Sprawdź dane benchmarku' \
 	    'load ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L Załaduj dane benchmarku do bazy' \
-	    'verify SIZE=XS|S|M|L Porównaj dane w czterech bazach z danymi kanonicznymi'
+	    'verify SIZE=XS|S|M|L Porównaj dane w czterech bazach z danymi kanonicznymi' \
+	    'snapshots SIZE=XS|S|M|L [ENGINE=…] Zapisz migawki BASE i IDX załadowanych baz' \
+	    'restore ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L CONFIG=base|idx Odtwórz bazę z migawki'
 
 check:
 	@tools/check-comments
@@ -76,3 +80,18 @@ verify:
 	    $(BENCH) stop $$engine || exit 1; \
 	done
 	@$(BENCH) run --rm -T --no-deps runner python -m bench.check.verify --size "$(SIZE)"
+
+compose-config:
+	@mkdir -p "$(SNAPSHOTS)" && $(BENCH) --profile '*' config --format json > "$(SNAPSHOTS)/compose.json"
+
+snapshots: compose-config
+	@$(BENCH) stop $(ENGINES)
+	@for engine in $(or $(ENGINE),$(ENGINES)); do \
+	    $(MAKE) --no-print-directory up ENGINE=$$engine && \
+	    $(STATE) snapshots --size "$(SIZE)" --engine $$engine || exit 1; \
+	done
+
+restore: require-engine compose-config
+	@case "$(CONFIG)" in base|idx) ;; *) echo 'Ustaw CONFIG na base lub idx' >&2; exit 2;; esac
+	@$(BENCH) create "$(ENGINE)"
+	@$(STATE) restore --size "$(SIZE)" --engine "$(ENGINE)" --config "$(CONFIG)"

@@ -2,8 +2,12 @@ import json
 from pathlib import Path
 
 
+def directory(size):
+    return (Path("out/xs/results") if size == "XS" else Path("results")) / "load"
+
+
 def path(size):
-    return (Path("out/xs/results") if size == "XS" else Path("results")) / "load" / f"{size}.json"
+    return directory(size) / f"{size}.json"
 
 
 def read(size):

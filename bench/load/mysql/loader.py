@@ -1,4 +1,5 @@
 import json
+import re
 import tempfile
 import time
 from pathlib import Path
@@ -9,6 +10,7 @@ import mysql.connector
 from bench.gen.static import WKB_POINT
 
 DDL = Path("bench/ddl/mysql")
+INDEX = re.compile(r"create index (\w+)")
 SERVER = {"host": "mysql", "user": "root", "password": "bench-root", "allow_local_infile": True, "autocommit": True}
 DATABASE = "bagazomat"
 COLUMNS = """
@@ -128,3 +130,19 @@ def load(directory):
         if missing:
             raise ValueError(f"mysql.innodb_table_stats has no row for {sorted(missing)}")
     return counts, timings
+
+
+def timed(cursor, statement):
+    start = time.perf_counter()
+    result = fetch(cursor, statement)
+    return time.perf_counter() - start, result
+
+
+def apply_index(cursor):
+    built = {INDEX.search(statement)[1]: timed(cursor, statement)[0]
+             for statement in statements((DDL / "idx/indexes.sql").read_text())}
+    seconds, analyzed = timed(cursor, "analyze table audit_event_")
+    failed = [row for row in analyzed if row[2] != "status" or row[3] != "OK"]
+    if failed:
+        raise ValueError(f"analyze table: {failed}")
+    return built, {"analyze table audit_event_": seconds}

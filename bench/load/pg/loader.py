@@ -1,5 +1,6 @@
 import io
 import json
+import re
 import time
 from pathlib import Path
 
@@ -8,6 +9,7 @@ import psycopg
 import pyarrow.csv as csv
 
 DDL = Path("bench/ddl/pg")
+INDEX = re.compile(r"create index (\w+)")
 SERVER = "host=pg user=bench password=bench"
 DATABASE = "bagazomat"
 BATCH = 100_000
@@ -83,7 +85,15 @@ def load(directory):
     return counts, timings, timeout
 
 
+def timed(conn, statement):
+    start = time.perf_counter()
+    conn.execute(statement)
+    return time.perf_counter() - start
+
+
 def apply_index(conn):
-    run_script(conn, "idx/indexes.sql")
-    conn.execute("analyze audit_event_")
-    conn.execute("vacuum")
+    built = {}
+    for statement in (DDL / "idx/indexes.sql").read_text().split(";"):
+        if statement.strip():
+            built[INDEX.search(statement)[1]] = timed(conn, statement)
+    return built, {statement: timed(conn, statement) for statement in ("analyze audit_event_", "vacuum")}

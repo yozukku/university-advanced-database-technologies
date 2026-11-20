@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import socket
 import time
@@ -10,6 +11,7 @@ from neo4j import GraphDatabase
 from bench.transform.neo4j.transform import write
 
 DDL = Path("bench/ddl/neo4j")
+INDEX = re.compile(r"create \w+ index (\w+)")
 URI = "bolt://neo4j:7687"
 AUTH = ("neo4j", "benchmark")
 IMPORT = [
@@ -107,4 +109,16 @@ def load(directory):
 
 
 def apply_index(session):
-    run_script(session, "idx/indexes.cypher")
+    built, statistics = {}, {}
+    for statement in (DDL / "idx/indexes.cypher").read_text().split(";"):
+        statement = statement.strip()
+        if not statement:
+            continue
+        start = time.perf_counter()
+        session.run(statement).consume()
+        if index := INDEX.search(statement):
+            session.run("call db.awaitIndex($name, 3600)", name=index[1]).consume()
+            built[index[1]] = time.perf_counter() - start
+        else:
+            statistics[statement] = time.perf_counter() - start
+    return built, statistics

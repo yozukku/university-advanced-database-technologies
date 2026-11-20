@@ -108,4 +108,10 @@ def load(directory):
 
 
 def apply_index(db):
-    run_script(db, "idx/indexes.json")
+    built = {}
+    for command in json.loads((DDL / "idx/indexes.json").read_text()):
+        for index in command["indexes"]:
+            start = time.perf_counter()
+            db.command({"createIndexes": command["createIndexes"], "indexes": [index]})
+            built[index["name"]] = time.perf_counter() - start
+    return built, {}
