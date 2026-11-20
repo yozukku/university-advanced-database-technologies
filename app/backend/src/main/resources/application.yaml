@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: bagazomat
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/bagazomat}
+    username: ${DATABASE_USER:bagazomat}
+    password: ${DATABASE_PASSWORD:bagazomat}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER:http://localhost:8081/realms/bagazomat}
+          jwk-set-uri: ${KEYCLOAK_JWKS:http://localhost:8081/realms/bagazomat/protocol/openid-connect/certs}

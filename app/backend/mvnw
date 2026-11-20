@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+cd "$(dirname "$0")"
+java_command=java
+if [ -n "${JAVA_HOME:-}" ]; then
+    java_command="$JAVA_HOME/bin/java"
+fi
+exec "$java_command" "-Dmaven.multiModuleProjectDirectory=$PWD" \
+    -cp .mvn/wrapper/maven-wrapper.jar org.apache.maven.wrapper.MavenWrapperMain "$@"
