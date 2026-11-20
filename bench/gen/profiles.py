@@ -12,6 +12,7 @@ class Profile:
     records: int
     seed: int
     t0: datetime
+    pending_openings: int
 
     @property
     def destination(self):
@@ -28,4 +29,5 @@ def load_profile(size, source=Path("profiles.yaml")):
         settings["sizes"][size],
         settings["seed"],
         datetime.fromisoformat(settings["t0"]).astimezone(timezone.utc),
+        settings["pending_openings"][size],
     )

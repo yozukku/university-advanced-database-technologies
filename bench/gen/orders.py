@@ -1,12 +1,12 @@
 import heapq
 import uuid
 from dataclasses import dataclass
-from decimal import Decimal
 
 import numpy as np
 import pyarrow as pa
 
 from .people import company_pool, person_pools
+from .slices import unused_lockers
 from .static import SIZES, UTC_MS
 
 
@@ -22,7 +22,7 @@ OVERDUE = 12 * HOUR
 NEW_TERMS = -365 * DAY
 FOREVER = 2 ** 62
 NULL = np.iinfo(np.int64).min
-SIZE_SHARES = (0.5, 0.3, 0.2)
+SIZE_CYCLE = np.array([0, 0, 1, 0, 2, 0, 1, 0, 1, 2], dtype=np.int8)
 HEAVY_ORDERS = (60, 80)
 PARTNERS = 3
 COMPANIES = 512
@@ -61,7 +61,7 @@ def order_tables(profile, plan, statics):
     rng = profile.rng(2)
     t0 = int(profile.t0.timestamp())
     parts = [
-        (cohort, cohort_orders(rng, cohort, count, count * 3 // 4 if cohort.closed else count // 100))
+        (cohort, cohort_orders(rng, cohort, count, count * 3 // 4 if cohort.closed else count // 100, profile.pending_openings))
         for cohort, count in plan.cohorts
     ]
 
@@ -75,7 +75,8 @@ def order_tables(profile, plan, statics):
     }
     orders["status"] = np.concatenate([np.full(len(part["created"]), cohort.status) for cohort, part in parts])[by_time]
     orders["shipment"] = np.concatenate([np.full(len(part["created"]), cohort.shipment) for cohort, part in parts])[by_time]
-    orders["size"] = rng.choice(len(SIZES), len(created), p=SIZE_SHARES)
+    sizes = [np.resize(SIZE_CYCLE, len(part["created"])) for _, part in parts]
+    orders["size"] = np.concatenate(sizes)[by_time]
 
     legs = leg_arrays(parts, order_id)
     legs["size"] = orders["size"][legs["order"] - 1]
@@ -106,22 +107,28 @@ def order_tables(profile, plan, statics):
     return Orders(tables, stamps(t0, orders["paid"]))
 
 
-def cohort_orders(rng, cohort, count, old):
+def cohort_orders(rng, cohort, count, old, pending):
     recent = np.arange(count) >= old
     lead = rng.integers(30 * MINUTE, 3 * DAY, count)
     pay = rng.integers(5, DEADLINE - 5, count)
     start = np.zeros(count, np.int64)
     if cohort.shipment:
         origin = window(rng, start, rng.integers(12 * HOUR, 2 * DAY, count))
-        windows = [origin, window(rng, origin[1], rng.integers(DAY, 3 * DAY, count))]
+        windows = [origin, window(rng, origin[1] + 5 * DAY, rng.integers(DAY, 3 * DAY, count))]
     else:
-        windows = [window(rng, start, rng.integers(2 * HOUR, 4 * DAY, count))]
+        longest = 8 * HOUR if cohort.legs[0] == "OCCUPIED" else 4 * DAY
+        windows = [window(rng, start, rng.integers(2 * HOUR, longest, count))]
 
-    created = -lead
+    base_created = -lead
+    created = base_created.copy()
     earlier = rng.integers(-HISTORY, -RECENT, count)
     closed = np.full(count, NULL)
     if cohort.status == "AWAITING_PAYMENT":
-        shift = np.where(recent, rng.integers(-UNPAID, 0, count), earlier) - created
+        shift = rng.integers(DAY, HORIZON, count)
+        created = np.where(recent, rng.integers(-UNPAID, -DEADLINE, count), earlier) - shift
+        fresh = count // 10
+        if fresh:
+            created[-fresh:] = -5 * MINUTE - shift[-fresh:]
     elif cohort.closed:
         if cohort.status == "COMPLETED":
             closed = windows[-1][3]
@@ -132,14 +139,23 @@ def cohort_orders(rng, cohort, count, old):
         shift = np.where(recent, rng.integers(-RECENT, created - closed), earlier) - created
         closed = shift + closed
     elif set(cohort.legs) == {"BOOKED"}:
-        shift = rng.integers(0, HORIZON, count)
+        shift = rng.integers(DAY, HORIZON, count)
         created = np.where(recent, rng.integers(-RECENT, -DEADLINE, count), earlier) - shift
+        if cohort.name == "storage_booked":
+            missed = slice(old, old + count // 4)
+            shift[missed] = rng.integers(-15 * DAY, -5 * DAY, count // 4)
+            created[missed] = base_created[missed]
+            shift[-pending:] = -rng.integers(MINUTE, 2 * MINUTE + 1, pending)
+            created[-pending:] = base_created[-pending:]
     else:
         if cohort.legs[-1] == "OCCUPIED":
-            low, high = windows[-1][2], windows[-1][1] + OVERDUE
+            deposit, end = windows[-1][2], windows[-1][1]
+            shift = -rng.integers(np.maximum(deposit + 1, end - 6 * HOUR), end + 1)
+            overdue = count // 2
+            shift[:overdue] = -end[:overdue] - rng.integers(1, OVERDUE + 1, overdue)
+            shift[:old] = earlier[:old] - created[:old]
         else:
-            low, high = windows[0][3], windows[1][2]
-        shift = np.where(recent, -rng.integers(low + 1, high + 1), earlier - created)
+            shift = np.where(recent, -rng.integers(windows[0][3] + DAY, windows[1][0] + 1), earlier - created)
 
     created = shift + created
     paid = created + pay if cohort.paid else np.full(count, NULL)
@@ -198,11 +214,13 @@ def occupied_until(state, end, collect):
 
 
 def assign_cells(rng, statics, legs):
-    lockers = statics["lockermat_"].num_rows
+    count_lockers = statics["lockermat_"].num_rows
+    lockers = count_lockers - unused_lockers(count_lockers)
     groups = [[[] for _ in SIZES] for _ in range(lockers)]
     cells = statics["lockermat_cell_"]
     for cell, locker, size in zip(*(cells[name].to_pylist() for name in ("id_", "lockermat_id_", "size_"))):
-        groups[locker - 1][SIZES.index(size)].append(cell)
+        if locker <= lockers:
+            groups[locker - 1][SIZES.index(size)].append(cell)
     heaps = [[[(NULL, cell) for cell in group] for group in locker] for locker in groups]
 
     count = len(legs["order"])
@@ -365,7 +383,11 @@ def grosze(value):
 
 
 def money(values):
-    return pa.array([Decimal(int(value)).scaleb(-2) for value in values], MONEY)
+    values = np.asarray(values, dtype=np.int64)
+    limbs = np.empty((len(values), 2), dtype="<i8")
+    limbs[:, 0] = values
+    limbs[:, 1] = np.where(values < 0, -1, 0)
+    return pa.Array.from_buffers(MONEY, len(values), [None, pa.py_buffer(limbs)])
 
 
 def stamps(t0, seconds):

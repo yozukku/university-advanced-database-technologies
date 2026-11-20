@@ -5,3 +5,8 @@ sizes:
   S: 500000
   M: 1000000
   L: 10000000
+pending_openings:
+  XS: 10
+  S: 1000
+  M: 1000
+  L: 1000
