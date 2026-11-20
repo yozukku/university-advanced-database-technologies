@@ -16,6 +16,18 @@ export type Order = Omit<NewOrder, 'lockermatId'> & {
   cellNumber: number
 }
 export type AccessCode = { purpose: 'DROP_OFF' | 'PICK_UP'; pin: string; validFrom: string; validTo: string }
+export type Opening = { id: number; purpose: AccessCode['purpose']; result: 'OPENED' | 'DOOR_FAILED' | 'PENDING' }
+export type OrderEvent = { id: number; at: string; entity: string; action: string; actorKind: string }
+export type IncomingShipment = {
+  orderId: number
+  reservationId: number
+  status: string
+  lockermatName: string
+  lockermatAddress: string
+  cellNumber: number
+  from: string
+  to: string
+}
 
 const APP_URL = 'http://localhost:5173'
 const REALM_URL = 'http://localhost:8081/realms/bagazomat'
@@ -40,6 +52,22 @@ export function findOrder(user: User, orderId: number) {
 
 export function findCodes(user: User, orderId: number) {
   return call<AccessCode[]>(user, 'GET', `/api/orders/${orderId}/codes`)
+}
+
+export function payOrder(user: User, orderId: number) {
+  return call<unknown>(user, 'POST', `/api/orders/${orderId}/payments`, { result: 'SUCCESS' })
+}
+
+export function openCell(user: User, reservationId: number) {
+  return call<Opening>(user, 'POST', `/api/reservations/${reservationId}/open`)
+}
+
+export function findHistory(user: User, orderId: number) {
+  return call<OrderEvent[]>(user, 'GET', `/api/orders/${orderId}/history`)
+}
+
+export function simulateShipment(user: User) {
+  return call<IncomingShipment>(user, 'POST', '/api/dev/shipments')
 }
 
 async function call<T>(user: User, method: 'GET' | 'POST', path: string, data?: unknown) {
