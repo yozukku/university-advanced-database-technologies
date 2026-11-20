@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useSearchParams } from 'react-router'
 import { Button, EmptyState, Loading, Page, cx, formatWindow } from '../../ui'
+import { BookButton } from '../checkout/BookButton'
 import { Chips } from './Chips'
 import { PRESETS, SIZES, completeFilters, presetOf, presetWindow, readFilters, toParams, type Filters, type Size } from './filters'
 import { LockerCard } from './LockerCard'
@@ -42,6 +43,8 @@ function Lockers({ filters, onChange }: { filters: Filters; onChange: (next: Fil
   const places = useMemo(() => lockermats.data && placesOf(lockermats.data, filters.size), [lockermats.data, filters.size])
   const points = useMemo(() => places?.map(place => place.lockermat) ?? [], [places])
   const active = places?.find(place => place.lockermat.id === activeId)
+  const bookAction = ({ lockermat, offer }: Place) =>
+    offer.free > 0 && <BookButton order={{ lockermatId: lockermat.id, size: filters.size, from: filters.from, to: filters.to }} />
 
   return (
     <div className={styles.lockers}>
@@ -71,14 +74,14 @@ function Lockers({ filters, onChange }: { filters: Filters; onChange: (next: Fil
         </div>
         <ViewSwitch value={view} onChange={setView} />
         <div className={cx(view !== 'list' && styles.away)}>
-          <LockerList lockermats={lockermats} places={places} activeId={activeId} onSelect={setActiveId} />
+          <LockerList lockermats={lockermats} places={places} activeId={activeId} onSelect={setActiveId} action={bookAction} />
         </div>
       </div>
       <section aria-label="Mapa punktów" className={cx(styles.mapPanel, view !== 'map' && styles.away)}>
         <LockerMap points={points} activeId={activeId} onSelect={setActiveId} className={styles.map} />
         {view === 'map' && active && (
           <div className={styles.mapCard}>
-            <LockerCard lockermat={active.lockermat} offer={active.offer} />
+            <LockerCard lockermat={active.lockermat} offer={active.offer} action={bookAction(active)} />
           </div>
         )}
       </section>
@@ -91,9 +94,10 @@ type LockerListProps = {
   places: Place[] | undefined
   activeId: number | null
   onSelect: (id: number) => void
+  action: (place: Place) => ReactNode
 }
 
-function LockerList({ lockermats, places, activeId, onSelect }: LockerListProps) {
+function LockerList({ lockermats, places, activeId, onSelect, action }: LockerListProps) {
   if (!places) {
     if (lockermats.isError) {
       return (
@@ -112,13 +116,26 @@ function LockerList({ lockermats, places, activeId, onSelect }: LockerListProps)
   return (
     <ul aria-label="Punkty" className={styles.list}>
       {places.map(place => (
-        <LockerRow key={place.lockermat.id} place={place} active={place.lockermat.id === activeId} onSelect={onSelect} />
+        <LockerRow
+          key={place.lockermat.id}
+          place={place}
+          active={place.lockermat.id === activeId}
+          onSelect={onSelect}
+          action={place.lockermat.id === activeId && action(place)}
+        />
       ))}
     </ul>
   )
 }
 
-function LockerRow({ place: { lockermat, offer }, active, onSelect }: { place: Place; active: boolean; onSelect: (id: number) => void }) {
+type LockerRowProps = {
+  place: Place
+  active: boolean
+  onSelect: (id: number) => void
+  action: ReactNode
+}
+
+function LockerRow({ place: { lockermat, offer }, active, onSelect, action }: LockerRowProps) {
   const row = useRef<HTMLLIElement>(null)
 
   useEffect(() => {
@@ -129,7 +146,7 @@ function LockerRow({ place: { lockermat, offer }, active, onSelect }: { place: P
 
   return (
     <li ref={row} className={styles.row}>
-      <LockerCard lockermat={lockermat} offer={offer} active={active} onSelect={() => onSelect(lockermat.id)} />
+      <LockerCard lockermat={lockermat} offer={offer} active={active} onSelect={() => onSelect(lockermat.id)} action={action} />
     </li>
   )
 }

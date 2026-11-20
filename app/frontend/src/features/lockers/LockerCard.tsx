@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Card, cx, formatPrice } from '../../ui'
 import styles from './LockerCard.module.css'
 import type { Lockermat, Offer } from './lockermats'
@@ -10,9 +11,10 @@ type LockerCardProps = {
   offer: Offer
   active?: boolean
   onSelect?: () => void
+  action?: ReactNode
 }
 
-export function LockerCard({ lockermat, offer, active = false, onSelect }: LockerCardProps) {
+export function LockerCard({ lockermat, offer, active = false, onSelect, action }: LockerCardProps) {
   return (
     <Card className={cx(styles.card, onSelect && styles.selectable, active && styles.active)}>
       <div className={styles.place}>
@@ -31,6 +33,7 @@ export function LockerCard({ lockermat, offer, active = false, onSelect }: Locke
         <p className={styles.price}>{formatPrice(offer.price)}</p>
         <p className={cx(styles.free, offer.free === 0 && styles.none)}>{freeLabel(offer.free)}</p>
       </div>
+      {action && <div className={styles.action}>{action}</div>}
     </Card>
   )
 }

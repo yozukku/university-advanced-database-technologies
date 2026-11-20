@@ -6,7 +6,16 @@ export type Size = 'S' | 'M' | 'L'
 export type Offer = { size: Size; free: number; price: number }
 export type Lockermat = { id: number; name: string; address: string; lng: number; lat: number; sizes: Offer[] }
 export type NewOrder = { lockermatId: number; size: Size; from: string; to: string }
-export type Order = Omit<NewOrder, 'lockermatId'> & { id: number; number: string; status: string; price: number; reservationId: number; cellNumber: number }
+export type Order = Omit<NewOrder, 'lockermatId'> & {
+  id: number
+  number: string
+  status: string
+  price: number
+  paymentDeadline: string
+  reservationId: number
+  cellNumber: number
+}
+export type AccessCode = { purpose: 'DROP_OFF' | 'PICK_UP'; pin: string; validFrom: string; validTo: string }
 
 const APP_URL = 'http://localhost:5173'
 const REALM_URL = 'http://localhost:8081/realms/bagazomat'
@@ -23,6 +32,14 @@ export function findLockermats(user: User, from: string, to: string, q = '') {
 
 export function bookStorage(user: User, order: NewOrder) {
   return call<Order>(user, 'POST', '/api/orders', order)
+}
+
+export function findOrder(user: User, orderId: number) {
+  return call<Order>(user, 'GET', `/api/orders/${orderId}`)
+}
+
+export function findCodes(user: User, orderId: number) {
+  return call<AccessCode[]>(user, 'GET', `/api/orders/${orderId}/codes`)
 }
 
 async function call<T>(user: User, method: 'GET' | 'POST', path: string, data?: unknown) {
