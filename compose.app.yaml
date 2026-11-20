@@ -53,6 +53,22 @@ services:
       timeout: 4s
       retries: 60
 
+  frontend:
+    build: ./app/frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      APP_BACKEND_ORIGIN: http://backend:8080
+      VITE_KEYCLOAK_ISSUER: http://localhost:${APP_KEYCLOAK_PORT:-8081}/realms/bagazomat
+    ports:
+      - "127.0.0.1:5173:5173"
+    healthcheck:
+      test: [CMD, node, -e, 'fetch("http://127.0.0.1:5173/").then(response => { if (!response.ok) process.exit(1) }).catch(() => process.exit(1))']
+      interval: 2s
+      timeout: 4s
+      retries: 45
+
 volumes:
   app-pg-data:
   app-keycloak-data:

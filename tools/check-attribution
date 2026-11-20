@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 ATTRIBUTION = re.compile(
-    r"\b(?:[c]laude|[c]odex|[a]i)\b"
+    r"\b(?:[c]laude|[c]odex)\b|(?<!/)\b[a]i\b"
     r"|\bco[- ]authored[- ]by\s*:"
     r"|\b(?:[g]enerated|written|assisted)\s+(?:by|using|with)\s+(?:an?\s+)?"
     r"(?:assistant|language model|[c]hatgpt|[o]penai|[a]nthropic|[g]emini)\b",

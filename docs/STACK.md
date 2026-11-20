@@ -18,4 +18,6 @@ Spring Boot zarządza wersjami zależności. Do drzew JSON służy `tools.jackso
 - Kolumny wyliczane przez bazę pomijaj w encji lub mapuj z `insertable = false, updatable = false`.
 - Przed zapisem `access_code_` pobierz id poleceniem `select nextval('access_code_id_seq_')`. Wyprowadź z niego PIN i `code_hmac_`, a następnie wstaw rekord z tym samym id.
 
-Keycloak 26.4 używa własnego woluminu z bazą deweloperską. `make app-up` uruchamia PostgreSQL, Keycloak i backend. W przeglądarce issuer to `http://localhost:8081/realms/bagazomat`. Backend weryfikuje ten issuer i pobiera klucze z wewnętrznego adresu `http://keycloak:8080/realms/bagazomat/protocol/openid-connect/certs`.
+Keycloak 26.4 używa własnego woluminu z bazą deweloperską. `make app-up` uruchamia PostgreSQL, Keycloak, backend i frontend. W przeglądarce issuer to `http://localhost:8081/realms/bagazomat`. Backend weryfikuje ten issuer i pobiera klucze z wewnętrznego adresu `http://keycloak:8080/realms/bagazomat/protocol/openid-connect/certs`.
+
+Frontend korzysta z Node.js 22, Vite 8, React 19, TypeScript 6 i `react-oidc-context`. Po `make app-up` otwórz `http://localhost:5173`. Konto demonstracyjne to `anna` lub `jan` z hasłem `demo`. Uruchom `npm ci && npm run build` w `app/frontend`. Testy uruchomisz w `e2e` poleceniami `npm ci`, `npx playwright install chromium` oraz `npx playwright test`.
