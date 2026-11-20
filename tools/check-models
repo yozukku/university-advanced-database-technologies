@@ -1,0 +1,238 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+ENGINES = ("pg", "mysql", "mongo", "neo4j")
+SQL_TOKENS = re.compile(r"""'(?:[^']|'')*'|"(?:[^"]|"")*"|[(),]""")
+TABLE = re.compile(r"^create table\s+(\w+)\s*\(", re.IGNORECASE | re.MULTILINE)
+INDEX = re.compile(r"^create\s+(unique\s+)?index\s+(\w+)\s+on\s+(\w+)\s*(?:using\s+(\w+)\s*)?\(", re.I | re.M)
+CONSTRAINT = re.compile(r"\bconstraint\s+(\w+)\s+(foreign key|references|unique|check|exclude)\b", re.I)
+INDEX_KINDS = {"primary", "unique", "btree", "range", "multikey", "functional", "multi_valued",
+               "gist", "gin", "spatial", "point", "2dsphere", "fulltext", "exclusion", "lookup"}
+BA_READS = {"IX1": "R4", "IX2": "R5", "IX3": "R6", "IX4": "R7", "JX1": "J2", "JX2": "J4"}
+H1_WRITES = {"C2", "C3", "C4", "C6", "U1", "U5", "J1"}
+
+
+def require(condition, problem):
+    if not condition:
+        raise ValueError(problem)
+
+
+def split_body(source, start):
+    parts = []
+    beginning = start
+    depth = 0
+    for token in SQL_TOKENS.finditer(source, start):
+        kind = token.group()
+        if kind == ")" and depth == 0:
+            parts.append(source[beginning:token.start()].strip())
+            return parts, token.end()
+        if kind == "," and depth == 0:
+            parts.append(source[beginning:token.start()].strip())
+            beginning = token.end()
+        depth += (kind == "(") - (kind == ")")
+    raise ValueError("Unclosed parentheses in schema")
+
+
+def read_schema(source):
+    columns = {}
+    objects = {}
+    foreign_keys = {}
+    for table in TABLE.finditer(source):
+        scope = table[1]
+        fields, _ = split_body(source, table.end())
+        for field in fields:
+            name = field.split()[0]
+            column = not field.lower().startswith("constraint ")
+            if column:
+                columns[f"{scope}.{name}"] = "required" if re.search(r"\b(?:not null|primary key)\b", field, re.I) else "nullable"
+                if re.search(r"\bprimary key\b", field, re.I):
+                    objects[f"{scope}.{scope}_pkey"] = {"kind": "primary", "keys": [name]}
+
+            constraint = CONSTRAINT.search(field)
+            if not constraint:
+                continue
+            kind = constraint[2].lower()
+            identifier = f"{scope}.{constraint[1]}"
+            keys = []
+            extras = {}
+            if kind in ("unique", "foreign key"):
+                keys = [name] if column else split_body(field, field.index("(", constraint.end()) + 1)[0]
+            elif kind == "references":
+                kind, keys = "foreign key", [name]
+            elif kind == "exclude":
+                parts, end = split_body(field, field.index("(", constraint.end()) + 1)
+                keys = [part.rsplit(" with ", 1)[0] for part in parts]
+                tail = field[end:].strip()
+                if tail.startswith("where "):
+                    extras["predicate"] = tail[6:].removeprefix("(").removesuffix(")")
+            objects[identifier] = {"kind": kind, "keys": keys, **extras}
+            if kind == "foreign key":
+                foreign_keys[identifier] = keys
+
+    for index in INDEX.finditer(source):
+        keys, end = split_body(source, index.end())
+        tail = source[end:source.index(";", end)].strip()
+        predicate = tail[6:] if tail.startswith("where ") else ""
+        kind = "unique" if index[1] else (index[4] or "btree")
+        objects[f"{index[3]}.{index[2]}"] = {"kind": kind, "keys": keys, "predicate": predicate}
+    return columns, objects, foreign_keys
+
+
+def objects_for(entry, engine):
+    value = entry[engine]
+    return value if isinstance(value, list) else []
+
+
+def check_entry(label, entry):
+    require(set(entry) == set(ENGINES), f"{label} needs all four engines")
+    for engine, value in entry.items():
+        if isinstance(value, dict):
+            require(set(value) == {"not_needed"} and bool(value["not_needed"]), f"{label}/{engine} needs a reason")
+            continue
+        require(isinstance(value, list) and bool(value), f"{label}/{engine} needs objects or a reason")
+        for obj in value:
+            require(all(obj.get(field) for field in ("scope", "name", "kind")), f"{label}/{engine} has an unnamed object")
+            if obj["kind"] in INDEX_KINDS:
+                require(isinstance(obj.get("keys"), list), f"{label}/{engine} needs an ordered key list")
+
+
+def key_columns(obj):
+    return [re.sub(r"\s+(?:asc|desc)$", "", key, flags=re.IGNORECASE) for key in obj["keys"]]
+
+
+def derive_mysql_fk_indexes(foreign_keys, base, extras):
+    declared = [
+        obj for entry in [*base.values(), *extras.values()] for obj in objects_for(entry, "mysql")
+        if obj["kind"] in {"primary", "unique", "btree"} and not obj.get("predicate")
+    ]
+    missing = {}
+    for source, keys in foreign_keys.items():
+        scope = source.split(".")[0]
+        if any(obj["scope"] == scope and key_columns(obj)[:len(keys)] == keys for obj in declared):
+            continue
+        fk, = objects_for(base[source], "mysql")
+        missing[source] = {"scope": scope, "name": fk["name"], "kind": "btree", "keys": keys, "automatic": True}
+    return missing
+
+
+def check_columns(columns, models):
+    mapped = {}
+    for row in models.splitlines():
+        if not re.match(r"^\| \x60\w+\.\w+\x60 \|", row):
+            continue
+        column, mysql, mongo, neo4j, nullability = [cell.strip() for cell in row.split("|")[1:-1]]
+        column = column.strip(chr(96))
+        require(column not in mapped, f"Duplicate column mapping: {column}")
+        require(all(cell and cell != "—" for cell in (mysql, mongo, neo4j)), f"Incomplete column mapping: {column}")
+        mapped[column] = nullability
+    require(mapped == columns, f"Column mappings differ: missing={sorted(columns.keys() - mapped.keys())}, "
+            f"unknown={sorted(mapped.keys() - columns.keys())}, nullability="
+            f"{sorted(column for column in columns.keys() & mapped.keys() if columns[column] != mapped[column])}")
+
+
+def index_inventory(plan, engine):
+    inventory = {}
+    for entry in [*plan["base"].values(), *plan["base_extras"].values()]:
+        for obj in objects_for(entry, engine):
+            if obj["kind"] in INDEX_KINDS:
+                identifier = (obj["scope"], obj["name"])
+                require(inventory.get(identifier, obj) == obj, f"Conflicting {engine} objects named {identifier}")
+                inventory[identifier] = obj
+    if engine == "mysql":
+        for obj in plan["mysql_fk_support"].values():
+            identifier = (obj["scope"], obj["name"])
+            require(identifier not in inventory, f"Duplicate automatic MySQL index: {identifier}")
+            inventory[identifier] = obj
+    return inventory.values()
+
+
+def verify_idx(plan):
+    idx = plan["idx"]
+    require(set(idx) == set(BA_READS), "IDX must contain IX1–IX4 and JX1–JX2")
+    writes = {engine: set() for engine in ENGINES}
+    inventories = {engine: list(index_inventory(plan, engine)) for engine in ENGINES}
+    pg_leading = {(obj["scope"], key_columns(obj)[0]) for obj in inventories["pg"]
+                  if obj["keys"] and not obj.get("predicate")}
+
+    for name, row in idx.items():
+        check_entry(name, row["engines"])
+        require(row["reason"] and row["maintained_by"], f"Incomplete IDX entry: {name}")
+        require(row["serves"] == [BA_READS[name]], f"{name} must serve {BA_READS[name]}")
+        pg = objects_for(row["engines"], "pg")
+        for engine in ENGINES:
+            added = objects_for(row["engines"], engine)
+            expected = 0 if engine == "neo4j" and name.startswith("J") else 2 if name == "JX1" else 1
+            require(len(added) == expected, f"Wrong number of IDX objects for {name}/{engine}")
+            if added:
+                writes[engine].update(row["maintained_by"])
+
+            for candidate, logical in zip(added, pg):
+                keys = key_columns(candidate)
+                for base in inventories[engine]:
+                    if base["scope"] != candidate["scope"] or base.get("predicate") or not base["keys"]:
+                        continue
+                    require(key_columns(base) != keys, f"BASE {engine}/{base['name']} duplicates {name} keys")
+                    has_pg_prefix = (logical["scope"], key_columns(logical)[0]) in pg_leading
+                    require(key_columns(base)[0] != keys[0] or has_pg_prefix,
+                            f"BASE {engine}/{base['name']} shares the leading {name} key")
+
+    for engine in ENGINES:
+        expected = H1_WRITES - {"J1"} if engine == "neo4j" else H1_WRITES
+        require(expected <= writes[engine], f"H1 writes without added index maintenance in {engine}: {expected - writes[engine]}")
+
+
+def check_plan(schema, models, plan):
+    columns, schema_objects, foreign_keys = read_schema(schema)
+    tables = {column.split(".")[0] for column in columns}
+    require(len(tables) == 13, f"Expected 13 canonical tables, found {len(tables)}")
+    check_columns(columns, models)
+
+    base = plan["base"]
+    missing = schema_objects.keys() - base.keys()
+    unknown = base.keys() - schema_objects.keys()
+    require(not missing and not unknown, f"BASE entries differ: missing={sorted(missing)}, unknown={sorted(unknown)}")
+    for key, spec in schema_objects.items():
+        check_entry(key, base[key])
+        pg, = objects_for(base[key], "pg")
+        require((pg["scope"], pg["name"]) == tuple(key.split(".")), f"Mismatched PG identity: {key}")
+        require(pg["kind"] == spec["kind"] and pg.get("keys", []) == spec["keys"], f"Mismatched PG definition: {key}")
+        if "predicate" in spec:
+            require(pg.get("predicate", "") == spec["predicate"], f"Mismatched PG predicate: {key}")
+
+    extras = plan["base_extras"]
+    for key, entry in extras.items():
+        check_entry(key, entry)
+
+    expected_pg_support = {("reservation_", ("cell_id_", "size_")), ("cell_opening_", ("access_code_id_",))}
+    actual_pg_support = {(obj["scope"], tuple(obj["keys"])) for entry in extras.values() for obj in objects_for(entry, "pg")}
+    require(actual_pg_support == expected_pg_support, f"Unexpected PostgreSQL BASE additions: {actual_pg_support}")
+
+    derived = derive_mysql_fk_indexes(foreign_keys, base, extras)
+    require(derived == plan["mysql_fk_support"], f"MySQL FK indexes differ from schema-derived list: {sorted(derived)}")
+    verify_idx(plan)
+    print(f"{len(tables)} tables, {len(columns)} columns, {len(base)} BASE entries, "
+          f"{len(derived)} automatic MySQL FK indexes, {len(BA_READS)} BA reads, {len(H1_WRITES)} H1 writes")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--schema", type=Path, default=ROOT / "docs/design/schema.sql")
+    parser.add_argument("--models", type=Path, default=ROOT / "docs/bench/models.md")
+    parser.add_argument("--indexes", type=Path, default=ROOT / "docs/bench/indexes.yaml")
+    args = parser.parse_args()
+    try:
+        check_plan(args.schema.read_text(), args.models.read_text(), json.loads(args.indexes.read_text()))
+    except (KeyError, ValueError) as error:
+        print(error, file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
