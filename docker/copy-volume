@@ -1,0 +1,35 @@
+#!/bin/sh
+set -eu
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 SOURCE_VOLUME TARGET_VOLUME always|auto|never" >&2
+    exit 2
+fi
+
+source_volume=$1
+target_volume=$2
+mode=$3
+
+case "$mode" in
+    always|auto|never) ;;
+    *) exit 2 ;;
+esac
+
+if [ "$source_volume" = "$target_volume" ]; then
+    echo 'Source and target volumes must differ' >&2
+    exit 2
+fi
+
+for volume in "$source_volume" "$target_volume"; do
+    docker volume inspect "$volume" >/dev/null
+    if [ -n "$(docker ps -q --filter "volume=$volume")" ]; then
+        echo "Stop the container using volume $volume before copying" >&2
+        exit 1
+    fi
+done
+
+docker run --rm --network none --platform linux/arm64 \
+    --mount "type=volume,src=$source_volume,dst=/source,readonly" \
+    --mount "type=volume,src=$target_volume,dst=/target" \
+    debian:bookworm-slim@sha256:734a72b3d6142a71993b4bc580ca01d8ca687f77a2c422d96a961d3376b179bc \
+    sh -euc 'find /target -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +; cp -a --reflink="$1" /source/. /target/' sh "$mode"

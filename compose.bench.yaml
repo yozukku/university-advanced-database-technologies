@@ -1,0 +1,101 @@
+name: ${COMPOSE_PROJECT_NAME:-ztb}
+
+x-engine: &engine
+  platform: linux/arm64
+  cpus: 6
+  mem_limit: 8g
+  stop_grace_period: 120s
+
+services:
+  pg:
+    <<: *engine
+    profiles: [pg]
+    image: bagazomat-postgres:17-postgis
+    build: ./docker/postgres-postgis
+    environment:
+      POSTGRES_USER: bench
+      POSTGRES_PASSWORD: bench
+      POSTGRES_DB: bagazomat
+      POSTGRES_INITDB_ARGS: --locale-provider=builtin --builtin-locale=C.UTF-8 --encoding=UTF8
+    command: [postgres, -c, config_file=/etc/ztb/postgresql.conf]
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - ./docker/conf/pg/postgresql.conf:/etc/ztb/postgresql.conf:ro
+      - ./docker/conf/pg/postgis.sql:/docker-entrypoint-initdb.d/postgis.sql:ro
+    healthcheck:
+      test: [CMD, pg_isready, -h, 127.0.0.1, -U, bench, -d, bagazomat]
+      interval: 2s
+      timeout: 3s
+      retries: 45
+
+  mysql:
+    <<: *engine
+    profiles: [mysql]
+    image: mysql:8.4@sha256:a81d043930e51745522bd5c430961cf8286f0a23f0a9a2a6e0108f7ea71b0902
+    environment:
+      MYSQL_ROOT_PASSWORD: bench-root
+      MYSQL_USER: bench
+      MYSQL_PASSWORD: bench
+      MYSQL_DATABASE: bagazomat
+    command: [mysqld, --defaults-extra-file=/etc/ztb/my.cnf]
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/conf/mysql/my.cnf:/etc/ztb/my.cnf:ro
+    healthcheck:
+      test: [CMD-SHELL, 'MYSQL_PWD="$$MYSQL_PASSWORD" mysql -h 127.0.0.1 -u "$$MYSQL_USER" "$$MYSQL_DATABASE" -e "select 1"']
+      interval: 2s
+      timeout: 4s
+      retries: 45
+
+  mongo:
+    <<: *engine
+    profiles: [mongo]
+    image: mongo:8.0@sha256:479e85ced54ffb8a40dade1dcde2da2a9ae858515b9415e9cc54bfb8f0575d01
+    command: [mongod, --config, /etc/ztb/mongod.yaml]
+    volumes:
+      - mongo-data:/data/db
+      - ./docker/conf/mongo/mongod.yaml:/etc/ztb/mongod.yaml:ro
+      - ./docker/conf/mongo/ready.js:/etc/ztb/ready.js:ro
+    tmpfs:
+      - /data/configdb
+    healthcheck:
+      test: [CMD, mongosh, --quiet, --norc, --host, 127.0.0.1, --file, /etc/ztb/ready.js]
+      interval: 2s
+      timeout: 10s
+      retries: 45
+
+  neo4j:
+    <<: *engine
+    profiles: [neo4j]
+    image: neo4j:5.26-community@sha256:577eb43120e8688e62e753e962c47d30044ecaa95147ee5386c29f226b878008
+    env_file: ./docker/conf/neo4j/settings.env
+    environment:
+      NEO4J_AUTH: neo4j/benchmark
+    volumes:
+      - neo4j-data:/data
+    tmpfs:
+      - /logs
+    healthcheck:
+      test: [CMD-SHELL, 'cypher-shell -u neo4j -p "$${NEO4J_AUTH#*/}" "RETURN 1"']
+      interval: 2s
+      timeout: 10s
+      retries: 45
+
+  runner:
+    profiles: [tools]
+    platform: linux/arm64
+    cpus: 4
+    build: ./docker/runner
+    environment:
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME:-ztb}
+      ZTB_HOST_MACOS: ${ZTB_HOST_MACOS:-unknown}
+      ZTB_HOST_MODEL: ${ZTB_HOST_MODEL:-unknown}
+      ZTB_HOST_ORBSTACK: ${ZTB_HOST_ORBSTACK:-unknown}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  pg-data:
+  mysql-data:
+  mongo-data:
+  neo4j-data:
