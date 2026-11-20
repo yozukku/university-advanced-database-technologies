@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+ATTRIBUTION = re.compile(
+    r"\b(?:[c]laude|[c]odex|[a]i)\b"
+    r"|\bco[- ]authored[- ]by\s*:"
+    r"|\b(?:[g]enerated|written|assisted)\s+(?:by|using|with)\s+(?:an?\s+)?"
+    r"(?:assistant|language model|[c]hatgpt|[o]penai|[a]nthropic|[g]emini)\b",
+    re.IGNORECASE,
+)
+MESSAGE = re.compile(r"\b[g]enerated\b", re.IGNORECASE)
+
+
+def check(path, pattern):
+    try:
+        source = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return True
+
+    for line, text in enumerate(source.splitlines(), 1):
+        if pattern.search(text):
+            print(f"{path}:{line}: niedozwolony wpis o autorstwie", file=sys.stderr)
+            return False
+    return True
+
+
+def main():
+    if len(sys.argv) == 3 and sys.argv[1] == "--message":
+        path = Path(sys.argv[2])
+        return int(not (check(path, ATTRIBUTION) and check(path, MESSAGE)))
+
+    root = Path(__file__).resolve().parent.parent
+    entries = subprocess.check_output(
+        ["git", "-C", str(root), "ls-files", "-z", "--cached", "--others", "--exclude-standard"]
+    ).split(b"\0")
+    paths = {root / entry.decode() for entry in entries if entry}
+    return int(not all([check(path, ATTRIBUTION) for path in sorted(paths) if path.is_file()]))
+
+
+if __name__ == "__main__":
+    sys.exit(main())
