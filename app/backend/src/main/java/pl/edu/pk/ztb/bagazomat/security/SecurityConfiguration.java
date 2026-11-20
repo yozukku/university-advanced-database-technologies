@@ -11,8 +11,8 @@ import org.springframework.security.web.SecurityFilterChain;
 class SecurityConfiguration {
 
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
+	SecurityFilterChain securityFilterChain(HttpSecurity http, KnownCustomerAuthorizationManager knownCustomer) throws Exception {
+		return http.authorizeHttpRequests(requests -> requests.anyRequest().access(knownCustomer))
 				.oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
 				.build();
 	}

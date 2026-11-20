@@ -18,6 +18,8 @@ Spring Boot zarządza wersjami zależności. Do drzew JSON służy `tools.jackso
 - Kolumny wyliczane przez bazę pomijaj w encji lub mapuj z `insertable = false, updatable = false`.
 - Przed zapisem `access_code_` pobierz id poleceniem `select nextval('access_code_id_seq_')`. Wyprowadź z niego PIN i `code_hmac_`, a następnie wstaw rekord z tym samym id.
 
+Migracja `V2__demo_seed.sql` zapisuje dane demonstracyjne: 12 punktów w Krakowie, Warszawie, Gdańsku i Wrocławiu, po 12 skrytek w każdym (6 S, 4 M, 2 L), trzy otwarte taryfy oraz klientów `anna`, `jan` i nadawcę przesyłek demonstracyjnych bez konta w Keycloak. Punkty nie mają godzin otwarcia, więc działają całą dobę. API przyjmuje tylko token, którego `sub` jest równy `keycloak_id_` klienta z `customer_`. Inny token dostaje 403. Profil `dev`, włączony w `compose.app.yaml`, udostępnia `POST /api/dev/reset`. Endpoint czyści zamówienia, ich tabele zależne i `audit_event_`, a dane demonstracyjne zostawia.
+
 Keycloak 26.4 używa własnego woluminu z bazą deweloperską. `make app-up` uruchamia PostgreSQL, Keycloak, backend i frontend. W przeglądarce issuer to `http://localhost:8081/realms/bagazomat`. Backend weryfikuje ten issuer i pobiera klucze z wewnętrznego adresu `http://keycloak:8080/realms/bagazomat/protocol/openid-connect/certs`.
 
 Frontend korzysta z Node.js 22, Vite 8, React 19, TypeScript 6 i `react-oidc-context`. Po `make app-up` otwórz `http://localhost:5173`. Konto demonstracyjne to `anna` lub `jan` z hasłem `demo`. Uruchom `npm ci && npm run build` w `app/frontend`. Testy uruchomisz w `e2e` poleceniami `npm ci`, `npx playwright install chromium` oraz `npx playwright test`.

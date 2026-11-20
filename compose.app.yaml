@@ -42,6 +42,7 @@ services:
       keycloak:
         condition: service_healthy
     environment:
+      SPRING_PROFILES_ACTIVE: dev
       DATABASE_URL: jdbc:postgresql://postgres:5432/bagazomat
       KEYCLOAK_ISSUER: http://localhost:${APP_KEYCLOAK_PORT:-8081}/realms/bagazomat
       KEYCLOAK_JWKS: http://keycloak:8080/realms/bagazomat/protocol/openid-connect/certs
