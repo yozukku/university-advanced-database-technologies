@@ -49,6 +49,12 @@ class ApiAccessTests {
 				.andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
 
+	@Test
+	void hidesShipmentSimulationOutsideDevProfile() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/dev/shipments").with(tokenFor(ANNA)).with(SecurityMockMvcRequestPostProcessors.csrf()))
+				.andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
+
 	private RequestPostProcessor tokenFor(String subject) {
 		return SecurityMockMvcRequestPostProcessors.jwt().jwt(jwt -> jwt.subject(subject));
 	}

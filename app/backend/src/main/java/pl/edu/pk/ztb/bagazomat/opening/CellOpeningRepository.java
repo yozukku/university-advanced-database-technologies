@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.NativeQuery;
 import pl.edu.pk.ztb.bagazomat.order.Reservation;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /** @author Anton Gorokh */
@@ -21,6 +22,19 @@ public interface CellOpeningRepository extends JpaRepository<CellOpening, Long> 
 
 	@NativeQuery("select nextval('cell_opening_id_seq_')")
 	long nextId();
+
+	@NativeQuery("""
+			select o.id_ as "orderId", r.leg_ as leg, s.recipient_phone_ as "recipientPhone"
+			from order_ o
+			         join reservation_ r on r.order_id_ = o.id_
+			         join customer_ u on u.keycloak_id_ = :subject
+			         left join shipment_ s on s.order_id_ = o.id_
+			where r.id_ = :reservationId
+			  and ((r.leg_ = 'STORAGE' and o.customer_id_ = u.id_)
+			    or (r.leg_ = 'DESTINATION' and s.recipient_phone_ = u.phone_))
+			for update of o
+			""")
+	Optional<OpenableLeg> lockOrderOfOpenableLeg(UUID subject, long reservationId);
 
 	@NativeQuery("""
 			select r.status_
@@ -52,9 +66,14 @@ public interface CellOpeningRepository extends JpaRepository<CellOpening, Long> 
 			                            where p.result_ = 'PENDING' and coalesce(pr.cell_id_, pi.cell_id_) = r.cell_id_))
 			    or (a.purpose_ = 'PICK_UP' and r.status_ = 'OCCUPIED'))
 			  and a.purpose_ = :purpose
-			  and r.leg_ = 'STORAGE'
-			  and exists (select 1 from customer_ u
-			              where u.id_ = o.customer_id_ and u.keycloak_id_ = :subject)
+			  and ((r.leg_ = 'STORAGE'
+			        and exists (select 1 from customer_ u
+			                    where u.id_ = o.customer_id_ and u.keycloak_id_ = :subject))
+			    or (r.leg_ = 'DESTINATION' and a.purpose_ = 'PICK_UP'
+			        and exists (select 1
+			                    from shipment_ s
+			                             join customer_ u on u.phone_ = s.recipient_phone_
+			                    where s.order_id_ = o.id_ and u.keycloak_id_ = :subject)))
 			""")
 	int insertAppOpening(long id, long reservationId, String purpose, UUID subject);
 
@@ -82,4 +101,13 @@ public interface CellOpeningRepository extends JpaRepository<CellOpening, Long> 
 	@Modifying
 	@NativeQuery("update cell_opening_ set result_ = 'DOOR_FAILED' where id_ = :id and result_ = 'PENDING'")
 	void markDoorFailed(long id);
+
+	interface OpenableLeg {
+
+		Long getOrderId();
+
+		Reservation.Leg getLeg();
+
+		String getRecipientPhone();
+	}
 }

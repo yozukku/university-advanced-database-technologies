@@ -44,21 +44,21 @@ class OpeningService {
 		PendingOpening opening = transactionTemplate.execute(status -> request(jwt, reservationId));
 		CellOpening.Result result = doorGateway.open(opening.id());
 		if (result != CellOpening.Result.PENDING) {
-			transactionTemplate.executeWithoutResult(status -> recordReply(jwt, opening, result));
+			transactionTemplate.executeWithoutResult(status -> recordReply(opening, result));
 		}
 		return new OpeningView(opening.id(), opening.purpose(), result);
 	}
 
 	private PendingOpening request(Jwt jwt, long reservationId) {
-		long orderId = lockOrder(jwt, reservationId);
-		rejectPendingOpening(orderId);
+		CellOpeningRepository.OpenableLeg leg = lockOrder(jwt, reservationId);
+		rejectPendingOpening(leg.getOrderId());
 		AccessCode.Purpose purpose = purposeOf(cellOpeningRepository.lockCell(reservationId));
 		long openingId = insertOpening(jwt, reservationId, purpose);
-		return new PendingOpening(openingId, orderId, reservationId, purpose);
+		return new PendingOpening(openingId, leg.getOrderId(), reservationId, purpose, actorOf(jwt, leg));
 	}
 
-	private long lockOrder(Jwt jwt, long reservationId) {
-		return orderRepository.lockStorageOrderOfLeg(subjectOf(jwt), reservationId)
+	private CellOpeningRepository.OpenableLeg lockOrder(Jwt jwt, long reservationId) {
+		return cellOpeningRepository.lockOrderOfOpenableLeg(subjectOf(jwt), reservationId)
 				.orElseThrow(NotFoundException::new);
 	}
 
@@ -84,29 +84,36 @@ class OpeningService {
 		return openingId;
 	}
 
-	private void recordReply(Jwt jwt, PendingOpening opening, CellOpening.Result result) {
+	private AuditActor actorOf(Jwt jwt, CellOpeningRepository.OpenableLeg leg) {
+		if (leg.getLeg() == Reservation.Leg.DESTINATION) {
+			return AuditActor.recipient(jwt, leg.getRecipientPhone());
+		}
+		return AuditActor.customer(jwt);
+	}
+
+	private void recordReply(PendingOpening opening, CellOpening.Result result) {
 		orderRepository.lockOrder(opening.orderId());
 		if (result == CellOpening.Result.DOOR_FAILED) {
 			cellOpeningRepository.markDoorFailed(opening.id());
 			return;
 		}
-		confirmOpened(jwt, opening);
+		confirmOpened(opening);
 	}
 
-	private void confirmOpened(Jwt jwt, PendingOpening opening) {
+	private void confirmOpened(PendingOpening opening) {
 		if (cellOpeningRepository.markOpened(opening.id()) == 0) {
 			throw new ConflictException(NOT_CONFIRMED);
 		}
 		if (opening.purpose() == AccessCode.Purpose.DROP_OFF) {
-			writeLegEvent(jwt, opening, DEPOSITED, Reservation.Status.BOOKED, Reservation.Status.OCCUPIED);
+			writeLegEvent(opening, DEPOSITED, Reservation.Status.BOOKED, Reservation.Status.OCCUPIED);
 			return;
 		}
-		writeLegEvent(jwt, opening, COLLECTED, Reservation.Status.OCCUPIED, Reservation.Status.COMPLETED);
+		writeLegEvent(opening, COLLECTED, Reservation.Status.OCCUPIED, Reservation.Status.COMPLETED);
 		orderRepository.markCompleted(opening.orderId());
 	}
 
-	private void writeLegEvent(Jwt jwt, PendingOpening opening, String action, Reservation.Status previous, Reservation.Status next) {
-		auditWriter.write(AuditActor.customer(jwt), AuditEvent.EntityType.RESERVATION, opening.reservationId(), action,
+	private void writeLegEvent(PendingOpening opening, String action, Reservation.Status previous, Reservation.Status next) {
+		auditWriter.write(opening.actor(), AuditEvent.EntityType.RESERVATION, opening.reservationId(), action,
 				new AuditChange("status_", previous.name(), next.name()));
 	}
 

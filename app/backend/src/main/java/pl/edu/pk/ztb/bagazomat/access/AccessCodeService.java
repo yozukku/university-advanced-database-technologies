@@ -33,8 +33,15 @@ public class AccessCodeService {
 	public void issueStorageCodes(long orderId) {
 		Reservation leg = reservationRepository.findByOrderIdAndStatus(orderId, Reservation.Status.BOOKED)
 				.orElseThrow();
-		issue(leg, AccessCode.Purpose.DROP_OFF);
-		issue(leg, AccessCode.Purpose.PICK_UP);
+		issue(leg, AccessCode.Purpose.DROP_OFF, null);
+		issue(leg, AccessCode.Purpose.PICK_UP, null);
+	}
+
+	@Transactional(propagation = Propagation.MANDATORY)
+	public void issueRecipientPickUpCode(long reservationId, String phone) {
+		Reservation leg = reservationRepository.findById(reservationId)
+				.orElseThrow();
+		issue(leg, AccessCode.Purpose.PICK_UP, phone);
 	}
 
 	List<AccessCodeView> findActiveCodes(Jwt jwt, long orderId) {
@@ -46,10 +53,10 @@ public class AccessCodeService {
 				.toList();
 	}
 
-	private void issue(Reservation leg, AccessCode.Purpose purpose) {
+	private void issue(Reservation leg, AccessCode.Purpose purpose, String sentToPhone) {
 		long id = accessCodeRepository.nextId();
 		byte[] codeHmac = accessCodeHmac.codeHmacOf(accessCodeHmac.pinOf(id));
-		accessCodeRepository.saveAndFlush(new AccessCode(id, leg.getId(), purpose, codeHmac, leg.getFrom(), leg.getTo()));
+		accessCodeRepository.saveAndFlush(new AccessCode(id, leg.getId(), purpose, codeHmac, sentToPhone, leg.getFrom(), leg.getTo()));
 	}
 
 	private AccessCodeView toView(AccessCode code) {

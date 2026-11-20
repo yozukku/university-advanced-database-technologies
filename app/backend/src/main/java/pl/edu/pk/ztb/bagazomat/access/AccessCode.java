@@ -53,10 +53,15 @@ public class AccessCode {
 	}
 
 	public AccessCode(Long id, Long reservationId, Purpose purpose, byte[] codeHmac, Instant validFrom, Instant validTo) {
+		this(id, reservationId, purpose, codeHmac, null, validFrom, validTo);
+	}
+
+	public AccessCode(Long id, Long reservationId, Purpose purpose, byte[] codeHmac, String sentToPhone, Instant validFrom, Instant validTo) {
 		this.id = id;
 		this.reservationId = reservationId;
 		this.purpose = purpose;
 		this.codeHmac = codeHmac;
+		this.sentToPhone = sentToPhone;
 		this.validFrom = validFrom;
 		this.validTo = validTo;
 	}

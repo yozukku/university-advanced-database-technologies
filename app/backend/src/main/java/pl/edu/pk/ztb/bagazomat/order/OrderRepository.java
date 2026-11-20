@@ -57,16 +57,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			""")
 	Optional<Order.Status> lockStorageOrder(UUID subject, long id);
 
-	@NativeQuery("""
-			select o.id_
-			from order_ o
-			         join customer_ u on u.id_ = o.customer_id_
-			         join reservation_ r on r.order_id_ = o.id_
-			where r.id_ = :reservationId and r.leg_ = 'STORAGE' and u.keycloak_id_ = :subject
-			for update of o
-			""")
-	Optional<Long> lockStorageOrderOfLeg(UUID subject, long reservationId);
-
 	@NativeQuery("select id_ from order_ where id_ = :id for update")
 	Optional<Long> lockOrder(long id);
 

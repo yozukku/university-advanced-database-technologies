@@ -1,7 +1,8 @@
 package pl.edu.pk.ztb.bagazomat.opening;
 
 import pl.edu.pk.ztb.bagazomat.access.AccessCode;
+import pl.edu.pk.ztb.bagazomat.audit.AuditActor;
 
 /** @author Anton Gorokh */
-record PendingOpening(long id, long orderId, long reservationId, AccessCode.Purpose purpose) {
+record PendingOpening(long id, long orderId, long reservationId, AccessCode.Purpose purpose, AuditActor actor) {
 }
