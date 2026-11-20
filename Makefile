@@ -13,7 +13,7 @@ ENGINES = pg mysql mongo neo4j
 SNAPSHOTS = out/snapshots/$(COMPOSE_PROJECT_NAME)
 STATE = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner.state
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -26,7 +26,8 @@ help:
 	    'load SIZE=XS|S|M|L [ENGINE=…] Załaduj dane benchmarku do czterech baz po kolei' \
 	    'verify SIZE=XS|S|M|L Porównaj dane w czterech bazach z danymi kanonicznymi' \
 	    'snapshots SIZE=XS|S|M|L [ENGINE=…] Zapisz migawki BASE i IDX załadowanych baz' \
-	    'restore ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L CONFIG=base|idx Odtwórz bazę z migawki'
+	    'restore ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L CONFIG=base|idx Odtwórz bazę z migawki' \
+	    'test-scenarios SIZE=XS|S [K=…] Sprawdź scenariusze w czterech bazach na migawkach'
 
 check:
 	@tools/check-comments
@@ -104,3 +105,8 @@ restore: require-engine compose-config
 	@case "$(CONFIG)" in base|idx) ;; *) echo 'Ustaw CONFIG na base lub idx' >&2; exit 2;; esac
 	@$(BENCH) create "$(ENGINE)"
 	@$(STATE) restore --size "$(SIZE)" --engine "$(ENGINE)" --config "$(CONFIG)"
+
+test-scenarios: compose-config
+	@$(BENCH) stop $(ENGINES)
+	@$(BENCH) create $(ENGINES)
+	@$(BENCH) run --rm -T --no-deps --build runner python -m pytest -p no:cacheprovider tests/scenarios --size "$(SIZE)" $(if $(K),-k "$(K)")

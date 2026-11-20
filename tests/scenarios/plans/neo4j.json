@@ -1,0 +1,125 @@
+{
+ "args": {
+  "GlobalMemory": 712,
+  "planner-impl": "IDP",
+  "Memory": 0,
+  "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+----------------------+----+-------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| Operator             | Id | Details                                         | Estimated Rows | Rows | DB Hits | Memory (Bytes) | Page Cache Hits/Misses |\n+----------------------+----+-------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +ProduceResults      |  0 | `o.status`, `count(*)`                          |              3 |    2 |       0 |              0 |                    0/0 |\n| |                    +----+-------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +EagerAggregation    |  1 | o.status AS `o.status`, count(*) AS `count(*)`  |              3 |    2 |       6 |            648 |                    0/0 |\n| |                    +----+-------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Filter              |  2 | o:Order                                         |              8 |    6 |       6 |                |                    0/0 |\n| |                    +----+-------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Expand(All)         |  3 | (anon_0)-[anon_1:PLACED]->(o)                   |              8 |    6 |       7 |                |                    0/0 |\n| |                    +----+-------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +NodeUniqueIndexSeek |  4 | UNIQUE anon_0:Customer(id) WHERE id = $customer |              1 |    1 |       2 |                |                    0/0 |\n+----------------------+----+-------------------------------------------------+----------------+------+---------+----------------+------------------------+\n\nTotal database accesses: 21, total allocated memory: 712\n",
+  "runtime": "SLOTTED",
+  "runtime-impl": "SLOTTED",
+  "version": "5",
+  "DbHits": 0,
+  "Details": "`o.status`, `count(*)`",
+  "planner-version": "5.26.33",
+  "runtime-version": "5.26.33",
+  "Id": 0,
+  "EstimatedRows": 2.8268961762579803,
+  "planner": "COST",
+  "PageCacheMisses": 0,
+  "Rows": 2,
+  "PageCacheHits": 0
+ },
+ "pageCacheMisses": 0,
+ "children": [
+  {
+   "args": {
+    "Details": "o.status AS `o.status`, count(*) AS `count(*)`",
+    "Memory": 648,
+    "Id": 1,
+    "EstimatedRows": 2.8268961762579803,
+    "PageCacheMisses": 0,
+    "DbHits": 6,
+    "Rows": 2,
+    "PageCacheHits": 0
+   },
+   "pageCacheMisses": 0,
+   "children": [
+    {
+     "args": {
+      "Details": "o:Order",
+      "Id": 2,
+      "PageCacheMisses": 0,
+      "EstimatedRows": 7.991341991341991,
+      "DbHits": 6,
+      "Rows": 6,
+      "PageCacheHits": 0
+     },
+     "pageCacheMisses": 0,
+     "children": [
+      {
+       "args": {
+        "Details": "(anon_0)-[anon_1:PLACED]->(o)",
+        "Id": 3,
+        "PageCacheMisses": 0,
+        "EstimatedRows": 7.991341991341991,
+        "DbHits": 7,
+        "Rows": 6,
+        "PageCacheHits": 0
+       },
+       "pageCacheMisses": 0,
+       "children": [
+        {
+         "args": {
+          "Details": "UNIQUE anon_0:Customer(id) WHERE id = $customer",
+          "Id": 4,
+          "PageCacheMisses": 0,
+          "EstimatedRows": 1.0,
+          "DbHits": 2,
+          "Rows": 1,
+          "PageCacheHits": 0
+         },
+         "pageCacheMisses": 0,
+         "dbHits": 2,
+         "identifiers": [
+          "anon_0"
+         ],
+         "operatorType": "NodeUniqueIndexSeek@neo4j",
+         "rows": 1,
+         "pageCacheHitRatio": 0.0,
+         "pageCacheHits": 0
+        }
+       ],
+       "dbHits": 7,
+       "identifiers": [
+        "anon_0",
+        "anon_1",
+        "o"
+       ],
+       "operatorType": "Expand(All)@neo4j",
+       "rows": 6,
+       "pageCacheHitRatio": 0.0,
+       "pageCacheHits": 0
+      }
+     ],
+     "dbHits": 6,
+     "identifiers": [
+      "anon_0",
+      "anon_1",
+      "o"
+     ],
+     "operatorType": "Filter@neo4j",
+     "rows": 6,
+     "pageCacheHitRatio": 0.0,
+     "pageCacheHits": 0
+    }
+   ],
+   "dbHits": 6,
+   "identifiers": [
+    "`o.status`",
+    "`count(*)`"
+   ],
+   "operatorType": "EagerAggregation@neo4j",
+   "rows": 2,
+   "pageCacheHitRatio": 0.0,
+   "pageCacheHits": 0
+  }
+ ],
+ "dbHits": 0,
+ "identifiers": [
+  "`o.status`",
+  "`count(*)`"
+ ],
+ "operatorType": "ProduceResults@neo4j",
+ "rows": 2,
+ "pageCacheHitRatio": 0.0,
+ "pageCacheHits": 0
+}

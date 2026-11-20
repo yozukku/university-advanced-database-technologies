@@ -1,0 +1,233 @@
+{
+ "explainVersion": "2",
+ "queryPlanner": {
+  "namespace": "bagazomat.orders",
+  "parsedQuery": {
+   "customerId": {
+    "$eq": 132
+   }
+  },
+  "indexFilterSet": false,
+  "queryHash": "B033FE16",
+  "planCacheShapeHash": "B033FE16",
+  "planCacheKey": "FB3947E5",
+  "optimizationTimeMillis": 0,
+  "optimizedPipeline": true,
+  "maxIndexedOrSolutionsReached": false,
+  "maxIndexedAndSolutionsReached": false,
+  "maxScansToExplodeReached": false,
+  "prunedSimilarIndexes": false,
+  "winningPlan": {
+   "isCached": false,
+   "queryPlan": {
+    "stage": "GROUP",
+    "planNodeId": 4,
+    "inputStage": {
+     "stage": "FETCH",
+     "planNodeId": 2,
+     "inputStage": {
+      "stage": "IXSCAN",
+      "planNodeId": 1,
+      "keyPattern": {
+       "customerId": 1,
+       "createdAt": -1
+      },
+      "indexName": "order_customer_created__idx",
+      "isMultiKey": false,
+      "multiKeyPaths": {
+       "customerId": [],
+       "createdAt": []
+      },
+      "isUnique": false,
+      "isSparse": false,
+      "isPartial": false,
+      "indexVersion": 2,
+      "direction": "forward",
+      "indexBounds": {
+       "customerId": [
+        "[132, 132]"
+       ],
+       "createdAt": [
+        "[MaxKey, MinKey]"
+       ]
+      }
+     }
+    }
+   },
+   "slotBasedPlan": {
+    "slots": "$$RESULT=s13 env: { s5 = {\"customerId\" : 1, \"createdAt\" : -1} }",
+    "stages": "[4] project [s13 = newBsonObj(\"_id\", s10, \"orders\", s12)] \n[4] project [s12 = (convert ( s11, int32) ?: s11)] \n[4] group [s10] [s11 = count()] spillSlots[s9] mergingExprs[sum(s9)] \n[4] project [s10 = (s8 ?: null)] \n[2] nlj inner [] [s1, s2, s3, s4, s5] \n    left \n        [1] ixseek KS(2C01080F0104) KS(2C0108F5FE04) s4 s1 s2 s3 [] @\"2d141d33-a16a-49b3-9356-9ef92ce16c44\" @\"order_customer_created__idx\" true \n    right \n        [2] limit 1ll \n        [2] seek s1 s6 s7 s2 s3 s4 s5 none none [s8 = status] @\"2d141d33-a16a-49b3-9356-9ef92ce16c44\" true false \n"
+   }
+  },
+  "rejectedPlans": []
+ },
+ "executionStats": {
+  "executionSuccess": true,
+  "nReturned": 2,
+  "executionTimeMillis": 2,
+  "totalKeysExamined": 6,
+  "totalDocsExamined": 6,
+  "executionStages": {
+   "stage": "project",
+   "planNodeId": 4,
+   "nReturned": 2,
+   "executionTimeMillisEstimate": 0,
+   "opens": 1,
+   "closes": 1,
+   "saveState": 0,
+   "restoreState": 0,
+   "isEOF": 1,
+   "projections": {
+    "13": "newBsonObj(\"_id\", s10, \"orders\", s12) "
+   },
+   "inputStage": {
+    "stage": "project",
+    "planNodeId": 4,
+    "nReturned": 2,
+    "executionTimeMillisEstimate": 0,
+    "opens": 1,
+    "closes": 1,
+    "saveState": 0,
+    "restoreState": 0,
+    "isEOF": 1,
+    "projections": {
+     "12": "(convert ( s11, int32) ?: s11) "
+    },
+    "inputStage": {
+     "stage": "group",
+     "planNodeId": 4,
+     "nReturned": 2,
+     "executionTimeMillisEstimate": 0,
+     "opens": 1,
+     "closes": 1,
+     "saveState": 0,
+     "restoreState": 0,
+     "isEOF": 1,
+     "groupBySlots": [
+      10
+     ],
+     "expressions": {
+      "11": "count() ",
+      "initExprs": {
+       "11": null
+      }
+     },
+     "mergingExprs": {
+      "9": "sum(s9) "
+     },
+     "usedDisk": false,
+     "spills": 0,
+     "spilledBytes": 0,
+     "spilledRecords": 0,
+     "spilledDataStorageSize": 0,
+     "inputStage": {
+      "stage": "project",
+      "planNodeId": 4,
+      "nReturned": 6,
+      "executionTimeMillisEstimate": 0,
+      "opens": 1,
+      "closes": 1,
+      "saveState": 0,
+      "restoreState": 0,
+      "isEOF": 1,
+      "projections": {
+       "10": "(s8 ?: null) "
+      },
+      "inputStage": {
+       "stage": "nlj",
+       "planNodeId": 2,
+       "nReturned": 6,
+       "executionTimeMillisEstimate": 0,
+       "opens": 1,
+       "closes": 1,
+       "saveState": 0,
+       "restoreState": 0,
+       "isEOF": 1,
+       "totalDocsExamined": 6,
+       "totalKeysExamined": 6,
+       "collectionScans": 0,
+       "collectionSeeks": 6,
+       "indexScans": 0,
+       "indexSeeks": 1,
+       "indexesUsed": [
+        "order_customer_created__idx"
+       ],
+       "innerOpens": 6,
+       "innerCloses": 1,
+       "outerProjects": [],
+       "outerCorrelated": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ],
+       "outerStage": {
+        "stage": "ixseek",
+        "planNodeId": 1,
+        "nReturned": 6,
+        "executionTimeMillisEstimate": 0,
+        "opens": 1,
+        "closes": 1,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "indexName": "order_customer_created__idx",
+        "keysExamined": 6,
+        "seeks": 1,
+        "numReads": 7,
+        "indexKeySlot": 4,
+        "recordIdSlot": 1,
+        "snapshotIdSlot": 2,
+        "indexIdentSlot": 3,
+        "outputSlots": [],
+        "indexKeysToInclude": "00000000000000000000000000000000",
+        "seekKeyLow": "KS(2C01080F0104) ",
+        "seekKeyHigh": "KS(2C0108F5FE04) "
+       },
+       "innerStage": {
+        "stage": "limit",
+        "planNodeId": 2,
+        "nReturned": 6,
+        "executionTimeMillisEstimate": 0,
+        "opens": 6,
+        "closes": 1,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "limit": 1,
+        "inputStage": {
+         "stage": "seek",
+         "planNodeId": 2,
+         "nReturned": 6,
+         "executionTimeMillisEstimate": 0,
+         "opens": 6,
+         "closes": 1,
+         "saveState": 0,
+         "restoreState": 0,
+         "isEOF": 0,
+         "numReads": 6,
+         "recordSlot": 6,
+         "recordIdSlot": 7,
+         "seekRecordIdSlot": 1,
+         "snapshotIdSlot": 2,
+         "indexIdentSlot": 3,
+         "indexKeySlot": 4,
+         "indexKeyPatternSlot": 5,
+         "scanFieldNames": [
+          "status"
+         ],
+         "scanFieldSlots": [
+          8
+         ]
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "queryShapeHash": "8591645CA18A29AEBD200CA7E68B09621E30EF41E9CC8F5D4FA0232AFBAC31C6",
+ "ok": 1.0
+}
