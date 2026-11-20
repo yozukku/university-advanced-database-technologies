@@ -37,3 +37,9 @@ DuckDB 2.0.1 sprawdza pliki Parquet bez uruchamiania testowanych SZBD.
 Funkcja `apply_index` z `bench/load/pg/loader.py` dodaje indeksy z `bench/ddl/pg/idx/`, analizuje tylko `audit_event_` i wykonuje `VACUUM`.
 
 Test katalogu porównuje `base/` bez `fk_support.sql` ze schematem `docs/design/schema.sql` zastosowanym wprost. Przy działającym PostgreSQL uruchom go poleceniem `docker compose -f compose.bench.yaml run --rm runner python -m unittest discover -s bench/load/tests`.
+
+## Schemat MySQL
+
+`bench/ddl/mysql/base/` odwzorowuje 13 tabel w InnoDB w kolejności ładowania z ROADMAP. `tables.sql` tworzy kolumny, kolumny wyliczane, PK, zwykłe UNIQUE, CHECK oraz tabelę blokad `excl_guard_`. `foreign_keys.sql` dodaje klucze obce. `indexes.sql` dodaje unikalne indeksy funkcyjne zamiast indeksów częściowych, indeksy CASE, indeksy schematu, indeksy sond, SPATIAL i FULLTEXT z parserem ngram. `triggers.sql` zastępuje pięć reguł EXCLUDE parami wyzwalaczy BEFORE INSERT i BEFORE UPDATE. `idx/indexes.sql` dodaje IX1–IX4, JX1 i JX2.
+
+Testy reguł korzystają z mysql-connector-python 26.10.0 i pytest 9.2.0. Przy działającym MySQL (`make up ENGINE=mysql`) uruchom je poleceniem `docker compose -f compose.bench.yaml run --rm runner python -m pytest -p no:cacheprovider bench/ddl/mysql/tests`. Testy łączą się jako root, tworzą własną bazę `ddl_rules_` i usuwają ją na końcu, więc nie zmieniają bazy `bagazomat`.
