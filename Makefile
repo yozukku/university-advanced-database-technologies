@@ -11,7 +11,7 @@ BENCH = docker compose -f compose.bench.yaml
 APP = docker compose -p "$(COMPOSE_PROJECT_NAME)-app" -f compose.app.yaml
 ENGINES = pg mysql mongo neo4j
 
-.PHONY: help check up ping down require-engine app-up app-down data
+.PHONY: help check up ping down require-engine app-up app-down data validate
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -19,7 +19,8 @@ help:
 	    'ping ENGINE=pg|mysql|mongo|neo4j  Sprawdź wersję i architekturę bazy' \
 	    'down ENGINE=pg|mysql|mongo|neo4j  Zatrzymaj bazę do pomiarów' \
 	    'app-up   Uruchom aplikację' 'app-down Zatrzymaj aplikację' \
-	    'data SIZE=XS|S|M|L Wygeneruj dane benchmarku'
+	    'data SIZE=XS|S|M|L Wygeneruj dane benchmarku' \
+	    'validate SIZE=XS|S|M|L Sprawdź dane benchmarku'
 
 check:
 	@tools/check-comments
@@ -58,3 +59,6 @@ app-down:
 
 data:
 	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.gen --size "$(SIZE)"
+
+validate:
+	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.check --size "$(SIZE)"

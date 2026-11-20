@@ -55,6 +55,7 @@ SHIPMENTS = pa.schema([
 class Orders:
     tables: dict
     paid_at: pa.Array
+    customer_pool: tuple
 
 
 def order_tables(profile, plan, statics):
@@ -104,7 +105,7 @@ def order_tables(profile, plan, statics):
         "reservation_": reservation_table(t0, legs),
         "shipment_": shipment_table(rng, t0, orders, recipient_pool, statics["lockermat_"].num_rows),
     }
-    return Orders(tables, stamps(t0, orders["paid"]))
+    return Orders(tables, stamps(t0, orders["paid"]), customer_pool)
 
 
 def cohort_orders(rng, cohort, count, old, pending):

@@ -1,0 +1,32 @@
+C1: {ops: 10000, ops_xs: 100, batch: 100}
+C2: {ops: 100000, ops_xs: 1000, batch: 1000}
+C3: {ops: 1000, ops_xs: 20, batch: 1, days_after_t0: 40, window_hours: 4}
+C4: {ops: 1000, ops_xs: 20, batch: 1, days_after_t0: 40, window_hours: 4}
+C5: {ops: 10000, ops_xs: 100, batch: 100}
+C6: {ops: null, ops_xs: null, batch: 5000}
+R1: {ops: 1000, ops_xs: 20}
+R2: {ops: 1000, ops_xs: 20, page: 3, page_size: 20}
+R3: {ops: 200, ops_xs: 20, radius_m: 5000, limit: 10, days_after_t0: 7, window_hours: 4, size: M}
+R4: {ops: 100, ops_xs: 10}
+R5: {ops: 1, ops_xs: 1, days: 30, limit: 20}
+R6: {ops: 12, ops_xs: 3}
+R7: {ops: 30, ops_xs: 5}
+R8: {ops: 50, ops_xs: 3, days: 90, max_hops: 3}
+U1: {ops: 5000, ops_xs: 100, batch: 1000}
+U2: {ops: 1000, ops_xs: 10, batch: 1}
+U3: {ops: null, ops_xs: null, batch: 5000}
+U4: {ops: 20, ops_xs: 2, batch: 5000}
+U5: {ops: 5000, ops_xs: 100, batch: 1000}
+U6: {ops: null, ops_xs: null, batch: 5000}
+D1: {ops: 1000, ops_xs: 50, batch: 100}
+D2: {ops: 1000, ops_xs: 20, batch: 1}
+D3: {ops: null, ops_xs: null, batch: 5000, cutoff_days: 540}
+D4: {ops: null, ops_xs: null, batch: 5000}
+D5: {ops: null, ops_xs: null, batch: 5000, cutoff_years: 1}
+D6: {ops: null, ops_xs: null, batch: 5000}
+J1: {ops: 10000, ops_xs: 100, batch: 1000}
+J2: {ops: 100, ops_xs: 10}
+J3: {ops: 1, ops_xs: 1}
+J4: {ops: 12, ops_xs: 3}
+J5: {ops: 100, ops_xs: 10, batch: 5000}
+J6: {ops: null, ops_xs: null, batch: 5000, cutoff_months: 18}
