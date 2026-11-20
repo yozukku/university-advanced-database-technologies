@@ -17,3 +17,5 @@ Spring Boot zarządza wersjami zależności. Do drzew JSON służy `tools.jackso
 - Mapuj `smallint` na `Short`, a `timestamptz` na `Instant`.
 - Kolumny wyliczane przez bazę pomijaj w encji lub mapuj z `insertable = false, updatable = false`.
 - Przed zapisem `access_code_` pobierz id poleceniem `select nextval('access_code_id_seq_')`. Wyprowadź z niego PIN i `code_hmac_`, a następnie wstaw rekord z tym samym id.
+
+Keycloak 26.4 używa własnego woluminu z bazą deweloperską. `make app-up` uruchamia PostgreSQL, Keycloak i backend. W przeglądarce issuer to `http://localhost:8081/realms/bagazomat`. Backend weryfikuje ten issuer i pobiera klucze z wewnętrznego adresu `http://keycloak:8080/realms/bagazomat/protocol/openid-connect/certs`.

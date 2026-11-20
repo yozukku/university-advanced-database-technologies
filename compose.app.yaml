@@ -1,0 +1,58 @@
+name: ztb-app
+
+services:
+  postgres:
+    image: bagazomat-postgres:17-postgis
+    build: ./docker/postgres-postgis
+    environment:
+      POSTGRES_USER: bagazomat
+      POSTGRES_PASSWORD: bagazomat
+      POSTGRES_DB: bagazomat
+    volumes:
+      - app-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD, pg_isready, -h, 127.0.0.1, -U, bagazomat, -d, bagazomat]
+      interval: 2s
+      timeout: 3s
+      retries: 45
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4@sha256:9409c59bdfb65dbffa20b11e6f18b8abb9281d480c7ca402f51ed3d5977e6007
+    command: [start-dev, --import-realm]
+    environment:
+      KC_DB: dev-file
+      KC_HEALTH_ENABLED: "true"
+      KC_HOSTNAME: http://localhost:${APP_KEYCLOAK_PORT:-8081}
+    ports:
+      - "127.0.0.1:${APP_KEYCLOAK_PORT:-8081}:8080"
+    volumes:
+      - app-keycloak-data:/opt/keycloak/data
+      - ./app/keycloak/realm-bagazomat.json:/opt/keycloak/data/import/realm-bagazomat.json:ro
+    healthcheck:
+      test: [CMD, bash, -ec, 'exec 3<>/dev/tcp/127.0.0.1/9000; printf "GET /health/ready HTTP/1.0\r\n\r\n" >&3; read -r status <&3; [[ "$$status" == *" 200 "* ]]']
+      interval: 2s
+      timeout: 4s
+      retries: 60
+
+  backend:
+    build: ./app/backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/bagazomat
+      KEYCLOAK_ISSUER: http://localhost:${APP_KEYCLOAK_PORT:-8081}/realms/bagazomat
+      KEYCLOAK_JWKS: http://keycloak:8080/realms/bagazomat/protocol/openid-connect/certs
+    ports:
+      - "127.0.0.1:${APP_BACKEND_PORT:-8080}:8080"
+    healthcheck:
+      test: [CMD, bash, -ec, 'exec 3<>/dev/tcp/127.0.0.1/8080; printf "GET /api/me HTTP/1.0\r\n\r\n" >&3; read -r status <&3; [[ "$$status" == *" 401 "* ]]']
+      interval: 2s
+      timeout: 4s
+      retries: 60
+
+volumes:
+  app-pg-data:
+  app-keycloak-data:

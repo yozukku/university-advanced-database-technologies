@@ -1,0 +1,80 @@
+{
+  "realm": "bagazomat",
+  "enabled": true,
+  "displayName": "Bagażomat",
+  "sslRequired": "none",
+  "defaultLocale": "pl",
+  "supportedLocales": [
+    "pl"
+  ],
+  "internationalizationEnabled": true,
+  "clients": [
+    {
+      "clientId": "bagazomat-web",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": [
+        "http://localhost:5173/"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "basic",
+        "profile",
+        "email"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "900f9895-3b4d-5e82-a35f-ad11c64f9f00",
+      "username": "anna",
+      "firstName": "Anna",
+      "lastName": "Kowalska",
+      "email": "anna@example.test",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "phoneNumber": [
+          "+48500100200"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "a4bba234-ddf1-5dbc-bf7d-fca171bfe08f",
+      "username": "jan",
+      "firstName": "Jan",
+      "lastName": "Nowak",
+      "email": "jan@example.test",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "phoneNumber": [
+          "+48500100300"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
