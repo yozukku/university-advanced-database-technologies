@@ -362,3 +362,20 @@ create extension if not exists pg_trgm;
    - It truncates with `cascade`. Keep that, or truncate all twelve tables.
 
 For a dev-only setup there is an alternative: `flyway clean`, then a single baseline migration built from `schema.sql`, plus a rewritten seed in (lng, lat) without the final flip. It is legitimate only if no environment holds data worth keeping.
+
+## 5. Audit events
+
+`audit_event_` records business changes. Write the event in the same transaction as the change. `entity_` and `entity_id_` identify the affected order, reservation or payment. Each points to a different table according to the entity type, so this pair has no foreign key. Order history reads the events for the order, its reservations and its payments in chronological order.
+
+`actor_` is a snapshot with a `kind` and the fields known at the time of the action.
+
+| Kind | Snapshot fields |
+|---|---|
+| CUSTOMER | `keycloak_id`, `email` |
+| RECIPIENT | `name`, `phone` |
+| COURIER, SUPPORT | `keycloak_id` |
+| TERMINAL | `lockermat_id` |
+| SYSTEM | `job` |
+| PROVIDER | `provider`, `provider_ref` when available |
+
+`changes_` is an array of objects with `f` for the field name and `old` and `new` for the values before and after the change. In the benchmark, the array excludes personal fields. Its values are strings of up to 32 characters or JSON null.

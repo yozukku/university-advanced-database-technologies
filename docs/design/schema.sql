@@ -288,3 +288,18 @@ create unique index payment_pending_charge__uq on payment_ (order_id_) where kin
 create index payment_order__idx on payment_ (order_id_);
 create index payment_refund_of__idx on payment_ (refund_of_id_) where refund_of_id_ is not null;
 create index payment_incident__idx on payment_ (incident_id_) where incident_id_ is not null;
+
+create sequence audit_event_id_seq_ start with 1 increment by 1;
+create table audit_event_
+(
+    id_        bigint primary key default nextval('audit_event_id_seq_'::regclass),
+    at_        timestamptz not null default now(),
+    entity_    varchar(24) not null,
+    entity_id_ bigint      not null,
+    action_    varchar(32) not null,
+    actor_     jsonb       not null,
+    changes_   jsonb,
+    constraint audit_event_actor__ck check (jsonb_typeof(actor_) = 'object' and actor_ ? 'kind'),
+    constraint audit_event_changes__ck check (jsonb_typeof(changes_) = 'array')
+);
+create index audit_event_entity_at__idx on audit_event_ (entity_, entity_id_, at_);
