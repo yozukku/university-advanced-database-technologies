@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "5.107.1",
+    "maplibre-gl": "6.16.0",
     "oidc-client-ts": "3.5.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",

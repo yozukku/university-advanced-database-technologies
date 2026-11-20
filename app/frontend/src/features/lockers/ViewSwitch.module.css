@@ -1,0 +1,35 @@
+.switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--color-subtle);
+  border-radius: var(--radius-md);
+}
+
+.option {
+  min-height: 2.25rem;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.option:hover {
+  color: var(--color-text);
+}
+
+.option[aria-pressed='true'] {
+  color: var(--color-text);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-raised);
+}
+
+@media (min-width: 60rem) {
+  .switch {
+    display: none;
+  }
+}

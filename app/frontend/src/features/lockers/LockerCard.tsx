@@ -5,11 +5,26 @@ import type { Lockermat, Offer } from './lockermats'
 const plural = new Intl.PluralRules('pl-PL')
 const FREE_FORMS: Record<string, string> = { one: 'wolna skrytka', few: 'wolne skrytki' }
 
-export function LockerCard({ lockermat, offer }: { lockermat: Lockermat; offer: Offer }) {
+type LockerCardProps = {
+  lockermat: Lockermat
+  offer: Offer
+  active?: boolean
+  onSelect?: () => void
+}
+
+export function LockerCard({ lockermat, offer, active = false, onSelect }: LockerCardProps) {
   return (
-    <Card className={styles.card}>
+    <Card className={cx(styles.card, onSelect && styles.selectable, active && styles.active)}>
       <div className={styles.place}>
-        <h2 className={styles.name}>{lockermat.name}</h2>
+        <h2 className={styles.name}>
+          {onSelect ? (
+            <button type="button" aria-pressed={active} onClick={onSelect} className={styles.select}>
+              {lockermat.name}
+            </button>
+          ) : (
+            lockermat.name
+          )}
+        </h2>
         <p className={styles.address}>{lockermat.address}</p>
       </div>
       <div className={styles.offer}>
