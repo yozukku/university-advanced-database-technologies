@@ -20,3 +20,5 @@ bagazomat:
   access:
     pin-secret: ${ACCESS_PIN_SECRET:dev-pin-secret}
     code-secret: ${ACCESS_CODE_SECRET:dev-code-secret}
+  orders:
+    expiry-cron: "0 * * * * *"

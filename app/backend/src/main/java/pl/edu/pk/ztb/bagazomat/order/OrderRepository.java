@@ -49,15 +49,41 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	Optional<OrderView> findStorageOrder(UUID subject, long id);
 
 	@NativeQuery("""
-			select o.id_
+			select o.status_
 			from order_ o
 			         join customer_ u on u.id_ = o.customer_id_
 			where o.id_ = :id and u.keycloak_id_ = :subject and o.type_ = 'STORAGE'
 			for update of o
 			""")
-	Optional<Long> lockStorageOrder(UUID subject, long id);
+	Optional<Order.Status> lockStorageOrder(UUID subject, long id);
+
+	@NativeQuery("select id_ from order_ where id_ = :id for update")
+	Optional<Long> lockOrder(long id);
 
 	@Modifying
 	@NativeQuery("update order_ set status_ = 'PAID' where id_ = :id and status_ = 'AWAITING_PAYMENT'")
 	void markPaid(long id);
+
+	@Modifying
+	@NativeQuery("""
+			update order_ o set status_ = 'CANCELLED', closed_at_ = current_timestamp
+			where o.id_ = :id and o.status_ in ('AWAITING_PAYMENT', 'PAID')
+			  and not exists (select 1 from reservation_ r where r.order_id_ = o.id_ and r.status_ in ('OCCUPIED', 'COMPLETED'))
+			""")
+	int markCancelled(long id);
+
+	@NativeQuery("""
+			select id_
+			from order_
+			where status_ = 'AWAITING_PAYMENT' and payment_deadline_ <= statement_timestamp()
+			order by payment_deadline_
+			""")
+	List<Long> findOverdueOrderIds();
+
+	@Modifying
+	@NativeQuery("""
+			update order_ set status_ = 'EXPIRED', closed_at_ = statement_timestamp()
+			where id_ = :id and status_ = 'AWAITING_PAYMENT' and payment_deadline_ <= statement_timestamp()
+			""")
+	int markExpired(long id);
 }

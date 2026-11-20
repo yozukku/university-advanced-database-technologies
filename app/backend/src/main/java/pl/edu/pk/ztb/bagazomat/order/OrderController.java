@@ -19,9 +19,11 @@ import java.util.List;
 class OrderController {
 
 	private final OrderService orderService;
+	private final OrderCancellationService orderCancellationService;
 
-	OrderController(OrderService orderService) {
+	OrderController(OrderService orderService, OrderCancellationService orderCancellationService) {
 		this.orderService = orderService;
+		this.orderCancellationService = orderCancellationService;
 	}
 
 	@PostMapping
@@ -38,5 +40,10 @@ class OrderController {
 	@GetMapping("/{id}")
 	public OrderView find(@AuthenticationPrincipal Jwt jwt, @PathVariable long id) {
 		return orderService.find(jwt, id);
+	}
+
+	@PostMapping("/{id}/cancel")
+	public CancelledOrder cancel(@AuthenticationPrincipal Jwt jwt, @PathVariable long id) {
+		return orderCancellationService.cancel(jwt, id);
 	}
 }
