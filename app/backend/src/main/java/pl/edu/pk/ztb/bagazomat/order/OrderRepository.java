@@ -49,6 +49,28 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	Optional<OrderView> findStorageOrder(UUID subject, long id);
 
 	@NativeQuery("""
+			select exists (select 1
+			               from order_ o
+			                        join customer_ u on u.keycloak_id_ = :subject
+			                        left join shipment_ s on s.order_id_ = o.id_
+			               where o.id_ = :id
+			                 and (o.customer_id_ = u.id_ or s.recipient_phone_ = u.phone_))
+			""")
+	boolean isOwnerOrRecipient(UUID subject, long id);
+
+	@NativeQuery("""
+			select e.id_ as id, e.at_ as at, e.entity_ as entity, e.action_ as action, e.actor_ ->> 'kind' as "actorKind"
+			from audit_event_ e
+			where (e.entity_, e.entity_id_) in (select 'ORDER', cast(:id as bigint)
+			                                    union all
+			                                    select 'RESERVATION', r.id_ from reservation_ r where r.order_id_ = :id
+			                                    union all
+			                                    select 'PAYMENT', p.id_ from payment_ p where p.order_id_ = :id)
+			order by e.at_, e.id_
+			""")
+	List<OrderEvent> findHistory(long id);
+
+	@NativeQuery("""
 			select o.status_
 			from order_ o
 			         join customer_ u on u.id_ = o.customer_id_

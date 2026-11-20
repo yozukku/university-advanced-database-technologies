@@ -56,6 +56,13 @@ class OrderService {
 				.orElseThrow(NotFoundException::new);
 	}
 
+	List<OrderEvent> findHistory(Jwt jwt, long id) {
+		if (!orderRepository.isOwnerOrRecipient(subjectOf(jwt), id)) {
+			throw new NotFoundException();
+		}
+		return orderRepository.findHistory(id);
+	}
+
 	private void validate(NewOrder request) {
 		if (request.lockermatId() == null || request.size() == null || request.from() == null || request.to() == null
 				|| !request.from().isBefore(request.to())) {

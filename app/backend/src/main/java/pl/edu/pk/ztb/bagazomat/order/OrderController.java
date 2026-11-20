@@ -42,6 +42,11 @@ class OrderController {
 		return orderService.find(jwt, id);
 	}
 
+	@GetMapping("/{id}/history")
+	public List<OrderEvent> findHistory(@AuthenticationPrincipal Jwt jwt, @PathVariable long id) {
+		return orderService.findHistory(jwt, id);
+	}
+
 	@PostMapping("/{id}/cancel")
 	public CancelledOrder cancel(@AuthenticationPrincipal Jwt jwt, @PathVariable long id) {
 		return orderCancellationService.cancel(jwt, id);
