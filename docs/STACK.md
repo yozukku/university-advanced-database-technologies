@@ -29,3 +29,11 @@ Runner używa Pythona 3.13 i uv 0.13.8. Zależności generatora to Faker 40.54.0
 DuckDB 2.0.1 sprawdza pliki Parquet bez uruchamiania testowanych SZBD.
 
 `make validate SIZE=S` sprawdza spójność Parquet, warunki scenariuszy z `bench/scenarios/ops.yaml` i sumy SHA-256 z manifestu. Parametry R2 mogą ponownie wybierać tego samego klienta z dużą liczbą zamówień. W XS scenariusze korzystają z liczby operacji `ops_xs`.
+
+## Ładowanie PostgreSQL
+
+`make load ENGINE=pg SIZE=S` uruchamia PostgreSQL i tworzy od nowa bazę `bagazomat`. Loader korzysta z psycopg 3.3.9. W jednej transakcji wykonuje `bench/ddl/pg/base/tables.sql` i `COPY … FREEZE` dla 13 tabel. Następnie `base/constraints.sql` dodaje klucze, CHECK, FK, EXCLUDE i indeksy schematu, więc PostgreSQL sprawdza każdy wiersz. `base/fk_support.sql` dodaje dwa indeksy wspierające FK. Na końcu loader wykonuje `VACUUM (FREEZE, ANALYZE)`. Sesja ładowania wymaga `statement_timeout = 0`.
+
+Funkcja `apply_index` z `bench/load/pg/loader.py` dodaje indeksy z `bench/ddl/pg/idx/`, analizuje tylko `audit_event_` i wykonuje `VACUUM`.
+
+Test katalogu porównuje `base/` bez `fk_support.sql` ze schematem `docs/design/schema.sql` zastosowanym wprost. Przy działającym PostgreSQL uruchom go poleceniem `docker compose -f compose.bench.yaml run --rm runner python -m unittest discover -s bench/load/tests`.
