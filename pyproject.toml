@@ -18,3 +18,10 @@ dependencies = [
 
 [tool.uv]
 package = false
+
+[dependency-groups]
+report = [
+    "pytest==9.2.0",
+    "python-pptx==1.0.2",
+    "PyYAML==6.0.3",
+]

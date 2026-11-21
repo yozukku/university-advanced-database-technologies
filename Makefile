@@ -6,6 +6,8 @@ export ZTB_HOST_MODEL = $(shell sysctl -n hw.model 2>/dev/null || echo unknown)
 export ZTB_HOST_ORBSTACK = $(shell orb version 2>/dev/null || echo unknown)
 
 SIZE ?= S
+RESULTS_DIR ?= results
+OUT ?= out
 
 BENCH = docker compose -f compose.bench.yaml
 APP = docker compose -p "$(COMPOSE_PROJECT_NAME)-app" -f compose.app.yaml
@@ -13,7 +15,7 @@ ENGINES = pg mysql mongo neo4j
 SNAPSHOTS = out/snapshots/$(COMPOSE_PROJECT_NAME)
 STATE = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner.state
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -28,7 +30,8 @@ help:
 	    'snapshots SIZE=XS|S|M|L [ENGINE=…] Zapisz migawki BASE i IDX załadowanych baz' \
 	    'restore ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L CONFIG=base|idx Odtwórz bazę z migawki' \
 	    'test-scenarios SIZE=XS|S [K=…] Sprawdź scenariusze w czterech bazach na migawkach' \
-	    'catalogue [CHECK=1] Zapisz katalog scenariuszy docs/bench/scenarios.md albo go sprawdź'
+	    'catalogue [CHECK=1] Zapisz katalog scenariuszy docs/bench/scenarios.md albo go sprawdź' \
+	    'report [RESULTS_DIR=results] [OUT=out] Zbuduj sprawozdanie DOCX i PDF oraz prezentację PPTX'
 
 check:
 	@tools/check-comments
@@ -114,3 +117,6 @@ test-scenarios: compose-config
 
 catalogue:
 	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.scenarios.catalogue $(if $(CHECK),--check)
+
+report:
+	@$(BENCH) run --rm -T --no-deps --build report python -m bench.report --results "$(RESULTS_DIR)" --out "$(OUT)"

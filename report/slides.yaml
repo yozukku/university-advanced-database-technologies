@@ -1,0 +1,11 @@
+title: Porównanie operacji CRUD w PostgreSQL, MySQL, MongoDB i Neo4j
+subtitle: Anton Gorokh, Tomasz Gruszka · Zaawansowane Technologie Bazodanowe 2026/27
+slides:
+  - title: Cztery SZBD na tych samych danych
+    bullets:
+      - PostgreSQL 17 z PostGIS i MySQL 8.4 LTS
+      - MongoDB 8.0 i Neo4j 5.26 Community
+      - 13 tabel relacyjnych, 500 000, 1 000 000 i 10 000 000 rekordów
+      - 26 scenariuszy CRUD i 6 scenariuszy JSON, każdy mierzony trzy razy
+  - title: Odczyt R1 w czterech SZBD
+    figure: R1

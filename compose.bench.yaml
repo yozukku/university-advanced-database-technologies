@@ -97,6 +97,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - .:/workspace
 
+  report:
+    profiles: [tools]
+    platform: linux/arm64
+    cpus: 4
+    build:
+      context: .
+      dockerfile: docker/report/Dockerfile
+    volumes:
+      - .:/workspace
+
 volumes:
   pg-data:
   mysql-data:
