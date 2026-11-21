@@ -5,9 +5,11 @@ from hashlib import sha256
 
 from bench.check.verify.canonical import NORMALISE, milliseconds
 
+APPROX = "approx"
+
 
 def value(kind, item):
-    if item is None:
+    if item is None or kind == APPROX:
         return None
     if hasattr(item, "to_native"):
         item = item.to_native()

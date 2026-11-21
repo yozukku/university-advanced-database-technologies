@@ -135,10 +135,7 @@ def check_reads(db, profile, counts, ops):
     enough("R2", customers, 1)
 
     r3 = ops["R3"]
-    eligible_ids = {locker for _, locker, size in free_cells(db, r3) if size == r3["size"]}
-    locations = [WKB_POINT.unpack(point)[-2:] for identifier, point in db.execute(
-        "select id_, location_ from lockermat_ order by id_").fetchall() if identifier in eligible_ids]
-    safe = geo_points(locations, profile.rng(4), counts["R3"], r3["radius_m"], r3["limit"])
+    safe = geo_points(eligible_locations(db, r3), profile.rng(4), counts["R3"], r3["radius_m"], r3["limit"])
     enough("R3 stable geo points", len(safe), counts["R3"])
 
     enough("R5", scalar(db, f"""select count(*) from order_ where status_ = 'COMPLETED'
@@ -162,6 +159,12 @@ def check_reads(db, profile, counts, ops):
         join lockermat_cell_ dec on dec.id_ = d.cell_id_
         where o.created_at_ >= {T0} - to_days(?) and roc.lockermat_id_ != dec.lockermat_id_
     """, [ops["R8"]["days"]]), counts["R8"])
+
+
+def eligible_locations(db, config):
+    eligible_ids = {locker for _, locker, size in free_cells(db, config) if size == config["size"]}
+    return [WKB_POINT.unpack(point)[-2:] for identifier, point in db.execute(
+        "select id_, location_ from lockermat_ order by id_").fetchall() if identifier in eligible_ids]
 
 
 def geo_points(locations, rng, count, radius, limit):

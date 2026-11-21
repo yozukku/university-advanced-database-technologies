@@ -1,14 +1,40 @@
 from collections import defaultdict
 
+import numpy as np
 import pytest
 
+from bench.gen.static import WKB_POINT
 from bench.scenarios.normalise import digest, result
-from bench.scenarios.params import dataset
+from bench.scenarios.params import dataset, parameters
 from bench.scenarios.registry import load
 
 REGISTRY = load()
 DETAIL = REGISTRY["R1"]
 PAGE = REGISTRY["R2"]
+NEARBY = REGISTRY["R3"]
+REACH = REGISTRY["R8"]
+EARTH_METRES = 6_371_000
+MARGIN = 0.01
+FREE_LOCKERS = """
+    select distinct l.id_, l.location_
+    from lockermat_ l join lockermat_cell_ c on c.lockermat_id_ = l.id_
+    where l.status_ = 'ACTIVE' and c.status_ = 'IN_SERVICE' and c.size_ = $size
+      and not exists (select 1 from reservation_ r where r.cell_id_ = c.id_ and r.status_ in ('BOOKED', 'OCCUPIED')
+                      and r.from_ < $to and r.to_ > $from)
+      and not exists (select 1 from reservation_ r where r.cell_id_ = c.id_ and r.status_ = 'OCCUPIED'
+                      and r.to_ <= $now)
+    order by 1
+"""
+SHIP_LINKS = """
+    select o.lockermat_id_, d.lockermat_id_
+    from shipment_ s
+    join order_ x on x.id_ = s.order_id_
+    join (select r.order_id_, c.lockermat_id_ from reservation_ r join lockermat_cell_ c on c.id_ = r.cell_id_
+          where r.leg_ = 'ORIGIN') o on o.order_id_ = s.order_id_
+    join (select r.order_id_, c.lockermat_id_ from reservation_ r join lockermat_cell_ c on c.id_ = r.cell_id_
+          where r.leg_ = 'DESTINATION') d on d.order_id_ = s.order_id_
+    where x.created_at_ >= ?
+"""
 LOCKER_FIELDS = ("lockermat_id", "lockermat_name", "lockermat_address")
 EXPECTED_ORDERS = """
     select id_, number_, type_, status_, price_, epoch_ms(created_at_)
@@ -75,3 +101,86 @@ def test_page_has_twenty_rows(scenario, bench, size):
     assert expected[0] == 20
     for engine in scenario.engines:
         assert [len(rows) for rows in bench.runs[(scenario.id, engine, "idx")].results] == expected, engine
+
+
+def free_lockers(size, params):
+    windows = {(parameter["size"], parameter["from"], parameter["to"], parameter["now"]) for parameter in params}
+    assert len(windows) == 1
+    [(cell_size, start, end, now)] = windows
+    with dataset(size) as (db, _):
+        rows = db.execute(FREE_LOCKERS, {"size": cell_size, "from": start, "to": end, "now": now}).fetchall()
+    locations = np.radians([WKB_POINT.unpack(point)[-2:] for _, point in rows]).T
+    return np.array([identifier for identifier, _ in rows]), locations
+
+
+def distances(lockers, parameter):
+    lng, lat = lockers
+    p_lng, p_lat = np.radians([parameter["lng"], parameter["lat"]])
+    a = np.sin((lat - p_lat) / 2) ** 2 + np.cos(lat) * np.cos(p_lat) * np.sin((lng - p_lng) / 2) ** 2
+    return 2 * EARTH_METRES * np.arcsin(np.sqrt(np.clip(a, 0, 1)))
+
+
+@pytest.mark.parametrize("scenario", [NEARBY], ids=["R3"])
+def test_geo_parameters_keep_the_margins(scenario, size):
+    with dataset(size) as (db, profile):
+        params = parameters(scenario, db, profile)
+    ids, lockers = free_lockers(size, params)
+    assert len(params) == scenario.config(size)["count"]
+    for index, parameter in enumerate(params):
+        radius, limit = parameter["radius"], parameter["limit"]
+        distance = distances(lockers, parameter)
+        assert not np.any(abs(distance - radius) <= radius * MARGIN), f"set {index}: a locker lies at the radius"
+        within = np.sort(distance[distance <= radius])
+        assert len(within), f"set {index}: no free locker within the radius"
+        if len(within) > limit:
+            assert within[limit] >= within[limit - 1] * (1 + MARGIN), f"set {index}: places {limit} and {limit + 1} tie"
+
+
+@pytest.mark.parametrize("scenario", [NEARBY], ids=["R3"])
+def test_nearest_lockers_equal_haversine_answer(scenario, bench, size):
+    params = bench.params[scenario.id]
+    ids, lockers = free_lockers(size, params)
+    expected = []
+    for parameter in params:
+        distance = distances(lockers, parameter)
+        nearest = [index for index in np.argsort(distance)[:parameter["limit"]]
+                   if distance[index] <= parameter["radius"]]
+        expected.append({int(ids[index]): float(distance[index]) for index in nearest})
+    for engine in scenario.engines:
+        run = bench.runs[(scenario.id, engine, "idx")]
+        assert run.error is None, f"{engine}: {run.error}"
+        for index, (rows, wanted) in enumerate(zip(run.outcome.results, expected, strict=True)):
+            found = {int(identifier): float(metres) for identifier, metres in rows}
+            assert found.keys() == wanted.keys(), f"{engine} set {index}"
+            assert all(abs(found[key] - wanted[key]) <= wanted[key] * MARGIN for key in wanted), \
+                f"{engine} set {index}: {found} vs {wanted}"
+
+
+def breadth_first(links, start, max_hops):
+    hops = {start: 0}
+    frontier = {start}
+    for level in range(1, max_hops + 1):
+        frontier = {target for origin in frontier for target in links.get(origin, ())} - hops.keys()
+        hops |= dict.fromkeys(frontier, level)
+    del hops[start]
+    return hops
+
+
+@pytest.mark.parametrize("scenario", [REACH], ids=["R8"])
+def test_reach_equals_breadth_first_answer(scenario, bench, size):
+    params = bench.params[scenario.id]
+    with dataset(size) as (db, _):
+        links = defaultdict(set)
+        for origin, destination in db.execute(SHIP_LINKS, [params[0]["since"]]).fetchall():
+            links[origin].add(destination)
+    kinds = [kind for _, kind in scenario.columns]
+    answer = digest([result(kinds, list(breadth_first(links, parameter["lockermat"], parameter["max_hops"]).items()),
+                            False) for parameter in params])
+    for engine in scenario.engines:
+        assert bench.runs[(scenario.id, engine, "idx")].hash == answer, engine
+
+
+@pytest.mark.parametrize("scenario", [REACH], ids=["R8"])
+def test_reach_frontier_seeks_from_at_index(scenario, bench):
+    access = bench.runs[(scenario.id, "mongo", "idx")].access
+    assert "IXSCAN" in access["access_path"] and access["index"] == ["shiplinks_from_at__idx"], access
