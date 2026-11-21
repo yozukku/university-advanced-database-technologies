@@ -23,7 +23,8 @@ insert into audit_event_ (id_, at_, entity_, entity_id_, action_, actor_, change
 values (%s, %s, %s, %s, %s, %s, %s, %s)
 """
 APPEND_MONGO = ("auditEvents.insertMany([{_id, at, entity, entityId, action, actor: {kind, …}, "
-                "changes: [{f, old, new}]}, …]) in one transaction per batch")
+                "changes: [{f, old, new}]}, …])\n"
+                "// jedna transakcja na partię")
 DERIVED_MYSQL = "select changes_, changes_new_ from audit_event_ where id_ between %s and %s"
 FIELDS = ("id", "at", "entity", "entity_id", "action")
 

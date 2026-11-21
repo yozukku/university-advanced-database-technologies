@@ -93,14 +93,14 @@ BOOK_MYSQL = ";\n".join(text.strip() for text in (PICK_MYSQL, PLACE_MYSQL, LEG_M
 BOOK_MONGO = """
 tariffs.findOne({size: :size, validFrom: {$lte: :now}, $or: [{validTo: null}, {validTo: {$gt: :now}}]});
 lockermats.findOne({_id: :locker, status: 'ACTIVE'}, {cells: 1});
-orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <cells>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
-                                  {reservations: {$elemMatch: {cellId: {$in: <cells>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
-                  {$unwind: '$reservations'}, {$match: <the same two conditions on reservations>},
+orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki punktu>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
+                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki punktu>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
+                  {$unwind: '$reservations'}, {$match: <te same dwa warunki na reservations>},
                   {$group: {_id: '$reservations.cellId'}}]);
-lockermats.updateOne({_id: :locker, 'cells.id': <first free cell by number>}, {$inc: {'cells.$.guardSeq': 1}});
-orders.findOne({reservations: {$elemMatch: {cellId: <cell>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
+lockermats.updateOne({_id: :locker, 'cells.id': <pierwsza wolna skrytka według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
+orders.findOne({reservations: {$elemMatch: {cellId: <wybrana skrytka>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
 orders.insertOne({_id: :order, …, reservations: [{…, accessCodes: [<DROP_OFF>, <PICK_UP>]}], payments: [<CHARGE>]})
-in one transaction per booking
+// jedna transakcja na rezerwację
 """
 BOOK_CYPHER = """
 MATCH (:Lockermat {id: $locker, status: 'ACTIVE'})-[:HAS_CELL]->(c:Cell {size: $size, status: 'IN_SERVICE'})

@@ -341,7 +341,7 @@ def remaining(discover, orphans):
 
 def mongo_text(collection, method, discovery, deletes):
     return ";\n".join([shell(collection, method, *discovery),
-                       *(shell(name, "delete_many", {field: {"$in": ":batch"}}) for name, field in deletes)])
+                       *(shell(name, "deleteMany", {field: {"$in": ":batch"}}) for name, field in deletes)])
 
 
 def sql_text(discovery, deletes):

@@ -87,19 +87,19 @@ SHIP_MYSQL = ";\n".join(text.strip() for text in (
 SHIP_MONGO = """
 tariffs.findOne({size: :size, validFrom: {$lte: :now}, $or: [{validTo: null}, {validTo: {$gt: :now}}]});
 lockermats.find({_id: {$in: [:origin, :destination]}, status: 'ACTIVE'}, {cells: 1});
-orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <cells of both lockers>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
-                                  {reservations: {$elemMatch: {cellId: {$in: <cells of both lockers>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
-                  {$unwind: '$reservations'}, {$match: <the same two conditions on reservations>},
+orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki obu punktów>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
+                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki obu punktów>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
+                  {$unwind: '$reservations'}, {$match: <te same dwa warunki na reservations>},
                   {$group: {_id: '$reservations.cellId'}}]);
-lockermats.updateOne({_id: :origin, 'cells.id': <first free origin cell by number>}, {$inc: {'cells.$.guardSeq': 1}});
-lockermats.updateOne({_id: :destination, 'cells.id': <first free destination cell by number>}, {$inc: {'cells.$.guardSeq': 1}});
-orders.findOne({reservations: {$elemMatch: {cellId: {$in: <both cells>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
+lockermats.updateOne({_id: :origin, 'cells.id': <pierwsza wolna skrytka nadania według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
+lockermats.updateOne({_id: :destination, 'cells.id': <pierwsza wolna skrytka docelowa według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
+orders.findOne({reservations: {$elemMatch: {cellId: {$in: <obie wybrane skrytki>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
 orders.insertOne({_id: :order, …, shipment: {…, originLockermatId, destinationLockermatId},
                   reservations: [{leg: 'ORIGIN', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP>]},
-                                 {leg: 'DESTINATION', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP sent to the recipient>]}],
+                                 {leg: 'DESTINATION', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP wysłany do odbiorcy>]}],
                   payments: [<CHARGE>]});
 shipLinks.insertOne({_id: :order, orderId: :order, from: :origin, to: :destination, at: :now})
-in one transaction per shipment
+// jedna transakcja na przesyłkę
 """
 FREE_CYPHER = """
     WHERE NOT EXISTS {{

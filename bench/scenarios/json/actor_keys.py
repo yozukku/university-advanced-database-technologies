@@ -19,10 +19,10 @@ group by 1
 KEYS_MONGO = """
 auditEvents.aggregate([
   {$group: {_id: '$actor.kind', events: {$sum: 1},
-            withEmail: {$sum: {$cond: [<email exists>, 1, 0]}},
-            nameOrPhoneOnly: {$sum: {$cond: [{$and: [{$not: [<email exists>]}, {$or: [<name exists>, <phone exists>]}]}, 1, 0]}}}}
+            withEmail: {$sum: {$cond: [<email istnieje>, 1, 0]}},
+            nameOrPhoneOnly: {$sum: {$cond: [{$and: [{$not: [<email istnieje>]}, {$or: [<name istnieje>, <phone istnieje>]}]}, 1, 0]}}}}
 ])
-where <key exists> = {$ne: [{$type: '$actor.<key>'}, 'missing']}
+// <klucz istnieje> = {$ne: [{$type: '$actor.<klucz>'}, 'missing']}
 """
 
 

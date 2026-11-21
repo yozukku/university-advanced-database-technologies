@@ -23,7 +23,8 @@ on duplicate key update phone_ = new.phone_, terms_version_ = new.terms_version_
                         terms_accepted_at_ = new.terms_accepted_at_
 """
 UPSERT_MONGO = ("customers.bulkWrite([{updateOne: {filter: {keycloakId}, update: {$set: {phone, termsVersion, "
-                "termsAcceptedAt}, $setOnInsert: {_id, createdAt}}, upsert: true}}, …]) in one transaction per batch")
+                "termsAcceptedAt}, $setOnInsert: {_id, createdAt}}, upsert: true}}, …])\n"
+                "// jedna transakcja na partię")
 UPSERT_CYPHER = """
 UNWIND $rows AS row
 MERGE (c:Customer {keycloakId: row.keycloak})

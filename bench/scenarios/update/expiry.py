@@ -25,10 +25,10 @@ where o.id_ in ({marks}) and (case when o.status_ = 'AWAITING_PAYMENT' then o.pa
 BOOKED_SQL = "select id_ from reservation_ where order_id_ in ({marks}) and status_ = 'BOOKED'"
 EXPIRE_MONGO = """
 orders.find({status: 'AWAITING_PAYMENT', paymentDeadline: {$lt: :now}}, {_id: 1}).sort({_id: 1});
-orders.updateMany({_id: {$in: <batch of 5000>}, status: 'AWAITING_PAYMENT', paymentDeadline: {$lt: :now}},
+orders.updateMany({_id: {$in: <partia 5000 id>}, status: 'AWAITING_PAYMENT', paymentDeadline: {$lt: :now}},
                   {$set: {status: 'EXPIRED', closedAt: :now, 'reservations.$[leg].status': 'CANCELLED'}},
                   {arrayFilters: [{'leg.status': 'BOOKED'}]})
-in one transaction per batch
+// jedna transakcja na partię
 """
 UNPAID_CYPHER = """
 MATCH (o:Order)

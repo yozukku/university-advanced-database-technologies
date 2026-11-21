@@ -38,7 +38,7 @@ auditEvents.aggregate([
   {$match: {$or: [{'actor.email': :email}, {'actor.phone': :phone}]}},
   {$sort: {at: 1, _id: 1}}
 ])
-where an unknown e-mail or phone leaves its clause out of $or
+// nieznany e-mail lub telefon pomija swój warunek w $or
 """
 
 

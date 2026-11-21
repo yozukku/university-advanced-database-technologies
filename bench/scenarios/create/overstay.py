@@ -31,18 +31,18 @@ where r.order_id_ in ({{marks}}) and (case when r.status_ = 'OCCUPIED' then r.to
 CHARGE_MONGO = """
 tariffs.find({}, {overstayPricePerDay: 1});
 orders.find({reservations: {$elemMatch: {status: 'OCCUPIED', to: {$lt: :now}}}}, {_id: 1}).sort({_id: 1});
-orders.updateMany({_id: {$in: <batch of 5000>}, reservations: {$elemMatch: {status: 'OCCUPIED', to: {$lt: :now}}}},
+orders.updateMany({_id: {$in: <partia 5000 id>}, reservations: {$elemMatch: {status: 'OCCUPIED', to: {$lt: :now}}}},
                   [{$set: {payments: {$concatArrays: [{$ifNull: ['$payments', []]}, [{$let: {
                       vars: {leg: {$first: {$filter: {input: '$reservations',
                                                       cond: {$and: [{$eq: ['$$this.status', 'OCCUPIED']},
                                                                     {$lt: ['$$this.to', :now]}]}}}}},
                       in: {id: {$add: [10000000000000, '$_id']}, kind: 'OVERSTAY', status: 'PENDING', provider: 'MOCK',
                            createdAt: :now,
-                           amount: {$toLong: {$multiply: [{$switch: {branches: [{case: {$eq: ['$tariffId', <tariff id>]},
-                                                                                   then: <overstay rate>}, …]}},
+                           amount: {$toLong: {$multiply: [{$switch: {branches: [{case: {$eq: ['$tariffId', <id taryfy>]},
+                                                                                   then: <stawka za dobę przetrzymania>}, …]}},
                                                           {$ceil: {$divide: [{$subtract: [:now, '$$leg.to']}, 86400000]}}]}}}
                   }}]]}}}])
-in one transaction per batch
+// jedna transakcja na partię
 """
 OVERDUE_CYPHER = """
 MATCH (o:Order)-[:HAS_LEG]->(r:Reservation)

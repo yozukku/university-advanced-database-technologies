@@ -40,10 +40,11 @@ auditEvents.find({$or: [{'actor.email': {$in: :emails}}, {'actor.phone': {$in: :
 """
 PSEUDONYMISE_MONGO = """
 auditEvents.bulkWrite([
-  {updateMany: {filter: {_id: {$in: <events with this e-mail>}},
+  {updateMany: {filter: {_id: {$in: <zdarzenia z tym e-mailem>}},
                 update: {$set: {'actor.email': :pseudonym}, $unset: {'actor.name': '', 'actor.phone': ''}}}}, …,
-  {updateMany: {filter: {_id: {$in: <events without e-mail>}}, update: {$unset: {'actor.name': '', 'actor.phone': ''}}}}
-]) in one transaction per batch
+  {updateMany: {filter: {_id: {$in: <zdarzenia bez e-maila>}}, update: {$unset: {'actor.name': '', 'actor.phone': ''}}}}
+])
+// jedna transakcja na partię
 """
 GONE = {"actor.name": "", "actor.phone": ""}
 
@@ -140,11 +141,11 @@ SCENARIOS = [Scenario(
                 "ich zdarzeniach audytu: e-mail zastąpiony skrótem HMAC-SHA256 z kluczem, imię i telefon usunięte "
                 "z migawki aktora, partiami po 5000 zdarzeń",
     impls={
-        "pg": Impl(f"{TARGETS_PG};\n{PSEUDONYMISE_PG}", forget_pg, keys=keyed(targets_pg), after=left(targets_pg),
+        "pg": Impl(f"{TARGETS_PG.strip()};\n{PSEUDONYMISE_PG}", forget_pg, keys=keyed(targets_pg), after=left(targets_pg),
                    plan=lambda params: Query(TARGETS_PG, {"emails": params["emails"], "phones": params["phones"]})),
-        "mysql": Impl(f"{TARGETS_MYSQL.format(emails=':emails', phones=':phones')};\n{PSEUDONYMISE_MYSQL}", forget_mysql,
-                      keys=keyed(targets_mysql), after=left(targets_mysql), plan=mysql_plan),
-        "mongo": Impl(f"{TARGETS_MONGO};\n{PSEUDONYMISE_MONGO}", forget_mongo, keys=keyed(targets_mongo),
+        "mysql": Impl(f"{TARGETS_MYSQL.format(emails=':emails', phones=':phones').strip()};\n{PSEUDONYMISE_MYSQL}",
+                      forget_mysql, keys=keyed(targets_mysql), after=left(targets_mysql), plan=mysql_plan),
+        "mongo": Impl(f"{TARGETS_MONGO.strip()};\n{PSEUDONYMISE_MONGO}", forget_mongo, keys=keyed(targets_mongo),
                       after=left(targets_mongo), plan=lambda params: Query("auditEvents", matching(params))),
     },
 )]

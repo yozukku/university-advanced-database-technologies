@@ -23,7 +23,8 @@ values (%s, %s, %s, %s, %s)
 """
 APPEND_MONGO = ("orders.bulkWrite([{updateOne: {filter: {'reservations.accessCodes.id': :code}, "
                 "update: {$push: {'reservations.$[leg].accessCodes.$[code].openings': {id, channel, result, requestedAt}}}, "
-                "arrayFilters: [{'leg.accessCodes.id': :code}, {'code.id': :code}]}}, …]) in one transaction per batch")
+                "arrayFilters: [{'leg.accessCodes.id': :code}, {'code.id': :code}]}}, …])\n"
+                "// jedna transakcja na partię")
 APPEND_CYPHER = """
 UNWIND $rows AS row
 MATCH (a:AccessCode {id: row.code})

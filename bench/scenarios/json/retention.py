@@ -8,7 +8,7 @@ OLD_SQL = "select id_ from audit_event_ where at_ < %s and entity_ <> 'PAYMENT' 
 DELETE_PG = "delete from audit_event_ where id_ = any(%s)"
 DELETE_MYSQL = "delete from audit_event_ where id_ in ({marks})"
 OLD_MONGO = "auditEvents.find({at: {$lt: :cutoff}, entity: {$ne: 'PAYMENT'}}, {_id: 1})"
-DELETE_MONGO = "auditEvents.deleteMany({_id: {$in: :events}}) in one transaction per batch"
+DELETE_MONGO = "auditEvents.deleteMany({_id: {$in: :events}})\n// jedna transakcja na partię"
 
 
 def cutoff(pick):

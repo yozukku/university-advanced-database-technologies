@@ -12,7 +12,7 @@ where id_ in ({marks}) and status_ = 'PAID'
 """
 CLOSE_MONGO = """
 orders.updateMany({_id: {$in: :orders}, status: 'PAID'}, {$set: {status: 'COMPLETED', closedAt: :now}})
-in one transaction per batch
+// jedna transakcja na partię
 """
 CLOSE_CYPHER = """
 UNWIND $orders AS id

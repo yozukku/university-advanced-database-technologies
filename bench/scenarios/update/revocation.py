@@ -10,11 +10,11 @@ orders.aggregate([{$match: {'reservations.accessCodes': {$elemMatch: {status: 'A
                   {$unwind: '$reservations'}, {$unwind: '$reservations.accessCodes'},
                   {$match: {'reservations.accessCodes.status': 'ACTIVE', 'reservations.accessCodes.validTo': {$lt: :now}}},
                   {$project: {_id: 0, id: '$reservations.accessCodes.id'}}, {$sort: {id: 1}}]);
-orders.updateMany({'reservations.accessCodes.id': {$in: <batch of 5000>}},
+orders.updateMany({'reservations.accessCodes.id': {$in: <partia 5000 id>}},
                   {$set: {'reservations.$[leg].accessCodes.$[code].status': 'REVOKED'}},
                   {arrayFilters: [{'leg.accessCodes': {$exists: true}},
-                                  {'code.id': {$in: <batch of 5000>}, 'code.status': 'ACTIVE'}]})
-in one transaction per batch
+                                  {'code.id': {$in: <partia 5000 id>}, 'code.status': 'ACTIVE'}]})
+// jedna transakcja na partię
 """
 EXPIRED_CYPHER = """
 MATCH (a:AccessCode)

@@ -62,18 +62,18 @@ where id_ = %(leg)s and status_ = 'BOOKED'
 REDEEM_MYSQL = ";\n".join(text.strip() for text in (LOCK_MYSQL, OPEN_MYSQL, USE_MYSQL, DEPOSIT_MYSQL))
 OPENING = "reservations.accessCodes.openings"
 REDEEM_MONGO = """
-orders.findOne({'reservations.accessCodes.openings.id': :opening}, {<leg, code and opening ids, cell, locker, requestedAt>});
-lockermats.updateOne({_id: <leg lockermatId>, 'cells.id': <leg cellId>}, {$inc: {'cells.$.guardSeq': 1}});
-orders.findOne({reservations: {$elemMatch: {cellId: <leg cellId>, depositedAt: {$exists: true},
+orders.findOne({'reservations.accessCodes.openings.id': :opening}, {<id nogi, kodu i otwarcia, skrytka, punkt, requestedAt>});
+lockermats.updateOne({_id: <lockermatId nogi>, 'cells.id': <cellId nogi>}, {$inc: {'cells.$.guardSeq': 1}});
+orders.findOne({reservations: {$elemMatch: {cellId: <cellId nogi>, depositedAt: {$exists: true},
                                            $or: [{collectedAt: {$exists: false}}, {collectedAt: {$gt: <requestedAt>}}]}}});
-orders.updateOne({_id: <order>, reservations: {$elemMatch: {id: <leg>, status: 'BOOKED', accessCodes: {$elemMatch: {
-                      id: <code>, status: 'ACTIVE', purpose: 'DROP_OFF', openings: {$elemMatch: {id: :opening, result: 'PENDING'}}}}}}},
+orders.updateOne({_id: <id zamówienia>, reservations: {$elemMatch: {id: <id nogi>, status: 'BOOKED', accessCodes: {$elemMatch: {
+                      id: <id kodu>, status: 'ACTIVE', purpose: 'DROP_OFF', openings: {$elemMatch: {id: :opening, result: 'PENDING'}}}}}}},
                  {$set: {'reservations.$[leg].status': 'OCCUPIED', 'reservations.$[leg].depositedAt': <requestedAt>,
                          'reservations.$[leg].accessCodes.$[code].status': 'USED',
                          'reservations.$[leg].accessCodes.$[code].usedAt': <requestedAt>,
                          'reservations.$[leg].accessCodes.$[code].openings.$[opening].result': 'OPENED'}},
-                 {arrayFilters: [{'leg.id': <leg>}, {'code.id': <code>}, {'opening.id': :opening}]})
-in one transaction per redemption
+                 {arrayFilters: [{'leg.id': <id nogi>}, {'code.id': <id kodu>}, {'opening.id': :opening}]})
+// jedna transakcja na użycie kodu
 """
 REDEEM_CYPHER = """
 MATCH (x:CellOpening {id: $opening})-[:OPENED_WITH]->(a:AccessCode)<-[:HAS_CODE]-(r:Reservation)-[:IN_CELL]->(c:Cell)

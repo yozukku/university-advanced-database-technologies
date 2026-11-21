@@ -35,14 +35,14 @@ DECOMMISSION_MONGO = """
 lockermats.find({_id: {$in: :lockers}}, {'cells.id': 1});
 lockermats.updateMany({_id: {$in: :lockers}}, {$set: {'cells.$[cell].status': 'OUT_OF_SERVICE'}},
                       {arrayFilters: [{'cell.status': 'IN_SERVICE'}]});
-orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <cells>}, status: 'BOOKED', from: {$gt: :now}}}},
+orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <skrytki punktów>}, status: 'BOOKED', from: {$gt: :now}}}},
                   {$set: {'reservations.$[leg].accessCodes.$[code].status': 'REVOKED'}},
-                  {arrayFilters: [{'leg.cellId': {$in: <cells>}, 'leg.status': 'BOOKED', 'leg.from': {$gt: :now},
+                  {arrayFilters: [{'leg.cellId': {$in: <skrytki punktów>}, 'leg.status': 'BOOKED', 'leg.from': {$gt: :now},
                                    'leg.accessCodes': {$exists: true}}, {'code.status': 'ACTIVE'}]});
-orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <cells>}, status: 'BOOKED', from: {$gt: :now}}}},
+orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <skrytki punktów>}, status: 'BOOKED', from: {$gt: :now}}}},
                   {$set: {'reservations.$[leg].status': 'CANCELLED'}},
-                  {arrayFilters: [{'leg.cellId': {$in: <cells>}, 'leg.status': 'BOOKED', 'leg.from': {$gt: :now}}]})
-in one transaction per batch
+                  {arrayFilters: [{'leg.cellId': {$in: <skrytki punktów>}, 'leg.status': 'BOOKED', 'leg.from': {$gt: :now}}]})
+// jedna transakcja na partię
 """
 DECOMMISSION_CYPHER = """
 MATCH (l:Lockermat)-[:HAS_CELL]->(c:Cell)

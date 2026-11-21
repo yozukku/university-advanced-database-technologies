@@ -6,7 +6,7 @@ Scenariusze podstawowe: 26 (C 6, R 8, U 6, D 6) we wszystkich czterech SZBD. Sce
 
 Flagi: CX — złożony odczyt (złączenie, agregacja, przejście grafu albo zapytanie przestrzenne); BA — pomiar w konfiguracji BASE i IDX (pozostałe scenariusze tylko w IDX); H1-S, H1-I, H1-U — zbiory SELECT, INSERT i UPDATE hipotezy H1. Kolumna „Indeks IDX” podaje dla odczytu indeks, który go obsługuje, a dla zapisu indeksy, które zapis utrzymuje.
 
-Parametry: `%(nazwa)s` i `%s` w SQL, `$nazwa` w Cypher, `:nazwa` w wywołaniach MongoDB. `{marks}` i `{rows}` to listy znaczników, które adapter MySQL wstawia dla partii.
+Parametry: `%(nazwa)s` i `%s` w SQL, `$nazwa` w Cypher, `:nazwa` w wywołaniach MongoDB. `{marks}` i `{rows}` to listy znaczników, które adapter MySQL wstawia dla partii. `<…>` oznacza wartość, którą klient wylicza w mierzonej jednostce z wyniku poprzedniego kroku, albo słowny skrót fragmentu zapytania.
 
 ## Przegląd
 
@@ -32,8 +32,8 @@ Parametry: `%(nazwa)s` i `%s` w SQL, `$nazwa` w Cypher, `:nazwa` w wywołaniach 
 | U4 | U | Wycofanie 20 automatów z eksploatacji w jednej transakcji: ich skrytki → OUT_OF_SERVICE, przyszłe zarezerwowane nogi → CANCELLED, aktywne kody tych nóg → REVOKED | — | — |
 | U5 | U | Korekta numeru telefonu odbiorcy 5000 przesyłek według id zamówienia, w transakcjach po 1000 przesyłek | BA, H1-U | IX1 |
 | U6 | U | Unieważnienie wszystkich aktywnych kodów dostępu po upływie ich ważności (ACTIVE → REVOKED), partiami po 5000 kodów | — | — |
-| D1 | D | Usunięcie wpisów dziennika otwarć skrytek według id, w transakcjach po 100 wpisów | — | — |
-| D2 | D | Usunięcie zamówień ze wszystkimi zależnymi wierszami, od dzieci do rodzica w 7 tabelach, jedno zamówienie na transakcję | — | — |
+| D1 | D | Usunięcie 1000 wpisów dziennika otwarć skrytek według id, w transakcjach po 100 wpisów | — | — |
+| D2 | D | Usunięcie 1000 zamówień ze wszystkimi zależnymi wierszami, od dzieci do rodzica w 7 tabelach, jedno zamówienie na transakcję | — | — |
 | D3 | D | Usunięcie wpisów dziennika otwarć skrytek starszych niż 540 dni przed T0, partiami po 5000 | — | — |
 | D4 | D | Usunięcie klientów bez żadnego zamówienia (antyzłączenie), partiami po 5000 klientów | — | — |
 | D5 | D | Usunięcie anulowanych i wygasłych zamówień starszych niż rok przed T0 ze wszystkimi zależnymi wierszami, partiami po 5000 zamówień | — | — |
@@ -80,7 +80,8 @@ values (%s, %s, %s, %s, %s, %s)
 **MongoDB**
 
 ```javascript
-customers.insertMany([{_id, keycloakId, phone, termsVersion, termsAcceptedAt, createdAt}, …]) in one transaction per batch
+customers.insertMany([{_id, keycloakId, phone, termsVersion, termsAcceptedAt, createdAt}, …])
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -115,7 +116,8 @@ values (%s, %s, %s, %s, %s)
 **MongoDB**
 
 ```javascript
-orders.bulkWrite([{updateOne: {filter: {'reservations.accessCodes.id': :code}, update: {$push: {'reservations.$[leg].accessCodes.$[code].openings': {id, channel, result, requestedAt}}}, arrayFilters: [{'leg.accessCodes.id': :code}, {'code.id': :code}]}}, …]) in one transaction per batch
+orders.bulkWrite([{updateOne: {filter: {'reservations.accessCodes.id': :code}, update: {$push: {'reservations.$[leg].accessCodes.$[code].openings': {id, channel, result, requestedAt}}}, arrayFilters: [{'leg.accessCodes.id': :code}, {'code.id': :code}]}}, …])
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -209,14 +211,14 @@ values (%s, %s, %s, %s, %s, %s, %s)
 ```javascript
 tariffs.findOne({size: :size, validFrom: {$lte: :now}, $or: [{validTo: null}, {validTo: {$gt: :now}}]});
 lockermats.findOne({_id: :locker, status: 'ACTIVE'}, {cells: 1});
-orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <cells>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
-                                  {reservations: {$elemMatch: {cellId: {$in: <cells>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
-                  {$unwind: '$reservations'}, {$match: <the same two conditions on reservations>},
+orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki punktu>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
+                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki punktu>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
+                  {$unwind: '$reservations'}, {$match: <te same dwa warunki na reservations>},
                   {$group: {_id: '$reservations.cellId'}}]);
-lockermats.updateOne({_id: :locker, 'cells.id': <first free cell by number>}, {$inc: {'cells.$.guardSeq': 1}});
-orders.findOne({reservations: {$elemMatch: {cellId: <cell>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
+lockermats.updateOne({_id: :locker, 'cells.id': <pierwsza wolna skrytka według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
+orders.findOne({reservations: {$elemMatch: {cellId: <wybrana skrytka>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
 orders.insertOne({_id: :order, …, reservations: [{…, accessCodes: [<DROP_OFF>, <PICK_UP>]}], payments: [<CHARGE>]})
-in one transaction per booking
+// jedna transakcja na rezerwację
 ```
 
 **Neo4j**
@@ -371,19 +373,19 @@ values (%s, %s, %s, %s, %s, %s, %s, %s)
 ```javascript
 tariffs.findOne({size: :size, validFrom: {$lte: :now}, $or: [{validTo: null}, {validTo: {$gt: :now}}]});
 lockermats.find({_id: {$in: [:origin, :destination]}, status: 'ACTIVE'}, {cells: 1});
-orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <cells of both lockers>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
-                                  {reservations: {$elemMatch: {cellId: {$in: <cells of both lockers>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
-                  {$unwind: '$reservations'}, {$match: <the same two conditions on reservations>},
+orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki obu punktów>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
+                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki obu punktów>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
+                  {$unwind: '$reservations'}, {$match: <te same dwa warunki na reservations>},
                   {$group: {_id: '$reservations.cellId'}}]);
-lockermats.updateOne({_id: :origin, 'cells.id': <first free origin cell by number>}, {$inc: {'cells.$.guardSeq': 1}});
-lockermats.updateOne({_id: :destination, 'cells.id': <first free destination cell by number>}, {$inc: {'cells.$.guardSeq': 1}});
-orders.findOne({reservations: {$elemMatch: {cellId: {$in: <both cells>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
+lockermats.updateOne({_id: :origin, 'cells.id': <pierwsza wolna skrytka nadania według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
+lockermats.updateOne({_id: :destination, 'cells.id': <pierwsza wolna skrytka docelowa według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
+orders.findOne({reservations: {$elemMatch: {cellId: {$in: <obie wybrane skrytki>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
 orders.insertOne({_id: :order, …, shipment: {…, originLockermatId, destinationLockermatId},
                   reservations: [{leg: 'ORIGIN', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP>]},
-                                 {leg: 'DESTINATION', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP sent to the recipient>]}],
+                                 {leg: 'DESTINATION', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP wysłany do odbiorcy>]}],
                   payments: [<CHARGE>]});
 shipLinks.insertOne({_id: :order, orderId: :order, from: :origin, to: :destination, at: :now})
-in one transaction per shipment
+// jedna transakcja na przesyłkę
 ```
 
 **Neo4j**
@@ -479,7 +481,8 @@ on duplicate key update phone_ = new.phone_, terms_version_ = new.terms_version_
 **MongoDB**
 
 ```javascript
-customers.bulkWrite([{updateOne: {filter: {keycloakId}, update: {$set: {phone, termsVersion, termsAcceptedAt}, $setOnInsert: {_id, createdAt}}, upsert: true}}, …]) in one transaction per batch
+customers.bulkWrite([{updateOne: {filter: {keycloakId}, update: {$set: {phone, termsVersion, termsAcceptedAt}, $setOnInsert: {_id, createdAt}}, upsert: true}}, …])
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -531,18 +534,18 @@ where r.order_id_ in ({marks}) and (case when r.status_ = 'OCCUPIED' then r.to_ 
 ```javascript
 tariffs.find({}, {overstayPricePerDay: 1});
 orders.find({reservations: {$elemMatch: {status: 'OCCUPIED', to: {$lt: :now}}}}, {_id: 1}).sort({_id: 1});
-orders.updateMany({_id: {$in: <batch of 5000>}, reservations: {$elemMatch: {status: 'OCCUPIED', to: {$lt: :now}}}},
+orders.updateMany({_id: {$in: <partia 5000 id>}, reservations: {$elemMatch: {status: 'OCCUPIED', to: {$lt: :now}}}},
                   [{$set: {payments: {$concatArrays: [{$ifNull: ['$payments', []]}, [{$let: {
                       vars: {leg: {$first: {$filter: {input: '$reservations',
                                                       cond: {$and: [{$eq: ['$$this.status', 'OCCUPIED']},
                                                                     {$lt: ['$$this.to', :now]}]}}}}},
                       in: {id: {$add: [10000000000000, '$_id']}, kind: 'OVERSTAY', status: 'PENDING', provider: 'MOCK',
                            createdAt: :now,
-                           amount: {$toLong: {$multiply: [{$switch: {branches: [{case: {$eq: ['$tariffId', <tariff id>]},
-                                                                                   then: <overstay rate>}, …]}},
+                           amount: {$toLong: {$multiply: [{$switch: {branches: [{case: {$eq: ['$tariffId', <id taryfy>]},
+                                                                                   then: <stawka za dobę przetrzymania>}, …]}},
                                                           {$ceil: {$divide: [{$subtract: [:now, '$$leg.to']}, 86400000]}}]}}}
                   }}]]}}}])
-in one transaction per batch
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -722,12 +725,12 @@ lockermats.aggregate([
   {$geoNear: {near: {type: 'Point', coordinates: [:lng, :lat]}, key: 'location', distanceField: 'distance',
               maxDistance: :radius, spherical: true,
               query: {status: 'ACTIVE', cells: {$elemMatch: {size: :size, status: 'IN_SERVICE'}}}}},
-  {$project: {distance: 1, cells: <ids of cells with size :size and status IN_SERVICE>}},
+  {$project: {distance: 1, cells: <id skrytek o rozmiarze :size i statusie IN_SERVICE>}},
   {$lookup: {from: 'orders', localField: 'cells', foreignField: 'reservations.cellId', let: {cells: '$cells'},
              pipeline: [{$match: {$or: [{reservations: {$elemMatch: {status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
                                         {reservations: {$elemMatch: {status: 'OCCUPIED', to: {$lte: :now}}}}]}},
                         {$unwind: '$reservations'},
-                        {$match: {$expr: {$in: ['$reservations.cellId', '$$cells']}, $or: <the same two conditions on reservations>}},
+                        {$match: {$expr: {$in: ['$reservations.cellId', '$$cells']}, $or: <te same dwa warunki na reservations>}},
                         {$project: {_id: 0, cellId: '$reservations.cellId'}}],
              as: 'busy'}},
   {$match: {$expr: {$gt: [{$size: {$setDifference: ['$cells', '$busy.cellId']}}, 0]}}},
@@ -1078,7 +1081,7 @@ where id_ in ({marks}) and status_ = 'PAID'
 
 ```javascript
 orders.updateMany({_id: {$in: :orders}, status: 'PAID'}, {$set: {status: 'COMPLETED', closedAt: :now}})
-in one transaction per batch
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -1144,18 +1147,18 @@ where id_ = %(leg)s and status_ = 'BOOKED'
 **MongoDB**
 
 ```javascript
-orders.findOne({'reservations.accessCodes.openings.id': :opening}, {<leg, code and opening ids, cell, locker, requestedAt>});
-lockermats.updateOne({_id: <leg lockermatId>, 'cells.id': <leg cellId>}, {$inc: {'cells.$.guardSeq': 1}});
-orders.findOne({reservations: {$elemMatch: {cellId: <leg cellId>, depositedAt: {$exists: true},
+orders.findOne({'reservations.accessCodes.openings.id': :opening}, {<id nogi, kodu i otwarcia, skrytka, punkt, requestedAt>});
+lockermats.updateOne({_id: <lockermatId nogi>, 'cells.id': <cellId nogi>}, {$inc: {'cells.$.guardSeq': 1}});
+orders.findOne({reservations: {$elemMatch: {cellId: <cellId nogi>, depositedAt: {$exists: true},
                                            $or: [{collectedAt: {$exists: false}}, {collectedAt: {$gt: <requestedAt>}}]}}});
-orders.updateOne({_id: <order>, reservations: {$elemMatch: {id: <leg>, status: 'BOOKED', accessCodes: {$elemMatch: {
-                      id: <code>, status: 'ACTIVE', purpose: 'DROP_OFF', openings: {$elemMatch: {id: :opening, result: 'PENDING'}}}}}}},
+orders.updateOne({_id: <id zamówienia>, reservations: {$elemMatch: {id: <id nogi>, status: 'BOOKED', accessCodes: {$elemMatch: {
+                      id: <id kodu>, status: 'ACTIVE', purpose: 'DROP_OFF', openings: {$elemMatch: {id: :opening, result: 'PENDING'}}}}}}},
                  {$set: {'reservations.$[leg].status': 'OCCUPIED', 'reservations.$[leg].depositedAt': <requestedAt>,
                          'reservations.$[leg].accessCodes.$[code].status': 'USED',
                          'reservations.$[leg].accessCodes.$[code].usedAt': <requestedAt>,
                          'reservations.$[leg].accessCodes.$[code].openings.$[opening].result': 'OPENED'}},
-                 {arrayFilters: [{'leg.id': <leg>}, {'code.id': <code>}, {'opening.id': :opening}]})
-in one transaction per redemption
+                 {arrayFilters: [{'leg.id': <id nogi>}, {'code.id': <id kodu>}, {'opening.id': :opening}]})
+// jedna transakcja na użycie kodu
 ```
 
 **Neo4j**
@@ -1210,10 +1213,10 @@ where o.id_ in ({marks}) and (case when o.status_ = 'AWAITING_PAYMENT' then o.pa
 
 ```javascript
 orders.find({status: 'AWAITING_PAYMENT', paymentDeadline: {$lt: :now}}, {_id: 1}).sort({_id: 1});
-orders.updateMany({_id: {$in: <batch of 5000>}, status: 'AWAITING_PAYMENT', paymentDeadline: {$lt: :now}},
+orders.updateMany({_id: {$in: <partia 5000 id>}, status: 'AWAITING_PAYMENT', paymentDeadline: {$lt: :now}},
                   {$set: {status: 'EXPIRED', closedAt: :now, 'reservations.$[leg].status': 'CANCELLED'}},
                   {arrayFilters: [{'leg.status': 'BOOKED'}]})
-in one transaction per batch
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -1271,14 +1274,14 @@ where c.lockermat_id_ in ({marks})
 lockermats.find({_id: {$in: :lockers}}, {'cells.id': 1});
 lockermats.updateMany({_id: {$in: :lockers}}, {$set: {'cells.$[cell].status': 'OUT_OF_SERVICE'}},
                       {arrayFilters: [{'cell.status': 'IN_SERVICE'}]});
-orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <cells>}, status: 'BOOKED', from: {$gt: :now}}}},
+orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <skrytki punktów>}, status: 'BOOKED', from: {$gt: :now}}}},
                   {$set: {'reservations.$[leg].accessCodes.$[code].status': 'REVOKED'}},
-                  {arrayFilters: [{'leg.cellId': {$in: <cells>}, 'leg.status': 'BOOKED', 'leg.from': {$gt: :now},
+                  {arrayFilters: [{'leg.cellId': {$in: <skrytki punktów>}, 'leg.status': 'BOOKED', 'leg.from': {$gt: :now},
                                    'leg.accessCodes': {$exists: true}}, {'code.status': 'ACTIVE'}]});
-orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <cells>}, status: 'BOOKED', from: {$gt: :now}}}},
+orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <skrytki punktów>}, status: 'BOOKED', from: {$gt: :now}}}},
                   {$set: {'reservations.$[leg].status': 'CANCELLED'}},
-                  {arrayFilters: [{'leg.cellId': {$in: <cells>}, 'leg.status': 'BOOKED', 'leg.from': {$gt: :now}}]})
-in one transaction per batch
+                  {arrayFilters: [{'leg.cellId': {$in: <skrytki punktów>}, 'leg.status': 'BOOKED', 'leg.from': {$gt: :now}}]})
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -1322,7 +1325,8 @@ set s.recipient_phone_ = v.phone
 **MongoDB**
 
 ```javascript
-orders.bulkWrite([{updateOne: {filter: {_id: :order, shipment: {$exists: true}}, update: {$set: {'shipment.recipientPhone': :phone}}}}, …]) in one transaction per batch
+orders.bulkWrite([{updateOne: {filter: {_id: :order, shipment: {$exists: true}}, update: {$set: {'shipment.recipientPhone': :phone}}}}, …])
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -1360,11 +1364,11 @@ orders.aggregate([{$match: {'reservations.accessCodes': {$elemMatch: {status: 'A
                   {$unwind: '$reservations'}, {$unwind: '$reservations.accessCodes'},
                   {$match: {'reservations.accessCodes.status': 'ACTIVE', 'reservations.accessCodes.validTo': {$lt: :now}}},
                   {$project: {_id: 0, id: '$reservations.accessCodes.id'}}, {$sort: {id: 1}}]);
-orders.updateMany({'reservations.accessCodes.id': {$in: <batch of 5000>}},
+orders.updateMany({'reservations.accessCodes.id': {$in: <partia 5000 id>}},
                   {$set: {'reservations.$[leg].accessCodes.$[code].status': 'REVOKED'}},
                   {arrayFilters: [{'leg.accessCodes': {$exists: true}},
-                                  {'code.id': {$in: <batch of 5000>}, 'code.status': 'ACTIVE'}]})
-in one transaction per batch
+                                  {'code.id': {$in: <partia 5000 id>}, 'code.status': 'ACTIVE'}]})
+// jedna transakcja na partię
 ```
 
 **Neo4j**
@@ -1382,7 +1386,7 @@ SET a.status = 'REVOKED'
 
 ### D1 — usuwanie (DELETE)
 
-Usunięcie wpisów dziennika otwarć skrytek według id, w transakcjach po 100 wpisów
+Usunięcie 1000 wpisów dziennika otwarć skrytek według id, w transakcjach po 100 wpisów
 
 Flagi: —. Indeks IDX: —. Ustawienia z `ops.yaml`: `ops: 1000`, `ops_xs: 50`, `batch: 100`.
 
@@ -1401,8 +1405,8 @@ delete from cell_opening_ where id_ in ({marks})
 **MongoDB**
 
 ```javascript
-orders.update_many({"reservations.accessCodes.openings.id": {"$in": :openings}}, {"$pull": {"reservations.$[leg].accessCodes.$[code].openings": {"id": {"$in": :openings}}}}, {"arrayFilters": [{"leg.accessCodes": {"$exists": true}}, {"code.openings": {"$exists": true}}]});
-incidents.update_many({"serviceOpenings.id": {"$in": :openings}}, {"$pull": {"serviceOpenings": {"id": {"$in": :openings}}}})
+orders.updateMany({'reservations.accessCodes.openings.id': {$in: :openings}}, {$pull: {'reservations.$[leg].accessCodes.$[code].openings': {id: {$in: :openings}}}}, {arrayFilters: [{'leg.accessCodes': {$exists: true}}, {'code.openings': {$exists: true}}]});
+incidents.updateMany({'serviceOpenings.id': {$in: :openings}}, {$pull: {serviceOpenings: {id: {$in: :openings}}}})
 ```
 
 **Neo4j**
@@ -1413,7 +1417,7 @@ MATCH (o:CellOpening) WHERE o.id IN $openings DETACH DELETE o
 
 ### D2 — usuwanie (DELETE)
 
-Usunięcie zamówień ze wszystkimi zależnymi wierszami, od dzieci do rodzica w 7 tabelach, jedno zamówienie na transakcję
+Usunięcie 1000 zamówień ze wszystkimi zależnymi wierszami, od dzieci do rodzica w 7 tabelach, jedno zamówienie na transakcję
 
 Flagi: —. Indeks IDX: —. Ustawienia z `ops.yaml`: `ops: 1000`, `ops_xs: 20`, `batch: 1`.
 
@@ -1446,9 +1450,9 @@ delete from order_ where id_ in ({marks})
 **MongoDB**
 
 ```javascript
-orders.delete_one({_id: :order});
-incidents.delete_many({orderId: {$in: :orders}});
-shipLinks.delete_many({orderId: {$in: :orders}})
+orders.deleteOne({_id: :order});
+incidents.deleteMany({orderId: {$in: :orders}});
+shipLinks.deleteMany({orderId: {$in: :orders}})
 ```
 
 **Neo4j**
@@ -1490,10 +1494,10 @@ delete from cell_opening_ where id_ in ({marks})
 **MongoDB**
 
 ```javascript
-orders.aggregate([{"$match": {"reservations.accessCodes.openings.requestedAt": {"$lt": :cutoff, "$exists": true}}}, {"$unwind": "$reservations"}, {"$unwind": "$reservations.accessCodes"}, {"$unwind": "$reservations.accessCodes.openings"}, {"$match": {"reservations.accessCodes.openings.requestedAt": {"$lt": :cutoff}}}, {"$project": {"_id": 0, "id": "$reservations.accessCodes.openings.id"}}]);
-incidents.aggregate([{"$match": {"serviceOpenings.requestedAt": {"$lt": :cutoff}}}, {"$unwind": "$serviceOpenings"}, {"$match": {"serviceOpenings.requestedAt": {"$lt": :cutoff}}}, {"$project": {"_id": 0, "id": "$serviceOpenings.id"}}]);
-orders.update_many({"reservations.accessCodes.openings.id": {"$in": :openings}}, {"$pull": {"reservations.$[leg].accessCodes.$[code].openings": {"id": {"$in": :openings}}}}, {"arrayFilters": [{"leg.accessCodes": {"$exists": true}}, {"code.openings": {"$exists": true}}]});
-incidents.update_many({"serviceOpenings.id": {"$in": :openings}}, {"$pull": {"serviceOpenings": {"id": {"$in": :openings}}}})
+orders.aggregate([{$match: {'reservations.accessCodes.openings.requestedAt': {$lt: :cutoff, $exists: true}}}, {$unwind: '$reservations'}, {$unwind: '$reservations.accessCodes'}, {$unwind: '$reservations.accessCodes.openings'}, {$match: {'reservations.accessCodes.openings.requestedAt': {$lt: :cutoff}}}, {$project: {_id: 0, id: '$reservations.accessCodes.openings.id'}}]);
+incidents.aggregate([{$match: {'serviceOpenings.requestedAt': {$lt: :cutoff}}}, {$unwind: '$serviceOpenings'}, {$match: {'serviceOpenings.requestedAt': {$lt: :cutoff}}}, {$project: {_id: 0, id: '$serviceOpenings.id'}}]);
+orders.updateMany({'reservations.accessCodes.openings.id': {$in: :openings}}, {$pull: {'reservations.$[leg].accessCodes.$[code].openings': {id: {$in: :openings}}}}, {arrayFilters: [{'leg.accessCodes': {$exists: true}}, {'code.openings': {$exists: true}}]});
+incidents.updateMany({'serviceOpenings.id': {$in: :openings}}, {$pull: {serviceOpenings: {id: {$in: :openings}}}})
 ```
 
 **Neo4j**
@@ -1530,8 +1534,8 @@ delete from customer_ where id_ in ({marks})
 **MongoDB**
 
 ```javascript
-customers.aggregate([{"$lookup": {"from": "orders", "localField": "_id", "foreignField": "customerId", "pipeline": [{"$limit": 1}, {"$project": {"_id": 1}}], "as": "orders"}}, {"$match": {"orders": {"$size": 0}}}, {"$project": {"_id": 1}}]);
-customers.delete_many({"_id": {"$in": :batch}})
+customers.aggregate([{$lookup: {from: 'orders', localField: '_id', foreignField: 'customerId', pipeline: [{$limit: 1}, {$project: {_id: 1}}], as: 'orders'}}, {$match: {orders: {$size: 0}}}, {$project: {_id: 1}}]);
+customers.deleteMany({_id: {$in: :batch}})
 ```
 
 **Neo4j**
@@ -1578,10 +1582,10 @@ delete from order_ where id_ in ({marks})
 **MongoDB**
 
 ```javascript
-orders.find({"status": {"$in": ["CANCELLED", "EXPIRED"]}, "createdAt": {"$lt": :cutoff}}, {"_id": 1});
-orders.delete_many({"_id": {"$in": :batch}});
-incidents.delete_many({"orderId": {"$in": :batch}});
-shipLinks.delete_many({"orderId": {"$in": :batch}})
+orders.find({status: {$in: ['CANCELLED', 'EXPIRED']}, createdAt: {$lt: :cutoff}}, {_id: 1});
+orders.deleteMany({_id: {$in: :batch}});
+incidents.deleteMany({orderId: {$in: :batch}});
+shipLinks.deleteMany({orderId: {$in: :batch}})
 ```
 
 **Neo4j**
@@ -1642,8 +1646,8 @@ delete from lockermat_ where id_ in ({marks})
 **MongoDB**
 
 ```javascript
-lockermats.aggregate([{"$project": {"cells.id": 1}}, {"$lookup": {"from": "orders", "localField": "cells.id", "foreignField": "reservations.cellId", "pipeline": [{"$limit": 1}, {"$project": {"_id": 1}}], "as": "legs"}}, {"$match": {"legs": {"$size": 0}}}, {"$lookup": {"from": "incidents", "localField": "cells.id", "foreignField": "cellId", "pipeline": [{"$limit": 1}, {"$project": {"_id": 1}}], "as": "incidents"}}, {"$match": {"incidents": {"$size": 0}}}, {"$project": {"_id": 1}}]);
-lockermats.delete_many({"_id": {"$in": :batch}})
+lockermats.aggregate([{$project: {'cells.id': 1}}, {$lookup: {from: 'orders', localField: 'cells.id', foreignField: 'reservations.cellId', pipeline: [{$limit: 1}, {$project: {_id: 1}}], as: 'legs'}}, {$match: {legs: {$size: 0}}}, {$lookup: {from: 'incidents', localField: 'cells.id', foreignField: 'cellId', pipeline: [{$limit: 1}, {$project: {_id: 1}}], as: 'incidents'}}, {$match: {incidents: {$size: 0}}}, {$project: {_id: 1}}]);
+lockermats.deleteMany({_id: {$in: :batch}})
 ```
 
 **Neo4j**
@@ -1685,7 +1689,8 @@ values (%s, %s, %s, %s, %s, %s, %s, %s)
 **MongoDB**
 
 ```javascript
-auditEvents.insertMany([{_id, at, entity, entityId, action, actor: {kind, …}, changes: [{f, old, new}]}, …]) in one transaction per batch
+auditEvents.insertMany([{_id, at, entity, entityId, action, actor: {kind, …}, changes: [{f, old, new}]}, …])
+// jedna transakcja na partię
 ```
 
 ### J2 — odczyt (SELECT)
@@ -1720,7 +1725,7 @@ auditEvents.aggregate([
   {$match: {$or: [{'actor.email': :email}, {'actor.phone': :phone}]}},
   {$sort: {at: 1, _id: 1}}
 ])
-where an unknown e-mail or phone leaves its clause out of $or
+// nieznany e-mail lub telefon pomija swój warunek w $or
 ```
 
 ### J3 — odczyt (SELECT)
@@ -1754,10 +1759,10 @@ group by 1
 ```javascript
 auditEvents.aggregate([
   {$group: {_id: '$actor.kind', events: {$sum: 1},
-            withEmail: {$sum: {$cond: [<email exists>, 1, 0]}},
-            nameOrPhoneOnly: {$sum: {$cond: [{$and: [{$not: [<email exists>]}, {$or: [<name exists>, <phone exists>]}]}, 1, 0]}}}}
+            withEmail: {$sum: {$cond: [<email istnieje>, 1, 0]}},
+            nameOrPhoneOnly: {$sum: {$cond: [{$and: [{$not: [<email istnieje>]}, {$or: [<name istnieje>, <phone istnieje>]}]}, 1, 0]}}}}
 ])
-where <key exists> = {$ne: [{$type: '$actor.<key>'}, 'missing']}
+// <klucz istnieje> = {$ne: [{$type: '$actor.<klucz>'}, 'missing']}
 ```
 
 ### J4 — odczyt (SELECT)
@@ -1808,8 +1813,7 @@ Flagi: BA. Indeks IDX: JX1. Ustawienia z `ops.yaml`: `ops: 100`, `ops_xs: 10`, `
 select id_, actor_ ->> 'email'
 from audit_event_
 where actor_ ->> 'email' = any(%(emails)s) or actor_ ->> 'phone' = any(%(phones)s)
-order by id_
-;
+order by id_;
 
 update audit_event_ a
 set actor_ = case when t.pseudonym is null then a.actor_
@@ -1825,8 +1829,7 @@ select id_, actor_ ->> '$.email'
 from audit_event_
 where cast(actor_ ->> '$.email' as char(320) character set utf8mb4) collate utf8mb4_0900_bin in (:emails)
    or cast(actor_ ->> '$.phone' as char(16) character set utf8mb4) collate utf8mb4_0900_bin in (:phones)
-order by id_
-;
+order by id_;
 
 update audit_event_ a
 join json_table(%s, '$[*]' columns (id_ bigint path '$[0]', pseudonym varchar(64) path '$[1]')) t on t.id_ = a.id_
@@ -1836,14 +1839,14 @@ set a.actor_ = json_remove(json_replace(a.actor_, '$.email', t.pseudonym), '$.na
 **MongoDB**
 
 ```javascript
-auditEvents.find({$or: [{'actor.email': {$in: :emails}}, {'actor.phone': {$in: :phones}}]}, {'actor.email': 1})
-;
+auditEvents.find({$or: [{'actor.email': {$in: :emails}}, {'actor.phone': {$in: :phones}}]}, {'actor.email': 1});
 
 auditEvents.bulkWrite([
-  {updateMany: {filter: {_id: {$in: <events with this e-mail>}},
+  {updateMany: {filter: {_id: {$in: <zdarzenia z tym e-mailem>}},
                 update: {$set: {'actor.email': :pseudonym}, $unset: {'actor.name': '', 'actor.phone': ''}}}}, …,
-  {updateMany: {filter: {_id: {$in: <events without e-mail>}}, update: {$unset: {'actor.name': '', 'actor.phone': ''}}}}
-]) in one transaction per batch
+  {updateMany: {filter: {_id: {$in: <zdarzenia bez e-maila>}}, update: {$unset: {'actor.name': '', 'actor.phone': ''}}}}
+])
+// jedna transakcja na partię
 ```
 
 ### J6 — usuwanie (DELETE)
@@ -1870,7 +1873,8 @@ delete from audit_event_ where id_ in ({marks})
 
 ```javascript
 auditEvents.find({at: {$lt: :cutoff}, entity: {$ne: 'PAYMENT'}}, {_id: 1});
-auditEvents.deleteMany({_id: {$in: :events}}) in one transaction per batch
+auditEvents.deleteMany({_id: {$in: :events}})
+// jedna transakcja na partię
 ```
 
 ## Indeksy IDX

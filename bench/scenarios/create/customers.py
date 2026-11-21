@@ -16,8 +16,8 @@ REGISTER_MYSQL = """
 insert into customer_ (id_, keycloak_id_, phone_, terms_version_, terms_accepted_at_, created_at_)
 values (%s, %s, %s, %s, %s, %s)
 """
-REGISTER_MONGO = ("customers.insertMany([{_id, keycloakId, phone, termsVersion, termsAcceptedAt, createdAt}, …]) "
-                  "in one transaction per batch")
+REGISTER_MONGO = ("customers.insertMany([{_id, keycloakId, phone, termsVersion, termsAcceptedAt, createdAt}, …])\n"
+                  "// jedna transakcja na partię")
 REGISTER_CYPHER = """
 UNWIND $rows AS row
 CREATE (:Customer {id: row.id, keycloakId: row.keycloak, phone: row.phone, termsVersion: row.terms,

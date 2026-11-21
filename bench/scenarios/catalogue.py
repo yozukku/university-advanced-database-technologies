@@ -92,7 +92,9 @@ def render(registry):
         "H1-S, H1-I, H1-U — zbiory SELECT, INSERT i UPDATE hipotezy H1. "
         "Kolumna „Indeks IDX” podaje dla odczytu indeks, który go obsługuje, a dla zapisu indeksy, które zapis utrzymuje.", "",
         "Parametry: `%(nazwa)s` i `%s` w SQL, `$nazwa` w Cypher, `:nazwa` w wywołaniach MongoDB. "
-        "`{marks}` i `{rows}` to listy znaczników, które adapter MySQL wstawia dla partii.", "",
+        "`{marks}` i `{rows}` to listy znaczników, które adapter MySQL wstawia dla partii. "
+        "`<…>` oznacza wartość, którą klient wylicza w mierzonej jednostce z wyniku poprzedniego kroku, "
+        "albo słowny skrót fragmentu zapytania.", "",
         "## Przegląd", "",
         *table(("Id", "Operacja", "Opis", "Flagi", "Indeks IDX"),
                [(scenario.id, scenario.op, cell(scenario.description), flags(scenario), idx_indexes(plan, scenario))

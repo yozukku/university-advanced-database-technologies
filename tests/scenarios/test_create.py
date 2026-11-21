@@ -1,7 +1,6 @@
 import pytest
 from bson import json_util
 
-from bench.check.verify.results import directory
 from bench.scenarios import oracle
 from bench.scenarios.create.booking import checked
 from bench.scenarios.params import dataset
@@ -81,7 +80,4 @@ def test_c6_discovery_plans_and_tariffs(scenario, bench):
     for config in scenario.configs:
         assert runs[f"mongo/{config}"].outcome.driver_counts["tariffs"] == tariffs, config
     assert "reservation_overdue__idx" in runs["mysql/base"].access["index"], runs["mysql/base"].access
-    stored = directory(bench.size).parent / "explain" / f"{scenario.id}-discovery-mongo-base.json"
-    stored.parent.mkdir(parents=True, exist_ok=True)
-    stored.write_text(json_util.dumps(runs["mongo/base"].plan, indent=2) + "\n")
-    assert json_util.loads(stored.read_text())["queryPlanner"]["winningPlan"]
+    assert json_util.loads(json_util.dumps(runs["mongo/base"].plan))["queryPlanner"]["winningPlan"]

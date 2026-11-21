@@ -16,7 +16,8 @@ join (values {rows}) as v (order_id, phone) on v.order_id = s.order_id_
 set s.recipient_phone_ = v.phone
 """
 CORRECT_MONGO = ("orders.bulkWrite([{updateOne: {filter: {_id: :order, shipment: {$exists: true}}, "
-                 "update: {$set: {'shipment.recipientPhone': :phone}}}}, …]) in one transaction per batch")
+                 "update: {$set: {'shipment.recipientPhone': :phone}}}}, …])\n"
+                 "// jedna transakcja na partię")
 CORRECT_CYPHER = """
 UNWIND $rows AS row
 MATCH (s:Order:Shipment {id: row.order})

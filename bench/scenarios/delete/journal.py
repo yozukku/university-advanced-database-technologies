@@ -11,16 +11,26 @@ DELETE_CYPHER = "MATCH (o:CellOpening) WHERE o.id IN $openings DETACH DELETE o"
 OLD_SQL = "select id_ from cell_opening_ where requested_at_ < %s order by id_"
 OLD_CYPHER = "MATCH (o:CellOpening) WHERE o.requestedAt < $cutoff RETURN o.id ORDER BY o.id"
 CODE_OPENING = "reservations.accessCodes.openings"
-PLACEHOLDER = re.compile(r'"(:[a-z]+)"')
+KEY = re.compile(r"[$A-Za-z_]\w*")
 
 
 def marks(values):
     return ", ".join(["%s"] * len(values))
 
 
+def mongosh(value):
+    if isinstance(value, dict):
+        return "{" + ", ".join(f"{key if KEY.fullmatch(key) else mongosh(key)}: {mongosh(item)}"
+                               for key, item in value.items()) + "}"
+    if isinstance(value, list):
+        return "[" + ", ".join(mongosh(item) for item in value) + "]"
+    if isinstance(value, str):
+        return value if value.startswith(":") else f"'{value}'"
+    return json.dumps(value)
+
+
 def shell(collection, method, *args):
-    text = PLACEHOLDER.sub(r"\1", ", ".join(json.dumps(arg) for arg in args if arg))
-    return f"{collection}.{method}({text})"
+    return f"{collection}.{method}({', '.join(mongosh(arg) for arg in args if arg)})"
 
 
 def pulls(ids):
@@ -50,7 +60,7 @@ def old_pipelines(cutoff):
     )
 
 
-PULL_MONGO = ";\n".join(shell(name, "update_many", *rest) for name, *rest in pulls(":openings"))
+PULL_MONGO = ";\n".join(shell(name, "updateMany", *rest) for name, *rest in pulls(":openings"))
 OLD_MONGO = ";\n".join(shell(name, "aggregate", pipeline) for name, pipeline in old_pipelines(":cutoff"))
 
 
@@ -93,7 +103,8 @@ def delete_cypher(session, batches):
 
 
 D1 = Scenario(
-    id="D1", op="D", description="Usunięcie wpisów dziennika otwarć skrytek według id, w transakcjach po 100 wpisów",
+    id="D1", op="D",
+    description="Usunięcie 1000 wpisów dziennika otwarć skrytek według id, w transakcjach po 100 wpisów",
     select=openings,
     impls={
         "pg": Impl(DELETE_PG, delete_pg, keys=every_opening),

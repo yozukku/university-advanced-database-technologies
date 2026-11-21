@@ -37,8 +37,8 @@ DELETE_MYSQL = (
     ("shipment_", "delete from shipment_ where order_id_ in ({marks})"),
     ("order_", "delete from order_ where id_ in ({marks})"),
 )
-DELETE_MONGO = ("orders.delete_one({_id: :order});\nincidents.delete_many({orderId: {$in: :orders}});\n"
-                "shipLinks.delete_many({orderId: {$in: :orders}})")
+DELETE_MONGO = ("orders.deleteOne({_id: :order});\nincidents.deleteMany({orderId: {$in: :orders}});\n"
+                "shipLinks.deleteMany({orderId: {$in: :orders}})")
 SUBTREE_CYPHER = """OPTIONAL MATCH (o)-[:HAS_LEG]->(leg:Reservation)
 OPTIONAL MATCH (leg)-[:HAS_CODE]->(code:AccessCode)
 OPTIONAL MATCH (code)<-[:OPENED_WITH]-(opening:CellOpening)
@@ -186,7 +186,7 @@ def left_cypher(session, params):
 
 D2 = Scenario(
     id="D2", op="D",
-    description="Usunięcie zamówień ze wszystkimi zależnymi wierszami, od dzieci do rodzica w 7 tabelach, "
+    description="Usunięcie 1000 zamówień ze wszystkimi zależnymi wierszami, od dzieci do rodzica w 7 tabelach, "
                 "jedno zamówienie na transakcję",
     select=orders,
     impls={
