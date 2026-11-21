@@ -1,0 +1,170 @@
+{
+  "config": "idx",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "3.52"
+      },
+      "ordering_operation": {
+        "cost_info": {
+          "sort_cost": "0.20"
+        },
+        "table": {
+          "access_type": "range",
+          "attached_condition": "((`bagazomat`.`l`.`status_` = 'ACTIVE') and mbrcontains(<cache>(st_geomfromtext('POLYGON((18.439153900271045 54.46233266145005, 18.597328099728955 54.46233266145005, 18.597328099728955 54.55406333854995, 18.439153900271045 54.55406333854995, 18.439153900271045 54.46233266145005))',4326,'axis-order=long-lat')),`bagazomat`.`l`.`location_`) and (st_distance_sphere(`bagazomat`.`l`.`location_`,<cache>(st_geomfromtext('POINT(18.518241 54.508198)',4326,'axis-order=long-lat'))) <= 5000) and exists(/* select#2 */ select 1 from `bagazomat`.`lockermat_cell_` `c` anti join (`bagazomat`.`reservation_` `r`) on(((`bagazomat`.`r`.`cell_id_` = `bagazomat`.`c`.`id_`) and (`bagazomat`.`r`.`status_` in ('BOOKED','OCCUPIED')) and (`bagazomat`.`r`.`from_` < '2026-11-08 04:00:00') and (`bagazomat`.`r`.`to_` > '2026-11-08 00:00:00'))) anti join (`bagazomat`.`reservation_` `r`) on(((`bagazomat`.`r`.`cell_id_` = `bagazomat`.`c`.`id_`) and (`bagazomat`.`r`.`status_` = 'OCCUPIED') and (`bagazomat`.`r`.`to_` <= '2026-11-01 00:00:00'))) where (((case when (`status_` = _utf8mb4'IN_SERVICE') then `lockermat_id_` end) = `bagazomat`.`l`.`id_`) and ((case when (`status_` = _utf8mb4'IN_SERVICE') then `size_` end) = 'M'))))",
+          "attached_subqueries": [
+            {
+              "cacheable": false,
+              "dependent": true,
+              "query_block": {
+                "cost_info": {
+                  "query_cost": "218.15"
+                },
+                "nested_loop": [
+                  {
+                    "table": {
+                      "access_type": "ref",
+                      "cost_info": {
+                        "data_read_per_join": "2K",
+                        "eval_cost": "1.34",
+                        "prefix_cost": "14.71",
+                        "read_cost": "13.37"
+                      },
+                      "filtered": "100.00",
+                      "key": "lockermat_cell_lockermat_size__idx",
+                      "key_length": "52",
+                      "possible_keys": [
+                        "lockermat_cell_lockermat_size__idx"
+                      ],
+                      "ref": [
+                        "bagazomat.l.id_",
+                        "const"
+                      ],
+                      "rows_examined_per_scan": 13,
+                      "rows_produced_per_join": 13,
+                      "table_name": "c",
+                      "used_columns": [
+                        "id_",
+                        "lockermat_id_",
+                        "size_",
+                        "status_",
+                        "(case when (`status_` = _utf8mb4'IN_SERVICE') then `lockermat_id_` end)",
+                        "(case when (`status_` = _utf8mb4'IN_SERVICE') then `size_` end)"
+                      ],
+                      "used_key_parts": [
+                        "(case when (`status_` = _utf8mb4'IN_SERVICE') then `lockermat_id_` end)",
+                        "(case when (`status_` = _utf8mb4'IN_SERVICE') then `size_` end)"
+                      ]
+                    }
+                  },
+                  {
+                    "table": {
+                      "access_type": "ref",
+                      "attached_condition": "(<if>(is_not_null_compl(r), ((`bagazomat`.`r`.`status_` in ('BOOKED','OCCUPIED')) and (`bagazomat`.`r`.`from_` < '2026-11-08 04:00:00') and (`bagazomat`.`r`.`to_` > '2026-11-08 00:00:00')), true) and <if>(is_not_null_compl(r), <if>(found_match(r), false, true), true))",
+                      "cost_info": {
+                        "data_read_per_join": "4K",
+                        "eval_cost": "1.34",
+                        "prefix_cost": "116.43",
+                        "read_cost": "89.81"
+                      },
+                      "filtered": "100.00",
+                      "key": "reservation_cell_from__idx",
+                      "key_length": "8",
+                      "not_exists": true,
+                      "possible_keys": [
+                        "reservation_lockermat_cell__fk",
+                        "reservation_cell_from__idx"
+                      ],
+                      "ref": [
+                        "bagazomat.c.id_"
+                      ],
+                      "rows_examined_per_scan": 8,
+                      "rows_produced_per_join": 13,
+                      "table_name": "r",
+                      "used_columns": [
+                        "cell_id_",
+                        "from_",
+                        "to_",
+                        "status_"
+                      ],
+                      "used_key_parts": [
+                        "cell_id_"
+                      ]
+                    }
+                  },
+                  {
+                    "table": {
+                      "access_type": "ref",
+                      "attached_condition": "(<if>(is_not_null_compl(r), ((`bagazomat`.`r`.`status_` = 'OCCUPIED') and (`bagazomat`.`r`.`to_` <= '2026-11-01 00:00:00')), true) and <if>(is_not_null_compl(r), <if>(found_match(r), false, true), true))",
+                      "cost_info": {
+                        "data_read_per_join": "4K",
+                        "eval_cost": "1.34",
+                        "prefix_cost": "218.15",
+                        "read_cost": "89.81"
+                      },
+                      "filtered": "100.00",
+                      "key": "reservation_cell_from__idx",
+                      "key_length": "8",
+                      "not_exists": true,
+                      "possible_keys": [
+                        "reservation_lockermat_cell__fk",
+                        "reservation_cell_from__idx"
+                      ],
+                      "ref": [
+                        "bagazomat.c.id_"
+                      ],
+                      "rows_examined_per_scan": 8,
+                      "rows_produced_per_join": 13,
+                      "table_name": "r",
+                      "used_columns": [
+                        "cell_id_",
+                        "to_",
+                        "status_"
+                      ],
+                      "used_key_parts": [
+                        "cell_id_"
+                      ]
+                    }
+                  }
+                ],
+                "select_id": 2
+              }
+            }
+          ],
+          "cost_info": {
+            "data_read_per_join": "38",
+            "eval_cost": "0.02",
+            "prefix_cost": "3.32",
+            "read_cost": "3.30"
+          },
+          "filtered": "10.00",
+          "key": "lockermat_location_geog__idx",
+          "key_length": "34",
+          "possible_keys": [
+            "lockermat_location_geog__idx"
+          ],
+          "rows_examined_per_scan": 2,
+          "rows_produced_per_join": 0,
+          "table_name": "l",
+          "used_columns": [
+            "id_",
+            "location_",
+            "status_"
+          ],
+          "used_key_parts": [
+            "location_"
+          ]
+        },
+        "using_filesort": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "12ace1e3f0f140093df27b7ec2c5816a8a5aa10ecc7a16fa8fd67c2e7c520e05",
+  "scenario": "R3",
+  "size": "L",
+  "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+  "text": "-> Limit: 10 row(s)  (cost=3.32 rows=2) (actual time=110..110 rows=10 loops=1)\n    -> Sort: distance_, l.id_, limit input to 10 row(s) per chunk  (cost=3.32 rows=2) (actual time=110..110 rows=10 loops=1)\n        -> Filter: ((l.status_ = 'ACTIVE') and mbrcontains(<cache>(st_geomfromtext('POLYGON((18.439153900271045 54.46233266145005, 18.597328099728955 54.46233266145005, 18.597328099728955 54.55406333854995, 18.439153900271045 54.55406333854995, 18.439153900271045 54.46233266145005))',4326,'axis-order=long-lat')),l.location_) and (st_distance_sphere(l.location_,<cache>(st_geomfromtext('POINT(18.518241 54.508198)',4326,'axis-order=long-lat'))) <= 5000) and exists(select #2))  (cost=3.32 rows=2) (actual time=6.61..110 rows=33 loops=1)\n            -> Index range scan on l using lockermat_location_geog__idx over (location_ unprintable_geometry_value)  (cost=3.32 rows=2) (actual time=0.693..3.15 rows=37 loops=1)\n            -> Select #2 (subquery in condition; dependent)\n                -> Limit: 1 row(s)  (cost=312 rows=1) (actual time=2.85..2.85 rows=0.892 loops=37)\n                    -> Nested loop antijoin  (cost=312 rows=1059) (actual time=2.85..2.85 rows=0.892 loops=37)\n                        -> Nested loop antijoin  (cost=116 rows=119) (actual time=1.15..2.82 rows=2.89 loops=37)\n                            -> Index lookup on c using lockermat_cell_lockermat_size__idx ((case when (status_ = _utf8mb4'IN_SERVICE') then lockermat_id_ end)=l.id_, (case when (status_ = _utf8mb4'IN_SERVICE') then size_ end)='M')  (cost=14.7 rows=13.4) (actual time=0.173..0.175 rows=3.92 loops=37)\n                            -> Filter: ((r.status_ in ('BOOKED','OCCUPIED')) and (r.from_ < '2026-11-08 04:00:00') and (r.to_ > '2026-11-08 00:00:00'))  (cost=60.1 rows=8.89) (actual time=0.676..0.676 rows=0.262 loops=145)\n                                -> Index lookup on r using reservation_cell_from__idx (cell_id_=c.id_)  (cost=60.1 rows=8.89) (actual time=0.498..0.675 rows=11.8 loops=145)\n                        -> Filter: ((r.status_ = 'OCCUPIED') and (r.to_ <= '2026-11-01 00:00:00'))  (cost=60.1 rows=8.89) (actual time=0.00893..0.00893 rows=0.692 loops=107)\n                            -> Index lookup on r using reservation_cell_from__idx (cell_id_=c.id_)  (cost=60.1 rows=8.89) (actual time=0.00606..0.00829 rows=12 loops=107)\n"
+}

@@ -1,0 +1,44 @@
+{
+  "config": "base",
+  "engine": "mysql",
+  "kind": "write-discovery",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "292764.01"
+      },
+      "ordering_operation": {
+        "table": {
+          "access_type": "index",
+          "attached_condition": "(((cast(json_unquote(json_extract(`bagazomat`.`audit_event_`.`actor_`,'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) in ('adrian41.50049533@example.test','nikodem37.50083447@example.test','abembenek.500114908@example.test','imichel.50097839@example.test','antonisowala.50032657@example.test','filiksjustyna.5009602@example.test','kalina84.50044942@example.test','kperczak.50042856@example.test','nceynowa.50047204@example.test','tobiaszbudzen.50076688@example.test','pawel57.500112328@example.test','jedrzej98.50011352@example.test','halatmichal.50039601@example.test','kalaantoni.50046476@example.test','sara47.50046676@example.test','mikolaj51.50046052@example.test','dorobiszpiotr.50085059@example.test','monikacukier.50035421@example.test','oliwier08.500111889@example.test','zachrafal.50078061@example.test','gkurda.50037155@example.test','roksanawyderka.50065064@example.test','lnalewajko.5007445@example.test','bartekbobko.500113821@example.test','benderkonstanty.5003506@example.test','pawel81.50092337@example.test','hkosno.50029712@example.test','kazimierz08.50075950@example.test','emildoroszkiewicz.5009984@example.test','scogiel.500108152@example.test','stachewiczkornel.50033860@example.test','ambrozikolga.50074677@example.test','borkowiczmaciej.5001123@example.test','gabrielkuban.5006978@example.test','tymanorbert.50048157@example.test','nsliz.5003608@example.test','omalewicz.50017127@example.test','drzaldorota.50023381@example.test','akrolikiewicz.50067990@example.test','ztrzepizur.500102132@example.test','lawniczekoliwier.50047569@example.test','kkobel.50025973@example.test','julita95.50054964@example.test','qmilewczyk.50079755@example.test','juliannabrachman.500115311@example.test','nikodem99.50040931@example.test','leszkiewiczkarol.50070808@example.test','kamilknych.5008619@example.test','agnieszka34.50061336@example.test','grzegorz29.50051458@example.test')) or ((cast(json_unquote(json_extract(`bagazomat`.`audit_event_`.`actor_`,'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) in ('+48500049533','+48500083447','+48500114908','+48500097839','+48500032657','+48500009602','+48500044942','+48500042856','+48500047204','+48500011352','+48500039601','+48500046476','+48500046676','+48500085059','+48500035421','+48500111889','+48500078061','+48500037155','+48500065064','+48500007445','+48500113821','+48500003506','+48500092337','+48500075950','+48500108152','+48500033860','+48500074677','+48500001123','+48500006978','+48500048157','+48500003608','+48500023381','+48500067990','+48500102132','+48500047569','+48500079755','+48500115311','+48500040931','+48500070808','+48500008619','+48500061336','+48500051458','+48501044251','+48501039210','+48501013242','+48501030580','+48501031205','+48501016867','+48501030107','+48501019350','+48501026629','+48501043593','+48501015081','+48501041996','+48501008797','+48501042783','+48501024924','+48501015494','+48501002499','+48501011740','+48501012095','+48501039771','+48501033772','+48501019707','+48501040830','+48501018843','+48501007038','+48501022310','+48501013879','+48501012383','+48501018787','+48501004303','+48501003217','+48501036158','+48501031003','+48501042510','+48501039701','+48501009719','+48501035830','+48501015333','+48501040116','+48501033171','+48501027230','+48501036336','+48501039342','+48501017756','+48501018472','+48501006389','+48501036310','+48501039512','+48501010995','+48501026848')))",
+          "cost_info": {
+            "data_read_per_join": "770M",
+            "eval_cost": "280633.00",
+            "prefix_cost": "292764.01",
+            "read_cost": "12131.01"
+          },
+          "filtered": "100.00",
+          "key": "PRIMARY",
+          "key_length": "8",
+          "rows_examined_per_scan": 2806330,
+          "rows_produced_per_join": 2806330,
+          "table_name": "audit_event_",
+          "used_columns": [
+            "id_",
+            "actor_"
+          ],
+          "used_key_parts": [
+            "id_"
+          ]
+        },
+        "using_filesort": false
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "126c893de9d44bc2cbfc8d2897ae389958c2949be0dd0219905261c6dba834a9",
+  "scenario": "J5",
+  "size": "L",
+  "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+  "text": "-> Filter: (((cast(json_unquote(json_extract(audit_event_.actor_,'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) in ('adrian41.50049533@example.test','nikodem37.50083447@example.test','abembenek.500114908@example.test','imichel.50097839@example.test','antonisowala.50032657@example.test','filiksjustyna.5009602@example.test','kalina84.50044942@example.test','kperczak.50042856@example.test','nceynowa.50047204@example.test','tobiaszbudzen.50076688@example.test','pawel57.500112328@example.test','jedrzej98.50011352@example.test','halatmichal.50039601@example.test','kalaantoni.50046476@example.test','sara47.50046676@example.test','mikolaj51.50046052@example.test','dorobiszpiotr.50085059@example.test','monikacukier.50035421@example.test','oliwier08.500111889@example.test','zachrafal.50078061@example.test','gkurda.50037155@example.test','roksanawyderka.50065064@example.test','lnalewajko.5007445@example.test','bartekbobko.500113821@example.test','benderkonstanty.5003506@example.test','pawel81.50092337@example.test','hkosno.50029712@example.test','kazimierz08.50075950@example.test','emildoroszkiewicz.5009984@example.test','scogiel.500108152@example.test','stachewiczkornel.50033860@example.test','ambrozikolga.50074677@example.test','borkowiczmaciej.5001123@example.test','gabrielkuban.5006978@example.test','tymanorbert.50048157@example.test','nsliz.5003608@example.test','omalewicz.50017127@example.test','drzaldorota.50023381@example.test','akrolikiewicz.50067990@example.test','ztrzepizur.500102132@example.test','lawniczekoliwier.50047569@example.test','kkobel.50025973@example.test','julita95.50054964@example.test','qmilewczyk.50079755@example.test','juliannabrachman.500115311@example.test','nikodem99.50040931@example.test','leszkiewiczkarol.50070808@example.test','kamilknych.5008619@example.test','agnieszka34.50061336@example.test','grzegorz29.50051458@example.test')) or ((cast(json_unquote(json_extract(audit_event_.actor_,'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) in ('+48500049533','+48500083447','+48500114908','+48500097839','+48500032657','+48500009602','+48500044942','+48500042856','+48500047204','+48500011352','+48500039601','+48500046476','+48500046676','+48500085059','+48500035421','+48500111889','+48500078061','+48500037155','+48500065064','+48500007445','+48500113821','+48500003506','+48500092337','+48500075950','+48500108152','+48500033860','+48500074677','+48500001123','+48500006978','+48500048157','+48500003608','+48500023381','+48500067990','+48500102132','+48500047569','+48500079755','+48500115311','+48500040931','+48500070808','+48500008619','+48500061336','+48500051458','+48501044251','+48501039210','+48501013242','+48501030580','+48501031205','+48501016867','+48501030107','+48501019350','+48501026629','+48501043593','+48501015081','+48501041996','+48501008797','+48501042783','+48501024924','+48501015494','+48501002499','+48501011740','+48501012095','+48501039771','+48501033772','+48501019707','+48501040830','+48501018843','+48501007038','+48501022310','+48501013879','+48501012383','+48501018787','+48501004303','+48501003217','+48501036158','+48501031003','+48501042510','+48501039701','+48501009719','+48501035830','+48501015333','+48501040116','+48501033171','+48501027230','+48501036336','+48501039342','+48501017756','+48501018472','+48501006389','+48501036310','+48501039512','+48501010995','+48501026848')))  (cost=292764 rows=2.81e+6) (actual time=0.054..772 rows=764 loops=1)\n    -> Index scan on audit_event_ using PRIMARY  (cost=292764 rows=2.81e+6) (actual time=0.00533..346 rows=2.93e+6 loops=1)\n"
+}

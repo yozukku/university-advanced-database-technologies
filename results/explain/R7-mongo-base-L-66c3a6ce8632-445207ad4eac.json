@@ -1,0 +1,374 @@
+{
+  "scenario": "R7",
+  "engine": "mongo",
+  "config": "base",
+  "size": "L",
+  "kind": "read",
+  "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+  "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+  "plan": {
+    "explainVersion": "1",
+    "stages": [
+      {
+        "$cursor": {
+          "queryPlanner": {
+            "namespace": "bagazomat.orders",
+            "parsedQuery": {
+              "$and": [
+                {
+                  "reservations.accessCodes.openings": {
+                    "$elemMatch": {
+                      "$and": [
+                        {
+                          "requestedAt": {
+                            "$lt": {
+                              "$date": "2026-10-03T00:00:00Z"
+                            }
+                          }
+                        },
+                        {
+                          "requestedAt": {
+                            "$gte": {
+                              "$date": "2026-10-02T00:00:00Z"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "reservations.accessCodes.openings.requestedAt": {
+                    "$exists": true
+                  }
+                }
+              ]
+            },
+            "indexFilterSet": false,
+            "queryHash": "57CAAD3C",
+            "planCacheShapeHash": "57CAAD3C",
+            "planCacheKey": "8E85202B",
+            "optimizationTimeMillis": 0,
+            "maxIndexedOrSolutionsReached": false,
+            "maxIndexedAndSolutionsReached": false,
+            "maxScansToExplodeReached": false,
+            "prunedSimilarIndexes": false,
+            "winningPlan": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "transformBy": {
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "COLLSCAN",
+                "filter": {
+                  "$and": [
+                    {
+                      "reservations.accessCodes.openings": {
+                        "$elemMatch": {
+                          "$and": [
+                            {
+                              "requestedAt": {
+                                "$lt": {
+                                  "$date": "2026-10-03T00:00:00Z"
+                                }
+                              }
+                            },
+                            {
+                              "requestedAt": {
+                                "$gte": {
+                                  "$date": "2026-10-02T00:00:00Z"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "reservations.accessCodes.openings.requestedAt": {
+                        "$exists": true
+                      }
+                    }
+                  ]
+                },
+                "direction": "forward"
+              }
+            },
+            "rejectedPlans": []
+          },
+          "executionStats": {
+            "executionSuccess": true,
+            "nReturned": 985,
+            "executionTimeMillis": 617,
+            "totalKeysExamined": 0,
+            "totalDocsExamined": 923423,
+            "executionStages": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "nReturned": 985,
+              "executionTimeMillisEstimate": 587,
+              "works": 923424,
+              "advanced": 985,
+              "needTime": 922438,
+              "needYield": 0,
+              "saveState": 42,
+              "restoreState": 42,
+              "isEOF": 1,
+              "transformBy": {
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "COLLSCAN",
+                "filter": {
+                  "$and": [
+                    {
+                      "reservations.accessCodes.openings": {
+                        "$elemMatch": {
+                          "$and": [
+                            {
+                              "requestedAt": {
+                                "$lt": {
+                                  "$date": "2026-10-03T00:00:00Z"
+                                }
+                              }
+                            },
+                            {
+                              "requestedAt": {
+                                "$gte": {
+                                  "$date": "2026-10-02T00:00:00Z"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "reservations.accessCodes.openings.requestedAt": {
+                        "$exists": true
+                      }
+                    }
+                  ]
+                },
+                "nReturned": 985,
+                "executionTimeMillisEstimate": 587,
+                "works": 923424,
+                "advanced": 985,
+                "needTime": 922438,
+                "needYield": 0,
+                "saveState": 42,
+                "restoreState": 42,
+                "isEOF": 1,
+                "direction": "forward",
+                "docsExamined": 923423
+              }
+            }
+          }
+        },
+        "nReturned": 985,
+        "executionTimeMillisEstimate": 602
+      },
+      {
+        "$unwind": {
+          "path": "$reservations"
+        },
+        "nReturned": 1317,
+        "executionTimeMillisEstimate": 602
+      },
+      {
+        "$unwind": {
+          "path": "$reservations.accessCodes"
+        },
+        "nReturned": 2634,
+        "executionTimeMillisEstimate": 602
+      },
+      {
+        "$unwind": {
+          "path": "$reservations.accessCodes.openings"
+        },
+        "nReturned": 3077,
+        "executionTimeMillisEstimate": 602
+      },
+      {
+        "$match": {
+          "$and": [
+            {
+              "reservations.accessCodes.openings.requestedAt": {
+                "$gte": {
+                  "$date": "2026-10-02T00:00:00Z"
+                }
+              }
+            },
+            {
+              "reservations.accessCodes.openings.requestedAt": {
+                "$lt": {
+                  "$date": "2026-10-03T00:00:00Z"
+                }
+              }
+            }
+          ]
+        },
+        "nReturned": 1376,
+        "executionTimeMillisEstimate": 616
+      },
+      {
+        "$group": {
+          "_id": "$reservations.lockermatId",
+          "openings": {
+            "$sum": {
+              "$const": 1
+            }
+          },
+          "doorFailed": {
+            "$sum": {
+              "$cond": [
+                {
+                  "$eq": [
+                    "$reservations.accessCodes.openings.result",
+                    {
+                      "$const": "DOOR_FAILED"
+                    }
+                  ]
+                },
+                {
+                  "$const": 1
+                },
+                {
+                  "$const": 0
+                }
+              ]
+            }
+          }
+        },
+        "maxAccumulatorMemoryUsageBytes": {
+          "openings": 98944,
+          "doorFailed": 98944
+        },
+        "totalOutputDataSizeBytes": 214121,
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "numBytesSpilledEstimate": 0,
+        "spilledRecords": 0,
+        "nReturned": 773,
+        "executionTimeMillisEstimate": 616
+      }
+    ],
+    "queryShapeHash": "DB92D5CAAFF0EC065F1C96E21EC060FC58DADA4CDE23D038B6E2A2E5ECC13D03",
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "command": {
+      "aggregate": "orders",
+      "pipeline": [
+        {
+          "$match": {
+            "reservations.accessCodes.openings": {
+              "$elemMatch": {
+                "requestedAt": {
+                  "$gte": {
+                    "$date": "2026-10-02T00:00:00Z"
+                  },
+                  "$lt": {
+                    "$date": "2026-10-03T00:00:00Z"
+                  }
+                }
+              }
+            },
+            "reservations.accessCodes.openings.requestedAt": {
+              "$exists": true
+            }
+          }
+        },
+        {
+          "$unwind": "$reservations"
+        },
+        {
+          "$unwind": "$reservations.accessCodes"
+        },
+        {
+          "$unwind": "$reservations.accessCodes.openings"
+        },
+        {
+          "$match": {
+            "reservations.accessCodes.openings.requestedAt": {
+              "$gte": {
+                "$date": "2026-10-02T00:00:00Z"
+              },
+              "$lt": {
+                "$date": "2026-10-03T00:00:00Z"
+              }
+            }
+          }
+        },
+        {
+          "$group": {
+            "_id": "$reservations.lockermatId",
+            "openings": {
+              "$sum": 1
+            },
+            "doorFailed": {
+              "$sum": {
+                "$cond": [
+                  {
+                    "$eq": [
+                      "$reservations.accessCodes.openings.result",
+                      "DOOR_FAILED"
+                    ]
+                  },
+                  1,
+                  0
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301338,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301338,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

@@ -1,0 +1,52 @@
+{
+  "config": "base",
+  "engine": "mysql",
+  "kind": "write-discovery",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "67344.06"
+      },
+      "ordering_operation": {
+        "cost_info": {
+          "sort_cost": "46444.00"
+        },
+        "table": {
+          "access_type": "range",
+          "attached_condition": "((case when (`status_` = _utf8mb4'AWAITING_PAYMENT') then `payment_deadline_` end) < '2026-11-01 00:00:00')",
+          "cost_info": {
+            "data_read_per_join": "13M",
+            "eval_cost": "4644.40",
+            "prefix_cost": "20900.06",
+            "read_cost": "16255.66"
+          },
+          "filtered": "100.00",
+          "key": "order_awaiting_payment__idx",
+          "key_length": "8",
+          "possible_keys": [
+            "order_awaiting_payment__idx"
+          ],
+          "rows_examined_per_scan": 46444,
+          "rows_produced_per_join": 46444,
+          "table_name": "order_",
+          "used_columns": [
+            "id_",
+            "status_",
+            "payment_deadline_",
+            "(case when (`status_` = _utf8mb4'AWAITING_PAYMENT') then `payment_deadline_` end)"
+          ],
+          "used_key_parts": [
+            "(case when (`status_` = _utf8mb4'AWAITING_PAYMENT') then `payment_deadline_` end)"
+          ]
+        },
+        "using_filesort": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+  "scenario": "U3",
+  "size": "L",
+  "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+  "text": "-> Sort: order_.id_  (cost=20900 rows=46444) (actual time=17.5..18 rows=24103 loops=1)\n    -> Filter: ((case when (status_ = _utf8mb4'AWAITING_PAYMENT') then payment_deadline_ end) < '2026-11-01 00:00:00')  (cost=20900 rows=46444) (actual time=0.659..15.6 rows=24103 loops=1)\n        -> Index range scan on order_ using order_awaiting_payment__idx over (NULL < (case when (`status_` = _utf8mb4'AWAITING_PAYMENT') then `payment_deadline_` end) < '2026-11-01 00:00:00.000')  (cost=20900 rows=46444) (actual time=0.658..14.8 rows=24103 loops=1)\n"
+}

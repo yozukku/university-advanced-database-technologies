@@ -1,0 +1,319 @@
+{
+  "scenario": "R5",
+  "engine": "mongo",
+  "config": "idx",
+  "size": "L",
+  "kind": "read",
+  "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+  "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+  "plan": {
+    "explainVersion": "1",
+    "stages": [
+      {
+        "$cursor": {
+          "queryPlanner": {
+            "namespace": "bagazomat.orders",
+            "parsedQuery": {
+              "$and": [
+                {
+                  "status": {
+                    "$eq": "COMPLETED"
+                  }
+                },
+                {
+                  "createdAt": {
+                    "$lt": {
+                      "$date": "2026-11-01T00:00:00Z"
+                    }
+                  }
+                },
+                {
+                  "createdAt": {
+                    "$gte": {
+                      "$date": "2026-10-02T00:00:00Z"
+                    }
+                  }
+                }
+              ]
+            },
+            "indexFilterSet": false,
+            "queryHash": "CC44D48E",
+            "planCacheShapeHash": "CC44D48E",
+            "planCacheKey": "8F2627CA",
+            "optimizationTimeMillis": 0,
+            "maxIndexedOrSolutionsReached": false,
+            "maxIndexedAndSolutionsReached": false,
+            "maxScansToExplodeReached": false,
+            "prunedSimilarIndexes": false,
+            "winningPlan": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "transformBy": {
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "FETCH",
+                "inputStage": {
+                  "stage": "IXSCAN",
+                  "keyPattern": {
+                    "status": 1,
+                    "createdAt": 1
+                  },
+                  "indexName": "ix2__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "status": [],
+                    "createdAt": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": false,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "status": [
+                      "[\"COMPLETED\", \"COMPLETED\"]"
+                    ],
+                    "createdAt": [
+                      "[new Date(1790899200000), new Date(1793491200000))"
+                    ]
+                  }
+                }
+              }
+            },
+            "rejectedPlans": []
+          },
+          "executionStats": {
+            "executionSuccess": true,
+            "nReturned": 80945,
+            "executionTimeMillis": 126,
+            "totalKeysExamined": 80945,
+            "totalDocsExamined": 80945,
+            "executionStages": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "nReturned": 80945,
+              "executionTimeMillisEstimate": 14,
+              "works": 80946,
+              "advanced": 80945,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 28,
+              "restoreState": 28,
+              "isEOF": 1,
+              "transformBy": {
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "FETCH",
+                "nReturned": 80945,
+                "executionTimeMillisEstimate": 14,
+                "works": 80946,
+                "advanced": 80945,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 28,
+                "restoreState": 28,
+                "isEOF": 1,
+                "docsExamined": 80945,
+                "alreadyHasObj": 0,
+                "inputStage": {
+                  "stage": "IXSCAN",
+                  "nReturned": 80945,
+                  "executionTimeMillisEstimate": 3,
+                  "works": 80946,
+                  "advanced": 80945,
+                  "needTime": 0,
+                  "needYield": 0,
+                  "saveState": 28,
+                  "restoreState": 28,
+                  "isEOF": 1,
+                  "keyPattern": {
+                    "status": 1,
+                    "createdAt": 1
+                  },
+                  "indexName": "ix2__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "status": [],
+                    "createdAt": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": false,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "status": [
+                      "[\"COMPLETED\", \"COMPLETED\"]"
+                    ],
+                    "createdAt": [
+                      "[new Date(1790899200000), new Date(1793491200000))"
+                    ]
+                  },
+                  "keysExamined": 80945,
+                  "seeks": 1,
+                  "dupsTested": 0,
+                  "dupsDropped": 0
+                }
+              }
+            }
+          }
+        },
+        "nReturned": 80945,
+        "executionTimeMillisEstimate": 110
+      },
+      {
+        "$unwind": {
+          "path": "$reservations"
+        },
+        "nReturned": 98404,
+        "executionTimeMillisEstimate": 114
+      },
+      {
+        "$match": {
+          "reservations.leg": {
+            "$in": [
+              "ORIGIN",
+              "STORAGE"
+            ]
+          }
+        },
+        "nReturned": 80945,
+        "executionTimeMillisEstimate": 123
+      },
+      {
+        "$group": {
+          "_id": "$reservations.lockermatId",
+          "orders": {
+            "$sum": {
+              "$const": 1
+            }
+          }
+        },
+        "maxAccumulatorMemoryUsageBytes": {
+          "orders": 316800
+        },
+        "totalOutputDataSizeBytes": 606375,
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "numBytesSpilledEstimate": 0,
+        "spilledRecords": 0,
+        "nReturned": 2475,
+        "executionTimeMillisEstimate": 123
+      },
+      {
+        "$sort": {
+          "sortKey": {
+            "orders": -1,
+            "_id": 1
+          },
+          "limit": 20
+        },
+        "totalDataSizeSortedBytesEstimate": 6500,
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "nReturned": 20,
+        "executionTimeMillisEstimate": 123
+      }
+    ],
+    "queryShapeHash": "0A5B94CD3356C6D3A2DD7F6563605913C393509762FDF688D7AF38705F9161C8",
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "command": {
+      "aggregate": "orders",
+      "pipeline": [
+        {
+          "$match": {
+            "status": "COMPLETED",
+            "createdAt": {
+              "$gte": {
+                "$date": "2026-10-02T00:00:00Z"
+              },
+              "$lt": {
+                "$date": "2026-11-01T00:00:00Z"
+              }
+            }
+          }
+        },
+        {
+          "$unwind": "$reservations"
+        },
+        {
+          "$match": {
+            "reservations.leg": {
+              "$in": [
+                "STORAGE",
+                "ORIGIN"
+              ]
+            }
+          }
+        },
+        {
+          "$group": {
+            "_id": "$reservations.lockermatId",
+            "orders": {
+              "$sum": 1
+            }
+          }
+        },
+        {
+          "$sort": {
+            "orders": -1,
+            "_id": 1
+          }
+        },
+        {
+          "$limit": 20
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301329,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301329,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

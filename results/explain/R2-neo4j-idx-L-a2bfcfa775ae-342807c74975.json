@@ -1,0 +1,282 @@
+{
+  "config": "idx",
+  "engine": "neo4j",
+  "kind": "read",
+  "plan": {
+    "args": {
+      "DbHits": 0,
+      "Details": "`o.id`, `o.number`, `o.type`, `o.status`, `o.price`, `o.createdAt`",
+      "EstimatedRows": 6.999991336590776,
+      "GlobalMemory": 26744,
+      "Id": 0,
+      "Memory": 0,
+      "Order": "`o.createdAt` DESC, `o.id` DESC",
+      "PageCacheHits": 0,
+      "PageCacheMisses": 0,
+      "Rows": 20,
+      "planner": "COST",
+      "planner-impl": "IDP",
+      "planner-version": "5.26.33",
+      "runtime": "SLOTTED",
+      "runtime-impl": "SLOTTED",
+      "runtime-version": "5.26.33",
+      "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+----------------------+----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+---------------------------------+\n| Operator             | Id | Details                                                                                    | Estimated Rows | Rows | DB Hits | Memory (Bytes) | Page Cache Hits/Misses | Ordered by                      |\n+----------------------+----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+---------------------------------+\n| +ProduceResults      |  0 | `o.id`, `o.number`, `o.type`, `o.status`, `o.price`, `o.createdAt`                         |              7 |   20 |       0 |              0 |                    0/0 |                                 |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+                                 |\n| +Projection          |  1 | cache[o.status] AS `o.status`, cache[o.number] AS `o.number`, cache[o.price] AS `o.price`, |              7 |   20 |       0 |                |                    0/0 |                                 |\n| |                    |    | cache[o.type] AS `o.type`                                                                  |                |      |         |                |                        |                                 |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+                                 |\n| +CacheProperties     |  2 | cache[o.status], cache[o.number], cache[o.price], cache[o.type]                            |              7 |   20 |      80 |                |                    0/0 |                                 |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+                                 |\n| +Skip                |  3 | $offset                                                                                    |              7 |   20 |       0 |                |                    0/0 |                                 |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+                                 |\n| +Top                 |  4 | `o.createdAt` DESC, `o.id` DESC LIMIT $limit + $offset                                     |              8 |   60 |       0 |          26664 |                    0/0 | `o.createdAt` DESC, `o.id` DESC |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+---------------------------------+\n| +Projection          |  5 | cache[o.createdAt] AS `o.createdAt`, cache[o.id] AS `o.id`                                 |              8 |   69 |       0 |                |                    0/0 |                                 |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+---------------------------------+\n| +CacheProperties     |  6 | cache[o.createdAt], cache[o.id]                                                            |              8 |   69 |     138 |                |                    0/0 |                                 |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+---------------------------------+\n| +Filter              |  7 | o:Order                                                                                    |              8 |   69 |      69 |                |                    0/0 |                                 |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+---------------------------------+\n| +Expand(All)         |  8 | (anon_0)-[anon_1:PLACED]->(o)                                                              |              8 |   69 |      71 |                |                    0/0 |                                 |\n| |                    +----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+---------------------------------+\n| +NodeUniqueIndexSeek |  9 | UNIQUE anon_0:Customer(id) WHERE id = $customer                                            |              1 |    1 |       2 |                |                    0/0 |                                 |\n+----------------------+----+--------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+---------------------------------+\n\nTotal database accesses: 360, total allocated memory: 26744\n",
+      "version": "5"
+    },
+    "children": [
+      {
+        "args": {
+          "DbHits": 0,
+          "Details": "cache[o.status] AS `o.status`, cache[o.number] AS `o.number`, cache[o.price] AS `o.price`, cache[o.type] AS `o.type`",
+          "EstimatedRows": 6.999991336590776,
+          "Id": 1,
+          "Order": "`o.createdAt` DESC, `o.id` DESC",
+          "PageCacheHits": 0,
+          "PageCacheMisses": 0,
+          "Rows": 20
+        },
+        "children": [
+          {
+            "args": {
+              "DbHits": 80,
+              "Details": "cache[o.status], cache[o.number], cache[o.price], cache[o.type]",
+              "EstimatedRows": 6.999991336590776,
+              "Id": 2,
+              "Order": "`o.createdAt` DESC, `o.id` DESC",
+              "PageCacheHits": 0,
+              "PageCacheMisses": 0,
+              "Rows": 20
+            },
+            "children": [
+              {
+                "args": {
+                  "DbHits": 0,
+                  "Details": "$offset",
+                  "EstimatedRows": 6.999991336590776,
+                  "Id": 3,
+                  "Order": "`o.createdAt` DESC, `o.id` DESC",
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 20
+                },
+                "children": [
+                  {
+                    "args": {
+                      "DbHits": 0,
+                      "Details": "`o.createdAt` DESC, `o.id` DESC LIMIT $limit + $offset",
+                      "EstimatedRows": 7.999991336590776,
+                      "Id": 4,
+                      "Memory": 26664,
+                      "Order": "`o.createdAt` DESC, `o.id` DESC",
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 60
+                    },
+                    "children": [
+                      {
+                        "args": {
+                          "DbHits": 0,
+                          "Details": "cache[o.createdAt] AS `o.createdAt`, cache[o.id] AS `o.id`",
+                          "EstimatedRows": 7.999991336590776,
+                          "Id": 5,
+                          "PageCacheHits": 0,
+                          "PageCacheMisses": 0,
+                          "Rows": 69
+                        },
+                        "children": [
+                          {
+                            "args": {
+                              "DbHits": 138,
+                              "Details": "cache[o.createdAt], cache[o.id]",
+                              "EstimatedRows": 7.999991336590776,
+                              "Id": 6,
+                              "PageCacheHits": 0,
+                              "PageCacheMisses": 0,
+                              "Rows": 69
+                            },
+                            "children": [
+                              {
+                                "args": {
+                                  "DbHits": 69,
+                                  "Details": "o:Order",
+                                  "EstimatedRows": 7.999991336590776,
+                                  "Id": 7,
+                                  "PageCacheHits": 0,
+                                  "PageCacheMisses": 0,
+                                  "Rows": 69
+                                },
+                                "children": [
+                                  {
+                                    "args": {
+                                      "DbHits": 71,
+                                      "Details": "(anon_0)-[anon_1:PLACED]->(o)",
+                                      "EstimatedRows": 7.999991336590776,
+                                      "Id": 8,
+                                      "PageCacheHits": 0,
+                                      "PageCacheMisses": 0,
+                                      "Rows": 69
+                                    },
+                                    "children": [
+                                      {
+                                        "args": {
+                                          "DbHits": 2,
+                                          "Details": "UNIQUE anon_0:Customer(id) WHERE id = $customer",
+                                          "EstimatedRows": 1.0,
+                                          "Id": 9,
+                                          "PageCacheHits": 0,
+                                          "PageCacheMisses": 0,
+                                          "Rows": 1
+                                        },
+                                        "dbHits": 2,
+                                        "identifiers": [
+                                          "anon_0"
+                                        ],
+                                        "operatorType": "NodeUniqueIndexSeek@neo4j",
+                                        "pageCacheHitRatio": 0.0,
+                                        "pageCacheHits": 0,
+                                        "pageCacheMisses": 0,
+                                        "rows": 1
+                                      }
+                                    ],
+                                    "dbHits": 71,
+                                    "identifiers": [
+                                      "anon_0",
+                                      "anon_1",
+                                      "o"
+                                    ],
+                                    "operatorType": "Expand(All)@neo4j",
+                                    "pageCacheHitRatio": 0.0,
+                                    "pageCacheHits": 0,
+                                    "pageCacheMisses": 0,
+                                    "rows": 69
+                                  }
+                                ],
+                                "dbHits": 69,
+                                "identifiers": [
+                                  "anon_0",
+                                  "anon_1",
+                                  "o"
+                                ],
+                                "operatorType": "Filter@neo4j",
+                                "pageCacheHitRatio": 0.0,
+                                "pageCacheHits": 0,
+                                "pageCacheMisses": 0,
+                                "rows": 69
+                              }
+                            ],
+                            "dbHits": 138,
+                            "identifiers": [
+                              "anon_0",
+                              "anon_1",
+                              "o"
+                            ],
+                            "operatorType": "CacheProperties@neo4j",
+                            "pageCacheHitRatio": 0.0,
+                            "pageCacheHits": 0,
+                            "pageCacheMisses": 0,
+                            "rows": 69
+                          }
+                        ],
+                        "dbHits": 0,
+                        "identifiers": [
+                          "`o.createdAt`",
+                          "`o.id`",
+                          "o",
+                          "anon_0",
+                          "anon_1"
+                        ],
+                        "operatorType": "Projection@neo4j",
+                        "pageCacheHitRatio": 0.0,
+                        "pageCacheHits": 0,
+                        "pageCacheMisses": 0,
+                        "rows": 69
+                      }
+                    ],
+                    "dbHits": 0,
+                    "identifiers": [
+                      "`o.createdAt`",
+                      "`o.id`",
+                      "o",
+                      "anon_0",
+                      "anon_1"
+                    ],
+                    "operatorType": "Top@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 60
+                  }
+                ],
+                "dbHits": 0,
+                "identifiers": [
+                  "`o.createdAt`",
+                  "`o.id`",
+                  "o",
+                  "anon_0",
+                  "anon_1"
+                ],
+                "operatorType": "Skip@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 20
+              }
+            ],
+            "dbHits": 80,
+            "identifiers": [
+              "`o.createdAt`",
+              "`o.id`",
+              "o",
+              "anon_0",
+              "anon_1"
+            ],
+            "operatorType": "CacheProperties@neo4j",
+            "pageCacheHitRatio": 0.0,
+            "pageCacheHits": 0,
+            "pageCacheMisses": 0,
+            "rows": 20
+          }
+        ],
+        "dbHits": 0,
+        "identifiers": [
+          "`o.type`",
+          "`o.id`",
+          "`o.price`",
+          "o",
+          "`o.number`",
+          "`o.createdAt`",
+          "`o.status`",
+          "anon_0",
+          "anon_1"
+        ],
+        "operatorType": "Projection@neo4j",
+        "pageCacheHitRatio": 0.0,
+        "pageCacheHits": 0,
+        "pageCacheMisses": 0,
+        "rows": 20
+      }
+    ],
+    "dbHits": 0,
+    "identifiers": [
+      "`o.type`",
+      "`o.id`",
+      "`o.price`",
+      "o",
+      "`o.number`",
+      "`o.createdAt`",
+      "`o.status`",
+      "anon_0",
+      "anon_1"
+    ],
+    "operatorType": "ProduceResults@neo4j",
+    "pageCacheHitRatio": 0.0,
+    "pageCacheHits": 0,
+    "pageCacheMisses": 0,
+    "rows": 20
+  },
+  "qhash": "a2bfcfa775ae5241ff4baf76157eebfd559f5f65d77ea755c2b1dcd8c325e3de",
+  "scenario": "R2",
+  "size": "L",
+  "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+  "text": null
+}

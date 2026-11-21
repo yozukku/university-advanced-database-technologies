@@ -1,0 +1,178 @@
+{
+  "scenario": "U3",
+  "engine": "mongo",
+  "config": "base",
+  "size": "L",
+  "kind": "write-discovery",
+  "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+  "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+  "plan": {
+    "explainVersion": "1",
+    "queryPlanner": {
+      "namespace": "bagazomat.orders",
+      "parsedQuery": {
+        "$and": [
+          {
+            "status": {
+              "$eq": "AWAITING_PAYMENT"
+            }
+          },
+          {
+            "paymentDeadline": {
+              "$lt": {
+                "$date": "2026-11-01T00:00:00Z"
+              }
+            }
+          }
+        ]
+      },
+      "indexFilterSet": false,
+      "queryHash": "5597353C",
+      "planCacheShapeHash": "5597353C",
+      "planCacheKey": "292BB3C5",
+      "optimizationTimeMillis": 0,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "stage": "FETCH",
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "paymentDeadline": 1
+          },
+          "indexName": "order_awaiting_payment__idx",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "paymentDeadline": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": true,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "paymentDeadline": [
+              "[new Date(-9223372036854775808), new Date(1793491200000))"
+            ]
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 24103,
+      "executionTimeMillis": 9,
+      "totalKeysExamined": 24103,
+      "totalDocsExamined": 24103,
+      "executionStages": {
+        "isCached": false,
+        "stage": "FETCH",
+        "nReturned": 24103,
+        "executionTimeMillisEstimate": 9,
+        "works": 24104,
+        "advanced": 24103,
+        "needTime": 0,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "docsExamined": 24103,
+        "alreadyHasObj": 0,
+        "inputStage": {
+          "stage": "IXSCAN",
+          "nReturned": 24103,
+          "executionTimeMillisEstimate": 0,
+          "works": 24104,
+          "advanced": 24103,
+          "needTime": 0,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "keyPattern": {
+            "paymentDeadline": 1
+          },
+          "indexName": "order_awaiting_payment__idx",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "paymentDeadline": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": true,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "paymentDeadline": [
+              "[new Date(-9223372036854775808), new Date(1793491200000))"
+            ]
+          },
+          "keysExamined": 24103,
+          "seeks": 1,
+          "dupsTested": 0,
+          "dupsDropped": 0
+        }
+      }
+    },
+    "queryShapeHash": "3060180F237BE6091B6DD3BA6C32EF696E503EFC07F5451F69AACF2C3A4A9F46",
+    "command": {
+      "find": "orders",
+      "filter": {
+        "status": "AWAITING_PAYMENT",
+        "paymentDeadline": {
+          "$lt": {
+            "$date": "2026-11-01T00:00:00Z"
+          }
+        }
+      },
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301338,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301338,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

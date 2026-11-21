@@ -1,0 +1,230 @@
+{
+  "scenario": "C6",
+  "engine": "mongo",
+  "config": "base",
+  "size": "L",
+  "kind": "write-discovery",
+  "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+  "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+  "plan": {
+    "explainVersion": "1",
+    "queryPlanner": {
+      "namespace": "bagazomat.orders",
+      "parsedQuery": {
+        "reservations": {
+          "$elemMatch": {
+            "$and": [
+              {
+                "status": {
+                  "$eq": "OCCUPIED"
+                }
+              },
+              {
+                "to": {
+                  "$lt": {
+                    "$date": "2026-11-01T00:00:00Z"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "indexFilterSet": false,
+      "queryHash": "91B6A35C",
+      "planCacheShapeHash": "91B6A35C",
+      "planCacheKey": "F83DE6B1",
+      "optimizationTimeMillis": 0,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "stage": "FETCH",
+        "filter": {
+          "reservations": {
+            "$elemMatch": {
+              "$and": [
+                {
+                  "to": {
+                    "$lt": {
+                      "$date": "2026-11-01T00:00:00Z"
+                    }
+                  }
+                },
+                {
+                  "status": {
+                    "$eq": "OCCUPIED"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "reservations.to": 1
+          },
+          "indexName": "reservation_overdue__idx",
+          "isMultiKey": true,
+          "multiKeyPaths": {
+            "reservations.to": [
+              "reservations"
+            ]
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "reservations.to": [
+              "[new Date(-9223372036854775808), new Date(1793491200000))"
+            ]
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 35551,
+      "executionTimeMillis": 1220,
+      "totalKeysExamined": 719858,
+      "totalDocsExamined": 612625,
+      "executionStages": {
+        "isCached": false,
+        "stage": "FETCH",
+        "filter": {
+          "reservations": {
+            "$elemMatch": {
+              "$and": [
+                {
+                  "to": {
+                    "$lt": {
+                      "$date": "2026-11-01T00:00:00Z"
+                    }
+                  }
+                },
+                {
+                  "status": {
+                    "$eq": "OCCUPIED"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "nReturned": 35551,
+        "executionTimeMillisEstimate": 1209,
+        "works": 719859,
+        "advanced": 35551,
+        "needTime": 684307,
+        "needYield": 0,
+        "saveState": 85,
+        "restoreState": 85,
+        "isEOF": 1,
+        "docsExamined": 612625,
+        "alreadyHasObj": 0,
+        "inputStage": {
+          "stage": "IXSCAN",
+          "nReturned": 612625,
+          "executionTimeMillisEstimate": 212,
+          "works": 719859,
+          "advanced": 612625,
+          "needTime": 107233,
+          "needYield": 0,
+          "saveState": 85,
+          "restoreState": 85,
+          "isEOF": 1,
+          "keyPattern": {
+            "reservations.to": 1
+          },
+          "indexName": "reservation_overdue__idx",
+          "isMultiKey": true,
+          "multiKeyPaths": {
+            "reservations.to": [
+              "reservations"
+            ]
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "reservations.to": [
+              "[new Date(-9223372036854775808), new Date(1793491200000))"
+            ]
+          },
+          "keysExamined": 719858,
+          "seeks": 1,
+          "dupsTested": 719858,
+          "dupsDropped": 107233
+        }
+      }
+    },
+    "queryShapeHash": "5B7AD65891145EB7863B847FEADA8315EB46675D6CA66BAB6F3FB71434E10E7C",
+    "command": {
+      "find": "orders",
+      "filter": {
+        "reservations": {
+          "$elemMatch": {
+            "status": "OCCUPIED",
+            "to": {
+              "$lt": {
+                "$date": "2026-11-01T00:00:00Z"
+              }
+            }
+          }
+        }
+      },
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301338,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301338,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

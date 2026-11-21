@@ -1,86 +1,171 @@
 size,scenario,engine,config,kind,access_path,index,rows_examined,rows_returned,file
+L,C6,mongo,base,write-discovery,IXSCAN,reservation_overdue__idx,612625,35551,C6-mongo-base-L-38b0f342ee25-445207ad4eac.json
 S,C6,mongo,base,write-discovery,IXSCAN,reservation_overdue__idx,30621,1777,C6-mongo-base-S-38b0f342ee25-a835ddcfbcb8.json
+L,C6,mongo,idx,write-discovery,IXSCAN,reservation_overdue__idx,612625,35551,C6-mongo-idx-L-38b0f342ee25-a56d81e3d59d.json
 S,C6,mongo,idx,write-discovery,IXSCAN,reservation_overdue__idx,30621,1777,C6-mongo-idx-S-38b0f342ee25-2aa4ccb1f511.json
+L,C6,mysql,base,write-discovery,range,reservation_overdue__idx,35551,35551,C6-mysql-base-L-38b0f342ee25-84c15729a879.json
 S,C6,mysql,base,write-discovery,range,reservation_overdue__idx,1777,1777,C6-mysql-base-S-38b0f342ee25-5b247a71a165.json
+L,C6,mysql,idx,write-discovery,range,reservation_overdue__idx,35551,35551,C6-mysql-idx-L-38b0f342ee25-446bfef30178.json
 S,C6,mysql,idx,write-discovery,range,reservation_overdue__idx,1777,1777,C6-mysql-idx-S-38b0f342ee25-9f704d5d96c6.json
+L,C6,neo4j,base,write-discovery,NodeIndexSeekByRange,reservation_overdue__idx,719858,35551,C6-neo4j-base-L-38b0f342ee25-8d89b05a2340.json
 S,C6,neo4j,base,write-discovery,NodeIndexSeekByRange,reservation_overdue__idx,35981,1777,C6-neo4j-base-S-38b0f342ee25-2809c2da4321.json
+L,C6,neo4j,idx,write-discovery,NodeIndexSeekByRange,reservation_overdue__idx,719858,35551,C6-neo4j-idx-L-38b0f342ee25-342807c74975.json
 S,C6,neo4j,idx,write-discovery,NodeIndexSeekByRange,reservation_overdue__idx,35981,1777,C6-neo4j-idx-S-38b0f342ee25-2dfe543b9ef8.json
+L,C6,pg,base,write-discovery,Bitmap Heap Scan; Bitmap Index Scan,reservation_overdue__idx,35551,35551,C6-pg-base-L-38b0f342ee25-81611ba5ba5d.json
 S,C6,pg,base,write-discovery,Bitmap Heap Scan; Bitmap Index Scan,reservation_overdue__idx,1777,1777,C6-pg-base-S-38b0f342ee25-bc1092c098b2.json
+L,C6,pg,idx,write-discovery,Bitmap Heap Scan; Bitmap Index Scan,reservation_overdue__idx,35551,35551,C6-pg-idx-L-38b0f342ee25-7b3d3b2b4270.json
 S,C6,pg,idx,write-discovery,Bitmap Heap Scan; Bitmap Index Scan,reservation_overdue__idx,1777,1777,C6-pg-idx-S-38b0f342ee25-c6439b8506e5.json
+L,J2,mongo,base,read,COLLSCAN,,2927711,21,J2-mongo-base-L-ca1396df71d3-445207ad4eac.json
 S,J2,mongo,base,read,COLLSCAN,,146384,10,J2-mongo-base-S-d161e697bd5f-a835ddcfbcb8.json
+L,J2,mongo,idx,read,IXSCAN,jx1_email__idx; jx1_phone__idx,21,21,J2-mongo-idx-L-ca1396df71d3-a56d81e3d59d.json
 S,J2,mongo,idx,read,IXSCAN,jx1_email__idx; jx1_phone__idx,10,10,J2-mongo-idx-S-d161e697bd5f-2aa4ccb1f511.json
+L,J2,mysql,base,read,ALL,,2930000,21,J2-mysql-base-L-ca1396df71d3-84c15729a879.json
 S,J2,mysql,base,read,ALL,,146384,10,J2-mysql-base-S-d161e697bd5f-5b247a71a165.json
+L,J2,mysql,idx,read,index_merge,jx1_email__idx; jx1_phone__idx,21,21,J2-mysql-idx-L-ca1396df71d3-446bfef30178.json
 S,J2,mysql,idx,read,index_merge,jx1_email__idx; jx1_phone__idx,10,10,J2-mysql-idx-S-d161e697bd5f-9f704d5d96c6.json
+L,J2,pg,base,read,Seq Scan,,2927712,21,J2-pg-base-L-ca1396df71d3-81611ba5ba5d.json
 S,J2,pg,base,read,Seq Scan,,146382,10,J2-pg-base-S-d161e697bd5f-bc1092c098b2.json
+L,J2,pg,idx,read,Bitmap Heap Scan; Bitmap Index Scan,jx1_email__idx; jx1_phone__idx,21,21,J2-pg-idx-L-ca1396df71d3-7b3d3b2b4270.json
 S,J2,pg,idx,read,Bitmap Heap Scan; Bitmap Index Scan,jx1_email__idx; jx1_phone__idx,10,10,J2-pg-idx-S-d161e697bd5f-c6439b8506e5.json
+L,J3,mongo,idx,read,COLLSCAN,,2927711,7,J3-mongo-idx-L-0554d65ae130-a56d81e3d59d.json
 S,J3,mongo,idx,read,COLLSCAN,,146384,7,J3-mongo-idx-S-0554d65ae130-2aa4ccb1f511.json
+L,J3,mysql,idx,read,ALL,,2930000,7,J3-mysql-idx-L-0554d65ae130-446bfef30178.json
 S,J3,mysql,idx,read,ALL,,146384,7,J3-mysql-idx-S-0554d65ae130-9f704d5d96c6.json
+L,J3,pg,idx,read,Seq Scan,,2927712,7,J3-pg-idx-L-0554d65ae130-7b3d3b2b4270.json
 S,J3,pg,idx,read,Seq Scan,,146384,7,J3-pg-idx-S-0554d65ae130-c6439b8506e5.json
+L,J4,mongo,base,read,COLLSCAN,,2927711,1,J4-mongo-base-L-6664355918b1-445207ad4eac.json
 S,J4,mongo,base,read,COLLSCAN,,146384,1,J4-mongo-base-S-6664355918b1-a835ddcfbcb8.json
+L,J4,mongo,idx,read,IXSCAN,jx2__idx,92342,1,J4-mongo-idx-L-6664355918b1-a56d81e3d59d.json
 S,J4,mongo,idx,read,IXSCAN,jx2__idx,4617,1,J4-mongo-idx-S-6664355918b1-2aa4ccb1f511.json
+L,J4,mysql,base,read,index,audit_event_entity_at__idx,2930000,1,J4-mysql-base-L-6664355918b1-84c15729a879.json
 S,J4,mysql,base,read,index,audit_event_entity_at__idx,146384,1,J4-mysql-base-S-6664355918b1-5b247a71a165.json
+L,J4,mysql,idx,read,ref,jx2__idx,92342,1,J4-mysql-idx-L-6664355918b1-446bfef30178.json
 S,J4,mysql,idx,read,ref,jx2__idx,4617,1,J4-mysql-idx-S-6664355918b1-9f704d5d96c6.json
+L,J4,pg,base,read,Seq Scan,,2927709,1,J4-pg-base-L-6664355918b1-81611ba5ba5d.json
 S,J4,pg,base,read,Seq Scan,,146382,1,J4-pg-base-S-6664355918b1-bc1092c098b2.json
+L,J4,pg,idx,read,Bitmap Heap Scan; Bitmap Index Scan,jx2__idx,92342,1,J4-pg-idx-L-6664355918b1-7b3d3b2b4270.json
 S,J4,pg,idx,read,Bitmap Heap Scan; Bitmap Index Scan,jx2__idx,4617,1,J4-pg-idx-S-6664355918b1-c6439b8506e5.json
+L,J5,mongo,base,write-discovery,COLLSCAN,,2927711,764,J5-mongo-base-L-126c893de9d4-445207ad4eac.json
 S,J5,mongo,base,write-discovery,COLLSCAN,,146384,771,J5-mongo-base-S-3d287ec0f024-a835ddcfbcb8.json
+L,J5,mongo,idx,write-discovery,IXSCAN,jx1_email__idx; jx1_phone__idx,764,764,J5-mongo-idx-L-126c893de9d4-a56d81e3d59d.json
 S,J5,mongo,idx,write-discovery,IXSCAN,jx1_email__idx; jx1_phone__idx,771,771,J5-mongo-idx-S-3d287ec0f024-2aa4ccb1f511.json
+L,J5,mysql,base,write-discovery,index,PRIMARY,2930000,764,J5-mysql-base-L-126c893de9d4-84c15729a879.json
 S,J5,mysql,base,write-discovery,index,PRIMARY,146384,771,J5-mysql-base-S-3d287ec0f024-5b247a71a165.json
+L,J5,mysql,idx,write-discovery,index_merge,jx1_email__idx; jx1_phone__idx,764,764,J5-mysql-idx-L-126c893de9d4-446bfef30178.json
 S,J5,mysql,idx,write-discovery,index_merge,jx1_email__idx; jx1_phone__idx,771,771,J5-mysql-idx-S-3d287ec0f024-9f704d5d96c6.json
+L,J5,pg,base,write-discovery,Index Scan,audit_event__pkey,2927711,764,J5-pg-base-L-126c893de9d4-81611ba5ba5d.json
 S,J5,pg,base,write-discovery,Index Scan,audit_event__pkey,146384,771,J5-pg-base-S-3d287ec0f024-bc1092c098b2.json
+L,J5,pg,idx,write-discovery,Bitmap Heap Scan; Bitmap Index Scan,jx1_email__idx; jx1_phone__idx,764,764,J5-pg-idx-L-126c893de9d4-7b3d3b2b4270.json
 S,J5,pg,idx,write-discovery,Bitmap Heap Scan; Bitmap Index Scan,jx1_email__idx; jx1_phone__idx,771,771,J5-pg-idx-S-3d287ec0f024-c6439b8506e5.json
+L,R1,mongo,idx,read,EXPRESS_IXSCAN,_id_,1,1,R1-mongo-idx-L-cd6468cafde3-a56d81e3d59d.json
 S,R1,mongo,idx,read,EXPRESS_IXSCAN,_id_,1,1,R1-mongo-idx-S-e6ca3e10fca9-2aa4ccb1f511.json
+L,R1,mysql,idx,read,const; ref; eq_ref,PRIMARY; reservation_order__fk; access_code_reservation__idx; payment_order__idx,6,3,R1-mysql-idx-L-cd6468cafde3-446bfef30178.json
 S,R1,mysql,idx,read,const; ref; eq_ref,PRIMARY; reservation_order__fk; access_code_reservation__idx; payment_order__idx,7,4,R1-mysql-idx-S-e6ca3e10fca9-9f704d5d96c6.json
+L,R1,neo4j,idx,read,NodeUniqueIndexSeek,Order_id__uq,1,1,R1-neo4j-idx-L-cd6468cafde3-342807c74975.json
 S,R1,neo4j,idx,read,NodeUniqueIndexSeek,Order_id__uq,1,1,R1-neo4j-idx-S-e6ca3e10fca9-2dfe543b9ef8.json
+L,R1,pg,idx,read,Index Scan,order_id_type_size__uq; reservation_order__idx; lockermat_cell__pkey; lockermat__pkey; access_code_reservation__idx; payment_order__idx,8,3,R1-pg-idx-L-cd6468cafde3-7b3d3b2b4270.json
 S,R1,pg,idx,read,Index Scan,order_id_type_size__uq; reservation_order__idx; lockermat_cell_id_size__uq; lockermat__pkey; access_code_reservation__idx; payment_order__idx,9,4,R1-pg-idx-S-e6ca3e10fca9-c6439b8506e5.json
+L,R2,mongo,idx,read,IXSCAN,order_customer_created__idx,69,20,R2-mongo-idx-L-a2bfcfa775ae-a56d81e3d59d.json
 S,R2,mongo,idx,read,IXSCAN,order_customer_created__idx,76,20,R2-mongo-idx-S-56d80bfe28d4-2aa4ccb1f511.json
+L,R2,mysql,idx,read,ref,order_customer_created__idx,60,20,R2-mysql-idx-L-a2bfcfa775ae-446bfef30178.json
 S,R2,mysql,idx,read,ref,order_customer_created__idx,60,20,R2-mysql-idx-S-56d80bfe28d4-9f704d5d96c6.json
+L,R2,neo4j,idx,read,NodeUniqueIndexSeek,Customer_id__uq,1,20,R2-neo4j-idx-L-a2bfcfa775ae-342807c74975.json
 S,R2,neo4j,idx,read,NodeUniqueIndexSeek,Customer_id__uq,1,20,R2-neo4j-idx-S-56d80bfe28d4-2dfe543b9ef8.json
+L,R2,pg,idx,read,Index Scan,order_customer_created__idx,61,20,R2-pg-idx-L-a2bfcfa775ae-7b3d3b2b4270.json
 S,R2,pg,idx,read,Index Scan,order_customer_created__idx,61,20,R2-pg-idx-S-56d80bfe28d4-c6439b8506e5.json
+L,R3,mongo,idx,read,GEO_NEAR_2DSPHERE; IXSCAN,lockermat_location_geog__idx,1691,10,R3-mongo-idx-L-12ace1e3f0f1-a56d81e3d59d.json
 S,R3,mongo,idx,read,GEO_NEAR_2DSPHERE; IXSCAN,lockermat_location_geog__idx,261,1,R3-mongo-idx-S-267f67065af3-2aa4ccb1f511.json
+L,R3,mysql,idx,read,range; ref,lockermat_location_geog__idx; lockermat_cell_lockermat_size__idx; reservation_cell_from__idx,3177,10,R3-mysql-idx-L-12ace1e3f0f1-446bfef30178.json
 S,R3,mysql,idx,read,ALL; ref,lockermat_cell_lockermat_size__idx; reservation_lockermat_cell__fk,229,1,R3-mysql-idx-S-267f67065af3-9f704d5d96c6.json
+L,R3,neo4j,idx,read,NodeIndexSeekByRange,lockermat_location_geog__idx,37,10,R3-neo4j-idx-L-12ace1e3f0f1-342807c74975.json
 S,R3,neo4j,idx,read,NodeIndexSeekByRange,lockermat_location_geog__idx,1,1,R3-neo4j-idx-S-267f67065af3-2dfe543b9ef8.json
+L,R3,pg,idx,read,Bitmap Heap Scan; Bitmap Index Scan; Index Scan,lockermat_location_geog__idx; lockermat_cell_lockermat_size__idx; reservation_cell_size__idx; reservation_no_double_booking__ex,2292,10,R3-pg-idx-L-12ace1e3f0f1-7b3d3b2b4270.json
 S,R3,pg,idx,read,Index Scan,lockermat_location_geog__idx; lockermat_cell_lockermat_size__idx; reservation_cell_size__idx,110,1,R3-pg-idx-S-267f67065af3-c6439b8506e5.json
+L,R4,mongo,base,read,COLLSCAN,,923424,1,R4-mongo-base-L-a96b6e02fc07-445207ad4eac.json
 S,R4,mongo,base,read,COLLSCAN,,46171,1,R4-mongo-base-S-8bc3fc1209f9-a835ddcfbcb8.json
+L,R4,mongo,idx,read,IXSCAN,ix1__idx,5,1,R4-mongo-idx-L-a96b6e02fc07-a56d81e3d59d.json
 S,R4,mongo,idx,read,IXSCAN,ix1__idx,4,1,R4-mongo-idx-S-8bc3fc1209f9-2aa4ccb1f511.json
+L,R4,mysql,base,read,ALL; ref; eq_ref,reservation_order__fk; PRIMARY,184695,1,R4-mysql-base-L-a96b6e02fc07-84c15729a879.json
 S,R4,mysql,base,read,ALL; ref; eq_ref,reservation_order__idx; PRIMARY,9243,1,R4-mysql-base-S-8bc3fc1209f9-5b247a71a165.json
+L,R4,mysql,idx,read,ref; eq_ref,ix1__idx; reservation_order__fk; PRIMARY,14,1,R4-mysql-idx-L-a96b6e02fc07-446bfef30178.json
 S,R4,mysql,idx,read,ref; eq_ref,ix1__idx; reservation_order__idx; PRIMARY,11,1,R4-mysql-idx-S-8bc3fc1209f9-9f704d5d96c6.json
+L,R4,neo4j,base,read,NodeByLabelScan,,184685,1,R4-neo4j-base-L-a96b6e02fc07-8d89b05a2340.json
 S,R4,neo4j,base,read,NodeByLabelScan,,9235,1,R4-neo4j-base-S-8bc3fc1209f9-2809c2da4321.json
+L,R4,neo4j,idx,read,NodeIndexSeek,ix1__idx,4,1,R4-neo4j-idx-L-a96b6e02fc07-342807c74975.json
 S,R4,neo4j,idx,read,NodeIndexSeek,ix1__idx,3,1,R4-neo4j-idx-S-8bc3fc1209f9-2dfe543b9ef8.json
+L,R4,pg,base,read,Seq Scan; Index Scan,reservation_leg__uq; lockermat_cell__pkey; lockermat__pkey,184687,1,R4-pg-base-L-a96b6e02fc07-81611ba5ba5d.json
 S,R4,pg,base,read,Seq Scan; Index Scan,reservation_order__idx; lockermat_cell__pkey; lockermat__pkey,9243,1,R4-pg-base-S-8bc3fc1209f9-bc1092c098b2.json
+L,R4,pg,idx,read,Bitmap Heap Scan; Bitmap Index Scan; Index Scan,ix1__idx; reservation_leg__uq; lockermat_cell__pkey; lockermat__pkey,6,1,R4-pg-idx-L-a96b6e02fc07-7b3d3b2b4270.json
 S,R4,pg,idx,read,Bitmap Heap Scan; Bitmap Index Scan; Index Scan,ix1__idx; reservation_order__idx; lockermat_cell__pkey; lockermat__pkey,11,1,R4-pg-idx-S-8bc3fc1209f9-c6439b8506e5.json
+L,R5,mongo,base,read,COLLSCAN,,923423,20,R5-mongo-base-L-960125e3d4be-445207ad4eac.json
 S,R5,mongo,base,read,COLLSCAN,,46170,20,R5-mongo-base-S-960125e3d4be-a835ddcfbcb8.json
+L,R5,mongo,idx,read,IXSCAN,ix2__idx,80945,20,R5-mongo-idx-L-960125e3d4be-a56d81e3d59d.json
 S,R5,mongo,idx,read,IXSCAN,ix2__idx,4048,20,R5-mongo-idx-S-960125e3d4be-2aa4ccb1f511.json
+L,R5,mysql,base,read,ALL; ref; eq_ref,reservation_order__fk; PRIMARY,1103121,20,R5-mysql-base-L-960125e3d4be-84c15729a879.json
 S,R5,mysql,base,read,ALL; ref; eq_ref,reservation_order__idx; PRIMARY,55157,20,R5-mysql-base-S-960125e3d4be-5b247a71a165.json
+L,R5,mysql,idx,read,range; ref; eq_ref,ix2__idx; reservation_order__fk; PRIMARY,260643,20,R5-mysql-idx-L-960125e3d4be-446bfef30178.json
 S,R5,mysql,idx,read,range; ref; eq_ref,ix2__idx; reservation_order__idx; PRIMARY,13035,20,R5-mysql-idx-S-960125e3d4be-9f704d5d96c6.json
+L,R5,neo4j,base,read,NodeByLabelScan,,1108108,20,R5-neo4j-base-L-960125e3d4be-8d89b05a2340.json
 S,R5,neo4j,base,read,NodeByLabelScan,,55405,20,R5-neo4j-base-S-960125e3d4be-2809c2da4321.json
+L,R5,neo4j,idx,read,NodeIndexSeek,ix2__idx,80945,20,R5-neo4j-idx-L-960125e3d4be-342807c74975.json
 S,R5,neo4j,idx,read,NodeIndexSeek,ix2__idx,4048,20,R5-neo4j-idx-S-960125e3d4be-2dfe543b9ef8.json
+L,R5,pg,base,read,Seq Scan,,2331534,20,R5-pg-base-L-960125e3d4be-81611ba5ba5d.json
 S,R5,pg,base,read,Seq Scan,,106575,20,R5-pg-base-S-960125e3d4be-bc1092c098b2.json
+L,R5,pg,idx,read,Seq Scan,,2331534,20,R5-pg-idx-L-960125e3d4be-7b3d3b2b4270.json
 S,R5,pg,idx,read,Seq Scan; Bitmap Heap Scan; Bitmap Index Scan,ix2__idx,64453,20,R5-pg-idx-S-960125e3d4be-c6439b8506e5.json
+L,R6,mongo,base,read,COLLSCAN,,923423,2378,R6-mongo-base-L-741c24045465-445207ad4eac.json
 S,R6,mongo,base,read,COLLSCAN,,46170,118,R6-mongo-base-S-741c24045465-a835ddcfbcb8.json
+L,R6,mongo,idx,read,IXSCAN,ix3__idx,16132,2378,R6-mongo-idx-L-741c24045465-a56d81e3d59d.json
 S,R6,mongo,idx,read,IXSCAN,ix3__idx,824,118,R6-mongo-idx-S-741c24045465-2aa4ccb1f511.json
+L,R6,mysql,base,read,ALL; ref; eq_ref,reservation_order__fk; PRIMARY,1056832,2378,R6-mysql-base-L-741c24045465-84c15729a879.json
 S,R6,mysql,base,read,ALL; ref; eq_ref,reservation_order__idx; PRIMARY,52680,118,R6-mysql-base-S-741c24045465-5b247a71a165.json
+L,R6,mysql,idx,read,range; ref; eq_ref,ix3__idx; reservation_order__fk; PRIMARY,55848,2378,R6-mysql-idx-L-741c24045465-446bfef30178.json
 S,R6,mysql,idx,read,range; ref; eq_ref,ix3__idx; reservation_order__idx; PRIMARY,2866,118,R6-mysql-idx-S-741c24045465-9f704d5d96c6.json
+L,R6,neo4j,base,read,NodeByLabelScan,,1015765,2378,R6-neo4j-base-L-741c24045465-8d89b05a2340.json
 S,R6,neo4j,base,read,NodeByLabelScan,,50787,118,R6-neo4j-base-S-741c24045465-2809c2da4321.json
+L,R6,neo4j,idx,read,NodeIndexSeekByRange,ix3__idx,19016,2378,R6-neo4j-idx-L-741c24045465-342807c74975.json
 S,R6,neo4j,idx,read,NodeIndexSeekByRange,ix3__idx,973,118,R6-neo4j-idx-S-741c24045465-2dfe543b9ef8.json
+L,R6,pg,base,read,Seq Scan; Index Scan,lockermat_cell__pkey,2140465,2378,R6-pg-base-L-741c24045465-81611ba5ba5d.json
 S,R6,pg,base,read,Seq Scan,,111192,118,R6-pg-base-S-741c24045465-bc1092c098b2.json
+L,R6,pg,idx,read,Seq Scan; Bitmap Heap Scan; Bitmap Index Scan; Index Scan,ix3__idx; lockermat_cell__pkey,1143715,2378,R6-pg-idx-L-741c24045465-7b3d3b2b4270.json
 S,R6,pg,idx,read,Seq Scan; Bitmap Heap Scan; Bitmap Index Scan,ix3__idx,61378,118,R6-pg-idx-S-741c24045465-c6439b8506e5.json
+L,R7,mongo,base,read,COLLSCAN,,923423,773,R7-mongo-base-L-66c3a6ce8632-445207ad4eac.json
 S,R7,mongo,base,read,COLLSCAN,,46170,37,R7-mongo-base-S-66c3a6ce8632-a835ddcfbcb8.json
+L,R7,mongo,idx,read,IXSCAN,ix4__idx,985,773,R7-mongo-idx-L-66c3a6ce8632-a56d81e3d59d.json
 S,R7,mongo,idx,read,IXSCAN,ix4__idx,45,37,R7-mongo-idx-S-66c3a6ce8632-2aa4ccb1f511.json
+L,R7,mysql,base,read,ALL; eq_ref,PRIMARY,1604128,773,R7-mysql-base-L-66c3a6ce8632-84c15729a879.json
 S,R7,mysql,base,read,ALL; eq_ref,PRIMARY,80061,37,R7-mysql-base-S-66c3a6ce8632-5b247a71a165.json
+L,R7,mysql,idx,read,range; eq_ref,ix4__idx; PRIMARY,6970,773,R7-mysql-idx-L-66c3a6ce8632-446bfef30178.json
 S,R7,mysql,idx,read,range; eq_ref,ix4__idx; PRIMARY,350,37,R7-mysql-idx-S-66c3a6ce8632-9f704d5d96c6.json
+L,R7,neo4j,base,read,NodeByLabelScan,,1597060,773,R7-neo4j-base-L-66c3a6ce8632-8d89b05a2340.json
 S,R7,neo4j,base,read,NodeByLabelScan,,79851,37,R7-neo4j-base-S-66c3a6ce8632-2809c2da4321.json
+L,R7,neo4j,idx,read,NodeIndexSeekByRange,ix4__idx,2842,773,R7-neo4j-idx-L-66c3a6ce8632-342807c74975.json
 S,R7,neo4j,idx,read,NodeIndexSeekByRange,ix4__idx,140,37,R7-neo4j-idx-S-66c3a6ce8632-2dfe543b9ef8.json
+L,R7,pg,base,read,Seq Scan; Index Scan; Index Only Scan,access_code__pkey; reservation_id_cell_order__uq; lockermat_cell__pkey,1599811,773,R7-pg-base-L-66c3a6ce8632-81611ba5ba5d.json
 S,R7,pg,base,read,Seq Scan; Index Scan; Index Only Scan,access_code__pkey; reservation_id_cell_order__uq; lockermat_cell__pkey,79991,37,R7-pg-base-S-66c3a6ce8632-bc1092c098b2.json
+L,R7,pg,idx,read,Bitmap Heap Scan; Bitmap Index Scan; Index Scan; Index Only Scan,ix4__idx; access_code__pkey; reservation_id_cell_order__uq; lockermat_cell__pkey,5594,773,R7-pg-idx-L-66c3a6ce8632-7b3d3b2b4270.json
 S,R7,pg,idx,read,Index Scan; Index Only Scan,ix4__idx; access_code__pkey; reservation_id_cell_order__uq; lockermat_cell__pkey,280,37,R7-pg-idx-S-66c3a6ce8632-c6439b8506e5.json
+L,R8,mongo,idx,read,IXSCAN,shiplinks_from_at__idx,20,20,R8-mongo-idx-L-b811509a9f47-a56d81e3d59d.json
 S,R8,mongo,idx,read,IXSCAN,shiplinks_from_at__idx,49,49,R8-mongo-idx-S-ca07191ece8b-2aa4ccb1f511.json
+L,R8,mysql,idx,read,ALL; ref; eq_ref,lockermat_cell_number__uq; reservation_cell_from__idx; reservation_order__fk; PRIMARY; shipment_order__uq,9846,58,R8-mysql-idx-L-b811509a9f47-446bfef30178.json
 S,R8,mysql,idx,read,ALL; ref; eq_ref,lockermat_cell_number__uq; reservation_lockermat_cell__fk; reservation_order__idx; PRIMARY; shipment_order__uq,16536,55,R8-mysql-idx-S-ca07191ece8b-9f704d5d96c6.json
+L,R8,neo4j,idx,read,NodeUniqueIndexSeek,Lockermat_id__uq,1,58,R8-neo4j-idx-L-b811509a9f47-342807c74975.json
 S,R8,neo4j,idx,read,NodeUniqueIndexSeek,Lockermat_id__uq,1,55,R8-neo4j-idx-S-ca07191ece8b-2dfe543b9ef8.json
+L,R8,pg,idx,read,Index Scan; Index Only Scan,lockermat_cell_number__uq; reservation_cell_size__idx; shipment_order__uq; reservation_order__idx; order__pkey; lockermat_cell__pkey,9333,58,R8-pg-idx-L-b811509a9f47-7b3d3b2b4270.json
 S,R8,pg,idx,read,Index Scan; Index Only Scan,lockermat_cell_number__uq; reservation_cell_size__idx; shipment_order__uq; reservation_order__idx; order__pkey; lockermat_cell__pkey,16036,55,R8-pg-idx-S-ca07191ece8b-c6439b8506e5.json
+L,U3,mongo,base,write-discovery,IXSCAN,order_awaiting_payment__idx,24103,24103,U3-mongo-base-L-ea25599e83e6-445207ad4eac.json
 S,U3,mongo,base,write-discovery,IXSCAN,order_awaiting_payment__idx,1206,1206,U3-mongo-base-S-ea25599e83e6-a835ddcfbcb8.json
+L,U3,mongo,idx,write-discovery,IXSCAN,ix2__idx,26780,24103,U3-mongo-idx-L-ea25599e83e6-a56d81e3d59d.json
 S,U3,mongo,idx,write-discovery,IXSCAN,ix2__idx,1339,1206,U3-mongo-idx-S-ea25599e83e6-2aa4ccb1f511.json
+L,U3,mysql,base,write-discovery,range,order_awaiting_payment__idx,24103,24103,U3-mysql-base-L-ea25599e83e6-84c15729a879.json
 S,U3,mysql,base,write-discovery,range,order_awaiting_payment__idx,1206,1206,U3-mysql-base-S-ea25599e83e6-5b247a71a165.json
+L,U3,mysql,idx,write-discovery,range,order_awaiting_payment__idx,24103,24103,U3-mysql-idx-L-ea25599e83e6-446bfef30178.json
 S,U3,mysql,idx,write-discovery,range,order_awaiting_payment__idx,1206,1206,U3-mysql-idx-S-ea25599e83e6-9f704d5d96c6.json
+L,U3,neo4j,base,write-discovery,NodeIndexSeekByRange,order_awaiting_payment__idx,920746,24103,U3-neo4j-base-L-ea25599e83e6-8d89b05a2340.json
 S,U3,neo4j,base,write-discovery,NodeIndexSeekByRange,order_awaiting_payment__idx,46037,1206,U3-neo4j-base-S-ea25599e83e6-2809c2da4321.json
+L,U3,neo4j,idx,write-discovery,NodeIndexSeekByRange,order_awaiting_payment__idx,920746,24103,U3-neo4j-idx-L-ea25599e83e6-342807c74975.json
 S,U3,neo4j,idx,write-discovery,NodeIndexSeekByRange,order_awaiting_payment__idx,46037,1206,U3-neo4j-idx-S-ea25599e83e6-2dfe543b9ef8.json
+L,U3,pg,base,write-discovery,Index Scan,order_awaiting_payment__idx,24103,24103,U3-pg-base-L-ea25599e83e6-81611ba5ba5d.json
 S,U3,pg,base,write-discovery,Index Scan,order_awaiting_payment__idx,1206,1206,U3-pg-base-S-ea25599e83e6-bc1092c098b2.json
+L,U3,pg,idx,write-discovery,Index Scan,order_awaiting_payment__idx,24103,24103,U3-pg-idx-L-ea25599e83e6-7b3d3b2b4270.json
 S,U3,pg,idx,write-discovery,Index Scan,order_awaiting_payment__idx,1206,1206,U3-pg-idx-S-ea25599e83e6-c6439b8506e5.json

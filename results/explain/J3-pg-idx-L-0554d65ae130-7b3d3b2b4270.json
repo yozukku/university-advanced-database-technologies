@@ -1,0 +1,228 @@
+{
+  "config": "idx",
+  "engine": "pg",
+  "kind": "read",
+  "plan": [
+    {
+      "Execution Time": 1578.038,
+      "JIT": {
+        "Functions": 21,
+        "Options": {
+          "Deforming": true,
+          "Expressions": true,
+          "Inlining": false,
+          "Optimization": false
+        },
+        "Timing": {
+          "Emission": 14.95,
+          "Generation": {
+            "Deform": 0.139,
+            "Total": 0.672
+          },
+          "Inlining": 0.0,
+          "Optimization": 0.637,
+          "Total": 16.259
+        }
+      },
+      "Plan": {
+        "Actual Loops": 1,
+        "Actual Rows": 7,
+        "Actual Startup Time": 1391.182,
+        "Actual Total Time": 1401.245,
+        "Async Capable": false,
+        "Group Key": [
+          "((actor_ ->> 'kind'::text))"
+        ],
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Node Type": "Aggregate",
+        "Parallel Aware": false,
+        "Partial Mode": "Finalize",
+        "Plan Rows": 123718,
+        "Plan Width": 56,
+        "Plans": [
+          {
+            "Actual Loops": 1,
+            "Actual Rows": 21,
+            "Actual Startup Time": 1391.176,
+            "Actual Total Time": 1401.237,
+            "Async Capable": false,
+            "Local Dirtied Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Written Blocks": 0,
+            "Node Type": "Gather Merge",
+            "Parallel Aware": false,
+            "Parent Relationship": "Outer",
+            "Plan Rows": 247436,
+            "Plan Width": 56,
+            "Plans": [
+              {
+                "Actual Loops": 3,
+                "Actual Rows": 7,
+                "Actual Startup Time": 1380.194,
+                "Actual Total Time": 1380.194,
+                "Async Capable": false,
+                "Local Dirtied Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Written Blocks": 0,
+                "Node Type": "Sort",
+                "Parallel Aware": false,
+                "Parent Relationship": "Outer",
+                "Plan Rows": 123718,
+                "Plan Width": 56,
+                "Plans": [
+                  {
+                    "Actual Loops": 3,
+                    "Actual Rows": 7,
+                    "Actual Startup Time": 1380.112,
+                    "Actual Total Time": 1380.178,
+                    "Async Capable": false,
+                    "Disk Usage": 0,
+                    "Group Key": [
+                      "(actor_ ->> 'kind'::text)"
+                    ],
+                    "HashAgg Batches": 1,
+                    "Local Dirtied Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Node Type": "Aggregate",
+                    "Parallel Aware": false,
+                    "Parent Relationship": "Outer",
+                    "Partial Mode": "Partial",
+                    "Peak Memory Usage": 793,
+                    "Plan Rows": 123718,
+                    "Plan Width": 56,
+                    "Planned Partitions": 8,
+                    "Plans": [
+                      {
+                        "Actual Loops": 3,
+                        "Actual Rows": 975904,
+                        "Actual Startup Time": 7.686,
+                        "Actual Total Time": 1240.228,
+                        "Alias": "audit_event_",
+                        "Async Capable": false,
+                        "Local Dirtied Blocks": 0,
+                        "Local Hit Blocks": 0,
+                        "Local Read Blocks": 0,
+                        "Local Written Blocks": 0,
+                        "Node Type": "Seq Scan",
+                        "Parallel Aware": true,
+                        "Parent Relationship": "Outer",
+                        "Plan Rows": 1219705,
+                        "Plan Width": 136,
+                        "Relation Name": "audit_event_",
+                        "Shared Dirtied Blocks": 0,
+                        "Shared Hit Blocks": 21,
+                        "Shared Read Blocks": 89452,
+                        "Shared Written Blocks": 0,
+                        "Startup Cost": 0.0,
+                        "Temp Read Blocks": 0,
+                        "Temp Written Blocks": 0,
+                        "Total Cost": 104719.31,
+                        "Workers": []
+                      }
+                    ],
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Hit Blocks": 21,
+                    "Shared Read Blocks": 89452,
+                    "Shared Written Blocks": 0,
+                    "Startup Cost": 341037.15,
+                    "Strategy": "Hashed",
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "Total Cost": 390228.35,
+                    "Workers": [
+                      {
+                        "Disk Usage": 0,
+                        "HashAgg Batches": 1,
+                        "Peak Memory Usage": 793,
+                        "Worker Number": 0
+                      },
+                      {
+                        "Disk Usage": 0,
+                        "HashAgg Batches": 1,
+                        "Peak Memory Usage": 793,
+                        "Worker Number": 1
+                      }
+                    ]
+                  }
+                ],
+                "Shared Dirtied Blocks": 0,
+                "Shared Hit Blocks": 39,
+                "Shared Read Blocks": 89452,
+                "Shared Written Blocks": 0,
+                "Sort Key": [
+                  "((actor_ ->> 'kind'::text))"
+                ],
+                "Sort Method": "quicksort",
+                "Sort Space Type": "Memory",
+                "Sort Space Used": 25,
+                "Startup Cost": 404924.35,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "Total Cost": 405233.65,
+                "Workers": [
+                  {
+                    "Sort Method": "quicksort",
+                    "Sort Space Type": "Memory",
+                    "Sort Space Used": 25,
+                    "Worker Number": 0
+                  },
+                  {
+                    "Sort Method": "quicksort",
+                    "Sort Space Type": "Memory",
+                    "Sort Space Used": 25,
+                    "Worker Number": 1
+                  }
+                ]
+              }
+            ],
+            "Shared Dirtied Blocks": 0,
+            "Shared Hit Blocks": 39,
+            "Shared Read Blocks": 89452,
+            "Shared Written Blocks": 0,
+            "Startup Cost": 405924.38,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Total Cost": 434793.93,
+            "Workers Launched": 2,
+            "Workers Planned": 2
+          }
+        ],
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 39,
+        "Shared Read Blocks": 89452,
+        "Shared Written Blocks": 0,
+        "Startup Cost": 405924.38,
+        "Strategy": "Sorted",
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Total Cost": 438814.76
+      },
+      "Planning": {
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 6,
+        "Shared Read Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.033,
+      "Triggers": []
+    }
+  ],
+  "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+  "scenario": "J3",
+  "size": "L",
+  "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+  "text": "Finalize GroupAggregate  (cost=405924.38..438814.76 rows=123718 width=56) (actual time=237.676..239.515 rows=7 loops=1)\n  Group Key: ((actor_ ->> 'kind'::text))\n  Buffers: shared hit=135 read=89356\n  ->  Gather Merge  (cost=405924.38..434793.93 rows=247436 width=56) (actual time=237.670..239.507 rows=21 loops=1)\n        Workers Planned: 2\n        Workers Launched: 2\n        Buffers: shared hit=135 read=89356\n        ->  Sort  (cost=404924.35..405233.65 rows=123718 width=56) (actual time=227.609..227.610 rows=7 loops=3)\n              Sort Key: ((actor_ ->> 'kind'::text))\n              Sort Method: quicksort  Memory: 25kB\n              Buffers: shared hit=135 read=89356\n              Worker 0:  Sort Method: quicksort  Memory: 25kB\n              Worker 1:  Sort Method: quicksort  Memory: 25kB\n              ->  Partial HashAggregate  (cost=341037.15..390228.35 rows=123718 width=56) (actual time=227.529..227.595 rows=7 loops=3)\n                    Group Key: (actor_ ->> 'kind'::text)\n                    Planned Partitions: 8  Batches: 1  Memory Usage: 793kB\n                    Buffers: shared hit=117 read=89356\n                    Worker 0:  Batches: 1  Memory Usage: 793kB\n                    Worker 1:  Batches: 1  Memory Usage: 793kB\n                    ->  Parallel Seq Scan on audit_event_  (cost=0.00..104719.31 rows=1219705 width=136) (actual time=2.616..91.713 rows=975904 loops=3)\n                          Buffers: shared hit=117 read=89356\nPlanning Time: 0.056 ms\nJIT:\n  Functions: 21\n  Options: Inlining false, Optimization false, Expressions true, Deforming true\n  Timing: Generation 0.640 ms (Deform 0.138 ms), Inlining 0.000 ms, Optimization 0.366 ms, Emission 7.482 ms, Total 8.488 ms\nExecution Time: 239.768 ms"
+}

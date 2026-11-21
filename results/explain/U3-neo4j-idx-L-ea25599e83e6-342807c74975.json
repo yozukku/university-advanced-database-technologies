@@ -1,0 +1,134 @@
+{
+  "config": "idx",
+  "engine": "neo4j",
+  "kind": "write-discovery",
+  "plan": {
+    "args": {
+      "DbHits": 0,
+      "Details": "`o.id`",
+      "EstimatedRows": 1385.1328788921828,
+      "GlobalMemory": 2446856,
+      "Id": 0,
+      "Memory": 0,
+      "Order": "`o.id` ASC",
+      "PageCacheHits": 0,
+      "PageCacheMisses": 0,
+      "Rows": 24103,
+      "planner": "COST",
+      "planner-impl": "IDP",
+      "planner-version": "5.26.33",
+      "runtime": "SLOTTED",
+      "runtime-impl": "SLOTTED",
+      "runtime-version": "5.26.33",
+      "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+-----------------------+----+-------------------------------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| Operator              | Id | Details                                                           | Estimated Rows | Rows   | DB Hits | Memory (Bytes) | Page Cache Hits/Misses | Ordered by |\n+-----------------------+----+-------------------------------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +ProduceResults       |  0 | `o.id`                                                            |           1385 |  24103 |       0 |              0 |                    0/0 |            |\n| |                     +----+-------------------------------------------------------------------+----------------+--------+---------+----------------+------------------------+            |\n| +Sort                 |  1 | `o.id` ASC                                                        |           1385 |  24103 |       0 |        2446792 |                    0/0 | `o.id` ASC |\n| |                     +----+-------------------------------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +Projection           |  2 | o.id AS `o.id`                                                    |           1385 |  24103 |   24103 |                |                    0/0 |            |\n| |                     +----+-------------------------------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +Filter               |  3 | o.status = $autostring_0                                          |           1385 |  24103 |  920746 |                |                    0/0 |            |\n| |                     +----+-------------------------------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +NodeIndexSeekByRange |  4 | RANGE INDEX o:Order(paymentDeadline) WHERE paymentDeadline < $now |          27703 | 920746 |  920747 |                |                    0/0 |            |\n+-----------------------+----+-------------------------------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n\nTotal database accesses: 1865596, total allocated memory: 2446856\n",
+      "version": "5"
+    },
+    "children": [
+      {
+        "args": {
+          "DbHits": 0,
+          "Details": "`o.id` ASC",
+          "EstimatedRows": 1385.1328788921828,
+          "Id": 1,
+          "Memory": 2446792,
+          "Order": "`o.id` ASC",
+          "PageCacheHits": 0,
+          "PageCacheMisses": 0,
+          "Rows": 24103
+        },
+        "children": [
+          {
+            "args": {
+              "DbHits": 24103,
+              "Details": "o.id AS `o.id`",
+              "EstimatedRows": 1385.1328788921828,
+              "Id": 2,
+              "PageCacheHits": 0,
+              "PageCacheMisses": 0,
+              "Rows": 24103
+            },
+            "children": [
+              {
+                "args": {
+                  "DbHits": 920746,
+                  "Details": "o.status = $autostring_0",
+                  "EstimatedRows": 1385.1328788921828,
+                  "Id": 3,
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 24103
+                },
+                "children": [
+                  {
+                    "args": {
+                      "DbHits": 920747,
+                      "Details": "RANGE INDEX o:Order(paymentDeadline) WHERE paymentDeadline < $now",
+                      "EstimatedRows": 27702.657577843656,
+                      "Id": 4,
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 920746
+                    },
+                    "dbHits": 920747,
+                    "identifiers": [
+                      "o"
+                    ],
+                    "operatorType": "NodeIndexSeekByRange@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 920746
+                  }
+                ],
+                "dbHits": 920746,
+                "identifiers": [
+                  "o"
+                ],
+                "operatorType": "Filter@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 24103
+              }
+            ],
+            "dbHits": 24103,
+            "identifiers": [
+              "o",
+              "`o.id`"
+            ],
+            "operatorType": "Projection@neo4j",
+            "pageCacheHitRatio": 0.0,
+            "pageCacheHits": 0,
+            "pageCacheMisses": 0,
+            "rows": 24103
+          }
+        ],
+        "dbHits": 0,
+        "identifiers": [
+          "o",
+          "`o.id`"
+        ],
+        "operatorType": "Sort@neo4j",
+        "pageCacheHitRatio": 0.0,
+        "pageCacheHits": 0,
+        "pageCacheMisses": 0,
+        "rows": 24103
+      }
+    ],
+    "dbHits": 0,
+    "identifiers": [
+      "o",
+      "`o.id`"
+    ],
+    "operatorType": "ProduceResults@neo4j",
+    "pageCacheHitRatio": 0.0,
+    "pageCacheHits": 0,
+    "pageCacheMisses": 0,
+    "rows": 24103
+  },
+  "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+  "scenario": "U3",
+  "size": "L",
+  "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+  "text": null
+}

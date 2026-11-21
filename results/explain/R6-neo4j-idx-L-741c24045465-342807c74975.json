@@ -1,0 +1,326 @@
+{
+  "config": "idx",
+  "engine": "neo4j",
+  "kind": "read",
+  "plan": {
+    "args": {
+      "DbHits": 0,
+      "Details": "lockermat, net",
+      "EstimatedRows": 17.255031129564987,
+      "GlobalMemory": 275208,
+      "Id": 0,
+      "Memory": 0,
+      "PageCacheHits": 0,
+      "PageCacheMisses": 0,
+      "Rows": 2378,
+      "planner": "COST",
+      "planner-impl": "IDP",
+      "planner-version": "5.26.33",
+      "runtime": "SLOTTED",
+      "runtime-impl": "SLOTTED",
+      "runtime-version": "5.26.33",
+      "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+-----------------------+----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| Operator              | Id | Details                                                                           | Estimated Rows | Rows  | DB Hits | Memory (Bytes) | Page Cache Hits/Misses |\n+-----------------------+----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +ProduceResults       |  0 | lockermat, net                                                                    |             17 |  2378 |       0 |              0 |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +EagerAggregation     |  1 | l.id AS lockermat, sum(CASE                                                       |             17 |  2378 |   49773 |         275128 |                    0/0 |\n| |                     |    |   WHEN p.kind IN $autolist_2 THEN $autoint_3 - p.amount                           |                |       |         |                |                        |\n| |                     |    |   ELSE p.amount                                                                   |                |       |         |                |                        |\n| |                     |    | END) AS net                                                                       |                |       |         |                |                        |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Filter               |  2 | l:Lockermat                                                                       |            298 | 16591 |   16591 |                |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Expand(All)          |  3 | (anon_4)<-[anon_5:HAS_CELL]-(l)                                                   |            298 | 16591 |  278713 |                |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Filter               |  4 | anon_4:Cell                                                                       |            298 | 16591 |   16591 |                |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Expand(All)          |  5 | (r)-[anon_3:IN_CELL]->(anon_4)                                                    |            298 | 16591 |   83373 |                |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Filter               |  6 | r.leg IN $autolist_1 AND r:Reservation                                            |            298 | 16591 |   36776 |              0 |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Expand(All)          |  7 | (anon_1)-[anon_2:HAS_LEG]->(r)                                                    |            914 | 20185 |   92478 |                |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Filter               |  8 | anon_1:Order                                                                      |            762 | 16591 |   16591 |                |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Expand(All)          |  9 | (p)<-[anon_0:HAS_PAYMENT]-(anon_1)                                                |            762 | 16591 |   39111 |                |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +Filter               | 10 | p.status = $autostring_0                                                          |            762 | 16591 |   19016 |                |                    0/0 |\n| |                     +----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n| +NodeIndexSeekByRange | 11 | RANGE INDEX p:Payment(createdAt) WHERE createdAt >= $since AND createdAt < $until |          15238 | 19016 |   19017 |                |                    0/0 |\n+-----------------------+----+-----------------------------------------------------------------------------------+----------------+-------+---------+----------------+------------------------+\n\nTotal database accesses: 668030, total allocated memory: 275208\n",
+      "version": "5"
+    },
+    "children": [
+      {
+        "args": {
+          "DbHits": 49773,
+          "Details": "l.id AS lockermat, sum(CASE\n  WHEN p.kind IN $autolist_2 THEN $autoint_3 - p.amount\n  ELSE p.amount\nEND) AS net",
+          "EstimatedRows": 17.255031129564987,
+          "Id": 1,
+          "Memory": 275128,
+          "PageCacheHits": 0,
+          "PageCacheMisses": 0,
+          "Rows": 2378
+        },
+        "children": [
+          {
+            "args": {
+              "DbHits": 16591,
+              "Details": "l:Lockermat",
+              "EstimatedRows": 297.7360992822567,
+              "Id": 2,
+              "PageCacheHits": 0,
+              "PageCacheMisses": 0,
+              "Rows": 16591
+            },
+            "children": [
+              {
+                "args": {
+                  "DbHits": 278713,
+                  "Details": "(anon_4)<-[anon_5:HAS_CELL]-(l)",
+                  "EstimatedRows": 297.73609928225665,
+                  "Id": 3,
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 16591
+                },
+                "children": [
+                  {
+                    "args": {
+                      "DbHits": 16591,
+                      "Details": "anon_4:Cell",
+                      "EstimatedRows": 297.7360992822567,
+                      "Id": 4,
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 16591
+                    },
+                    "children": [
+                      {
+                        "args": {
+                          "DbHits": 83373,
+                          "Details": "(r)-[anon_3:IN_CELL]->(anon_4)",
+                          "EstimatedRows": 297.73609928225665,
+                          "Id": 5,
+                          "PageCacheHits": 0,
+                          "PageCacheMisses": 0,
+                          "Rows": 16591
+                        },
+                        "children": [
+                          {
+                            "args": {
+                              "DbHits": 36776,
+                              "Details": "r.leg IN $autolist_1 AND r:Reservation",
+                              "EstimatedRows": 297.73609928225665,
+                              "Id": 6,
+                              "Memory": 0,
+                              "PageCacheHits": 0,
+                              "PageCacheMisses": 0,
+                              "Rows": 16591
+                            },
+                            "children": [
+                              {
+                                "args": {
+                                  "DbHits": 92478,
+                                  "Details": "(anon_1)-[anon_2:HAS_LEG]->(r)",
+                                  "EstimatedRows": 914.252245320942,
+                                  "Id": 7,
+                                  "PageCacheHits": 0,
+                                  "PageCacheMisses": 0,
+                                  "Rows": 20185
+                                },
+                                "children": [
+                                  {
+                                    "args": {
+                                      "DbHits": 16591,
+                                      "Details": "anon_1:Order",
+                                      "EstimatedRows": 761.8765960817901,
+                                      "Id": 8,
+                                      "PageCacheHits": 0,
+                                      "PageCacheMisses": 0,
+                                      "Rows": 16591
+                                    },
+                                    "children": [
+                                      {
+                                        "args": {
+                                          "DbHits": 39111,
+                                          "Details": "(p)<-[anon_0:HAS_PAYMENT]-(anon_1)",
+                                          "EstimatedRows": 761.8765960817901,
+                                          "Id": 9,
+                                          "PageCacheHits": 0,
+                                          "PageCacheMisses": 0,
+                                          "Rows": 16591
+                                        },
+                                        "children": [
+                                          {
+                                            "args": {
+                                              "DbHits": 19016,
+                                              "Details": "p.status = $autostring_0",
+                                              "EstimatedRows": 761.8765960817901,
+                                              "Id": 10,
+                                              "PageCacheHits": 0,
+                                              "PageCacheMisses": 0,
+                                              "Rows": 16591
+                                            },
+                                            "children": [
+                                              {
+                                                "args": {
+                                                  "DbHits": 19017,
+                                                  "Details": "RANGE INDEX p:Payment(createdAt) WHERE createdAt >= $since AND createdAt < $until",
+                                                  "EstimatedRows": 15237.5319216358,
+                                                  "Id": 11,
+                                                  "PageCacheHits": 0,
+                                                  "PageCacheMisses": 0,
+                                                  "Rows": 19016
+                                                },
+                                                "dbHits": 19017,
+                                                "identifiers": [
+                                                  "p"
+                                                ],
+                                                "operatorType": "NodeIndexSeekByRange@neo4j",
+                                                "pageCacheHitRatio": 0.0,
+                                                "pageCacheHits": 0,
+                                                "pageCacheMisses": 0,
+                                                "rows": 19016
+                                              }
+                                            ],
+                                            "dbHits": 19016,
+                                            "identifiers": [
+                                              "p"
+                                            ],
+                                            "operatorType": "Filter@neo4j",
+                                            "pageCacheHitRatio": 0.0,
+                                            "pageCacheHits": 0,
+                                            "pageCacheMisses": 0,
+                                            "rows": 16591
+                                          }
+                                        ],
+                                        "dbHits": 39111,
+                                        "identifiers": [
+                                          "p",
+                                          "anon_0",
+                                          "anon_1"
+                                        ],
+                                        "operatorType": "Expand(All)@neo4j",
+                                        "pageCacheHitRatio": 0.0,
+                                        "pageCacheHits": 0,
+                                        "pageCacheMisses": 0,
+                                        "rows": 16591
+                                      }
+                                    ],
+                                    "dbHits": 16591,
+                                    "identifiers": [
+                                      "p",
+                                      "anon_0",
+                                      "anon_1"
+                                    ],
+                                    "operatorType": "Filter@neo4j",
+                                    "pageCacheHitRatio": 0.0,
+                                    "pageCacheHits": 0,
+                                    "pageCacheMisses": 0,
+                                    "rows": 16591
+                                  }
+                                ],
+                                "dbHits": 92478,
+                                "identifiers": [
+                                  "anon_2",
+                                  "p",
+                                  "r",
+                                  "anon_0",
+                                  "anon_1"
+                                ],
+                                "operatorType": "Expand(All)@neo4j",
+                                "pageCacheHitRatio": 0.0,
+                                "pageCacheHits": 0,
+                                "pageCacheMisses": 0,
+                                "rows": 20185
+                              }
+                            ],
+                            "dbHits": 36776,
+                            "identifiers": [
+                              "anon_2",
+                              "p",
+                              "r",
+                              "anon_0",
+                              "anon_1"
+                            ],
+                            "operatorType": "Filter@neo4j",
+                            "pageCacheHitRatio": 0.0,
+                            "pageCacheHits": 0,
+                            "pageCacheMisses": 0,
+                            "rows": 16591
+                          }
+                        ],
+                        "dbHits": 83373,
+                        "identifiers": [
+                          "anon_2",
+                          "anon_4",
+                          "anon_3",
+                          "p",
+                          "r",
+                          "anon_0",
+                          "anon_1"
+                        ],
+                        "operatorType": "Expand(All)@neo4j",
+                        "pageCacheHitRatio": 0.0,
+                        "pageCacheHits": 0,
+                        "pageCacheMisses": 0,
+                        "rows": 16591
+                      }
+                    ],
+                    "dbHits": 16591,
+                    "identifiers": [
+                      "anon_2",
+                      "anon_4",
+                      "anon_3",
+                      "p",
+                      "r",
+                      "anon_0",
+                      "anon_1"
+                    ],
+                    "operatorType": "Filter@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 16591
+                  }
+                ],
+                "dbHits": 278713,
+                "identifiers": [
+                  "anon_2",
+                  "anon_4",
+                  "anon_3",
+                  "p",
+                  "r",
+                  "anon_0",
+                  "anon_1",
+                  "anon_5",
+                  "l"
+                ],
+                "operatorType": "Expand(All)@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 16591
+              }
+            ],
+            "dbHits": 16591,
+            "identifiers": [
+              "anon_2",
+              "anon_4",
+              "anon_3",
+              "p",
+              "r",
+              "anon_0",
+              "anon_1",
+              "anon_5",
+              "l"
+            ],
+            "operatorType": "Filter@neo4j",
+            "pageCacheHitRatio": 0.0,
+            "pageCacheHits": 0,
+            "pageCacheMisses": 0,
+            "rows": 16591
+          }
+        ],
+        "dbHits": 49773,
+        "identifiers": [
+          "lockermat",
+          "net"
+        ],
+        "operatorType": "EagerAggregation@neo4j",
+        "pageCacheHitRatio": 0.0,
+        "pageCacheHits": 0,
+        "pageCacheMisses": 0,
+        "rows": 2378
+      }
+    ],
+    "dbHits": 0,
+    "identifiers": [
+      "lockermat",
+      "net"
+    ],
+    "operatorType": "ProduceResults@neo4j",
+    "pageCacheHitRatio": 0.0,
+    "pageCacheHits": 0,
+    "pageCacheMisses": 0,
+    "rows": 2378
+  },
+  "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+  "scenario": "R6",
+  "size": "L",
+  "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+  "text": null
+}

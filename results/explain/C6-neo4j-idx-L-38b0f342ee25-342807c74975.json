@@ -1,0 +1,188 @@
+{
+  "config": "idx",
+  "engine": "neo4j",
+  "kind": "write-discovery",
+  "plan": {
+    "args": {
+      "DbHits": 0,
+      "Details": "`o.id`",
+      "EstimatedRows": 1662.1603991119887,
+      "GlobalMemory": 4181096,
+      "Id": 0,
+      "Memory": 0,
+      "Order": "`o.id` ASC",
+      "PageCacheHits": 0,
+      "PageCacheMisses": 0,
+      "Rows": 35551,
+      "planner": "COST",
+      "planner-impl": "IDP",
+      "planner-version": "5.26.33",
+      "runtime": "SLOTTED",
+      "runtime-impl": "SLOTTED",
+      "runtime-version": "5.26.33",
+      "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+-----------------------+----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| Operator              | Id | Details                                       | Estimated Rows | Rows   | DB Hits | Memory (Bytes) | Page Cache Hits/Misses | Ordered by |\n+-----------------------+----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +ProduceResults       |  0 | `o.id`                                        |           1662 |  35551 |       0 |              0 |                    0/0 |            |\n| |                     +----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+            |\n| +Sort                 |  1 | `o.id` ASC                                    |           1662 |  35551 |       0 |        4181032 |                    0/0 | `o.id` ASC |\n| |                     +----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +Projection           |  2 | o.id AS `o.id`                                |           1662 |  35551 |   35551 |                |                    0/0 |            |\n| |                     +----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +Filter               |  3 | o:Order                                       |           1662 |  35551 |   35551 |                |                    0/0 |            |\n| |                     +----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +Expand(All)          |  4 | (r)<-[anon_0:HAS_LEG]-(o)                     |           1662 |  35551 |  178609 |                |                    0/0 |            |\n| |                     +----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +Filter               |  5 | r.status = $autostring_0                      |           1662 |  35551 |  719858 |                |                    0/0 |            |\n| |                     +----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n| +NodeIndexSeekByRange |  6 | RANGE INDEX r:Reservation(to) WHERE to < $now |          33243 | 719858 |  719859 |                |                    0/0 |            |\n+-----------------------+----+-----------------------------------------------+----------------+--------+---------+----------------+------------------------+------------+\n\nTotal database accesses: 1689428, total allocated memory: 4181096\n",
+      "version": "5"
+    },
+    "children": [
+      {
+        "args": {
+          "DbHits": 0,
+          "Details": "`o.id` ASC",
+          "EstimatedRows": 1662.1603991119887,
+          "Id": 1,
+          "Memory": 4181032,
+          "Order": "`o.id` ASC",
+          "PageCacheHits": 0,
+          "PageCacheMisses": 0,
+          "Rows": 35551
+        },
+        "children": [
+          {
+            "args": {
+              "DbHits": 35551,
+              "Details": "o.id AS `o.id`",
+              "EstimatedRows": 1662.1603991119887,
+              "Id": 2,
+              "PageCacheHits": 0,
+              "PageCacheMisses": 0,
+              "Rows": 35551
+            },
+            "children": [
+              {
+                "args": {
+                  "DbHits": 35551,
+                  "Details": "o:Order",
+                  "EstimatedRows": 1662.1603991119887,
+                  "Id": 3,
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 35551
+                },
+                "children": [
+                  {
+                    "args": {
+                      "DbHits": 178609,
+                      "Details": "(r)<-[anon_0:HAS_LEG]-(o)",
+                      "EstimatedRows": 1662.1603991119887,
+                      "Id": 4,
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 35551
+                    },
+                    "children": [
+                      {
+                        "args": {
+                          "DbHits": 719858,
+                          "Details": "r.status = $autostring_0",
+                          "EstimatedRows": 1662.1603991119887,
+                          "Id": 5,
+                          "PageCacheHits": 0,
+                          "PageCacheMisses": 0,
+                          "Rows": 35551
+                        },
+                        "children": [
+                          {
+                            "args": {
+                              "DbHits": 719859,
+                              "Details": "RANGE INDEX r:Reservation(to) WHERE to < $now",
+                              "EstimatedRows": 33243.20798223977,
+                              "Id": 6,
+                              "PageCacheHits": 0,
+                              "PageCacheMisses": 0,
+                              "Rows": 719858
+                            },
+                            "dbHits": 719859,
+                            "identifiers": [
+                              "r"
+                            ],
+                            "operatorType": "NodeIndexSeekByRange@neo4j",
+                            "pageCacheHitRatio": 0.0,
+                            "pageCacheHits": 0,
+                            "pageCacheMisses": 0,
+                            "rows": 719858
+                          }
+                        ],
+                        "dbHits": 719858,
+                        "identifiers": [
+                          "r"
+                        ],
+                        "operatorType": "Filter@neo4j",
+                        "pageCacheHitRatio": 0.0,
+                        "pageCacheHits": 0,
+                        "pageCacheMisses": 0,
+                        "rows": 35551
+                      }
+                    ],
+                    "dbHits": 178609,
+                    "identifiers": [
+                      "r",
+                      "anon_0",
+                      "o"
+                    ],
+                    "operatorType": "Expand(All)@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 35551
+                  }
+                ],
+                "dbHits": 35551,
+                "identifiers": [
+                  "r",
+                  "anon_0",
+                  "o"
+                ],
+                "operatorType": "Filter@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 35551
+              }
+            ],
+            "dbHits": 35551,
+            "identifiers": [
+              "r",
+              "anon_0",
+              "o",
+              "`o.id`"
+            ],
+            "operatorType": "Projection@neo4j",
+            "pageCacheHitRatio": 0.0,
+            "pageCacheHits": 0,
+            "pageCacheMisses": 0,
+            "rows": 35551
+          }
+        ],
+        "dbHits": 0,
+        "identifiers": [
+          "r",
+          "anon_0",
+          "o",
+          "`o.id`"
+        ],
+        "operatorType": "Sort@neo4j",
+        "pageCacheHitRatio": 0.0,
+        "pageCacheHits": 0,
+        "pageCacheMisses": 0,
+        "rows": 35551
+      }
+    ],
+    "dbHits": 0,
+    "identifiers": [
+      "r",
+      "anon_0",
+      "o",
+      "`o.id`"
+    ],
+    "operatorType": "ProduceResults@neo4j",
+    "pageCacheHitRatio": 0.0,
+    "pageCacheHits": 0,
+    "pageCacheMisses": 0,
+    "rows": 35551
+  },
+  "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+  "scenario": "C6",
+  "size": "L",
+  "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+  "text": null
+}

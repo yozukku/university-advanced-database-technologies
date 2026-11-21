@@ -1,0 +1,210 @@
+{
+  "scenario": "J2",
+  "engine": "mongo",
+  "config": "base",
+  "size": "L",
+  "kind": "read",
+  "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+  "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+  "plan": {
+    "explainVersion": "1",
+    "queryPlanner": {
+      "namespace": "bagazomat.auditEvents",
+      "parsedQuery": {
+        "$or": [
+          {
+            "actor.email": {
+              "$eq": "konstanty79.50059429@example.test"
+            }
+          },
+          {
+            "actor.phone": {
+              "$eq": "+48500059429"
+            }
+          }
+        ]
+      },
+      "indexFilterSet": false,
+      "queryHash": "88C45C0F",
+      "planCacheShapeHash": "88C45C0F",
+      "planCacheKey": "5ECC8323",
+      "optimizationTimeMillis": 0,
+      "optimizedPipeline": true,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "stage": "SUBPLAN",
+        "inputStage": {
+          "stage": "SORT",
+          "sortPattern": {
+            "at": 1,
+            "_id": 1
+          },
+          "memLimit": 104857600,
+          "type": "simple",
+          "inputStage": {
+            "stage": "COLLSCAN",
+            "filter": {
+              "$or": [
+                {
+                  "actor.email": {
+                    "$eq": "konstanty79.50059429@example.test"
+                  }
+                },
+                {
+                  "actor.phone": {
+                    "$eq": "+48500059429"
+                  }
+                }
+              ]
+            },
+            "direction": "forward"
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 21,
+      "executionTimeMillis": 1154,
+      "totalKeysExamined": 0,
+      "totalDocsExamined": 2927711,
+      "executionStages": {
+        "isCached": false,
+        "stage": "SUBPLAN",
+        "nReturned": 21,
+        "executionTimeMillisEstimate": 1109,
+        "works": 2927734,
+        "advanced": 21,
+        "needTime": 2927712,
+        "needYield": 0,
+        "saveState": 75,
+        "restoreState": 75,
+        "isEOF": 1,
+        "inputStage": {
+          "stage": "SORT",
+          "nReturned": 21,
+          "executionTimeMillisEstimate": 1109,
+          "works": 2927734,
+          "advanced": 21,
+          "needTime": 2927712,
+          "needYield": 0,
+          "saveState": 75,
+          "restoreState": 75,
+          "isEOF": 1,
+          "sortPattern": {
+            "at": 1,
+            "_id": 1
+          },
+          "memLimit": 104857600,
+          "type": "simple",
+          "totalDataSizeSorted": 8227,
+          "usedDisk": false,
+          "spills": 0,
+          "spilledDataStorageSize": 0,
+          "inputStage": {
+            "stage": "COLLSCAN",
+            "filter": {
+              "$or": [
+                {
+                  "actor.email": {
+                    "$eq": "konstanty79.50059429@example.test"
+                  }
+                },
+                {
+                  "actor.phone": {
+                    "$eq": "+48500059429"
+                  }
+                }
+              ]
+            },
+            "nReturned": 21,
+            "executionTimeMillisEstimate": 1067,
+            "works": 2927712,
+            "advanced": 21,
+            "needTime": 2927690,
+            "needYield": 0,
+            "saveState": 75,
+            "restoreState": 75,
+            "isEOF": 1,
+            "direction": "forward",
+            "docsExamined": 2927711
+          }
+        }
+      }
+    },
+    "queryShapeHash": "C6BAE29301F0EAC3047E09D5306DA2139DC6BF17E447F7B3B456695765FE8494",
+    "command": {
+      "aggregate": "auditEvents",
+      "pipeline": [
+        {
+          "$match": {
+            "$or": [
+              {
+                "actor.email": "konstanty79.50059429@example.test"
+              },
+              {
+                "actor.phone": "+48500059429"
+              }
+            ]
+          }
+        },
+        {
+          "$sort": {
+            "at": 1,
+            "_id": 1
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301338,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301338,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

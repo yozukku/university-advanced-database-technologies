@@ -1,0 +1,421 @@
+{
+  "scenario": "J4",
+  "engine": "mongo",
+  "config": "idx",
+  "size": "L",
+  "kind": "read",
+  "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+  "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+  "plan": {
+    "explainVersion": "2",
+    "queryPlanner": {
+      "namespace": "bagazomat.auditEvents",
+      "parsedQuery": {
+        "$and": [
+          {
+            "changes": {
+              "$elemMatch": {
+                "$and": [
+                  {
+                    "f": {
+                      "$eq": "status_"
+                    }
+                  },
+                  {
+                    "new": {
+                      "$eq": "CANCELLED"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "at": {
+              "$lt": {
+                "$date": "2025-12-01T00:00:00Z"
+              }
+            }
+          },
+          {
+            "at": {
+              "$gte": {
+                "$date": "2025-11-01T00:00:00Z"
+              }
+            }
+          }
+        ]
+      },
+      "indexFilterSet": false,
+      "queryHash": "DD6CF778",
+      "planCacheShapeHash": "DD6CF778",
+      "planCacheKey": "3CBEADA2",
+      "optimizationTimeMillis": 0,
+      "optimizedPipeline": true,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "queryPlan": {
+          "stage": "GROUP",
+          "planNodeId": 4,
+          "inputStage": {
+            "stage": "FETCH",
+            "planNodeId": 2,
+            "filter": {
+              "$and": [
+                {
+                  "changes": {
+                    "$elemMatch": {
+                      "$and": [
+                        {
+                          "f": {
+                            "$eq": "status_"
+                          }
+                        },
+                        {
+                          "new": {
+                            "$eq": "CANCELLED"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "at": {
+                    "$lt": {
+                      "$date": "2025-12-01T00:00:00Z"
+                    }
+                  }
+                },
+                {
+                  "at": {
+                    "$gte": {
+                      "$date": "2025-11-01T00:00:00Z"
+                    }
+                  }
+                }
+              ]
+            },
+            "inputStage": {
+              "stage": "IXSCAN",
+              "planNodeId": 1,
+              "keyPattern": {
+                "changes.f": 1,
+                "changes.new": 1
+              },
+              "indexName": "jx2__idx",
+              "isMultiKey": true,
+              "multiKeyPaths": {
+                "changes.f": [
+                  "changes"
+                ],
+                "changes.new": [
+                  "changes"
+                ]
+              },
+              "isUnique": false,
+              "isSparse": false,
+              "isPartial": false,
+              "indexVersion": 2,
+              "direction": "forward",
+              "indexBounds": {
+                "changes.f": [
+                  "[\"status_\", \"status_\"]"
+                ],
+                "changes.new": [
+                  "[\"CANCELLED\", \"CANCELLED\"]"
+                ]
+              }
+            }
+          }
+        },
+        "slotBasedPlan": {
+          "slots": "$$RESULT=s15 env: { s5 = {\"changes.f\" : 1, \"changes.new\" : 1} }",
+          "stages": "[4] project [s15 = newBsonObj(\"_id\", s12, \"events\", s14)] \n[4] project [s14 = (convert ( s13, int32) ?: s13)] \n[4] group [s12] [s13 = count()] spillSlots[s11] mergingExprs[sum(s11)] \n[4] project [s12 = (s8 ?: null)] \n[2] filter {(((isArray(s10) && traverseF(s10, lambda(l7.0) { (typeMatch(l7.0, 24) && (traverseF(getField(l7.0, \"f\"), lambda(l8.0) { ((move(l8.0) == \"status_\") ?: false) }, false) && traverseF(getField(l7.0, \"new\"), lambda(l9.0) { ((move(l9.0) == \"CANCELLED\") ?: false) }, false))) }, false)) ?: false) && (traverseF(s9, lambda(l10.0) { ((move(l10.0) < Date(1764547200000)) ?: false) }, false) && traverseF(s9, lambda(l11.0) { ((move(l11.0) >= Date(1761955200000)) ?: false) }, false)))} \n[2] nlj inner [] [s1, s2, s3, s4, s5] \n    left \n        [1] unique [s1] \n        [1] ixseek KS(3C7374617475735F003C43414E43454C4C4544000104) KS(3C7374617475735F003C43414E43454C4C454400FE04) s4 s1 s2 s3 [] @\"a0a868a3-155d-46ff-b263-3a369efcbe27\" @\"jx2__idx\" true \n    right \n        [2] limit 1ll \n        [2] seek s1 s6 s7 s2 s3 s4 s5 none none [s8 = entity, s9 = at, s10 = changes] @\"a0a868a3-155d-46ff-b263-3a369efcbe27\" true false \n"
+        }
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 1,
+      "executionTimeMillis": 67,
+      "totalKeysExamined": 92342,
+      "totalDocsExamined": 92342,
+      "executionStages": {
+        "stage": "project",
+        "planNodeId": 4,
+        "nReturned": 1,
+        "executionTimeMillisEstimate": 62,
+        "opens": 1,
+        "closes": 1,
+        "saveState": 3,
+        "restoreState": 3,
+        "isEOF": 1,
+        "projections": {
+          "15": "newBsonObj(\"_id\", s12, \"events\", s14) "
+        },
+        "inputStage": {
+          "stage": "project",
+          "planNodeId": 4,
+          "nReturned": 1,
+          "executionTimeMillisEstimate": 62,
+          "opens": 1,
+          "closes": 1,
+          "saveState": 3,
+          "restoreState": 3,
+          "isEOF": 1,
+          "projections": {
+            "14": "(convert ( s13, int32) ?: s13) "
+          },
+          "inputStage": {
+            "stage": "group",
+            "planNodeId": 4,
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 62,
+            "opens": 1,
+            "closes": 1,
+            "saveState": 3,
+            "restoreState": 3,
+            "isEOF": 1,
+            "groupBySlots": [
+              12
+            ],
+            "expressions": {
+              "13": "count() ",
+              "initExprs": {
+                "13": null
+              }
+            },
+            "mergingExprs": {
+              "11": "sum(s11) "
+            },
+            "usedDisk": false,
+            "spills": 0,
+            "spilledBytes": 0,
+            "spilledRecords": 0,
+            "spilledDataStorageSize": 0,
+            "inputStage": {
+              "stage": "project",
+              "planNodeId": 4,
+              "nReturned": 2977,
+              "executionTimeMillisEstimate": 62,
+              "opens": 1,
+              "closes": 1,
+              "saveState": 3,
+              "restoreState": 3,
+              "isEOF": 1,
+              "projections": {
+                "12": "(s8 ?: null) "
+              },
+              "inputStage": {
+                "stage": "filter",
+                "planNodeId": 2,
+                "nReturned": 2977,
+                "executionTimeMillisEstimate": 62,
+                "opens": 1,
+                "closes": 1,
+                "saveState": 3,
+                "restoreState": 3,
+                "isEOF": 1,
+                "numTested": 92342,
+                "filter": "(((isArray(s10) && traverseF(s10, lambda(l7.0) { (typeMatch(l7.0, 24) && (traverseF(getField(l7.0, \"f\"), lambda(l8.0) { ((move(l8.0) == \"status_\") ?: false) }, false) && traverseF(getField(l7.0, \"new\"), lambda(l9.0) { ((move(l9.0) == \"CANCELLED\") ?: false) }, false))) }, false)) ?: false) && (traverseF(s9, lambda(l10.0) { ((move(l10.0) < Date(1764547200000)) ?: false) }, false) && traverseF(s9, lambda(l11.0) { ((move(l11.0) >= Date(1761955200000)) ?: false) }, false))) ",
+                "inputStage": {
+                  "stage": "nlj",
+                  "planNodeId": 2,
+                  "nReturned": 92342,
+                  "executionTimeMillisEstimate": 29,
+                  "opens": 1,
+                  "closes": 1,
+                  "saveState": 3,
+                  "restoreState": 3,
+                  "isEOF": 1,
+                  "totalDocsExamined": 92342,
+                  "totalKeysExamined": 92342,
+                  "collectionScans": 0,
+                  "collectionSeeks": 92342,
+                  "indexScans": 0,
+                  "indexSeeks": 1,
+                  "indexesUsed": [
+                    "jx2__idx"
+                  ],
+                  "innerOpens": 92342,
+                  "innerCloses": 1,
+                  "outerProjects": [],
+                  "outerCorrelated": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ],
+                  "outerStage": {
+                    "stage": "unique",
+                    "planNodeId": 1,
+                    "nReturned": 92342,
+                    "executionTimeMillisEstimate": 12,
+                    "opens": 1,
+                    "closes": 1,
+                    "saveState": 3,
+                    "restoreState": 3,
+                    "isEOF": 1,
+                    "dupsTested": 92342,
+                    "dupsDropped": 0,
+                    "keySlots": [
+                      1
+                    ],
+                    "inputStage": {
+                      "stage": "ixseek",
+                      "planNodeId": 1,
+                      "nReturned": 92342,
+                      "executionTimeMillisEstimate": 8,
+                      "opens": 1,
+                      "closes": 1,
+                      "saveState": 3,
+                      "restoreState": 3,
+                      "isEOF": 1,
+                      "indexName": "jx2__idx",
+                      "keysExamined": 92342,
+                      "seeks": 1,
+                      "numReads": 92343,
+                      "indexKeySlot": 4,
+                      "recordIdSlot": 1,
+                      "snapshotIdSlot": 2,
+                      "indexIdentSlot": 3,
+                      "outputSlots": [],
+                      "indexKeysToInclude": "00000000000000000000000000000000",
+                      "seekKeyLow": "KS(3C7374617475735F003C43414E43454C4C4544000104) ",
+                      "seekKeyHigh": "KS(3C7374617475735F003C43414E43454C4C454400FE04) "
+                    }
+                  },
+                  "innerStage": {
+                    "stage": "limit",
+                    "planNodeId": 2,
+                    "nReturned": 92342,
+                    "executionTimeMillisEstimate": 17,
+                    "opens": 92342,
+                    "closes": 1,
+                    "saveState": 3,
+                    "restoreState": 3,
+                    "isEOF": 1,
+                    "limit": 1,
+                    "inputStage": {
+                      "stage": "seek",
+                      "planNodeId": 2,
+                      "nReturned": 92342,
+                      "executionTimeMillisEstimate": 17,
+                      "opens": 92342,
+                      "closes": 1,
+                      "saveState": 3,
+                      "restoreState": 3,
+                      "isEOF": 0,
+                      "numReads": 92342,
+                      "recordSlot": 6,
+                      "recordIdSlot": 7,
+                      "seekRecordIdSlot": 1,
+                      "snapshotIdSlot": 2,
+                      "indexIdentSlot": 3,
+                      "indexKeySlot": 4,
+                      "indexKeyPatternSlot": 5,
+                      "scanFieldNames": [
+                        "entity",
+                        "at",
+                        "changes"
+                      ],
+                      "scanFieldSlots": [
+                        8,
+                        9,
+                        10
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "queryShapeHash": "649E636C359F48C68C8227AC049E44BFCF6D2D0F966EE3A26520F7D03FCB81D7",
+    "command": {
+      "aggregate": "auditEvents",
+      "pipeline": [
+        {
+          "$match": {
+            "changes": {
+              "$elemMatch": {
+                "f": "status_",
+                "new": "CANCELLED"
+              }
+            },
+            "at": {
+              "$gte": {
+                "$date": "2025-11-01T00:00:00Z"
+              },
+              "$lt": {
+                "$date": "2025-12-01T00:00:00Z"
+              }
+            }
+          }
+        },
+        {
+          "$group": {
+            "_id": "$entity",
+            "events": {
+              "$sum": 1
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301329,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301329,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

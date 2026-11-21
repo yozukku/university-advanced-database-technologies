@@ -1,0 +1,53 @@
+{
+  "config": "idx",
+  "engine": "mysql",
+  "kind": "write-discovery",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "115580.21"
+      },
+      "ordering_operation": {
+        "cost_info": {
+          "sort_cost": "52536.00"
+        },
+        "table": {
+          "access_type": "range",
+          "attached_condition": "((case when (`status_` = _utf8mb4'OCCUPIED') then `to_` end) < '2026-11-01 00:00:00')",
+          "cost_info": {
+            "data_read_per_join": "18M",
+            "eval_cost": "5253.60",
+            "prefix_cost": "63044.21",
+            "read_cost": "57790.61"
+          },
+          "filtered": "100.00",
+          "key": "reservation_overdue__idx",
+          "key_length": "8",
+          "possible_keys": [
+            "reservation_overdue__idx"
+          ],
+          "rows_examined_per_scan": 52536,
+          "rows_produced_per_join": 52536,
+          "table_name": "reservation_",
+          "used_columns": [
+            "id_",
+            "order_id_",
+            "to_",
+            "status_",
+            "(case when (`status_` = _utf8mb4'OCCUPIED') then `to_` end)"
+          ],
+          "used_key_parts": [
+            "(case when (`status_` = _utf8mb4'OCCUPIED') then `to_` end)"
+          ]
+        },
+        "using_filesort": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+  "scenario": "C6",
+  "size": "L",
+  "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+  "text": "-> Sort: reservation_.order_id_  (cost=63044 rows=52536) (actual time=209..209 rows=35551 loops=1)\n    -> Filter: ((case when (status_ = _utf8mb4'OCCUPIED') then to_ end) < '2026-11-01 00:00:00')  (cost=63044 rows=52536) (actual time=32.1..203 rows=35551 loops=1)\n        -> Index range scan on reservation_ using reservation_overdue__idx over (NULL < (case when (`status_` = _utf8mb4'OCCUPIED') then `to_` end) < '2026-11-01 00:00:00.000')  (cost=63044 rows=52536) (actual time=32.1..202 rows=35551 loops=1)\n"
+}

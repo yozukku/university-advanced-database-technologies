@@ -60,3 +60,15 @@
 {"engine": "mysql", "exit": 0, "seconds": 137.546, "size": "L", "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa", "step": "verify"}
 {"engine": null, "exit": 0, "seconds": 54.837, "size": "L", "state_id": "cfd1e184fd25ce8a5c2b2a67f570dce76c29bd8cd2afaa4c536de385e5fc57b5", "step": "verify"}
 {"engine": "mysql", "exit": 0, "seconds": 32.642, "size": "L", "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99", "step": "snapshots"}
+{"engine": "pg", "exit": 0, "seconds": 560.196, "size": "L", "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78", "step": "bench"}
+{"engine": "mysql", "exit": 0, "seconds": 1205.635, "size": "L", "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99", "step": "bench"}
+{"engine": "mongo", "exit": 0, "seconds": 1548.579, "size": "L", "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41", "step": "bench"}
+{"engine": "neo4j", "exit": 0, "seconds": 1458.233, "size": "L", "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab", "step": "bench"}
+{"engine": "pg", "exit": 0, "seconds": 15.665, "size": "L", "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78", "step": "explain"}
+{"engine": "mysql", "exit": 0, "seconds": 20.781, "size": "L", "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99", "step": "explain"}
+{"engine": "mongo", "exit": 0, "seconds": 22.849, "size": "L", "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41", "step": "explain"}
+{"engine": "neo4j", "exit": 0, "seconds": 27.116, "size": "L", "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab", "step": "explain"}
+{"engine": null, "exit": 0, "seconds": 3.453, "size": "L", "state_id": null, "step": "qa"}
+{"engine": null, "exit": 0, "seconds": 6.365, "size": null, "state_id": null, "step": "charts"}
+{"engine": null, "exit": 0, "seconds": 0.374, "size": null, "state_id": null, "step": "h1"}
+{"engine": null, "exit": 0, "seconds": 4.482, "size": null, "state_id": null, "step": "report"}

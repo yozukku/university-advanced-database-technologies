@@ -1,0 +1,102 @@
+{
+  "scenario": "R1",
+  "engine": "mongo",
+  "config": "idx",
+  "size": "L",
+  "kind": "read",
+  "qhash": "cd6468cafde3e0aeb6eb2d7528ef301e72df6f6d32a22e8965f39bb181ba2435",
+  "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+  "plan": {
+    "explainVersion": "1",
+    "queryPlanner": {
+      "namespace": "bagazomat.orders",
+      "parsedQuery": {
+        "_id": {
+          "$eq": 833571
+        }
+      },
+      "indexFilterSet": false,
+      "queryHash": "9B5DE45B",
+      "planCacheShapeHash": "9B5DE45B",
+      "planCacheKey": "1277757D",
+      "optimizationTimeMillis": 0,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "stage": "EXPRESS_IXSCAN",
+        "keyPattern": "{ _id: 1 }",
+        "indexName": "_id_"
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 1,
+      "executionTimeMillis": 1,
+      "totalKeysExamined": 1,
+      "totalDocsExamined": 1,
+      "executionStages": {
+        "isCached": false,
+        "stage": "EXPRESS_IXSCAN",
+        "keyPattern": "{ _id: 1 }",
+        "indexName": "_id_",
+        "keysExamined": 1,
+        "docsExamined": 1,
+        "nReturned": 1
+      }
+    },
+    "command": {
+      "find": "orders",
+      "filter": {
+        "_id": 833571
+      },
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301329,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301329,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

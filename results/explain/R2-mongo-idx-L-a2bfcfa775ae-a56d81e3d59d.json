@@ -1,0 +1,280 @@
+{
+  "scenario": "R2",
+  "engine": "mongo",
+  "config": "idx",
+  "size": "L",
+  "kind": "read",
+  "qhash": "a2bfcfa775ae5241ff4baf76157eebfd559f5f65d77ea755c2b1dcd8c325e3de",
+  "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+  "plan": {
+    "explainVersion": "1",
+    "queryPlanner": {
+      "namespace": "bagazomat.orders",
+      "parsedQuery": {
+        "customerId": {
+          "$eq": 15090
+        }
+      },
+      "indexFilterSet": false,
+      "queryHash": "AD325875",
+      "planCacheShapeHash": "AD325875",
+      "planCacheKey": "49FB5FB7",
+      "optimizationTimeMillis": 0,
+      "optimizedPipeline": true,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "stage": "PROJECTION_SIMPLE",
+        "transformBy": {
+          "_id": true,
+          "number": true,
+          "type": true,
+          "status": true,
+          "price": true,
+          "createdAt": true
+        },
+        "inputStage": {
+          "stage": "SKIP",
+          "skipAmount": 40,
+          "inputStage": {
+            "stage": "SORT",
+            "sortPattern": {
+              "createdAt": -1,
+              "_id": -1
+            },
+            "memLimit": 104857600,
+            "limitAmount": 60,
+            "type": "simple",
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "customerId": 1,
+                  "createdAt": -1
+                },
+                "indexName": "order_customer_created__idx",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "customerId": [],
+                  "createdAt": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "customerId": [
+                    "[15090, 15090]"
+                  ],
+                  "createdAt": [
+                    "[MaxKey, MinKey]"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 20,
+      "executionTimeMillis": 2,
+      "totalKeysExamined": 69,
+      "totalDocsExamined": 69,
+      "executionStages": {
+        "isCached": false,
+        "stage": "PROJECTION_SIMPLE",
+        "nReturned": 20,
+        "executionTimeMillisEstimate": 0,
+        "works": 131,
+        "advanced": 20,
+        "needTime": 110,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "transformBy": {
+          "_id": true,
+          "number": true,
+          "type": true,
+          "status": true,
+          "price": true,
+          "createdAt": true
+        },
+        "inputStage": {
+          "stage": "SKIP",
+          "nReturned": 20,
+          "executionTimeMillisEstimate": 0,
+          "works": 131,
+          "advanced": 20,
+          "needTime": 110,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "skipAmount": 40,
+          "inputStage": {
+            "stage": "SORT",
+            "nReturned": 60,
+            "executionTimeMillisEstimate": 0,
+            "works": 131,
+            "advanced": 60,
+            "needTime": 70,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "sortPattern": {
+              "createdAt": -1,
+              "_id": -1
+            },
+            "memLimit": 104857600,
+            "limitAmount": 60,
+            "type": "simple",
+            "totalDataSizeSorted": 75699,
+            "usedDisk": false,
+            "spills": 0,
+            "spilledDataStorageSize": 0,
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 69,
+              "executionTimeMillisEstimate": 0,
+              "works": 70,
+              "advanced": 69,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 69,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 69,
+                "executionTimeMillisEstimate": 0,
+                "works": 70,
+                "advanced": 69,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "customerId": 1,
+                  "createdAt": -1
+                },
+                "indexName": "order_customer_created__idx",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "customerId": [],
+                  "createdAt": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "customerId": [
+                    "[15090, 15090]"
+                  ],
+                  "createdAt": [
+                    "[MaxKey, MinKey]"
+                  ]
+                },
+                "keysExamined": 69,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "queryShapeHash": "15007F8304B1E029128A897BB19D0B8A1565BA0ECCF2A33D89133708C84384E5",
+    "command": {
+      "aggregate": "orders",
+      "pipeline": [
+        {
+          "$match": {
+            "customerId": 15090
+          }
+        },
+        {
+          "$sort": {
+            "createdAt": -1,
+            "_id": -1
+          }
+        },
+        {
+          "$skip": 40
+        },
+        {
+          "$limit": 20
+        },
+        {
+          "$project": {
+            "number": 1,
+            "type": 1,
+            "status": 1,
+            "price": 1,
+            "createdAt": 1
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301329,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301329,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

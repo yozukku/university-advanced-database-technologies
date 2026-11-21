@@ -1,0 +1,312 @@
+{
+  "scenario": "J2",
+  "engine": "mongo",
+  "config": "idx",
+  "size": "L",
+  "kind": "read",
+  "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+  "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+  "plan": {
+    "explainVersion": "1",
+    "queryPlanner": {
+      "namespace": "bagazomat.auditEvents",
+      "parsedQuery": {
+        "$or": [
+          {
+            "actor.email": {
+              "$eq": "konstanty79.50059429@example.test"
+            }
+          },
+          {
+            "actor.phone": {
+              "$eq": "+48500059429"
+            }
+          }
+        ]
+      },
+      "indexFilterSet": false,
+      "queryHash": "88C45C0F",
+      "planCacheShapeHash": "88C45C0F",
+      "planCacheKey": "64F86180",
+      "optimizationTimeMillis": 0,
+      "optimizedPipeline": true,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "stage": "SUBPLAN",
+        "inputStage": {
+          "stage": "SORT",
+          "sortPattern": {
+            "at": 1,
+            "_id": 1
+          },
+          "memLimit": 104857600,
+          "type": "simple",
+          "inputStage": {
+            "stage": "FETCH",
+            "inputStage": {
+              "stage": "OR",
+              "inputStages": [
+                {
+                  "stage": "IXSCAN",
+                  "keyPattern": {
+                    "actor.email": 1
+                  },
+                  "indexName": "jx1_email__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "actor.email": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": true,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "actor.email": [
+                      "[\"konstanty79.50059429@example.test\", \"konstanty79.50059429@example.test\"]"
+                    ]
+                  }
+                },
+                {
+                  "stage": "IXSCAN",
+                  "keyPattern": {
+                    "actor.phone": 1
+                  },
+                  "indexName": "jx1_phone__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "actor.phone": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": true,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "actor.phone": [
+                      "[\"+48500059429\", \"+48500059429\"]"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 21,
+      "executionTimeMillis": 8,
+      "totalKeysExamined": 21,
+      "totalDocsExamined": 21,
+      "executionStages": {
+        "isCached": false,
+        "stage": "SUBPLAN",
+        "nReturned": 21,
+        "executionTimeMillisEstimate": 0,
+        "works": 45,
+        "advanced": 21,
+        "needTime": 23,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "inputStage": {
+          "stage": "SORT",
+          "nReturned": 21,
+          "executionTimeMillisEstimate": 0,
+          "works": 45,
+          "advanced": 21,
+          "needTime": 23,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "sortPattern": {
+            "at": 1,
+            "_id": 1
+          },
+          "memLimit": 104857600,
+          "type": "simple",
+          "totalDataSizeSorted": 8227,
+          "usedDisk": false,
+          "spills": 0,
+          "spilledDataStorageSize": 0,
+          "inputStage": {
+            "stage": "FETCH",
+            "nReturned": 21,
+            "executionTimeMillisEstimate": 0,
+            "works": 23,
+            "advanced": 21,
+            "needTime": 1,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "docsExamined": 21,
+            "alreadyHasObj": 0,
+            "inputStage": {
+              "stage": "OR",
+              "nReturned": 21,
+              "executionTimeMillisEstimate": 0,
+              "works": 23,
+              "advanced": 21,
+              "needTime": 1,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "dupsTested": 21,
+              "dupsDropped": 0,
+              "inputStages": [
+                {
+                  "stage": "IXSCAN",
+                  "nReturned": 21,
+                  "executionTimeMillisEstimate": 0,
+                  "works": 22,
+                  "advanced": 21,
+                  "needTime": 0,
+                  "needYield": 0,
+                  "saveState": 0,
+                  "restoreState": 0,
+                  "isEOF": 1,
+                  "keyPattern": {
+                    "actor.email": 1
+                  },
+                  "indexName": "jx1_email__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "actor.email": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": true,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "actor.email": [
+                      "[\"konstanty79.50059429@example.test\", \"konstanty79.50059429@example.test\"]"
+                    ]
+                  },
+                  "keysExamined": 21,
+                  "seeks": 1,
+                  "dupsTested": 0,
+                  "dupsDropped": 0
+                },
+                {
+                  "stage": "IXSCAN",
+                  "nReturned": 0,
+                  "executionTimeMillisEstimate": 0,
+                  "works": 1,
+                  "advanced": 0,
+                  "needTime": 0,
+                  "needYield": 0,
+                  "saveState": 0,
+                  "restoreState": 0,
+                  "isEOF": 1,
+                  "keyPattern": {
+                    "actor.phone": 1
+                  },
+                  "indexName": "jx1_phone__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "actor.phone": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": true,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "actor.phone": [
+                      "[\"+48500059429\", \"+48500059429\"]"
+                    ]
+                  },
+                  "keysExamined": 0,
+                  "seeks": 1,
+                  "dupsTested": 0,
+                  "dupsDropped": 0
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "queryShapeHash": "C6BAE29301F0EAC3047E09D5306DA2139DC6BF17E447F7B3B456695765FE8494",
+    "command": {
+      "aggregate": "auditEvents",
+      "pipeline": [
+        {
+          "$match": {
+            "$or": [
+              {
+                "actor.email": "konstanty79.50059429@example.test"
+              },
+              {
+                "actor.phone": "+48500059429"
+              }
+            ]
+          }
+        },
+        {
+          "$sort": {
+            "at": 1,
+            "_id": 1
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301329,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301329,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

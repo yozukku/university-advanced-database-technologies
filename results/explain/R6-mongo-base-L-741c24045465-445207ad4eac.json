@@ -1,0 +1,415 @@
+{
+  "scenario": "R6",
+  "engine": "mongo",
+  "config": "base",
+  "size": "L",
+  "kind": "read",
+  "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+  "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+  "plan": {
+    "explainVersion": "1",
+    "stages": [
+      {
+        "$cursor": {
+          "queryPlanner": {
+            "namespace": "bagazomat.orders",
+            "parsedQuery": {
+              "$and": [
+                {
+                  "payments": {
+                    "$elemMatch": {
+                      "$and": [
+                        {
+                          "status": {
+                            "$eq": "COMPLETED"
+                          }
+                        },
+                        {
+                          "createdAt": {
+                            "$lt": {
+                              "$date": "2025-12-01T00:00:00Z"
+                            }
+                          }
+                        },
+                        {
+                          "createdAt": {
+                            "$gte": {
+                              "$date": "2025-11-01T00:00:00Z"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "payments.createdAt": {
+                    "$exists": true
+                  }
+                }
+              ]
+            },
+            "indexFilterSet": false,
+            "queryHash": "72CE0FC8",
+            "planCacheShapeHash": "72CE0FC8",
+            "planCacheKey": "795476C7",
+            "optimizationTimeMillis": 0,
+            "maxIndexedOrSolutionsReached": false,
+            "maxIndexedAndSolutionsReached": false,
+            "maxScansToExplodeReached": false,
+            "prunedSimilarIndexes": false,
+            "winningPlan": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "transformBy": {
+                "payments": 1,
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "COLLSCAN",
+                "filter": {
+                  "$and": [
+                    {
+                      "payments": {
+                        "$elemMatch": {
+                          "$and": [
+                            {
+                              "status": {
+                                "$eq": "COMPLETED"
+                              }
+                            },
+                            {
+                              "createdAt": {
+                                "$lt": {
+                                  "$date": "2025-12-01T00:00:00Z"
+                                }
+                              }
+                            },
+                            {
+                              "createdAt": {
+                                "$gte": {
+                                  "$date": "2025-11-01T00:00:00Z"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "payments.createdAt": {
+                        "$exists": true
+                      }
+                    }
+                  ]
+                },
+                "direction": "forward"
+              }
+            },
+            "rejectedPlans": []
+          },
+          "executionStats": {
+            "executionSuccess": true,
+            "nReturned": 13707,
+            "executionTimeMillis": 359,
+            "totalKeysExamined": 0,
+            "totalDocsExamined": 923423,
+            "executionStages": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "nReturned": 13707,
+              "executionTimeMillisEstimate": 317,
+              "works": 923424,
+              "advanced": 13707,
+              "needTime": 909716,
+              "needYield": 0,
+              "saveState": 32,
+              "restoreState": 32,
+              "isEOF": 1,
+              "transformBy": {
+                "payments": 1,
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "COLLSCAN",
+                "filter": {
+                  "$and": [
+                    {
+                      "payments": {
+                        "$elemMatch": {
+                          "$and": [
+                            {
+                              "status": {
+                                "$eq": "COMPLETED"
+                              }
+                            },
+                            {
+                              "createdAt": {
+                                "$lt": {
+                                  "$date": "2025-12-01T00:00:00Z"
+                                }
+                              }
+                            },
+                            {
+                              "createdAt": {
+                                "$gte": {
+                                  "$date": "2025-11-01T00:00:00Z"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "payments.createdAt": {
+                        "$exists": true
+                      }
+                    }
+                  ]
+                },
+                "nReturned": 13707,
+                "executionTimeMillisEstimate": 310,
+                "works": 923424,
+                "advanced": 13707,
+                "needTime": 909716,
+                "needYield": 0,
+                "saveState": 32,
+                "restoreState": 32,
+                "isEOF": 1,
+                "direction": "forward",
+                "docsExamined": 923423
+              }
+            }
+          }
+        },
+        "nReturned": 13707,
+        "executionTimeMillisEstimate": 347
+      },
+      {
+        "$unwind": {
+          "path": "$payments"
+        },
+        "nReturned": 16752,
+        "executionTimeMillisEstimate": 347
+      },
+      {
+        "$match": {
+          "$and": [
+            {
+              "payments.status": {
+                "$eq": "COMPLETED"
+              }
+            },
+            {
+              "payments.createdAt": {
+                "$gte": {
+                  "$date": "2025-11-01T00:00:00Z"
+                }
+              }
+            },
+            {
+              "payments.createdAt": {
+                "$lt": {
+                  "$date": "2025-12-01T00:00:00Z"
+                }
+              }
+            }
+          ]
+        },
+        "nReturned": 16591,
+        "executionTimeMillisEstimate": 347
+      },
+      {
+        "$unwind": {
+          "path": "$reservations"
+        },
+        "nReturned": 20185,
+        "executionTimeMillisEstimate": 347
+      },
+      {
+        "$match": {
+          "reservations.leg": {
+            "$in": [
+              "ORIGIN",
+              "STORAGE"
+            ]
+          }
+        },
+        "nReturned": 16591,
+        "executionTimeMillisEstimate": 356
+      },
+      {
+        "$group": {
+          "_id": "$reservations.lockermatId",
+          "net": {
+            "$sum": {
+              "$cond": [
+                {
+                  "$in": [
+                    "$payments.kind",
+                    {
+                      "$const": [
+                        "REFUND",
+                        "COMPENSATION"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$subtract": [
+                    {
+                      "$const": 0
+                    },
+                    "$payments.amount"
+                  ]
+                },
+                "$payments.amount"
+              ]
+            }
+          }
+        },
+        "maxAccumulatorMemoryUsageBytes": {
+          "net": 304384
+        },
+        "totalOutputDataSizeBytes": 582610,
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "numBytesSpilledEstimate": 0,
+        "spilledRecords": 0,
+        "nReturned": 2378,
+        "executionTimeMillisEstimate": 356
+      }
+    ],
+    "queryShapeHash": "162F1089F99A29F78E47CAD2283CDA4A6C20933F566493C7E6969C404CC889AD",
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "command": {
+      "aggregate": "orders",
+      "pipeline": [
+        {
+          "$match": {
+            "payments": {
+              "$elemMatch": {
+                "status": "COMPLETED",
+                "createdAt": {
+                  "$gte": {
+                    "$date": "2025-11-01T00:00:00Z"
+                  },
+                  "$lt": {
+                    "$date": "2025-12-01T00:00:00Z"
+                  }
+                }
+              }
+            },
+            "payments.createdAt": {
+              "$exists": true
+            }
+          }
+        },
+        {
+          "$unwind": "$payments"
+        },
+        {
+          "$match": {
+            "payments.status": "COMPLETED",
+            "payments.createdAt": {
+              "$gte": {
+                "$date": "2025-11-01T00:00:00Z"
+              },
+              "$lt": {
+                "$date": "2025-12-01T00:00:00Z"
+              }
+            }
+          }
+        },
+        {
+          "$unwind": "$reservations"
+        },
+        {
+          "$match": {
+            "reservations.leg": {
+              "$in": [
+                "STORAGE",
+                "ORIGIN"
+              ]
+            }
+          }
+        },
+        {
+          "$group": {
+            "_id": "$reservations.lockermatId",
+            "net": {
+              "$sum": {
+                "$cond": [
+                  {
+                    "$in": [
+                      "$payments.kind",
+                      [
+                        "REFUND",
+                        "COMPENSATION"
+                      ]
+                    ]
+                  },
+                  {
+                    "$subtract": [
+                      0,
+                      "$payments.amount"
+                    ]
+                  },
+                  "$payments.amount"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301338,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301338,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

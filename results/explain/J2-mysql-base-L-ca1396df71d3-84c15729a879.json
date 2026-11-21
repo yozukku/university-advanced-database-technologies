@@ -1,0 +1,47 @@
+{
+  "config": "base",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "3135475.00"
+      },
+      "ordering_operation": {
+        "cost_info": {
+          "sort_cost": "2806330.00"
+        },
+        "table": {
+          "access_type": "ALL",
+          "attached_condition": "(((cast(json_unquote(json_extract(`bagazomat`.`audit_event_`.`actor_`,'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'konstanty79.50059429@example.test') or ((cast(json_unquote(json_extract(`bagazomat`.`audit_event_`.`actor_`,'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500059429'))",
+          "cost_info": {
+            "data_read_per_join": "770M",
+            "eval_cost": "280633.00",
+            "prefix_cost": "329145.00",
+            "read_cost": "48512.00"
+          },
+          "filtered": "100.00",
+          "rows_examined_per_scan": 2806330,
+          "rows_produced_per_join": 2806330,
+          "table_name": "audit_event_",
+          "used_columns": [
+            "id_",
+            "at_",
+            "entity_",
+            "entity_id_",
+            "action_",
+            "actor_",
+            "changes_"
+          ]
+        },
+        "using_filesort": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+  "scenario": "J2",
+  "size": "L",
+  "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+  "text": "-> Sort: audit_event_.at_, audit_event_.id_  (cost=329145 rows=2.81e+6) (actual time=1318..1318 rows=21 loops=1)\n    -> Filter: (((cast(json_unquote(json_extract(audit_event_.actor_,'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'konstanty79.50059429@example.test') or ((cast(json_unquote(json_extract(audit_event_.actor_,'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500059429'))  (cost=329145 rows=2.81e+6) (actual time=37.8..1317 rows=21 loops=1)\n        -> Table scan on audit_event_  (cost=329145 rows=2.81e+6) (actual time=0.266..920 rows=2.93e+6 loops=1)\n"
+}

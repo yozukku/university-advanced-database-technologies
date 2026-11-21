@@ -1,0 +1,55 @@
+{
+  "config": "idx",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "60.72"
+      },
+      "ordering_operation": {
+        "cost_info": {
+          "sort_cost": "22.00"
+        },
+        "table": {
+          "access_type": "index_merge",
+          "attached_condition": "(((cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'konstanty79.50059429@example.test') or ((cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500059429'))",
+          "cost_info": {
+            "data_read_per_join": "35K",
+            "eval_cost": "2.20",
+            "prefix_cost": "38.72",
+            "read_cost": "36.52"
+          },
+          "filtered": "100.00",
+          "key": "sort_union(jx1_email__idx,jx1_phone__idx)",
+          "key_length": "1283,67",
+          "possible_keys": [
+            "jx1_email__idx",
+            "jx1_phone__idx"
+          ],
+          "rows_examined_per_scan": 22,
+          "rows_produced_per_join": 22,
+          "table_name": "audit_event_",
+          "used_columns": [
+            "id_",
+            "at_",
+            "entity_",
+            "entity_id_",
+            "action_",
+            "actor_",
+            "changes_",
+            "(cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin)",
+            "(cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin)"
+          ]
+        },
+        "using_filesort": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+  "scenario": "J2",
+  "size": "L",
+  "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+  "text": "-> Sort: audit_event_.at_, audit_event_.id_  (cost=38.7 rows=22) (actual time=4.09..4.09 rows=21 loops=1)\n    -> Filter: (((cast(json_unquote(json_extract(actor_,_utf8mb4'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'konstanty79.50059429@example.test') or ((cast(json_unquote(json_extract(actor_,_utf8mb4'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500059429'))  (cost=38.7 rows=22) (actual time=0.442..4.08 rows=21 loops=1)\n        -> Sort-deduplicate by row ID  (cost=38.7 rows=22) (actual time=0.441..4.07 rows=21 loops=1)\n            -> Index range scan on audit_event_ using jx1_email__idx over ((cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'konstanty79.50059429@example.test')  (cost=5.97 rows=21) (actual time=0.00438..0.00696 rows=21 loops=1)\n            -> Index range scan on audit_event_ using jx1_phone__idx over ((cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500059429')  (cost=1.11 rows=1) (actual time=0.00113..0.00113 rows=0 loops=1)\n"
+}

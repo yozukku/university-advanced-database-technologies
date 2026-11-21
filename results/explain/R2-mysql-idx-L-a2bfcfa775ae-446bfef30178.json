@@ -1,0 +1,55 @@
+{
+  "config": "idx",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "75.89"
+      },
+      "ordering_operation": {
+        "table": {
+          "access_type": "ref",
+          "backward_index_scan": true,
+          "cost_info": {
+            "data_read_per_join": "21K",
+            "eval_cost": "6.90",
+            "prefix_cost": "75.89",
+            "read_cost": "68.99"
+          },
+          "filtered": "100.00",
+          "key": "order_customer_created__idx",
+          "key_length": "8",
+          "possible_keys": [
+            "order_customer_created__idx"
+          ],
+          "ref": [
+            "const"
+          ],
+          "rows_examined_per_scan": 69,
+          "rows_produced_per_join": 69,
+          "table_name": "order_",
+          "used_columns": [
+            "id_",
+            "number_",
+            "customer_id_",
+            "type_",
+            "status_",
+            "price_",
+            "created_at_"
+          ],
+          "used_key_parts": [
+            "customer_id_"
+          ]
+        },
+        "using_filesort": false
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "a2bfcfa775ae5241ff4baf76157eebfd559f5f65d77ea755c2b1dcd8c325e3de",
+  "scenario": "R2",
+  "size": "L",
+  "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+  "text": "-> Limit/Offset: 20/40 row(s)  (cost=75.9 rows=20) (actual time=6.7..7.17 rows=20 loops=1)\n    -> Index lookup on order_ using order_customer_created__idx (customer_id_=15090) (reverse)  (cost=75.9 rows=69) (actual time=2.39..7.16 rows=60 loops=1)\n"
+}

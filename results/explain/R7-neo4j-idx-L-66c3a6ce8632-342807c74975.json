@@ -1,0 +1,305 @@
+{
+  "config": "idx",
+  "engine": "neo4j",
+  "kind": "read",
+  "plan": {
+    "args": {
+      "DbHits": 0,
+      "Details": "lockermat, openings, doorFailed",
+      "EstimatedRows": 127.49781694275555,
+      "GlobalMemory": 122904,
+      "Id": 0,
+      "Memory": 0,
+      "PageCacheHits": 0,
+      "PageCacheMisses": 0,
+      "Rows": 773,
+      "planner": "COST",
+      "planner-impl": "IDP",
+      "planner-version": "5.26.33",
+      "runtime": "SLOTTED",
+      "runtime-impl": "SLOTTED",
+      "runtime-version": "5.26.33",
+      "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+-----------------------+----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| Operator              | Id | Details                                                                                     | Estimated Rows | Rows | DB Hits | Memory (Bytes) | Page Cache Hits/Misses |\n+-----------------------+----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +ProduceResults       |  0 | lockermat, openings, doorFailed                                                             |            127 |  773 |       0 |              0 |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +EagerAggregation     |  1 | l.id AS lockermat, count(*) AS openings, sum(CASE o.result                                  |            127 |  773 |    2752 |         122840 |                    0/0 |\n| |                     |    |   WHEN $autostring_0 THEN $autoint_1                                                        |                |      |         |                |                        |\n| |                     |    |   ELSE $autoint_2                                                                           |                |      |         |                |                        |\n| |                     |    | END) AS doorFailed                                                                          |                |      |         |                |                        |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Filter               |  2 | l:Lockermat                                                                                 |          16256 | 1376 |    1376 |                |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Expand(All)          |  3 | (anon_5)<-[anon_6:HAS_CELL]-(l)                                                             |          16256 | 1376 |   22588 |                |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Filter               |  4 | anon_5:Cell                                                                                 |          16256 | 1376 |    1376 |                |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Expand(All)          |  5 | (anon_3)-[anon_4:IN_CELL]->(anon_5)                                                         |          16256 | 1376 |    6928 |                |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Filter               |  6 | anon_3:Reservation                                                                          |          16256 | 1376 |    1376 |                |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Expand(All)          |  7 | (anon_1)<-[anon_2:HAS_CODE]-(anon_3)                                                        |          16256 | 1376 |    4530 |                |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Filter               |  8 | anon_1:AccessCode                                                                           |          16256 | 1376 |    1376 |                |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Expand(All)          |  9 | (o)-[anon_0:OPENED_WITH]->(anon_1)                                                          |          16256 | 1376 |    5684 |                |                    0/0 |\n| |                     +----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +NodeIndexSeekByRange | 10 | RANGE INDEX o:CellOpening(requestedAt) WHERE requestedAt >= $since AND requestedAt < $until |          23957 | 2842 |    2843 |                |                    0/0 |\n+-----------------------+----+---------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n\nTotal database accesses: 50829, total allocated memory: 122904\n",
+      "version": "5"
+    },
+    "children": [
+      {
+        "args": {
+          "DbHits": 2752,
+          "Details": "l.id AS lockermat, count(*) AS openings, sum(CASE o.result\n  WHEN $autostring_0 THEN $autoint_1\n  ELSE $autoint_2\nEND) AS doorFailed",
+          "EstimatedRows": 127.49781694275555,
+          "Id": 1,
+          "Memory": 122840,
+          "PageCacheHits": 0,
+          "PageCacheMisses": 0,
+          "Rows": 773
+        },
+        "children": [
+          {
+            "args": {
+              "DbHits": 1376,
+              "Details": "l:Lockermat",
+              "EstimatedRows": 16255.693325168404,
+              "Id": 2,
+              "PageCacheHits": 0,
+              "PageCacheMisses": 0,
+              "Rows": 1376
+            },
+            "children": [
+              {
+                "args": {
+                  "DbHits": 22588,
+                  "Details": "(anon_5)<-[anon_6:HAS_CELL]-(l)",
+                  "EstimatedRows": 16255.693325168404,
+                  "Id": 3,
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 1376
+                },
+                "children": [
+                  {
+                    "args": {
+                      "DbHits": 1376,
+                      "Details": "anon_5:Cell",
+                      "EstimatedRows": 16255.693325168404,
+                      "Id": 4,
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 1376
+                    },
+                    "children": [
+                      {
+                        "args": {
+                          "DbHits": 6928,
+                          "Details": "(anon_3)-[anon_4:IN_CELL]->(anon_5)",
+                          "EstimatedRows": 16255.693325168404,
+                          "Id": 5,
+                          "PageCacheHits": 0,
+                          "PageCacheMisses": 0,
+                          "Rows": 1376
+                        },
+                        "children": [
+                          {
+                            "args": {
+                              "DbHits": 1376,
+                              "Details": "anon_3:Reservation",
+                              "EstimatedRows": 16255.693325168404,
+                              "Id": 6,
+                              "PageCacheHits": 0,
+                              "PageCacheMisses": 0,
+                              "Rows": 1376
+                            },
+                            "children": [
+                              {
+                                "args": {
+                                  "DbHits": 4530,
+                                  "Details": "(anon_1)<-[anon_2:HAS_CODE]-(anon_3)",
+                                  "EstimatedRows": 16255.693325168404,
+                                  "Id": 7,
+                                  "PageCacheHits": 0,
+                                  "PageCacheMisses": 0,
+                                  "Rows": 1376
+                                },
+                                "children": [
+                                  {
+                                    "args": {
+                                      "DbHits": 1376,
+                                      "Details": "anon_1:AccessCode",
+                                      "EstimatedRows": 16255.693325168404,
+                                      "Id": 8,
+                                      "PageCacheHits": 0,
+                                      "PageCacheMisses": 0,
+                                      "Rows": 1376
+                                    },
+                                    "children": [
+                                      {
+                                        "args": {
+                                          "DbHits": 5684,
+                                          "Details": "(o)-[anon_0:OPENED_WITH]->(anon_1)",
+                                          "EstimatedRows": 16255.693325168404,
+                                          "Id": 9,
+                                          "PageCacheHits": 0,
+                                          "PageCacheMisses": 0,
+                                          "Rows": 1376
+                                        },
+                                        "children": [
+                                          {
+                                            "args": {
+                                              "DbHits": 2843,
+                                              "Details": "RANGE INDEX o:CellOpening(requestedAt) WHERE requestedAt >= $since AND requestedAt < $until",
+                                              "EstimatedRows": 23956.914422874786,
+                                              "Id": 10,
+                                              "PageCacheHits": 0,
+                                              "PageCacheMisses": 0,
+                                              "Rows": 2842
+                                            },
+                                            "dbHits": 2843,
+                                            "identifiers": [
+                                              "o"
+                                            ],
+                                            "operatorType": "NodeIndexSeekByRange@neo4j",
+                                            "pageCacheHitRatio": 0.0,
+                                            "pageCacheHits": 0,
+                                            "pageCacheMisses": 0,
+                                            "rows": 2842
+                                          }
+                                        ],
+                                        "dbHits": 5684,
+                                        "identifiers": [
+                                          "o",
+                                          "anon_0",
+                                          "anon_1"
+                                        ],
+                                        "operatorType": "Expand(All)@neo4j",
+                                        "pageCacheHitRatio": 0.0,
+                                        "pageCacheHits": 0,
+                                        "pageCacheMisses": 0,
+                                        "rows": 1376
+                                      }
+                                    ],
+                                    "dbHits": 1376,
+                                    "identifiers": [
+                                      "o",
+                                      "anon_0",
+                                      "anon_1"
+                                    ],
+                                    "operatorType": "Filter@neo4j",
+                                    "pageCacheHitRatio": 0.0,
+                                    "pageCacheHits": 0,
+                                    "pageCacheMisses": 0,
+                                    "rows": 1376
+                                  }
+                                ],
+                                "dbHits": 4530,
+                                "identifiers": [
+                                  "anon_2",
+                                  "anon_3",
+                                  "o",
+                                  "anon_0",
+                                  "anon_1"
+                                ],
+                                "operatorType": "Expand(All)@neo4j",
+                                "pageCacheHitRatio": 0.0,
+                                "pageCacheHits": 0,
+                                "pageCacheMisses": 0,
+                                "rows": 1376
+                              }
+                            ],
+                            "dbHits": 1376,
+                            "identifiers": [
+                              "anon_2",
+                              "anon_3",
+                              "o",
+                              "anon_0",
+                              "anon_1"
+                            ],
+                            "operatorType": "Filter@neo4j",
+                            "pageCacheHitRatio": 0.0,
+                            "pageCacheHits": 0,
+                            "pageCacheMisses": 0,
+                            "rows": 1376
+                          }
+                        ],
+                        "dbHits": 6928,
+                        "identifiers": [
+                          "anon_2",
+                          "anon_4",
+                          "anon_3",
+                          "anon_5",
+                          "o",
+                          "anon_0",
+                          "anon_1"
+                        ],
+                        "operatorType": "Expand(All)@neo4j",
+                        "pageCacheHitRatio": 0.0,
+                        "pageCacheHits": 0,
+                        "pageCacheMisses": 0,
+                        "rows": 1376
+                      }
+                    ],
+                    "dbHits": 1376,
+                    "identifiers": [
+                      "anon_2",
+                      "anon_4",
+                      "anon_3",
+                      "anon_5",
+                      "o",
+                      "anon_0",
+                      "anon_1"
+                    ],
+                    "operatorType": "Filter@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 1376
+                  }
+                ],
+                "dbHits": 22588,
+                "identifiers": [
+                  "anon_2",
+                  "anon_4",
+                  "anon_3",
+                  "anon_6",
+                  "o",
+                  "anon_0",
+                  "anon_1",
+                  "anon_5",
+                  "l"
+                ],
+                "operatorType": "Expand(All)@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 1376
+              }
+            ],
+            "dbHits": 1376,
+            "identifiers": [
+              "anon_2",
+              "anon_4",
+              "anon_3",
+              "anon_6",
+              "o",
+              "anon_0",
+              "anon_1",
+              "anon_5",
+              "l"
+            ],
+            "operatorType": "Filter@neo4j",
+            "pageCacheHitRatio": 0.0,
+            "pageCacheHits": 0,
+            "pageCacheMisses": 0,
+            "rows": 1376
+          }
+        ],
+        "dbHits": 2752,
+        "identifiers": [
+          "lockermat",
+          "openings",
+          "doorFailed"
+        ],
+        "operatorType": "EagerAggregation@neo4j",
+        "pageCacheHitRatio": 0.0,
+        "pageCacheHits": 0,
+        "pageCacheMisses": 0,
+        "rows": 773
+      }
+    ],
+    "dbHits": 0,
+    "identifiers": [
+      "lockermat",
+      "openings",
+      "doorFailed"
+    ],
+    "operatorType": "ProduceResults@neo4j",
+    "pageCacheHitRatio": 0.0,
+    "pageCacheHits": 0,
+    "pageCacheMisses": 0,
+    "rows": 773
+  },
+  "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+  "scenario": "R7",
+  "size": "L",
+  "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+  "text": null
+}

@@ -1,0 +1,228 @@
+{
+  "scenario": "U3",
+  "engine": "mongo",
+  "config": "idx",
+  "size": "L",
+  "kind": "write-discovery",
+  "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+  "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+  "plan": {
+    "explainVersion": "1",
+    "queryPlanner": {
+      "namespace": "bagazomat.orders",
+      "parsedQuery": {
+        "$and": [
+          {
+            "status": {
+              "$eq": "AWAITING_PAYMENT"
+            }
+          },
+          {
+            "paymentDeadline": {
+              "$lt": {
+                "$date": "2026-11-01T00:00:00Z"
+              }
+            }
+          }
+        ]
+      },
+      "indexFilterSet": false,
+      "queryHash": "5597353C",
+      "planCacheShapeHash": "5597353C",
+      "planCacheKey": "54C166BD",
+      "optimizationTimeMillis": 3,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "stage": "FETCH",
+        "filter": {
+          "paymentDeadline": {
+            "$lt": {
+              "$date": "2026-11-01T00:00:00Z"
+            }
+          }
+        },
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "status": 1,
+            "createdAt": 1
+          },
+          "indexName": "ix2__idx",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "status": [],
+            "createdAt": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "status": [
+              "[\"AWAITING_PAYMENT\", \"AWAITING_PAYMENT\"]"
+            ],
+            "createdAt": [
+              "[MinKey, MaxKey]"
+            ]
+          }
+        }
+      },
+      "rejectedPlans": [
+        {
+          "isCached": false,
+          "stage": "FETCH",
+          "inputStage": {
+            "stage": "IXSCAN",
+            "keyPattern": {
+              "paymentDeadline": 1
+            },
+            "indexName": "order_awaiting_payment__idx",
+            "isMultiKey": false,
+            "multiKeyPaths": {
+              "paymentDeadline": []
+            },
+            "isUnique": false,
+            "isSparse": false,
+            "isPartial": true,
+            "indexVersion": 2,
+            "direction": "forward",
+            "indexBounds": {
+              "paymentDeadline": [
+                "[new Date(-9223372036854775808), new Date(1793491200000))"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 24103,
+      "executionTimeMillis": 21,
+      "totalKeysExamined": 26780,
+      "totalDocsExamined": 26780,
+      "executionStages": {
+        "isCached": false,
+        "stage": "FETCH",
+        "filter": {
+          "paymentDeadline": {
+            "$lt": {
+              "$date": "2026-11-01T00:00:00Z"
+            }
+          }
+        },
+        "nReturned": 24103,
+        "executionTimeMillisEstimate": 18,
+        "works": 26781,
+        "advanced": 24103,
+        "needTime": 2677,
+        "needYield": 0,
+        "saveState": 1,
+        "restoreState": 1,
+        "isEOF": 1,
+        "docsExamined": 26780,
+        "alreadyHasObj": 0,
+        "inputStage": {
+          "stage": "IXSCAN",
+          "nReturned": 26780,
+          "executionTimeMillisEstimate": 8,
+          "works": 26781,
+          "advanced": 26780,
+          "needTime": 0,
+          "needYield": 0,
+          "saveState": 1,
+          "restoreState": 1,
+          "isEOF": 1,
+          "keyPattern": {
+            "status": 1,
+            "createdAt": 1
+          },
+          "indexName": "ix2__idx",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "status": [],
+            "createdAt": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "status": [
+              "[\"AWAITING_PAYMENT\", \"AWAITING_PAYMENT\"]"
+            ],
+            "createdAt": [
+              "[MinKey, MaxKey]"
+            ]
+          },
+          "keysExamined": 26780,
+          "seeks": 1,
+          "dupsTested": 0,
+          "dupsDropped": 0
+        }
+      }
+    },
+    "queryShapeHash": "3060180F237BE6091B6DD3BA6C32EF696E503EFC07F5451F69AACF2C3A4A9F46",
+    "command": {
+      "find": "orders",
+      "filter": {
+        "status": "AWAITING_PAYMENT",
+        "paymentDeadline": {
+          "$lt": {
+            "$date": "2026-11-01T00:00:00Z"
+          }
+        }
+      },
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301329,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301329,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}

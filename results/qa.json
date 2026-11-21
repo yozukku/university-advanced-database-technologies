@@ -1,4 +1,4301 @@
 {
+  "L": {
+    "cells": [
+      {
+        "config": "idx",
+        "cv": 0.12359606339519197,
+        "engine": "pg",
+        "max": 0.301070348,
+        "mean": 0.2663066463333333,
+        "median": 0.262227991,
+        "min": 0.2356216,
+        "op": "C",
+        "qhash": "2874805b9fb740b8bbb90766a3c868c146099e9c5ed54cea4e7da77469ce7e9b",
+        "scenario": "C1",
+        "seconds": [
+          0.2356216,
+          0.301070348,
+          0.262227991
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.018844460426103084,
+        "engine": "pg",
+        "max": 1.150002281,
+        "mean": 1.129086431,
+        "median": 1.129791265,
+        "min": 1.107465747,
+        "op": "C",
+        "qhash": "96b2e7d0a61410726a0f02833831e3e4a67316e08aac11b935aabd729ee6ec59",
+        "scenario": "C2",
+        "seconds": [
+          1.150002281,
+          1.107465747,
+          1.129791265
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.08751016052096634,
+        "engine": "pg",
+        "max": 3.148679643,
+        "mean": 2.995052509,
+        "median": 3.144057765,
+        "min": 2.692420119,
+        "op": "C",
+        "qhash": "26f5638fe5392be4fbb46d56fe8493874890e3f7358efa9fa7e4c878e9d1a462",
+        "scenario": "C3",
+        "seconds": [
+          2.692420119,
+          3.148679643,
+          3.144057765
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.11581542761371309,
+        "engine": "pg",
+        "max": 3.640434856,
+        "mean": 3.3277558756666665,
+        "median": 3.445663113,
+        "min": 2.897169658,
+        "op": "C",
+        "qhash": "c097b6a5e9d5f75a499987b81d0800d1332fdb9a1eba6c0ebfc3663f5126020b",
+        "scenario": "C4",
+        "seconds": [
+          3.640434856,
+          2.897169658,
+          3.445663113
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.18675148236188663,
+        "engine": "pg",
+        "max": 0.394895196,
+        "mean": 0.34028008000000004,
+        "median": 0.355413256,
+        "min": 0.270531788,
+        "op": "C",
+        "qhash": "364154d0db27514cc76ab3d780f66fe834ca3b4c0a17ea57c53539be2ebc0745",
+        "scenario": "C5",
+        "seconds": [
+          0.270531788,
+          0.394895196,
+          0.355413256
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.02769067592970036,
+        "engine": "pg",
+        "max": 0.387491691,
+        "mean": 0.376359143,
+        "median": 0.374750184,
+        "min": 0.366835554,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.387491691,
+          0.374750184,
+          0.366835554
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.14136514267388237,
+        "engine": "pg",
+        "max": 0.080269882,
+        "mean": 0.06948351400000001,
+        "median": 0.06712729,
+        "min": 0.06105337,
+        "op": "R",
+        "qhash": "cd6468cafde3e0aeb6eb2d7528ef301e72df6f6d32a22e8965f39bb181ba2435",
+        "scenario": "R1",
+        "seconds": [
+          0.080269882,
+          0.06105337,
+          0.06712729
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.17830322416651062,
+        "engine": "pg",
+        "max": 0.099769519,
+        "mean": 0.08274974433333333,
+        "median": 0.074904753,
+        "min": 0.073574961,
+        "op": "R",
+        "qhash": "a2bfcfa775ae5241ff4baf76157eebfd559f5f65d77ea755c2b1dcd8c325e3de",
+        "scenario": "R2",
+        "seconds": [
+          0.099769519,
+          0.074904753,
+          0.073574961
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.028229729222914376,
+        "engine": "pg",
+        "max": 0.097732392,
+        "mean": 0.094687668,
+        "median": 0.093603723,
+        "min": 0.092726889,
+        "op": "R",
+        "qhash": "12ace1e3f0f140093df27b7ec2c5816a8a5aa10ecc7a16fa8fd67c2e7c520e05",
+        "scenario": "R3",
+        "seconds": [
+          0.097732392,
+          0.092726889,
+          0.093603723
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.450150725415243,
+        "engine": "pg",
+        "max": 0.008591005,
+        "mean": 0.005653642,
+        "median": 0.004261794,
+        "min": 0.004108127,
+        "op": "R",
+        "qhash": "a96b6e02fc078de3761cb2f0afdaeb4c5d87c01a68925b110953c2640090f1ad",
+        "scenario": "R4",
+        "seconds": [
+          0.008591005,
+          0.004261794,
+          0.004108127
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05913939694252647,
+        "engine": "pg",
+        "max": 0.083759634,
+        "mean": 0.07841286666666668,
+        "median": 0.075991504,
+        "min": 0.075487462,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.083759634,
+          0.075991504,
+          0.075487462
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.024275049105017182,
+        "engine": "pg",
+        "max": 0.529129068,
+        "mean": 0.5150437266666666,
+        "median": 0.510743349,
+        "min": 0.505258763,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.529129068,
+          0.505258763,
+          0.510743349
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.053015722720378335,
+        "engine": "pg",
+        "max": 0.622074291,
+        "mean": 0.5876216593333333,
+        "median": 0.579355432,
+        "min": 0.561435255,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          0.561435255,
+          0.579355432,
+          0.622074291
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.020994164135914418,
+        "engine": "pg",
+        "max": 0.690743957,
+        "mean": 0.6789844363333334,
+        "median": 0.683078744,
+        "min": 0.663130608,
+        "op": "R",
+        "qhash": "b811509a9f4723999d04dae23e617bf19617ecb1b3acc1a7d0e1bcaf21f5b1f0",
+        "scenario": "R8",
+        "seconds": [
+          0.683078744,
+          0.663130608,
+          0.690743957
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.04219450893045753,
+        "engine": "pg",
+        "max": 0.183624069,
+        "mean": 0.17801628766666666,
+        "median": 0.180942525,
+        "min": 0.169482269,
+        "op": "U",
+        "qhash": "30d82bac89711b0b2dd1e0285cd1b445a0e262fc687c8b3e1df9d95de774f641",
+        "scenario": "U1",
+        "seconds": [
+          0.169482269,
+          0.183624069,
+          0.180942525
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.3378546868484663,
+        "engine": "pg",
+        "max": 2.916371149,
+        "mean": 2.3464953543333333,
+        "median": 2.681978699,
+        "min": 1.441136215,
+        "op": "U",
+        "qhash": "4988740af54ac3602448f6db60bf27d5d8190750fb5996606687cdf8d0abe0b8",
+        "scenario": "U2",
+        "seconds": [
+          2.916371149,
+          1.441136215,
+          2.681978699
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.1268040843058976,
+        "engine": "pg",
+        "max": 0.716526181,
+        "mean": 0.625908418,
+        "median": 0.592455106,
+        "min": 0.568743967,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.592455106,
+          0.716526181,
+          0.568743967
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03722864407626982,
+        "engine": "pg",
+        "max": 0.461627713,
+        "mean": 0.4490191776666667,
+        "median": 0.455372154,
+        "min": 0.430057666,
+        "op": "U",
+        "qhash": "5c54683240a584904826b00e313ca3a6d360521089e63c1a20fd7c9d43f9f267",
+        "scenario": "U4",
+        "seconds": [
+          0.461627713,
+          0.455372154,
+          0.430057666
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.01984190436246687,
+        "engine": "pg",
+        "max": 0.080553924,
+        "mean": 0.07890178366666667,
+        "median": 0.078711172,
+        "min": 0.077440255,
+        "op": "U",
+        "qhash": "f081f3440b1f5e2d5d889b0b68726975132a9df52967cbf59fed8493440c889c",
+        "scenario": "U5",
+        "seconds": [
+          0.077440255,
+          0.080553924,
+          0.078711172
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.011086660630677347,
+        "engine": "pg",
+        "max": 5.079801934,
+        "mean": 5.0194946536666665,
+        "median": 5.008553859,
+        "min": 4.970128168,
+        "op": "U",
+        "qhash": "acc1570f84a1896122633ee6ebfe0a19098bd3037cd8f64c57f17630dfb0c40a",
+        "scenario": "U6",
+        "seconds": [
+          5.079801934,
+          4.970128168,
+          5.008553859
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05443667234012588,
+        "engine": "pg",
+        "max": 0.026461908,
+        "mean": 0.025222973333333332,
+        "median": 0.025460279,
+        "min": 0.023746733,
+        "op": "D",
+        "qhash": "405c6d235eb8062751b8b2e58981678ea08004b2f9e8dd97dbfd4cdd8fe7c164",
+        "scenario": "D1",
+        "seconds": [
+          0.023746733,
+          0.025460279,
+          0.026461908
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.022818498912637677,
+        "engine": "pg",
+        "max": 1.895848658,
+        "mean": 1.8500936823333334,
+        "median": 1.841779256,
+        "min": 1.812653133,
+        "op": "D",
+        "qhash": "08344bc261b9a9a3a795c2bbce4eaba47c2fcdccea5281fd8dd5b43b8b8abce7",
+        "scenario": "D2",
+        "seconds": [
+          1.812653133,
+          1.895848658,
+          1.841779256
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.08284794381427923,
+        "engine": "pg",
+        "max": 0.253403712,
+        "mean": 0.2352989523333333,
+        "median": 0.237830209,
+        "min": 0.214662936,
+        "op": "D",
+        "qhash": "d566def9e3e7f58ca89c632477b58a4e1d744144c5b2912ebe772c2cca15840e",
+        "scenario": "D3",
+        "seconds": [
+          0.214662936,
+          0.253403712,
+          0.237830209
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.034152131306304144,
+        "engine": "pg",
+        "max": 0.075657671,
+        "mean": 0.07379305466666668,
+        "median": 0.074795627,
+        "min": 0.070925866,
+        "op": "D",
+        "qhash": "873560dfb35a729c659768dae4a1ce8ec76d370a521703ed4edd9b90f9ad7a6a",
+        "scenario": "D4",
+        "seconds": [
+          0.070925866,
+          0.074795627,
+          0.075657671
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.010812279557305772,
+        "engine": "pg",
+        "max": 1.84109965,
+        "mean": 1.823128445,
+        "median": 1.826240225,
+        "min": 1.80204546,
+        "op": "D",
+        "qhash": "29a81e55f7fce6724fbfe2fb1bdf9b10970b1a4eb22fe186588669d6d1a65cb5",
+        "scenario": "D5",
+        "seconds": [
+          1.826240225,
+          1.80204546,
+          1.84109965
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.020793298904796507,
+        "engine": "pg",
+        "max": 0.015022317,
+        "mean": 0.014756941333333334,
+        "median": 0.014827566,
+        "min": 0.014420941,
+        "op": "D",
+        "qhash": "6e05f8af0725fcb35d132d03b2158191e304d81ea55429865d0e887ebb9c0758",
+        "scenario": "D6",
+        "seconds": [
+          0.014420941,
+          0.014827566,
+          0.015022317
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.049154990567336646,
+        "engine": "pg",
+        "max": 0.291393027,
+        "mean": 0.2759109606666667,
+        "median": 0.270211478,
+        "min": 0.266128377,
+        "op": "C",
+        "qhash": "531be342ce92bee617fafbccba445ae23ecce53b743b101581d23256ce14c1f4",
+        "scenario": "J1",
+        "seconds": [
+          0.291393027,
+          0.270211478,
+          0.266128377
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.04119703818336412,
+        "engine": "pg",
+        "max": 0.007083114,
+        "mean": 0.006791668,
+        "median": 0.006766695,
+        "min": 0.006525195,
+        "op": "R",
+        "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+        "scenario": "J2",
+        "seconds": [
+          0.007083114,
+          0.006766695,
+          0.006525195
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.008249307332337162,
+        "engine": "pg",
+        "max": 0.217025047,
+        "mean": 0.2154649213333333,
+        "median": 0.215839755,
+        "min": 0.213529962,
+        "op": "R",
+        "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+        "scenario": "J3",
+        "seconds": [
+          0.217025047,
+          0.213529962,
+          0.215839755
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.004772715222258923,
+        "engine": "pg",
+        "max": 0.805579121,
+        "mean": 0.8014895066666666,
+        "median": 0.80089006,
+        "min": 0.797999339,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          0.797999339,
+          0.80089006,
+          0.805579121
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.06206357231624475,
+        "engine": "pg",
+        "max": 0.032612471,
+        "mean": 0.030850842666666666,
+        "median": 0.031127019,
+        "min": 0.028813038,
+        "op": "U",
+        "qhash": "126c893de9d44bc2cbfc8d2897ae389958c2949be0dd0219905261c6dba834a9",
+        "scenario": "J5",
+        "seconds": [
+          0.028813038,
+          0.032612471,
+          0.031127019
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.026664522552309857,
+        "engine": "pg",
+        "max": 0.555567973,
+        "mean": 0.541710672,
+        "median": 0.54282091,
+        "min": 0.526743133,
+        "op": "D",
+        "qhash": "22786e1bf399e088dc854bf14e32fc98c262f3c68cb7ad145e4b124595781d3b",
+        "scenario": "J6",
+        "seconds": [
+          0.526743133,
+          0.54282091,
+          0.555567973
+        ],
+        "state": "complete",
+        "state_id": "7b3d3b2b4270eabff537e53ef5043a0996b4359dc98cde737a686ff06cf40e78",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.09873965844736968,
+        "engine": "pg",
+        "max": 1.256767002,
+        "mean": 1.1287994533333332,
+        "median": 1.076688061,
+        "min": 1.052943297,
+        "op": "C",
+        "qhash": "96b2e7d0a61410726a0f02833831e3e4a67316e08aac11b935aabd729ee6ec59",
+        "scenario": "C2",
+        "seconds": [
+          1.256767002,
+          1.076688061,
+          1.052943297
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.05842774780988404,
+        "engine": "pg",
+        "max": 3.135076385,
+        "mean": 2.950083308,
+        "median": 2.921174964,
+        "min": 2.793998575,
+        "op": "C",
+        "qhash": "26f5638fe5392be4fbb46d56fe8493874890e3f7358efa9fa7e4c878e9d1a462",
+        "scenario": "C3",
+        "seconds": [
+          2.793998575,
+          3.135076385,
+          2.921174964
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.013168359492004707,
+        "engine": "pg",
+        "max": 3.67592546,
+        "mean": 3.6214760523333336,
+        "median": 3.601370165,
+        "min": 3.587132532,
+        "op": "C",
+        "qhash": "c097b6a5e9d5f75a499987b81d0800d1332fdb9a1eba6c0ebfc3663f5126020b",
+        "scenario": "C4",
+        "seconds": [
+          3.587132532,
+          3.601370165,
+          3.67592546
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.010554269775057697,
+        "engine": "pg",
+        "max": 0.360456675,
+        "mean": 0.3562474363333334,
+        "median": 0.35506413,
+        "min": 0.353221504,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.360456675,
+          0.353221504,
+          0.35506413
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.010292330517210678,
+        "engine": "pg",
+        "max": 0.838746338,
+        "mean": 0.8289829989999999,
+        "median": 0.825244038,
+        "min": 0.822958621,
+        "op": "R",
+        "qhash": "a96b6e02fc078de3761cb2f0afdaeb4c5d87c01a68925b110953c2640090f1ad",
+        "scenario": "R4",
+        "seconds": [
+          0.838746338,
+          0.825244038,
+          0.822958621
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.006963772981850709,
+        "engine": "pg",
+        "max": 0.075394379,
+        "mean": 0.07491742,
+        "median": 0.074997628,
+        "min": 0.074360253,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.075394379,
+          0.074360253,
+          0.074997628
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0033500891463176478,
+        "engine": "pg",
+        "max": 0.747688451,
+        "mean": 0.7456429216666667,
+        "median": 0.746381325,
+        "min": 0.742858989,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.746381325,
+          0.742858989,
+          0.747688451
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.00264193671365844,
+        "engine": "pg",
+        "max": 1.18505888,
+        "mean": 1.181454753,
+        "median": 1.179672544,
+        "min": 1.179632835,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          1.179632835,
+          1.18505888,
+          1.179672544
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.02065429976960913,
+        "engine": "pg",
+        "max": 0.179794025,
+        "mean": 0.17560646700000002,
+        "median": 0.17357273,
+        "min": 0.173452646,
+        "op": "U",
+        "qhash": "30d82bac89711b0b2dd1e0285cd1b445a0e262fc687c8b3e1df9d95de774f641",
+        "scenario": "U1",
+        "seconds": [
+          0.179794025,
+          0.173452646,
+          0.17357273
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0078055954510827695,
+        "engine": "pg",
+        "max": 0.550629831,
+        "mean": 0.5465684956666667,
+        "median": 0.546952454,
+        "min": 0.542123202,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.546952454,
+          0.542123202,
+          0.550629831
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0666347000037074,
+        "engine": "pg",
+        "max": 0.072388919,
+        "mean": 0.06799361033333333,
+        "median": 0.068253291,
+        "min": 0.063338621,
+        "op": "U",
+        "qhash": "f081f3440b1f5e2d5d889b0b68726975132a9df52967cbf59fed8493440c889c",
+        "scenario": "U5",
+        "seconds": [
+          0.063338621,
+          0.072388919,
+          0.068253291
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0376475694255551,
+        "engine": "pg",
+        "max": 0.22979043,
+        "mean": 0.22222303666666665,
+        "median": 0.223639677,
+        "min": 0.213239003,
+        "op": "C",
+        "qhash": "531be342ce92bee617fafbccba445ae23ecce53b743b101581d23256ce14c1f4",
+        "scenario": "J1",
+        "seconds": [
+          0.22979043,
+          0.223639677,
+          0.213239003
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.005936698816991926,
+        "engine": "pg",
+        "max": 8.304798561,
+        "mean": 8.248888990666666,
+        "median": 8.228266695,
+        "min": 8.213601716,
+        "op": "R",
+        "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+        "scenario": "J2",
+        "seconds": [
+          8.213601716,
+          8.304798561,
+          8.228266695
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.004079539740039802,
+        "engine": "pg",
+        "max": 2.406104069,
+        "mean": 2.3949667023333334,
+        "median": 2.39095663,
+        "min": 2.387839408,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          2.387839408,
+          2.406104069,
+          2.39095663
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.02988202157378281,
+        "engine": "pg",
+        "max": 0.429951988,
+        "mean": 0.417116309,
+        "median": 0.416336931,
+        "min": 0.405060008,
+        "op": "U",
+        "qhash": "126c893de9d44bc2cbfc8d2897ae389958c2949be0dd0219905261c6dba834a9",
+        "scenario": "J5",
+        "seconds": [
+          0.405060008,
+          0.429951988,
+          0.416336931
+        ],
+        "state": "complete",
+        "state_id": "81611ba5ba5d0dbc8b0f3d9dfb1fe7a0d954a226f1f2bf90b9273aa94b0fb2ef",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.041217715483186874,
+        "engine": "mysql",
+        "max": 0.355843255,
+        "mean": 0.34189050733333337,
+        "median": 0.342164896,
+        "min": 0.327663371,
+        "op": "C",
+        "qhash": "2874805b9fb740b8bbb90766a3c868c146099e9c5ed54cea4e7da77469ce7e9b",
+        "scenario": "C1",
+        "seconds": [
+          0.327663371,
+          0.355843255,
+          0.342164896
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0031872183056962248,
+        "engine": "mysql",
+        "max": 1.61828288,
+        "mean": 1.6130432460000002,
+        "median": 1.612840204,
+        "min": 1.608006654,
+        "op": "C",
+        "qhash": "96b2e7d0a61410726a0f02833831e3e4a67316e08aac11b935aabd729ee6ec59",
+        "scenario": "C2",
+        "seconds": [
+          1.608006654,
+          1.61828288,
+          1.612840204
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.013430751335210793,
+        "engine": "mysql",
+        "max": 2.572007354,
+        "mean": 2.5328602326666667,
+        "median": 2.516091344,
+        "min": 2.510482,
+        "op": "C",
+        "qhash": "26f5638fe5392be4fbb46d56fe8493874890e3f7358efa9fa7e4c878e9d1a462",
+        "scenario": "C3",
+        "seconds": [
+          2.510482,
+          2.572007354,
+          2.516091344
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.013859786494698063,
+        "engine": "mysql",
+        "max": 3.359941234,
+        "mean": 3.307627778,
+        "median": 3.288475245,
+        "min": 3.274466855,
+        "op": "C",
+        "qhash": "c097b6a5e9d5f75a499987b81d0800d1332fdb9a1eba6c0ebfc3663f5126020b",
+        "scenario": "C4",
+        "seconds": [
+          3.288475245,
+          3.359941234,
+          3.274466855
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.015422058579566343,
+        "engine": "mysql",
+        "max": 0.402601243,
+        "mean": 0.3960994313333333,
+        "median": 0.39521721,
+        "min": 0.390479841,
+        "op": "C",
+        "qhash": "364154d0db27514cc76ab3d780f66fe834ca3b4c0a17ea57c53539be2ebc0745",
+        "scenario": "C5",
+        "seconds": [
+          0.402601243,
+          0.39521721,
+          0.390479841
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.030712543044577698,
+        "engine": "mysql",
+        "max": 0.729438581,
+        "mean": 0.704879917,
+        "median": 0.696640173,
+        "min": 0.688560997,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.729438581,
+          0.688560997,
+          0.696640173
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.025312102334245263,
+        "engine": "mysql",
+        "max": 0.290921123,
+        "mean": 0.282674201,
+        "median": 0.278982427,
+        "min": 0.278119053,
+        "op": "R",
+        "qhash": "cd6468cafde3e0aeb6eb2d7528ef301e72df6f6d32a22e8965f39bb181ba2435",
+        "scenario": "R1",
+        "seconds": [
+          0.290921123,
+          0.278982427,
+          0.278119053
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.008825020764355915,
+        "engine": "mysql",
+        "max": 0.355222047,
+        "mean": 0.35296373066666664,
+        "median": 0.354258966,
+        "min": 0.349410179,
+        "op": "R",
+        "qhash": "a2bfcfa775ae5241ff4baf76157eebfd559f5f65d77ea755c2b1dcd8c325e3de",
+        "scenario": "R2",
+        "seconds": [
+          0.349410179,
+          0.354258966,
+          0.355222047
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0029979581440977058,
+        "engine": "mysql",
+        "max": 2.781848869,
+        "mean": 2.7727277126666667,
+        "median": 2.77075584,
+        "min": 2.765578429,
+        "op": "R",
+        "qhash": "12ace1e3f0f140093df27b7ec2c5816a8a5aa10ecc7a16fa8fd67c2e7c520e05",
+        "scenario": "R3",
+        "seconds": [
+          2.781848869,
+          2.765578429,
+          2.77075584
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.030160178156964514,
+        "engine": "mysql",
+        "max": 0.016434933,
+        "mean": 0.015883808,
+        "median": 0.015649391,
+        "min": 0.0155671,
+        "op": "R",
+        "qhash": "a96b6e02fc078de3761cb2f0afdaeb4c5d87c01a68925b110953c2640090f1ad",
+        "scenario": "R4",
+        "seconds": [
+          0.016434933,
+          0.0155671,
+          0.015649391
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0021116914477446952,
+        "engine": "mysql",
+        "max": 0.166963129,
+        "mean": 0.16662335133333334,
+        "median": 0.166646379,
+        "min": 0.166260546,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.166963129,
+          0.166260546,
+          0.166646379
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.007997395467572523,
+        "engine": "mysql",
+        "max": 1.693052548,
+        "mean": 1.678137107666667,
+        "median": 1.674321244,
+        "min": 1.667037531,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          1.693052548,
+          1.674321244,
+          1.667037531
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.02017998263337902,
+        "engine": "mysql",
+        "max": 1.910738902,
+        "mean": 1.883961495,
+        "median": 1.90069952,
+        "min": 1.840446063,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          1.840446063,
+          1.90069952,
+          1.910738902
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.005027399758883229,
+        "engine": "mysql",
+        "max": 1.143081388,
+        "mean": 1.1365355203333334,
+        "median": 1.133977732,
+        "min": 1.132547441,
+        "op": "R",
+        "qhash": "b811509a9f4723999d04dae23e617bf19617ecb1b3acc1a7d0e1bcaf21f5b1f0",
+        "scenario": "R8",
+        "seconds": [
+          1.143081388,
+          1.132547441,
+          1.133977732
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.024188757691565567,
+        "engine": "mysql",
+        "max": 0.067610295,
+        "mean": 0.06578344666666668,
+        "median": 0.065040168,
+        "min": 0.064699877,
+        "op": "U",
+        "qhash": "30d82bac89711b0b2dd1e0285cd1b445a0e262fc687c8b3e1df9d95de774f641",
+        "scenario": "U1",
+        "seconds": [
+          0.067610295,
+          0.065040168,
+          0.064699877
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.10345209913028475,
+        "engine": "mysql",
+        "max": 3.902993657,
+        "mean": 3.680830723333333,
+        "median": 3.898357674,
+        "min": 3.241140839,
+        "op": "U",
+        "qhash": "4988740af54ac3602448f6db60bf27d5d8190750fb5996606687cdf8d0abe0b8",
+        "scenario": "U2",
+        "seconds": [
+          3.902993657,
+          3.241140839,
+          3.898357674
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.008752545106332856,
+        "engine": "mysql",
+        "max": 0.695543668,
+        "mean": 0.6886032916666668,
+        "median": 0.685578625,
+        "min": 0.684687582,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.684687582,
+          0.685578625,
+          0.695543668
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.12792542072924457,
+        "engine": "mysql",
+        "max": 0.146041845,
+        "mean": 0.12767689833333332,
+        "median": 0.1222116,
+        "min": 0.11477725,
+        "op": "U",
+        "qhash": "5c54683240a584904826b00e313ca3a6d360521089e63c1a20fd7c9d43f9f267",
+        "scenario": "U4",
+        "seconds": [
+          0.11477725,
+          0.146041845,
+          0.1222116
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.053935017499913356,
+        "engine": "mysql",
+        "max": 0.061817795,
+        "mean": 0.059947363000000004,
+        "median": 0.061810378,
+        "min": 0.056213916,
+        "op": "U",
+        "qhash": "f081f3440b1f5e2d5d889b0b68726975132a9df52967cbf59fed8493440c889c",
+        "scenario": "U5",
+        "seconds": [
+          0.061817795,
+          0.056213916,
+          0.061810378
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.00995472694442426,
+        "engine": "mysql",
+        "max": 1.221224003,
+        "mean": 1.2114186163333331,
+        "median": 1.215078546,
+        "min": 1.1979533,
+        "op": "U",
+        "qhash": "acc1570f84a1896122633ee6ebfe0a19098bd3037cd8f64c57f17630dfb0c40a",
+        "scenario": "U6",
+        "seconds": [
+          1.1979533,
+          1.215078546,
+          1.221224003
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.1779067088600782,
+        "engine": "mysql",
+        "max": 0.047686449,
+        "mean": 0.039569756000000005,
+        "median": 0.035895076,
+        "min": 0.035127743,
+        "op": "D",
+        "qhash": "405c6d235eb8062751b8b2e58981678ea08004b2f9e8dd97dbfd4cdd8fe7c164",
+        "scenario": "D1",
+        "seconds": [
+          0.035127743,
+          0.035895076,
+          0.047686449
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.030390928406234613,
+        "engine": "mysql",
+        "max": 4.73780275,
+        "mean": 4.581432045666666,
+        "median": 4.535607958,
+        "min": 4.470885429,
+        "op": "D",
+        "qhash": "08344bc261b9a9a3a795c2bbce4eaba47c2fcdccea5281fd8dd5b43b8b8abce7",
+        "scenario": "D2",
+        "seconds": [
+          4.470885429,
+          4.73780275,
+          4.535607958
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.023630607209174325,
+        "engine": "mysql",
+        "max": 2.466759125,
+        "mean": 2.4102039840000002,
+        "median": 2.410994637,
+        "min": 2.35285819,
+        "op": "D",
+        "qhash": "d566def9e3e7f58ca89c632477b58a4e1d744144c5b2912ebe772c2cca15840e",
+        "scenario": "D3",
+        "seconds": [
+          2.410994637,
+          2.466759125,
+          2.35285819
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.028105383212765095,
+        "engine": "mysql",
+        "max": 0.117334935,
+        "mean": 0.11374571299999998,
+        "median": 0.112698144,
+        "min": 0.11120406,
+        "op": "D",
+        "qhash": "873560dfb35a729c659768dae4a1ce8ec76d370a521703ed4edd9b90f9ad7a6a",
+        "scenario": "D4",
+        "seconds": [
+          0.11120406,
+          0.117334935,
+          0.112698144
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0110778787071743,
+        "engine": "mysql",
+        "max": 5.939475639,
+        "mean": 5.883674141,
+        "median": 5.899510084,
+        "min": 5.8120367,
+        "op": "D",
+        "qhash": "29a81e55f7fce6724fbfe2fb1bdf9b10970b1a4eb22fe186588669d6d1a65cb5",
+        "scenario": "D5",
+        "seconds": [
+          5.8120367,
+          5.899510084,
+          5.939475639
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.12563130017791965,
+        "engine": "mysql",
+        "max": 0.025653592,
+        "mean": 0.022698494333333333,
+        "median": 0.022478883,
+        "min": 0.019963008,
+        "op": "D",
+        "qhash": "6e05f8af0725fcb35d132d03b2158191e304d81ea55429865d0e887ebb9c0758",
+        "scenario": "D6",
+        "seconds": [
+          0.025653592,
+          0.022478883,
+          0.019963008
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.17288425473570895,
+        "engine": "mysql",
+        "max": 0.981496965,
+        "mean": 0.822668391,
+        "median": 0.779426818,
+        "min": 0.70708139,
+        "op": "C",
+        "qhash": "531be342ce92bee617fafbccba445ae23ecce53b743b101581d23256ce14c1f4",
+        "scenario": "J1",
+        "seconds": [
+          0.779426818,
+          0.981496965,
+          0.70708139
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.016765269339126875,
+        "engine": "mysql",
+        "max": 0.01875958,
+        "mean": 0.018407066666666666,
+        "median": 0.018275914,
+        "min": 0.018185706,
+        "op": "R",
+        "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+        "scenario": "J2",
+        "seconds": [
+          0.01875958,
+          0.018185706,
+          0.018275914
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.019840919978379536,
+        "engine": "mysql",
+        "max": 1.336523998,
+        "mean": 1.30659131,
+        "median": 1.291904341,
+        "min": 1.291345591,
+        "op": "R",
+        "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+        "scenario": "J3",
+        "seconds": [
+          1.336523998,
+          1.291904341,
+          1.291345591
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0904104697323674,
+        "engine": "mysql",
+        "max": 1.854417644,
+        "mean": 1.6791381406666668,
+        "median": 1.593644161,
+        "min": 1.589352617,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          1.593644161,
+          1.589352617,
+          1.854417644
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.08540000236489288,
+        "engine": "mysql",
+        "max": 0.107385834,
+        "mean": 0.10053942533333333,
+        "median": 0.103326339,
+        "min": 0.090906103,
+        "op": "U",
+        "qhash": "126c893de9d44bc2cbfc8d2897ae389958c2949be0dd0219905261c6dba834a9",
+        "scenario": "J5",
+        "seconds": [
+          0.107385834,
+          0.103326339,
+          0.090906103
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.017496604293636604,
+        "engine": "mysql",
+        "max": 5.40191815,
+        "mean": 5.3208199259999995,
+        "median": 5.341379128,
+        "min": 5.2191625,
+        "op": "D",
+        "qhash": "22786e1bf399e088dc854bf14e32fc98c262f3c68cb7ad145e4b124595781d3b",
+        "scenario": "J6",
+        "seconds": [
+          5.341379128,
+          5.2191625,
+          5.40191815
+        ],
+        "state": "complete",
+        "state_id": "446bfef3017863a8b7da3c9c12b4a98c65d956ea52bccbf7939c11cf87435f99",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0067033490408051,
+        "engine": "mysql",
+        "max": 1.553815397,
+        "mean": 1.546934441,
+        "median": 1.551980352,
+        "min": 1.535007574,
+        "op": "C",
+        "qhash": "96b2e7d0a61410726a0f02833831e3e4a67316e08aac11b935aabd729ee6ec59",
+        "scenario": "C2",
+        "seconds": [
+          1.553815397,
+          1.551980352,
+          1.535007574
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.006571263225507879,
+        "engine": "mysql",
+        "max": 2.669870268,
+        "mean": 2.6524514470000002,
+        "median": 2.652473697,
+        "min": 2.635010376,
+        "op": "C",
+        "qhash": "26f5638fe5392be4fbb46d56fe8493874890e3f7358efa9fa7e4c878e9d1a462",
+        "scenario": "C3",
+        "seconds": [
+          2.669870268,
+          2.652473697,
+          2.635010376
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.012885174628505195,
+        "engine": "mysql",
+        "max": 3.446400194,
+        "mean": 3.414808739,
+        "median": 3.433473435,
+        "min": 3.364552588,
+        "op": "C",
+        "qhash": "c097b6a5e9d5f75a499987b81d0800d1332fdb9a1eba6c0ebfc3663f5126020b",
+        "scenario": "C4",
+        "seconds": [
+          3.446400194,
+          3.364552588,
+          3.433473435
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.03275956906099279,
+        "engine": "mysql",
+        "max": 0.69590138,
+        "mean": 0.675472373,
+        "median": 0.678548779,
+        "min": 0.65196696,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.678548779,
+          0.69590138,
+          0.65196696
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.002086069776156748,
+        "engine": "mysql",
+        "max": 1.545200292,
+        "mean": 1.5415159546666668,
+        "median": 1.540073828,
+        "min": 1.539273744,
+        "op": "R",
+        "qhash": "a96b6e02fc078de3761cb2f0afdaeb4c5d87c01a68925b110953c2640090f1ad",
+        "scenario": "R4",
+        "seconds": [
+          1.540073828,
+          1.545200292,
+          1.539273744
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.00874003571161418,
+        "engine": "mysql",
+        "max": 0.258327265,
+        "mean": 0.2558564013333333,
+        "median": 0.255270345,
+        "min": 0.253971594,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.258327265,
+          0.255270345,
+          0.253971594
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.011434614322735825,
+        "engine": "mysql",
+        "max": 3.305598137,
+        "mean": 3.269331934666667,
+        "median": 3.271474477,
+        "min": 3.23092319,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          3.271474477,
+          3.305598137,
+          3.23092319
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.004404515395145199,
+        "engine": "mysql",
+        "max": 6.253474096,
+        "mean": 6.221844019,
+        "median": 6.206831648,
+        "min": 6.205226313,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          6.206831648,
+          6.205226313,
+          6.253474096
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.030435665164295647,
+        "engine": "mysql",
+        "max": 0.041465194,
+        "mean": 0.040382027,
+        "median": 0.040634569,
+        "min": 0.039046318,
+        "op": "U",
+        "qhash": "30d82bac89711b0b2dd1e0285cd1b445a0e262fc687c8b3e1df9d95de774f641",
+        "scenario": "U1",
+        "seconds": [
+          0.040634569,
+          0.039046318,
+          0.041465194
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.002025495108074202,
+        "engine": "mysql",
+        "max": 0.623328916,
+        "mean": 0.6224356796666667,
+        "median": 0.622984583,
+        "min": 0.62099354,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.62099354,
+          0.623328916,
+          0.622984583
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.039309004952276884,
+        "engine": "mysql",
+        "max": 0.051734787,
+        "mean": 0.04964271633333334,
+        "median": 0.049321536,
+        "min": 0.047871826,
+        "op": "U",
+        "qhash": "f081f3440b1f5e2d5d889b0b68726975132a9df52967cbf59fed8493440c889c",
+        "scenario": "U5",
+        "seconds": [
+          0.049321536,
+          0.051734787,
+          0.047871826
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.08519323657031877,
+        "engine": "mysql",
+        "max": 0.493732276,
+        "mean": 0.45124318966666666,
+        "median": 0.441127988,
+        "min": 0.418869305,
+        "op": "C",
+        "qhash": "531be342ce92bee617fafbccba445ae23ecce53b743b101581d23256ce14c1f4",
+        "scenario": "J1",
+        "seconds": [
+          0.493732276,
+          0.441127988,
+          0.418869305
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.000916725287673653,
+        "engine": "mysql",
+        "max": 78.854435534,
+        "mean": 78.80454492566666,
+        "median": 78.83749711,
+        "min": 78.721702133,
+        "op": "R",
+        "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+        "scenario": "J2",
+        "seconds": [
+          78.854435534,
+          78.83749711,
+          78.721702133
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.00015772018821888088,
+        "engine": "mysql",
+        "max": 19.122458797,
+        "mean": 19.118977237666666,
+        "median": 19.117281059,
+        "min": 19.117191857,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          19.122458797,
+          19.117281059,
+          19.117191857
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.01815074550539138,
+        "engine": "mysql",
+        "max": 0.759110303,
+        "mean": 0.7451966433333334,
+        "median": 0.744384473,
+        "min": 0.732095154,
+        "op": "U",
+        "qhash": "126c893de9d44bc2cbfc8d2897ae389958c2949be0dd0219905261c6dba834a9",
+        "scenario": "J5",
+        "seconds": [
+          0.759110303,
+          0.744384473,
+          0.732095154
+        ],
+        "state": "complete",
+        "state_id": "84c15729a879fec94221bd2149554860d4439da40e478cd7fee86f02e57dcffa",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03643982957391483,
+        "engine": "mongo",
+        "max": 0.332083424,
+        "mean": 0.319600902,
+        "median": 0.31769254,
+        "min": 0.309026742,
+        "op": "C",
+        "qhash": "2874805b9fb740b8bbb90766a3c868c146099e9c5ed54cea4e7da77469ce7e9b",
+        "scenario": "C1",
+        "seconds": [
+          0.309026742,
+          0.332083424,
+          0.31769254
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.041888532964075756,
+        "engine": "mongo",
+        "max": 4.800081224,
+        "mean": 4.578978006333333,
+        "median": 4.479598884,
+        "min": 4.457253911,
+        "op": "C",
+        "qhash": "96b2e7d0a61410726a0f02833831e3e4a67316e08aac11b935aabd729ee6ec59",
+        "scenario": "C2",
+        "seconds": [
+          4.800081224,
+          4.479598884,
+          4.457253911
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.06735463084386699,
+        "engine": "mongo",
+        "max": 5.511096451,
+        "mean": 5.199107575,
+        "median": 5.26588212,
+        "min": 4.820344154,
+        "op": "C",
+        "qhash": "26f5638fe5392be4fbb46d56fe8493874890e3f7358efa9fa7e4c878e9d1a462",
+        "scenario": "C3",
+        "seconds": [
+          5.26588212,
+          5.511096451,
+          4.820344154
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.04088217764918678,
+        "engine": "mongo",
+        "max": 6.331428247,
+        "mean": 6.093747072333334,
+        "median": 6.115242988,
+        "min": 5.834569982,
+        "op": "C",
+        "qhash": "c097b6a5e9d5f75a499987b81d0800d1332fdb9a1eba6c0ebfc3663f5126020b",
+        "scenario": "C4",
+        "seconds": [
+          6.115242988,
+          6.331428247,
+          5.834569982
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.015194923264077896,
+        "engine": "mongo",
+        "max": 0.457809517,
+        "mean": 0.4509169596666667,
+        "median": 0.450834396,
+        "min": 0.444106966,
+        "op": "C",
+        "qhash": "364154d0db27514cc76ab3d780f66fe834ca3b4c0a17ea57c53539be2ebc0745",
+        "scenario": "C5",
+        "seconds": [
+          0.450834396,
+          0.444106966,
+          0.457809517
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.00804625896232775,
+        "engine": "mongo",
+        "max": 1.357709339,
+        "mean": 1.3469249016666665,
+        "median": 1.347030666,
+        "min": 1.3360347,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          1.357709339,
+          1.347030666,
+          1.3360347
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.13974342724638647,
+        "engine": "mongo",
+        "max": 0.277437305,
+        "mean": 0.24150936533333334,
+        "median": 0.236618488,
+        "min": 0.210472303,
+        "op": "R",
+        "qhash": "cd6468cafde3e0aeb6eb2d7528ef301e72df6f6d32a22e8965f39bb181ba2435",
+        "scenario": "R1",
+        "seconds": [
+          0.277437305,
+          0.236618488,
+          0.210472303
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.053779227659720534,
+        "engine": "mongo",
+        "max": 0.297033443,
+        "mean": 0.282216295,
+        "median": 0.282912768,
+        "min": 0.266702674,
+        "op": "R",
+        "qhash": "a2bfcfa775ae5241ff4baf76157eebfd559f5f65d77ea755c2b1dcd8c325e3de",
+        "scenario": "R2",
+        "seconds": [
+          0.282912768,
+          0.266702674,
+          0.297033443
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.01973935836897181,
+        "engine": "mongo",
+        "max": 0.80343273,
+        "mean": 0.7872054416666666,
+        "median": 0.785722385,
+        "min": 0.77246121,
+        "op": "R",
+        "qhash": "12ace1e3f0f140093df27b7ec2c5816a8a5aa10ecc7a16fa8fd67c2e7c520e05",
+        "scenario": "R3",
+        "seconds": [
+          0.80343273,
+          0.785722385,
+          0.77246121
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.021700162130301532,
+        "engine": "mongo",
+        "max": 0.026193141,
+        "mean": 0.025638737666666665,
+        "median": 0.02564264,
+        "min": 0.025080432,
+        "op": "R",
+        "qhash": "a96b6e02fc078de3761cb2f0afdaeb4c5d87c01a68925b110953c2640090f1ad",
+        "scenario": "R4",
+        "seconds": [
+          0.025080432,
+          0.026193141,
+          0.02564264
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0016819553394099257,
+        "engine": "mongo",
+        "max": 0.115195612,
+        "mean": 0.11498400066666666,
+        "median": 0.114939987,
+        "min": 0.114816403,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.114816403,
+          0.114939987,
+          0.115195612
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0037454431643095328,
+        "engine": "mongo",
+        "max": 1.5824526,
+        "mean": 1.5785794730000002,
+        "median": 1.58151185,
+        "min": 1.571773969,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          1.571773969,
+          1.5824526,
+          1.58151185
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.010545112460816443,
+        "engine": "mongo",
+        "max": 1.64377899,
+        "mean": 1.629254354333333,
+        "median": 1.633694671,
+        "min": 1.610289402,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          1.610289402,
+          1.633694671,
+          1.64377899
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.06648504892743534,
+        "engine": "mongo",
+        "max": 0.126240748,
+        "mean": 0.11747004833333334,
+        "median": 0.114901908,
+        "min": 0.111267489,
+        "op": "R",
+        "qhash": "b811509a9f4723999d04dae23e617bf19617ecb1b3acc1a7d0e1bcaf21f5b1f0",
+        "scenario": "R8",
+        "seconds": [
+          0.114901908,
+          0.111267489,
+          0.126240748
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03980626006959211,
+        "engine": "mongo",
+        "max": 0.107120029,
+        "mean": 0.10319756533333334,
+        "median": 0.103546231,
+        "min": 0.098926436,
+        "op": "U",
+        "qhash": "30d82bac89711b0b2dd1e0285cd1b445a0e262fc687c8b3e1df9d95de774f641",
+        "scenario": "U1",
+        "seconds": [
+          0.107120029,
+          0.098926436,
+          0.103546231
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03985720880924601,
+        "engine": "mongo",
+        "max": 4.022860291,
+        "mean": 3.8651244066666663,
+        "median": 3.857473679,
+        "min": 3.71503925,
+        "op": "U",
+        "qhash": "4988740af54ac3602448f6db60bf27d5d8190750fb5996606687cdf8d0abe0b8",
+        "scenario": "U2",
+        "seconds": [
+          4.022860291,
+          3.71503925,
+          3.857473679
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.012294084696457458,
+        "engine": "mongo",
+        "max": 0.428091275,
+        "mean": 0.42292294599999997,
+        "median": 0.42298464,
+        "min": 0.417692923,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.42298464,
+          0.417692923,
+          0.428091275
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0019852541489135487,
+        "engine": "mongo",
+        "max": 0.105568321,
+        "mean": 0.10533116799999999,
+        "median": 0.105251904,
+        "min": 0.105173279,
+        "op": "U",
+        "qhash": "5c54683240a584904826b00e313ca3a6d360521089e63c1a20fd7c9d43f9f267",
+        "scenario": "U4",
+        "seconds": [
+          0.105251904,
+          0.105568321,
+          0.105173279
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0076248290807322625,
+        "engine": "mongo",
+        "max": 0.210264464,
+        "mean": 0.20845319666666665,
+        "median": 0.207803959,
+        "min": 0.207291167,
+        "op": "U",
+        "qhash": "f081f3440b1f5e2d5d889b0b68726975132a9df52967cbf59fed8493440c889c",
+        "scenario": "U5",
+        "seconds": [
+          0.207291167,
+          0.210264464,
+          0.207803959
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0073223621447845435,
+        "engine": "mongo",
+        "max": 1.902658447,
+        "mean": 1.8914969533333332,
+        "median": 1.895835609,
+        "min": 1.875996804,
+        "op": "U",
+        "qhash": "acc1570f84a1896122633ee6ebfe0a19098bd3037cd8f64c57f17630dfb0c40a",
+        "scenario": "U6",
+        "seconds": [
+          1.902658447,
+          1.875996804,
+          1.895835609
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.04920650237399061,
+        "engine": "mongo",
+        "max": 0.076494801,
+        "mean": 0.07243025733333333,
+        "median": 0.070956548,
+        "min": 0.069839423,
+        "op": "D",
+        "qhash": "405c6d235eb8062751b8b2e58981678ea08004b2f9e8dd97dbfd4cdd8fe7c164",
+        "scenario": "D1",
+        "seconds": [
+          0.076494801,
+          0.070956548,
+          0.069839423
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.06781876958450934,
+        "engine": "mongo",
+        "max": 2.951574361,
+        "mean": 2.835059031,
+        "median": 2.940465562,
+        "min": 2.61313717,
+        "op": "D",
+        "qhash": "08344bc261b9a9a3a795c2bbce4eaba47c2fcdccea5281fd8dd5b43b8b8abce7",
+        "scenario": "D2",
+        "seconds": [
+          2.61313717,
+          2.940465562,
+          2.951574361
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.010632105480942443,
+        "engine": "mongo",
+        "max": 3.856157399,
+        "mean": 3.815935274333333,
+        "median": 3.816625081,
+        "min": 3.775023343,
+        "op": "D",
+        "qhash": "d566def9e3e7f58ca89c632477b58a4e1d744144c5b2912ebe772c2cca15840e",
+        "scenario": "D3",
+        "seconds": [
+          3.856157399,
+          3.775023343,
+          3.816625081
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.016084942239809517,
+        "engine": "mongo",
+        "max": 2.288276239,
+        "mean": 2.24827567,
+        "median": 2.238655955,
+        "min": 2.217894816,
+        "op": "D",
+        "qhash": "873560dfb35a729c659768dae4a1ce8ec76d370a521703ed4edd9b90f9ad7a6a",
+        "scenario": "D4",
+        "seconds": [
+          2.238655955,
+          2.288276239,
+          2.217894816
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.018447958079753933,
+        "engine": "mongo",
+        "max": 1.608815721,
+        "mean": 1.590669111333333,
+        "median": 1.606377469,
+        "min": 1.556814144,
+        "op": "D",
+        "qhash": "29a81e55f7fce6724fbfe2fb1bdf9b10970b1a4eb22fe186588669d6d1a65cb5",
+        "scenario": "D5",
+        "seconds": [
+          1.608815721,
+          1.556814144,
+          1.606377469
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.024926950585161468,
+        "engine": "mongo",
+        "max": 0.078607637,
+        "mean": 0.076836302,
+        "median": 0.077097427,
+        "min": 0.074803842,
+        "op": "D",
+        "qhash": "6e05f8af0725fcb35d132d03b2158191e304d81ea55429865d0e887ebb9c0758",
+        "scenario": "D6",
+        "seconds": [
+          0.074803842,
+          0.077097427,
+          0.078607637
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.033668207573507226,
+        "engine": "mongo",
+        "max": 0.137676249,
+        "mean": 0.13292699066666666,
+        "median": 0.132316656,
+        "min": 0.128788067,
+        "op": "C",
+        "qhash": "531be342ce92bee617fafbccba445ae23ecce53b743b101581d23256ce14c1f4",
+        "scenario": "J1",
+        "seconds": [
+          0.132316656,
+          0.128788067,
+          0.137676249
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.02668687544896411,
+        "engine": "mongo",
+        "max": 0.015461305,
+        "mean": 0.015026471,
+        "median": 0.014946888,
+        "min": 0.01467122,
+        "op": "R",
+        "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+        "scenario": "J2",
+        "seconds": [
+          0.01467122,
+          0.014946888,
+          0.015461305
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.013481737098299062,
+        "engine": "mongo",
+        "max": 1.772430985,
+        "mean": 1.7490831636666666,
+        "median": 1.749542178,
+        "min": 1.725276328,
+        "op": "R",
+        "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+        "scenario": "J3",
+        "seconds": [
+          1.749542178,
+          1.772430985,
+          1.725276328
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.020810403047488366,
+        "engine": "mongo",
+        "max": 0.672538812,
+        "mean": 0.6613317630000001,
+        "median": 0.665485808,
+        "min": 0.645970669,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          0.645970669,
+          0.672538812,
+          0.665485808
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.052384408109614644,
+        "engine": "mongo",
+        "max": 0.021919223,
+        "mean": 0.020769666333333336,
+        "median": 0.020633805,
+        "min": 0.019755971,
+        "op": "U",
+        "qhash": "126c893de9d44bc2cbfc8d2897ae389958c2949be0dd0219905261c6dba834a9",
+        "scenario": "J5",
+        "seconds": [
+          0.020633805,
+          0.019755971,
+          0.021919223
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.007668820899519361,
+        "engine": "mongo",
+        "max": 3.52550486,
+        "mean": 3.494939477666667,
+        "median": 3.483860206,
+        "min": 3.475453367,
+        "op": "D",
+        "qhash": "22786e1bf399e088dc854bf14e32fc98c262f3c68cb7ad145e4b124595781d3b",
+        "scenario": "J6",
+        "seconds": [
+          3.475453367,
+          3.52550486,
+          3.483860206
+        ],
+        "state": "complete",
+        "state_id": "a56d81e3d59d12808f186d7773e41d72f52471997f47a4b35bebfda843182d41",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.023911904929891033,
+        "engine": "mongo",
+        "max": 4.370173647,
+        "mean": 4.273392819333334,
+        "median": 4.283456406,
+        "min": 4.166548405,
+        "op": "C",
+        "qhash": "96b2e7d0a61410726a0f02833831e3e4a67316e08aac11b935aabd729ee6ec59",
+        "scenario": "C2",
+        "seconds": [
+          4.283456406,
+          4.166548405,
+          4.370173647
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.023421215500391834,
+        "engine": "mongo",
+        "max": 5.301830644,
+        "mean": 5.174146725333333,
+        "median": 5.159886716,
+        "min": 5.060722816,
+        "op": "C",
+        "qhash": "26f5638fe5392be4fbb46d56fe8493874890e3f7358efa9fa7e4c878e9d1a462",
+        "scenario": "C3",
+        "seconds": [
+          5.060722816,
+          5.301830644,
+          5.159886716
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.009532112416147157,
+        "engine": "mongo",
+        "max": 6.193364242,
+        "mean": 6.156106249666666,
+        "median": 6.186490575,
+        "min": 6.088463932,
+        "op": "C",
+        "qhash": "c097b6a5e9d5f75a499987b81d0800d1332fdb9a1eba6c0ebfc3663f5126020b",
+        "scenario": "C4",
+        "seconds": [
+          6.193364242,
+          6.088463932,
+          6.186490575
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.003042187759512078,
+        "engine": "mongo",
+        "max": 1.282810251,
+        "mean": 1.2788906373333333,
+        "median": 1.278831998,
+        "min": 1.275029663,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          1.275029663,
+          1.282810251,
+          1.278831998
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0005339579030492356,
+        "engine": "mongo",
+        "max": 26.871459078,
+        "mean": 26.861530543333334,
+        "median": 26.868046158,
+        "min": 26.845086394,
+        "op": "R",
+        "qhash": "a96b6e02fc078de3761cb2f0afdaeb4c5d87c01a68925b110953c2640090f1ad",
+        "scenario": "R4",
+        "seconds": [
+          26.871459078,
+          26.868046158,
+          26.845086394
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0036722222933491385,
+        "engine": "mongo",
+        "max": 0.304762561,
+        "mean": 0.3036481853333333,
+        "median": 0.30364956,
+        "min": 0.302532435,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.302532435,
+          0.30364956,
+          0.304762561
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0031533736712597523,
+        "engine": "mongo",
+        "max": 5.032138526,
+        "mean": 5.022180270333333,
+        "median": 5.030483817,
+        "min": 5.003918468,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          5.003918468,
+          5.032138526,
+          5.030483817
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0014727951652522312,
+        "engine": "mongo",
+        "max": 19.737541868,
+        "mean": 19.710244209333336,
+        "median": 19.71344234,
+        "min": 19.67974842,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          19.67974842,
+          19.71344234,
+          19.737541868
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.034947895523161236,
+        "engine": "mongo",
+        "max": 0.089402524,
+        "mean": 0.08593500133333333,
+        "median": 0.084242594,
+        "min": 0.084159886,
+        "op": "U",
+        "qhash": "30d82bac89711b0b2dd1e0285cd1b445a0e262fc687c8b3e1df9d95de774f641",
+        "scenario": "U1",
+        "seconds": [
+          0.084159886,
+          0.089402524,
+          0.084242594
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.012527189679518191,
+        "engine": "mongo",
+        "max": 0.353743343,
+        "mean": 0.3487894233333333,
+        "median": 0.347140256,
+        "min": 0.345484671,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.353743343,
+          0.345484671,
+          0.347140256
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.07602240165883278,
+        "engine": "mongo",
+        "max": 0.213073385,
+        "mean": 0.20392941033333334,
+        "median": 0.212685593,
+        "min": 0.186029253,
+        "op": "U",
+        "qhash": "f081f3440b1f5e2d5d889b0b68726975132a9df52967cbf59fed8493440c889c",
+        "scenario": "U5",
+        "seconds": [
+          0.213073385,
+          0.186029253,
+          0.212685593
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.051435197042565384,
+        "engine": "mongo",
+        "max": 0.11249962,
+        "mean": 0.106283248,
+        "median": 0.104124981,
+        "min": 0.102225143,
+        "op": "C",
+        "qhash": "531be342ce92bee617fafbccba445ae23ecce53b743b101581d23256ce14c1f4",
+        "scenario": "J1",
+        "seconds": [
+          0.102225143,
+          0.11249962,
+          0.104124981
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0027583492701049265,
+        "engine": "mongo",
+        "max": 60.630802794,
+        "mean": 60.451721367000005,
+        "median": 60.423433662,
+        "min": 60.300927645,
+        "op": "R",
+        "qhash": "ca1396df71d3f818603572717171672179658d3079205fc3331af71a4073f8cf",
+        "scenario": "J2",
+        "seconds": [
+          60.630802794,
+          60.300927645,
+          60.423433662
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.005347017176591842,
+        "engine": "mongo",
+        "max": 9.595326565,
+        "mean": 9.551218981333333,
+        "median": 9.56306342,
+        "min": 9.495266959,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          9.56306342,
+          9.595326565,
+          9.495266959
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.016325894986304056,
+        "engine": "mongo",
+        "max": 0.824148202,
+        "mean": 0.8118676800000001,
+        "median": 0.813637695,
+        "min": 0.797817143,
+        "op": "U",
+        "qhash": "126c893de9d44bc2cbfc8d2897ae389958c2949be0dd0219905261c6dba834a9",
+        "scenario": "J5",
+        "seconds": [
+          0.797817143,
+          0.813637695,
+          0.824148202
+        ],
+        "state": "complete",
+        "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.012342730697552547,
+        "engine": "neo4j",
+        "max": 1.469619414,
+        "mean": 1.45425766,
+        "median": 1.458626568,
+        "min": 1.434526998,
+        "op": "C",
+        "qhash": "2874805b9fb740b8bbb90766a3c868c146099e9c5ed54cea4e7da77469ce7e9b",
+        "scenario": "C1",
+        "seconds": [
+          1.458626568,
+          1.469619414,
+          1.434526998
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.012228527395021154,
+        "engine": "neo4j",
+        "max": 5.895524113,
+        "mean": 5.845056044,
+        "median": 5.876378267,
+        "min": 5.763265752,
+        "op": "C",
+        "qhash": "96b2e7d0a61410726a0f02833831e3e4a67316e08aac11b935aabd729ee6ec59",
+        "scenario": "C2",
+        "seconds": [
+          5.763265752,
+          5.876378267,
+          5.895524113
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.020996421296935363,
+        "engine": "neo4j",
+        "max": 5.764902971,
+        "mean": 5.630085787333333,
+        "median": 5.58117693,
+        "min": 5.544177461,
+        "op": "C",
+        "qhash": "26f5638fe5392be4fbb46d56fe8493874890e3f7358efa9fa7e4c878e9d1a462",
+        "scenario": "C3",
+        "seconds": [
+          5.544177461,
+          5.764902971,
+          5.58117693
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0502573398499023,
+        "engine": "neo4j",
+        "max": 7.461196592,
+        "mean": 7.227210376333333,
+        "median": 7.411658596,
+        "min": 6.808775941,
+        "op": "C",
+        "qhash": "c097b6a5e9d5f75a499987b81d0800d1332fdb9a1eba6c0ebfc3663f5126020b",
+        "scenario": "C4",
+        "seconds": [
+          6.808775941,
+          7.461196592,
+          7.411658596
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.010854654255184698,
+        "engine": "neo4j",
+        "max": 1.628750045,
+        "mean": 1.609098457,
+        "median": 1.603200731,
+        "min": 1.595344595,
+        "op": "C",
+        "qhash": "364154d0db27514cc76ab3d780f66fe834ca3b4c0a17ea57c53539be2ebc0745",
+        "scenario": "C5",
+        "seconds": [
+          1.603200731,
+          1.595344595,
+          1.628750045
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07889425155117895,
+        "engine": "neo4j",
+        "max": 2.651132727,
+        "mean": 2.5183791416666668,
+        "median": 2.614046623,
+        "min": 2.289958075,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          2.289958075,
+          2.651132727,
+          2.614046623
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0951761805684158,
+        "engine": "neo4j",
+        "max": 0.80983275,
+        "mean": 0.733466858,
+        "median": 0.717631729,
+        "min": 0.672936095,
+        "op": "R",
+        "qhash": "cd6468cafde3e0aeb6eb2d7528ef301e72df6f6d32a22e8965f39bb181ba2435",
+        "scenario": "R1",
+        "seconds": [
+          0.717631729,
+          0.80983275,
+          0.672936095
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07488472850516253,
+        "engine": "neo4j",
+        "max": 1.376004432,
+        "mean": 1.2857479136666667,
+        "median": 1.296839885,
+        "min": 1.184399424,
+        "op": "R",
+        "qhash": "a2bfcfa775ae5241ff4baf76157eebfd559f5f65d77ea755c2b1dcd8c325e3de",
+        "scenario": "R2",
+        "seconds": [
+          1.376004432,
+          1.184399424,
+          1.296839885
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.010467320528822141,
+        "engine": "neo4j",
+        "max": 4.008173786,
+        "mean": 3.9805936303333334,
+        "median": 4.000943987,
+        "min": 3.932663118,
+        "op": "R",
+        "qhash": "12ace1e3f0f140093df27b7ec2c5816a8a5aa10ecc7a16fa8fd67c2e7c520e05",
+        "scenario": "R3",
+        "seconds": [
+          4.000943987,
+          4.008173786,
+          3.932663118
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.2148487554011885,
+        "engine": "neo4j",
+        "max": 0.123196333,
+        "mean": 0.100893601,
+        "median": 0.099582335,
+        "min": 0.079902135,
+        "op": "R",
+        "qhash": "a96b6e02fc078de3761cb2f0afdaeb4c5d87c01a68925b110953c2640090f1ad",
+        "scenario": "R4",
+        "seconds": [
+          0.123196333,
+          0.099582335,
+          0.079902135
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.022384851476251792,
+        "engine": "neo4j",
+        "max": 0.312655893,
+        "mean": 0.30488156666666666,
+        "median": 0.302111009,
+        "min": 0.299877798,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.312655893,
+          0.302111009,
+          0.299877798
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.005162745169922607,
+        "engine": "neo4j",
+        "max": 3.34647457,
+        "mean": 3.3266672336666665,
+        "median": 3.317614212,
+        "min": 3.315912919,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          3.34647457,
+          3.317614212,
+          3.315912919
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.01919601266284921,
+        "engine": "neo4j",
+        "max": 2.821589675,
+        "mean": 2.768724663,
+        "median": 2.769287122,
+        "min": 2.715297192,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          2.821589675,
+          2.769287122,
+          2.715297192
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.027598141101083173,
+        "engine": "neo4j",
+        "max": 0.717627479,
+        "mean": 0.7009869183333333,
+        "median": 0.705573382,
+        "min": 0.679759894,
+        "op": "R",
+        "qhash": "b811509a9f4723999d04dae23e617bf19617ecb1b3acc1a7d0e1bcaf21f5b1f0",
+        "scenario": "R8",
+        "seconds": [
+          0.705573382,
+          0.717627479,
+          0.679759894
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.14068820049909728,
+        "engine": "neo4j",
+        "max": 0.540766011,
+        "mean": 0.4893115143333333,
+        "median": 0.516056361,
+        "min": 0.411112171,
+        "op": "U",
+        "qhash": "30d82bac89711b0b2dd1e0285cd1b445a0e262fc687c8b3e1df9d95de774f641",
+        "scenario": "U1",
+        "seconds": [
+          0.411112171,
+          0.540766011,
+          0.516056361
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03867626132869054,
+        "engine": "neo4j",
+        "max": 3.749824507,
+        "mean": 3.5907612906666664,
+        "median": 3.528866369,
+        "min": 3.493592996,
+        "op": "U",
+        "qhash": "4988740af54ac3602448f6db60bf27d5d8190750fb5996606687cdf8d0abe0b8",
+        "scenario": "U2",
+        "seconds": [
+          3.528866369,
+          3.493592996,
+          3.749824507
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.060837654078012865,
+        "engine": "neo4j",
+        "max": 1.56754614,
+        "mean": 1.5078944803333334,
+        "median": 1.553876917,
+        "min": 1.402260384,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          1.402260384,
+          1.56754614,
+          1.553876917
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05227191160228653,
+        "engine": "neo4j",
+        "max": 0.356963881,
+        "mean": 0.33699229466666664,
+        "median": 0.330345391,
+        "min": 0.323667612,
+        "op": "U",
+        "qhash": "5c54683240a584904826b00e313ca3a6d360521089e63c1a20fd7c9d43f9f267",
+        "scenario": "U4",
+        "seconds": [
+          0.356963881,
+          0.323667612,
+          0.330345391
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.12219264972724264,
+        "engine": "neo4j",
+        "max": 0.470241773,
+        "mean": 0.42439705966666663,
+        "median": 0.434835904,
+        "min": 0.368113502,
+        "op": "U",
+        "qhash": "f081f3440b1f5e2d5d889b0b68726975132a9df52967cbf59fed8493440c889c",
+        "scenario": "U5",
+        "seconds": [
+          0.368113502,
+          0.470241773,
+          0.434835904
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.055700334180906655,
+        "engine": "neo4j",
+        "max": 2.57743256,
+        "mean": 2.4945471796666667,
+        "median": 2.572074276,
+        "min": 2.334134703,
+        "op": "U",
+        "qhash": "acc1570f84a1896122633ee6ebfe0a19098bd3037cd8f64c57f17630dfb0c40a",
+        "scenario": "U6",
+        "seconds": [
+          2.334134703,
+          2.572074276,
+          2.57743256
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.10001178757475689,
+        "engine": "neo4j",
+        "max": 0.442333495,
+        "mean": 0.41087112966666667,
+        "median": 0.425899312,
+        "min": 0.364380582,
+        "op": "D",
+        "qhash": "405c6d235eb8062751b8b2e58981678ea08004b2f9e8dd97dbfd4cdd8fe7c164",
+        "scenario": "D1",
+        "seconds": [
+          0.364380582,
+          0.442333495,
+          0.425899312
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.09196508066063468,
+        "engine": "neo4j",
+        "max": 5.181032899,
+        "mean": 4.9005376646666665,
+        "median": 5.139898774,
+        "min": 4.380681321,
+        "op": "D",
+        "qhash": "08344bc261b9a9a3a795c2bbce4eaba47c2fcdccea5281fd8dd5b43b8b8abce7",
+        "scenario": "D2",
+        "seconds": [
+          4.380681321,
+          5.139898774,
+          5.181032899
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03937630217832872,
+        "engine": "neo4j",
+        "max": 5.502168107,
+        "mean": 5.332669046333334,
+        "median": 5.398067718,
+        "min": 5.097771314,
+        "op": "D",
+        "qhash": "d566def9e3e7f58ca89c632477b58a4e1d744144c5b2912ebe772c2cca15840e",
+        "scenario": "D3",
+        "seconds": [
+          5.097771314,
+          5.398067718,
+          5.502168107
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.15595874956518824,
+        "engine": "neo4j",
+        "max": 0.581152149,
+        "mean": 0.530278523,
+        "median": 0.574830682,
+        "min": 0.434852738,
+        "op": "D",
+        "qhash": "873560dfb35a729c659768dae4a1ce8ec76d370a521703ed4edd9b90f9ad7a6a",
+        "scenario": "D4",
+        "seconds": [
+          0.434852738,
+          0.574830682,
+          0.581152149
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.034780755637107336,
+        "engine": "neo4j",
+        "max": 12.224599414,
+        "mean": 11.755777911000001,
+        "median": 11.569672776,
+        "min": 11.473061543,
+        "op": "D",
+        "qhash": "29a81e55f7fce6724fbfe2fb1bdf9b10970b1a4eb22fe186588669d6d1a65cb5",
+        "scenario": "D5",
+        "seconds": [
+          11.473061543,
+          11.569672776,
+          12.224599414
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.2245192836524475,
+        "engine": "neo4j",
+        "max": 0.385915047,
+        "mean": 0.33207651899999996,
+        "median": 0.363337086,
+        "min": 0.246977424,
+        "op": "D",
+        "qhash": "6e05f8af0725fcb35d132d03b2158191e304d81ea55429865d0e887ebb9c0758",
+        "scenario": "D6",
+        "seconds": [
+          0.246977424,
+          0.385915047,
+          0.363337086
+        ],
+        "state": "complete",
+        "state_id": "342807c74975f73d2192bed071ff58c4114308316171920288a5c3a50af146ab",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.014817424611560074,
+        "engine": "neo4j",
+        "max": 5.936729169,
+        "mean": 5.836881956,
+        "median": 5.788689907,
+        "min": 5.785226792,
+        "op": "C",
+        "qhash": "96b2e7d0a61410726a0f02833831e3e4a67316e08aac11b935aabd729ee6ec59",
+        "scenario": "C2",
+        "seconds": [
+          5.936729169,
+          5.785226792,
+          5.788689907
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.012948804323310577,
+        "engine": "neo4j",
+        "max": 5.717808485,
+        "mean": 5.658737049,
+        "median": 5.6816607,
+        "min": 5.576741962,
+        "op": "C",
+        "qhash": "26f5638fe5392be4fbb46d56fe8493874890e3f7358efa9fa7e4c878e9d1a462",
+        "scenario": "C3",
+        "seconds": [
+          5.576741962,
+          5.6816607,
+          5.717808485
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.008186657887754212,
+        "engine": "neo4j",
+        "max": 6.755997488,
+        "mean": 6.692751677666667,
+        "median": 6.662563586,
+        "min": 6.659693959,
+        "op": "C",
+        "qhash": "c097b6a5e9d5f75a499987b81d0800d1332fdb9a1eba6c0ebfc3663f5126020b",
+        "scenario": "C4",
+        "seconds": [
+          6.659693959,
+          6.755997488,
+          6.662563586
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.07586872857766828,
+        "engine": "neo4j",
+        "max": 2.664140572,
+        "mean": 2.536324956666667,
+        "median": 2.629820501,
+        "min": 2.315013797,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          2.315013797,
+          2.664140572,
+          2.629820501
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.009744532933805148,
+        "engine": "neo4j",
+        "max": 6.298933137,
+        "mean": 6.23788827,
+        "median": 6.237365783,
+        "min": 6.17736589,
+        "op": "R",
+        "qhash": "a96b6e02fc078de3761cb2f0afdaeb4c5d87c01a68925b110953c2640090f1ad",
+        "scenario": "R4",
+        "seconds": [
+          6.298933137,
+          6.237365783,
+          6.17736589
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.03116568937502265,
+        "engine": "neo4j",
+        "max": 0.831861322,
+        "mean": 0.8107568556666666,
+        "median": 0.817652048,
+        "min": 0.782757197,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.831861322,
+          0.782757197,
+          0.817652048
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0034314830141880157,
+        "engine": "neo4j",
+        "max": 6.631105587,
+        "mean": 6.609056193333333,
+        "median": 6.610266653,
+        "min": 6.58579634,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          6.631105587,
+          6.58579634,
+          6.610266653
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0008206884831973798,
+        "engine": "neo4j",
+        "max": 10.463752823,
+        "mean": 10.455109740333333,
+        "median": 10.454982946,
+        "min": 10.446593452,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          10.463752823,
+          10.446593452,
+          10.454982946
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.17263686738354939,
+        "engine": "neo4j",
+        "max": 0.433151942,
+        "mean": 0.386399839,
+        "median": 0.4160378,
+        "min": 0.310009775,
+        "op": "U",
+        "qhash": "30d82bac89711b0b2dd1e0285cd1b445a0e262fc687c8b3e1df9d95de774f641",
+        "scenario": "U1",
+        "seconds": [
+          0.310009775,
+          0.4160378,
+          0.433151942
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.06585393757009814,
+        "engine": "neo4j",
+        "max": 1.345789075,
+        "mean": 1.285835155,
+        "median": 1.322749092,
+        "min": 1.188967298,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          1.188967298,
+          1.322749092,
+          1.345789075
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.19291816709443674,
+        "engine": "neo4j",
+        "max": 0.433176901,
+        "mean": 0.3705978426666667,
+        "median": 0.385939196,
+        "min": 0.292677431,
+        "op": "U",
+        "qhash": "f081f3440b1f5e2d5d889b0b68726975132a9df52967cbf59fed8493440c889c",
+        "scenario": "U5",
+        "seconds": [
+          0.292677431,
+          0.385939196,
+          0.433176901
+        ],
+        "state": "complete",
+        "state_id": "8d89b05a2340c3ef86137543e8fb85d21772fff648bf4fb1629e14d8a854962c",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      }
+    ],
+    "core_complete": {
+      "C": 6,
+      "D": 6,
+      "R": 8,
+      "U": 6
+    },
+    "count_rule": true,
+    "problems": [],
+    "warnings": [
+      "pg idx C5: CV 18.7% > 15%",
+      "pg idx R2: CV 17.8% > 15%",
+      "pg idx R4: CV 45.0% > 15%",
+      "pg idx U2: CV 33.8% > 15%",
+      "mysql idx D1: CV 17.8% > 15%",
+      "mysql idx J1: CV 17.3% > 15%",
+      "neo4j idx R4: CV 21.5% > 15%",
+      "neo4j idx D4: CV 15.6% > 15%",
+      "neo4j idx D6: CV 22.5% > 15%",
+      "neo4j base U1: CV 17.3% > 15%",
+      "neo4j base U5: CV 19.3% > 15%"
+    ]
+  },
   "S": {
     "cells": [
       {

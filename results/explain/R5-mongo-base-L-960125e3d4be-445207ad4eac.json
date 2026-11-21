@@ -1,0 +1,301 @@
+{
+  "scenario": "R5",
+  "engine": "mongo",
+  "config": "base",
+  "size": "L",
+  "kind": "read",
+  "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+  "state_id": "445207ad4eac369eb232d97d47b3ac315b6673a3a9379acbd9bcafa00f65021a",
+  "plan": {
+    "explainVersion": "1",
+    "stages": [
+      {
+        "$cursor": {
+          "queryPlanner": {
+            "namespace": "bagazomat.orders",
+            "parsedQuery": {
+              "$and": [
+                {
+                  "status": {
+                    "$eq": "COMPLETED"
+                  }
+                },
+                {
+                  "createdAt": {
+                    "$lt": {
+                      "$date": "2026-11-01T00:00:00Z"
+                    }
+                  }
+                },
+                {
+                  "createdAt": {
+                    "$gte": {
+                      "$date": "2026-10-02T00:00:00Z"
+                    }
+                  }
+                }
+              ]
+            },
+            "indexFilterSet": false,
+            "queryHash": "CC44D48E",
+            "planCacheShapeHash": "CC44D48E",
+            "planCacheKey": "4BA102DF",
+            "optimizationTimeMillis": 0,
+            "maxIndexedOrSolutionsReached": false,
+            "maxIndexedAndSolutionsReached": false,
+            "maxScansToExplodeReached": false,
+            "prunedSimilarIndexes": false,
+            "winningPlan": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "transformBy": {
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "COLLSCAN",
+                "filter": {
+                  "$and": [
+                    {
+                      "status": {
+                        "$eq": "COMPLETED"
+                      }
+                    },
+                    {
+                      "createdAt": {
+                        "$lt": {
+                          "$date": "2026-11-01T00:00:00Z"
+                        }
+                      }
+                    },
+                    {
+                      "createdAt": {
+                        "$gte": {
+                          "$date": "2026-10-02T00:00:00Z"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "direction": "forward"
+              }
+            },
+            "rejectedPlans": []
+          },
+          "executionStats": {
+            "executionSuccess": true,
+            "nReturned": 80945,
+            "executionTimeMillis": 321,
+            "totalKeysExamined": 0,
+            "totalDocsExamined": 923423,
+            "executionStages": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "nReturned": 80945,
+              "executionTimeMillisEstimate": 160,
+              "works": 923424,
+              "advanced": 80945,
+              "needTime": 842478,
+              "needYield": 0,
+              "saveState": 39,
+              "restoreState": 39,
+              "isEOF": 1,
+              "transformBy": {
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "COLLSCAN",
+                "filter": {
+                  "$and": [
+                    {
+                      "status": {
+                        "$eq": "COMPLETED"
+                      }
+                    },
+                    {
+                      "createdAt": {
+                        "$lt": {
+                          "$date": "2026-11-01T00:00:00Z"
+                        }
+                      }
+                    },
+                    {
+                      "createdAt": {
+                        "$gte": {
+                          "$date": "2026-10-02T00:00:00Z"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "nReturned": 80945,
+                "executionTimeMillisEstimate": 152,
+                "works": 923424,
+                "advanced": 80945,
+                "needTime": 842478,
+                "needYield": 0,
+                "saveState": 39,
+                "restoreState": 39,
+                "isEOF": 1,
+                "direction": "forward",
+                "docsExamined": 923423
+              }
+            }
+          }
+        },
+        "nReturned": 80945,
+        "executionTimeMillisEstimate": 281
+      },
+      {
+        "$unwind": {
+          "path": "$reservations"
+        },
+        "nReturned": 98404,
+        "executionTimeMillisEstimate": 285
+      },
+      {
+        "$match": {
+          "reservations.leg": {
+            "$in": [
+              "ORIGIN",
+              "STORAGE"
+            ]
+          }
+        },
+        "nReturned": 80945,
+        "executionTimeMillisEstimate": 319
+      },
+      {
+        "$group": {
+          "_id": "$reservations.lockermatId",
+          "orders": {
+            "$sum": {
+              "$const": 1
+            }
+          }
+        },
+        "maxAccumulatorMemoryUsageBytes": {
+          "orders": 316800
+        },
+        "totalOutputDataSizeBytes": 606375,
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "numBytesSpilledEstimate": 0,
+        "spilledRecords": 0,
+        "nReturned": 2475,
+        "executionTimeMillisEstimate": 319
+      },
+      {
+        "$sort": {
+          "sortKey": {
+            "orders": -1,
+            "_id": 1
+          },
+          "limit": 20
+        },
+        "totalDataSizeSortedBytesEstimate": 6500,
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "nReturned": 20,
+        "executionTimeMillisEstimate": 319
+      }
+    ],
+    "queryShapeHash": "0A5B94CD3356C6D3A2DD7F6563605913C393509762FDF688D7AF38705F9161C8",
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "command": {
+      "aggregate": "orders",
+      "pipeline": [
+        {
+          "$match": {
+            "status": "COMPLETED",
+            "createdAt": {
+              "$gte": {
+                "$date": "2026-10-02T00:00:00Z"
+              },
+              "$lt": {
+                "$date": "2026-11-01T00:00:00Z"
+              }
+            }
+          }
+        },
+        {
+          "$unwind": "$reservations"
+        },
+        {
+          "$match": {
+            "reservations.leg": {
+              "$in": [
+                "STORAGE",
+                "ORIGIN"
+              ]
+            }
+          }
+        },
+        {
+          "$group": {
+            "_id": "$reservations.lockermatId",
+            "orders": {
+              "$sum": 1
+            }
+          }
+        },
+        {
+          "$sort": {
+            "orders": -1,
+            "_id": 1
+          }
+        },
+        {
+          "$limit": 20
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795301338,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795301338,
+        "i": 2
+      }
+    }
+  },
+  "text": null
+}
