@@ -8,7 +8,7 @@ from bench.check.verify.results import root
 from bench.scenarios.qhash import TIMEOUT_SECONDS
 from bench.scenarios.registry import ENGINES
 
-from . import environment
+from . import environment, explain
 from .matrix import Bench
 from .store import Store
 
@@ -27,6 +27,14 @@ def run(bench):
         environment.record(directory, bench.size, env)
         bench.run()
     print_status(bench)
+
+
+def plans(bench):
+    with environment.lock(root(bench.size), bench.client):
+        failed = explain.run(bench)
+    print(f"{bench.size}: {explain.directory(bench.size)}")
+    if failed:
+        raise SystemExit("Plans not captured:\n  " + "\n  ".join(failed))
 
 
 def forget(args, parser):
@@ -50,7 +58,7 @@ def print_status(bench):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("run", "status", "forget"))
+    parser.add_argument("command", choices=("run", "status", "forget", "explain"))
     parser.add_argument("--size", choices=("XS", "S", "M", "L"), required=True)
     parser.add_argument("--engine", action="append", choices=ENGINES)
     parser.add_argument("--scenario", action="append")
@@ -62,9 +70,13 @@ def main():
     if args.command == "forget":
         forget(args, parser)
         return
+    if args.command == "explain" and args.size == "M":
+        parser.error("plans are captured at XS, S and L, not at M")
     bench = Bench(args.size, tuple(args.engine or ENGINES), set(args.scenario or ()), args.timeout)
     if args.command == "run":
         run(bench)
+    elif args.command == "explain":
+        plans(bench)
     else:
         print_status(bench)
 

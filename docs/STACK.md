@@ -185,3 +185,16 @@ Licznik odczytów z dysku jest tylko diagnostyką: `blks_read` w PostgreSQL, `In
 Wyniki trafiają do `$RESULTS_DIR/runs.jsonl`. Domyślnie to `results/`, a dla XS `out/xs/results/`. Każda linia to jeden przebieg: baza, rozmiar, konfiguracja, scenariusz, numer przebiegu, `qhash`, `state_id`, status i czas w nanosekundach. Odczyt ma liczbę wierszy i skrót wyniku. Zapis ma liczbę zatwierdzeń, przyrost licznika odczytów i czas rozgrzewki, a po sondzie liczby zmienionych wierszy i ich skróty dla każdej tabeli. Plik jest tylko dopisywany. Wyjątkiem jest `make forget ENGINE=… SIZE=… SCENARIO=… REASON=…`: usuwa linie tej komórki, aby zmierzyć ją ponownie, i dopisuje powód do `$RESULTS_DIR/notes.md`. Przebieg o istniejącym kluczu nie jest powtarzany, więc przerwany `make bench` po ponownym uruchomieniu mierzy tylko brakujące przebiegi. `qhash` obejmuje scenariusz, parametry, ziarno, sterowniki, limit czasu, liczbę przebiegów oraz pliki `bench/runner/warmup.py` i `bench/runner/limits.py`. Zmiana `qhash` albo `state_id` otwiera komórkę na nowo, a stare linie są pomijane.
 
 Na początku sesji runner zapisuje `$RESULTS_DIR/env.json`. Plik zawiera dane hosta z Makefile, Dockera, wynik próby `cp --reflink=always`, wersje sterowników, politykę pomiaru, obrazy z digestami, ustawienia usług i pliki `docker/conf/`. Na końcu dochodzą wersje serwerów. Przez cały pomiar istnieje `$RESULTS_DIR/.bench-lock`: w tym czasie nie buduj obrazów i nie uruchamiaj testów. Runner odmawia pomiaru, gdy blokadę trzyma inny działający kontener runnera albo gdy przed przebiegiem działa druga baza projektu. `make status SIZE=S` pokazuje dla każdej bazy i konfiguracji liczbę komórek, ukończonych komórek, przekroczeń czasu i błędów oraz listę brakujących scenariuszy.
+
+## Plany zapytań
+
+`make explain SIZE=XS|S|L` zapisuje plany zapytań jako osobny krok po `make bench`. Na M planów nie ma. `ENGINE=…` i `SCENARIO=…` zawężają krok. Dla każdej bazy i konfiguracji runner odtwarza migawkę i bez pomiaru czasu i bez limitu wykonuje plan dla pierwszego zestawu parametrów: w IDX każdego odczytu, w BASE odczytów z flagą `BA`, a w obu konfiguracjach zapytania wyszukującego cele zapisów C6, U3 i J5 (`Impl.plan`).
+
+| Baza | Plan |
+|---|---|
+| PostgreSQL | `EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)` i ten sam plan tekstowo |
+| MySQL | `EXPLAIN FORMAT=JSON` i drzewo `EXPLAIN ANALYZE` |
+| MongoDB | `explain` z `executionStats` |
+| Neo4j | `PROFILE`: drzewo operatorów z liczbą wierszy i `dbHits` |
+
+Każdy plan to plik `$RESULTS_DIR/explain/<scenariusz>-<baza>-<konfiguracja>-<rozmiar>-<qhash>-<state_id>.json` z pierwszymi 12 znakami obu skrótów; pełne skróty są w pliku. Plik o innym `qhash` albo `state_id` jest nieaktualny. Krok zapisuje tylko brakujące pliki, a starszą wersję pliku tego samego scenariusza, bazy, konfiguracji i rozmiaru usuwa. Na końcu buduje ze wszystkich plików `$RESULTS_DIR/explain_summary.csv`: rozmiar, scenariusz, baza, konfiguracja, rodzaj (`read` albo `write-discovery`), ścieżka dostępu i indeksy z ekstraktora `bench/scenarios/explain.py` oraz wiersze przejrzane i zwrócone. Wiersze przejrzane to w PostgreSQL wiersze węzłów czytających tabelę razem z odrzuconymi przez filtr, w MySQL wiersze kroków `scan`, `lookup` i `search` drzewa `EXPLAIN ANALYZE`, w MongoDB `totalDocsExamined`, a w Neo4j wiersze operatorów `Scan` i `Seek`.

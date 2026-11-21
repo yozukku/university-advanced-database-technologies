@@ -19,7 +19,7 @@ RUNNER = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner
 RUNNER_ARGS = --size "$(SIZE)" $(foreach engine,$(ENGINE),--engine $(engine)) \
     $(foreach scenario,$(SCENARIO),--scenario $(scenario)) $(if $(TIMEOUT),--timeout $(TIMEOUT))
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report bench status forget
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report bench status forget explain
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -38,7 +38,8 @@ help:
 	    'report [RESULTS_DIR=results] [OUT=out] Zbuduj sprawozdanie DOCX i PDF oraz prezentację PPTX' \
 	    'bench SIZE=XS|S|M|L [ENGINE=…] [SCENARIO=…] [TIMEOUT=…] Zmierz brakujące przebiegi scenariuszy' \
 	    'status SIZE=XS|S|M|L Pokaż zmierzone i brakujące komórki pomiarów' \
-	    'forget ENGINE=… SIZE=… SCENARIO=… REASON=… Usuń przebiegi komórki, aby zmierzyć ją ponownie'
+	    'forget ENGINE=… SIZE=… SCENARIO=… REASON=… Usuń przebiegi komórki, aby zmierzyć ją ponownie' \
+	    'explain SIZE=XS|S|L [ENGINE=…] [SCENARIO=…] Zapisz brakujące plany zapytań i explain_summary.csv'
 
 check:
 	@tools/check-comments
@@ -139,3 +140,8 @@ status: compose-config
 forget:
 	@test -n "$(ENGINE)" -a -n "$(SCENARIO)" -a -n "$(REASON)" || { echo 'Ustaw ENGINE, SCENARIO i REASON' >&2; exit 2; }
 	@$(RUNNER) forget $(RUNNER_ARGS) --reason "$(REASON)"
+
+explain: compose-config
+	@$(BENCH) stop $(ENGINES)
+	@$(BENCH) create $(ENGINES)
+	@$(RUNNER) explain $(RUNNER_ARGS)
