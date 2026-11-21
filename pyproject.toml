@@ -21,6 +21,7 @@ package = false
 
 [dependency-groups]
 report = [
+    "matplotlib==3.11.2",
     "pytest==9.2.0",
     "python-pptx==1.0.2",
     "PyYAML==6.0.3",

@@ -198,3 +198,12 @@ Na początku sesji runner zapisuje `$RESULTS_DIR/env.json`. Plik zawiera dane ho
 | Neo4j | `PROFILE`: drzewo operatorów z liczbą wierszy i `dbHits` |
 
 Każdy plan to plik `$RESULTS_DIR/explain/<scenariusz>-<baza>-<konfiguracja>-<rozmiar>-<qhash>-<state_id>.json` z pierwszymi 12 znakami obu skrótów; pełne skróty są w pliku. Plik o innym `qhash` albo `state_id` jest nieaktualny. Krok zapisuje tylko brakujące pliki, a starszą wersję pliku tego samego scenariusza, bazy, konfiguracji i rozmiaru usuwa. Na końcu buduje ze wszystkich plików `$RESULTS_DIR/explain_summary.csv`: rozmiar, scenariusz, baza, konfiguracja, rodzaj (`read` albo `write-discovery`), ścieżka dostępu i indeksy z ekstraktora `bench/scenarios/explain.py` oraz wiersze przejrzane i zwrócone. Wiersze przejrzane to w PostgreSQL wiersze węzłów czytających tabelę razem z odrzuconymi przez filtr, w MySQL wiersze kroków `scan`, `lookup` i `search` drzewa `EXPLAIN ANALYZE`, w MongoDB `totalDocsExamined`, a w Neo4j wiersze operatorów `Scan` i `Seek`.
+
+## Wykresy
+
+`make charts [RESULTS_DIR=results]` rysuje wykresy z `$RESULTS_DIR/runs.jsonl` do `$RESULTS_DIR/charts/` w kontenerze `report` (matplotlib z grupy `report`), np. `make charts RESULTS_DIR=out/xs/results`. Komórka (baza, rozmiar, konfiguracja, scenariusz) wchodzi na wykres tylko wtedy, gdy ostatnio zapisana wersja (`qhash`, `state_id`) ma dokładnie trzy przebiegi `ok`. Starsze wersje, przekroczenia czasu i niepełne komórki są pomijane. Czas to średnia z trzech przebiegów w ms, a w s, gdy najdłuższy przebieg na wykresie trwa co najmniej 1000 ms.
+
+- `<scenariusz>.png`: konfiguracja IDX, grupy słupków według rozmiaru, słupek na SZBD i wąsy min–max. Oś jest logarytmiczna, gdy największa średnia jest co najmniej 50 razy większa od najmniejszej.
+- `<scenariusz>-ba.png` dla scenariuszy z flagą `BA`: panel na SZBD z parą słupków BASE (kreskowany) i IDX dla każdego rozmiaru, nad parą stosunek IDX / BASE, zawsze na osi logarytmicznej.
+
+Każda baza ma stały kolor: PostgreSQL `#2a78d6`, MySQL `#eb6834`, MongoDB `#1baf7a`, Neo4j `#eda100`. Sąsiednie słupki są rozróżnialne przy zaburzeniach widzenia barw, a nazwy baz są w legendzie lub tytułach paneli. Liczby mają przecinek dziesiętny i wąską spację tysięcy (1 234,5), a oś wartości ma jednostkę [ms] albo [s]. Oś bez jednostki przerywa zapis. Oś logarytmiczna ma dopisek „skala logarytmiczna”. Ten sam dopisek ma podpis wykresu w `$RESULTS_DIR/charts/captions.json`. Testy: `docker compose -f compose.bench.yaml run --rm report python -m pytest -p no:cacheprovider tests/analysis`.

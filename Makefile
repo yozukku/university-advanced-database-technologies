@@ -19,7 +19,7 @@ RUNNER = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner
 RUNNER_ARGS = --size "$(SIZE)" $(foreach engine,$(ENGINE),--engine $(engine)) \
     $(foreach scenario,$(SCENARIO),--scenario $(scenario)) $(if $(TIMEOUT),--timeout $(TIMEOUT))
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report bench status forget explain
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report charts bench status forget explain
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -36,6 +36,7 @@ help:
 	    'test-scenarios SIZE=XS|S [K=…] Sprawdź scenariusze w czterech bazach na migawkach' \
 	    'catalogue [CHECK=1] Zapisz katalog scenariuszy docs/bench/scenarios.md albo go sprawdź' \
 	    'report [RESULTS_DIR=results] [OUT=out] Zbuduj sprawozdanie DOCX i PDF oraz prezentację PPTX' \
+	    'charts [RESULTS_DIR=results] Narysuj wykresy scenariuszy i par BASE/IDX z wyników pomiarów' \
 	    'bench SIZE=XS|S|M|L [ENGINE=…] [SCENARIO=…] [TIMEOUT=…] Zmierz brakujące przebiegi scenariuszy' \
 	    'status SIZE=XS|S|M|L Pokaż zmierzone i brakujące komórki pomiarów' \
 	    'forget ENGINE=… SIZE=… SCENARIO=… REASON=… Usuń przebiegi komórki, aby zmierzyć ją ponownie' \
@@ -128,6 +129,9 @@ catalogue:
 
 report:
 	@$(BENCH) run --rm -T --no-deps --build report python -m bench.report --results "$(RESULTS_DIR)" --out "$(OUT)"
+
+charts:
+	@$(BENCH) run --rm -T --no-deps --build report python -m bench.analysis.charts --results "$(RESULTS_DIR)"
 
 bench: compose-config
 	@$(BENCH) stop $(ENGINES)
