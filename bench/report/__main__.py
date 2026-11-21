@@ -17,9 +17,9 @@ def main():
         path.unlink(missing_ok=True)
     try:
         document.build(arguments.results, arguments.out)
+        slides.build(arguments.results, outputs[2])
     except document.ReportError as error:
         sys.exit(str(error))
-    slides.build(arguments.results, outputs[2])
     for path in outputs:
         print(path)
 

@@ -1,11 +1,139 @@
-title: Porównanie operacji CRUD w PostgreSQL, MySQL, MongoDB i Neo4j
+title: Operacje CRUD w PostgreSQL, MySQL, MongoDB i Neo4j
 subtitle: Anton Gorokh, Tomasz Gruszka · Zaawansowane Technologie Bazodanowe 2026/27
 slides:
   - title: Cztery SZBD na tych samych danych
     bullets:
-      - PostgreSQL 17 z PostGIS i MySQL 8.4 LTS
-      - MongoDB 8.0 i Neo4j 5.26 Community
-      - 13 tabel relacyjnych, 500 000, 1 000 000 i 10 000 000 rekordów
-      - 26 scenariuszy CRUD i 6 scenariuszy JSON, każdy mierzony trzy razy
-  - title: Odczyt R1 w czterech SZBD
-    figure: R1
+      - "Relacyjne: PostgreSQL 17 z PostGIS i MySQL 8.4 LTS"
+      - "Dokumentowy: MongoDB 8.0"
+      - "Grafowy: Neo4j 5.26 Community"
+      - Te same dane jednego przypadku biznesowego w każdym SZBD
+      - Każdy SZBD w kontenerze Docker z limitem 6 CPU i 8 GB pamięci
+  - title: "Bagażomat: przypadek biznesowy"
+    bullets:
+      - Sieć automatów ze skrytkami S, M i L na dworcach, lotniskach i w centrach miast
+      - Rezerwacja skrytki, płatność, kod dostępu i zdalne otwarcie z aplikacji
+      - Przesyłki bagażu między automatami, odbiorca wskazany numerem telefonu
+      - Rezerwacje jednej skrytki nie mogą nakładać się w czasie
+      - Najbliższe automaty to zapytanie przestrzenne, a sieć przesyłek to graf
+      - Historia zdarzeń w JSON, z niej przebieg zamówienia i dostęp do danych (RODO)
+  - title: Schemat relacyjny Bagażomatu (13 tabel)
+    images:
+      - report/assets/erd/przeglad.png
+  - title: "Aplikacja testowa: wymagania"
+    bullets:
+      - Generuje deterministyczny zbiór danych (stałe ziarno, Faker)
+      - Ładuje te same dane do czterech SZBD i sprawdza ich zgodność
+      - Wykonuje scenariusze, jeden przebieg rozgrzewający i trzy mierzone
+      - Sprawdza, że scenariusz daje ten sam wynik w każdym SZBD
+      - Rysuje wykresy i buduje sprawozdanie oraz prezentację
+  - title: Technologie i Docker Compose
+    bullets:
+      - "Aplikacja testowa: Python 3.13, uv, Faker, PyArrow, DuckDB"
+      - "Sterowniki: psycopg 3, mysql-connector-python, PyMongo, neo4j"
+      - "Docker Compose: cztery SZBD, kontener pomiarowy i kontener raportu"
+      - "Raport: matplotlib, Pandoc, LibreOffice, python-pptx"
+      - "Bagażomat: Java 21, Spring Boot 4, React 19, Vite 8, Keycloak 26.4"
+  - title: Trzy modele danych
+    bullets:
+      - "Relacyjny: 13 tabel w PostgreSQL i MySQL"
+      - MySQL zastępuje ograniczenia wykluczające wyzwalaczami
+      - "Dokumentowy: zamówienie z rezerwacjami, kodami i płatnościami w jednym dokumencie"
+      - "Grafowy: 13 etykiet węzłów i 15 typów relacji w Neo4j"
+      - Weryfikacja odtwarza z każdego modelu tabele kanoniczne i porównuje skróty
+  - title: Model grafowy w Neo4j
+    images:
+      - report/assets/graph/model.png
+  - title: Rozmiary zbioru danych
+    bullets:
+      - "S: 500 000, M: 1 000 000, L: 10 000 000 rekordów w 13 tabelach"
+      - "XS: 20 000 rekordów, tylko do testów"
+      - Generator ze stałym ziarnem i chwilą odniesienia T0 = 1 listopada 2026
+      - Dane kanoniczne w plikach Parquet, z nich ładowanie do czterech SZBD
+      - Liczby rekordów każdej tabeli w rozdziale 3 sprawozdania
+  - title: Stanowisko i metodyka
+    bullets:
+      - Rozgrzewka tabel i indeksów przed pomiarem
+      - "Odczyt: przebieg odrzucany i trzy mierzone, wynik to średnia z trzech"
+      - "Zapis: trzy przebiegi, każdy po odtworzeniu migawki danych"
+      - Limit przebiegu 600 s
+      - "Zgodność danych: skróty 13 tabel w każdym SZBD równe danym kanonicznym"
+      - "Zgodność wyników: ten sam skrót wyniku scenariusza we wszystkich SZBD"
+  - title: Mapa scenariuszy
+    bullets:
+      - "26 scenariuszy podstawowych: 6 C, 8 R, 6 U i 6 D we wszystkich SZBD"
+      - 6 scenariuszy JSON w PostgreSQL, MySQL i MongoDB
+      - "Złożone odczyty: złączenia, agregacje, przejścia grafu, zapytania przestrzenne"
+      - 15 scenariuszy mierzonych w konfiguracjach BASE i IDX
+      - "Zbiory H1: SELECT R4–R7, J2, J4; INSERT C2–C4, C6, J1; UPDATE U1, U5"
+  - title: "Tworzenie: rezerwacja skrytki (C3)"
+    figure: C3
+  - title: "Odczyt: najbliższe punkty z wolną skrytką (R3)"
+    figure: R3
+  - title: "Aktualizacja: użycie kodu nadania (U2)"
+    figure: U2
+  - title: "Usuwanie: zamówienia w 7 tabelach (D2)"
+    figure: D2
+  - title: Indeksy BASE i IDX
+    bullets:
+      - "BASE: klucze, ograniczenia i ich indeksy z zaprojektowanego schematu"
+      - "IDX: BASE oraz cztery indeksy pomocnicze i dwa indeksy JSON"
+      - "IX1 telefon odbiorcy (R4), IX2 status i czas utworzenia zamówienia (R5)"
+      - "IX3 czas utworzenia płatności (R6), IX4 czas żądania otwarcia (R7)"
+      - "JX1 e-mail i telefon aktora (J2), JX2 lista zmian (J4)"
+      - Ten sam zestaw logiczny w czterech SZBD, w Neo4j bez JX1 i JX2
+  - title: R4 przed i po indeksie IX1
+    figure: R4-ba
+  - title: "Plan zapytania R4 w MySQL: BASE i IDX"
+    bullets:
+      - Przesyłki do odbioru według numeru telefonu odbiorcy
+      - 'BASE: {{ plan("R4", "mysql", "base", "L") }}'
+      - 'IDX: {{ plan("R4", "mysql", "idx", "L") }}'
+      - "IX1: shipment_ (recipient_phone_)"
+  - title: "Plan zapytania J2 w PostgreSQL: BASE i IDX"
+    bullets:
+      - "RODO art. 15: zdarzenia audytu osoby według e-maila lub telefonu"
+      - 'BASE: {{ plan("J2", "pg", "base", "L") }}'
+      - 'IDX: {{ plan("J2", "pg", "idx", "L") }}'
+      - "JX1: indeksy wyrażeń actor_ ->> 'email' i actor_ ->> 'phone'"
+  - title: "Dane półstrukturalne: audit_event_"
+    bullets:
+      - "Zdarzenie: encja, czynność, migawka aktora actor_ i lista zmian changes_"
+      - "PostgreSQL jsonb, MySQL JSON, MongoDB obiekt i tablica, Neo4j tekst JSON"
+      - "J1–J6: dopisanie, RODO art. 15 i 17, istnienie kluczy, element tablicy, retencja"
+      - "PostgreSQL: indeksy wyrażeń i GIN jsonb_path_ops"
+      - "MySQL: indeksy funkcyjne i wielowartościowy, MongoDB: indeksy pól i tablicy"
+      - Neo4j nie indeksuje ścieżek JSON, więc nie wykonuje serii J
+  - title: J2 przed i po indeksie JX1
+    figure: J2-ba
+  - title: "Automatyzacja: jedno polecenie"
+    bullets:
+      - "make full: od utworzenia baz do wykresów, sprawozdania i prezentacji"
+      - "Kroki na rozmiar: dane, walidacja, ładowanie, weryfikacja, migawki, pomiary, plany, kontrola"
+      - "Na końcu: wykresy, weryfikacja H1, sprawozdanie i prezentacja"
+      - Czas każdego kroku w results/full-run.jsonl
+      - Każdy przebieg to linia w results/runs.jsonl z qhash i state_id
+      - Przerwany pomiar wznawia się od brakujących przebiegów
+  - title: Hipoteza H1
+    bullets:
+      - "„Zastosowanie indeksów znacząco poprawia wydajność operacji SELECT kosztem spadku wydajności operacji INSERT i UPDATE”"
+      - 'PostgreSQL: {{ h1("pg") }}'
+      - 'MySQL: {{ h1("mysql") }}'
+      - 'MongoDB: {{ h1("mongo") }}'
+      - 'Neo4j: {{ h1("neo4j") }}'
+      - 'Werdykt ogólny: {{ h1("overall") }}'
+  - title: Wnioski i rekomendacja
+    bullets:
+      - brak danych
+  - title: "Bagażomat: punkty, płatność, przesyłka"
+    images:
+      - report/assets/app/punkty.png
+      - report/assets/app/platnosc.png
+      - report/assets/app/przesylka.png
+  - title: Harmonogram
+    bullets:
+      - "Zjazdy 1–2: zespół, SZBD, temat, opcje na 5.0, H1, schemat i diagram ER"
+      - "Zjazd 3: te same dane w czterech SZBD"
+      - "Zjazd 4: 32 scenariusze, pilotaż na S, pierwsza wersja sprawozdania"
+      - "Zjazd 5: pomiary S, M i L oraz weryfikacja H1"
+      - "Zjazd 6: pokaz Bagażomatu i robocza wersja sprawozdania"
+      - "Zjazd 7: sprawozdanie i prezentacja"

@@ -49,12 +49,12 @@ def sample(results, name, caption):
 MARKERS = {"fig": figure, "table": table, "dataset": data, "sample": sample}
 
 
-def resolve(text, results, source):
+def resolve(text, results, source, markers=MARKERS):
     def replace(match):
         name, arguments = match.groups()
         line = text.count("\n", 0, match.start()) + 1
         try:
-            return MARKERS[name](results, *ast.literal_eval(f"({arguments},)"))
+            return markers[name](results, *ast.literal_eval(f"({arguments},)"))
         except (KeyError, SyntaxError, TypeError, ValueError) as error:
             raise ReportError(f"{source}:{line}: nierozwiązany znacznik {match.group()}") from error
 

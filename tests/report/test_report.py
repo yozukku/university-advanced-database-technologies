@@ -116,7 +116,17 @@ def test_presentation_opens(tmp_path):
     slides.build(FIXTURE, target)
     deck = Presentation(str(target))
     spec = yaml.safe_load(slides.SLIDES.read_text(encoding="utf-8"))
-    assert len(deck.slides) == 1 + len(spec["slides"])
+    assert len(deck.slides) == 1 + len(spec["slides"]) + 47
     assert all(slide.shapes.title.text for slide in deck.slides)
     assert any(shape.shape_type == MSO_SHAPE_TYPE.PICTURE for slide in deck.slides for shape in slide.shapes)
     assert opens(target, tmp_path)
+
+
+@pytest.mark.parametrize("item", [{"title": "T" * 61, "bullets": ["a"]}, {"title": "T", "bullets": ["a"] * 7}])
+def test_presentation_limits_fail(item, tmp_path, monkeypatch):
+    spec = yaml.safe_load(slides.SLIDES.read_text(encoding="utf-8"))
+    source = tmp_path / "slides.yaml"
+    source.write_text(yaml.safe_dump({**spec, "slides": [*spec["slides"], item]}, allow_unicode=True), encoding="utf-8")
+    monkeypatch.setattr(slides, "SLIDES", source)
+    with pytest.raises(ReportError, match="limit"):
+        slides.build(FIXTURE, tmp_path / "prezentacja.pptx")
