@@ -23,6 +23,7 @@ from .store import Store
 HASHED = ("XS", "S")
 CONFIGS = ("idx", "base")
 RUNS = tuple(range(1, MEASURED_RUNS + 1))
+WARMUP_CAP_SECONDS = 24
 
 
 @dataclass
@@ -160,7 +161,8 @@ class Bench:
         self.restore(engine, config)
         try:
             with Session(engine, self.timeout) as session:
-                warmed = warmup.run(session, warmup.script(engine, warmup.catalog(session), reads, self.values))
+                warmed = warmup.run(session, warmup.script(engine, warmup.catalog(session), reads, self.values),
+                                    WARMUP_CAP_SECONDS)
         except Exception:
             for scenario in reads:
                 runs, _ = pending[scenario.id]
@@ -180,6 +182,18 @@ class Bench:
         if problems := self.count_problems(engine, config):
             raise SystemExit(f"{engine} {self.size} {config}: row counts after the reads differ from the snapshot:\n  "
                              + "\n  ".join(problems))
+
+    def warm(self, engine, config):
+        reads = [scenario for scenario in self.group(engine, config) if scenario.read]
+        self.stop()
+        start = time.perf_counter()
+        state.restore(engine, self.size, config)
+        self.live = engine
+        restored = time.perf_counter() - start
+        with Session(engine, self.timeout) as session:
+            warmed = warmup.run(session, warmup.script(engine, warmup.catalog(session), reads, self.values))
+        self.stop()
+        return restored, warmed
 
     def read_cell(self, engine, config, scenario, runs, warmed):
         params = self.params[scenario.id]
@@ -225,7 +239,8 @@ class Bench:
                 try:
                     keys = impl.keys(session, params) if probed else None
                     old = oracle.probe(session, self.schema, keys) if probed else None
-                    warmed = warmup.run(session, warmup.script(engine, warmup.catalog(session), [scenario], self.values))
+                    warmed = warmup.run(session, warmup.script(engine, warmup.catalog(session), [scenario], self.values),
+                                        WARMUP_CAP_SECONDS)
                     self.guard(engine)
                     before = disk.reads(session, container)
                 except Exception:

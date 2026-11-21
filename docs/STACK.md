@@ -176,7 +176,7 @@ Rozgrzewka w `bench/runner/warmup.py` to jeden skrypt na bazę, wspólny dla BAS
 | MongoDB | skan `$natural` każdej kolekcji, który pobiera każdy dokument, i liczenie z podpowiedzią każdego indeksu: indeks częściowy z jego filtrem, 2dsphere przez `$geoWithin` w prostokącie Polski |
 | Neo4j | odczyt właściwości każdej etykiety i typu relacji; `PROFILE` skanu każdego indeksu z `USING RANGE INDEX` albo `USING POINT INDEX` i `point.withinBBox`; plan musi pokazać operator na tym indeksie i żadnego skanu etykiety ani typu |
 
-Rozgrzewka dłuższa niż `CAP_SECONDS` (1800 s; ostateczną wartość ustala 3.10) kończy przebieg statusem `error`.
+Rozgrzewka dłuższa niż `WARMUP_CAP_SECONDS` z `bench/runner/matrix.py` (24 s) kończy przebieg statusem `error`. Limit to najdłuższa rozgrzewka odczytów przy L powiększona o 50 % i nie wchodzi do `qhash`. `make warmup SIZE=L` mierzy ją dla każdej bazy i konfiguracji: odtwarza migawkę, uruchamia bazę i rozgrzewa ją jak przed odczytami, z limitem 1800 s. Czas odtworzenia i rozgrzewki zapisuje w `results/load/L.json` w polu `warmup` bazy.
 
 Limit przebiegu to 600 s. `Session(engine, timeout)` ustawia go w sesji: `statement_timeout` w PostgreSQL, `max_execution_time` w MySQL i limit transakcji sterownika w Neo4j. W MongoDB przebieg działa w `pymongo.timeout`, który wysyła `maxTimeMS`. Niezależnie od tego zegar runnera po 600 s przerywa przebieg: `pg_terminate_backend`, `KILL`, `killOp` i `killSessions` albo `TERMINATE TRANSACTIONS`. Potem runner sprawdza, że w bazie nie działa już żadne jego polecenie ani transakcja. Przekroczony przebieg ma status `timeout`. Błąd ma status `error`. W obu przypadkach pozostałe przebiegi komórki dostają status `skipped`.
 

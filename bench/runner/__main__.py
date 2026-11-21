@@ -4,12 +4,12 @@ import sys
 
 import docker
 
-from bench.check.verify.results import root
+from bench.check.verify.results import record, root
 from bench.scenarios.qhash import TIMEOUT_SECONDS
 from bench.scenarios.registry import ENGINES
 
 from . import environment, explain
-from .matrix import Bench
+from .matrix import CONFIGS, Bench
 from .store import Store
 
 
@@ -37,6 +37,21 @@ def plans(bench):
         raise SystemExit("Plans not captured:\n  " + "\n  ".join(failed))
 
 
+def warm(bench):
+    with environment.lock(root(bench.size), bench.client):
+        try:
+            for engine in bench.engines:
+                found = {}
+                for config in CONFIGS:
+                    restored, warmed = bench.warm(engine, config)
+                    found[config] = {"restore_seconds": round(restored, 1), "warmup_seconds": round(warmed.seconds, 1)}
+                    print(f"{engine} {bench.size} {config}: restored in {restored:.1f} s, "
+                          f"read warm-up {warmed.steps} steps in {warmed.seconds:.1f} s")
+                record(bench.size, engine, {"warmup": found})
+        finally:
+            bench.stop()
+
+
 def forget(args, parser):
     if len(args.engine or ()) != 1 or len(args.scenario or ()) != 1 or not args.reason:
         parser.error("forget needs one --engine, one --scenario and --reason")
@@ -58,7 +73,7 @@ def print_status(bench):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("run", "status", "forget", "explain"))
+    parser.add_argument("command", choices=("run", "status", "forget", "explain", "warmup"))
     parser.add_argument("--size", choices=("XS", "S", "M", "L"), required=True)
     parser.add_argument("--engine", action="append", choices=ENGINES)
     parser.add_argument("--scenario", action="append")
@@ -77,6 +92,8 @@ def main():
         run(bench)
     elif args.command == "explain":
         plans(bench)
+    elif args.command == "warmup":
+        warm(bench)
     else:
         print_status(bench)
 
