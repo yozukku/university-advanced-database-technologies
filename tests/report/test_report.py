@@ -99,7 +99,7 @@ def test_report_builds_from_s_only_results(tmp_path):
     assert any(text.startswith("Rys.\u00a03.10. Model grafowy w Neo4j") for text in texts)
     assert any(text.startswith("Tab.\u00a03.1. Liczba rekordów") for text in texts)
     assert "500\u00a0000" in texts and "`" not in "".join(texts)
-    assert "R2" in texts and len(media) == 9
+    assert "R2" in texts and len(media) == 15
     assert not [text for text in texts if MISSING in text or "{{" in text or "@fig:" in text or "@tab:" in text]
     assert (tmp_path / "sprawozdanie.pdf").read_bytes().startswith(b"%PDF")
     assert opens(tmp_path / "sprawozdanie.docx", tmp_path)
