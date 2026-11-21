@@ -20,7 +20,7 @@ RUNNER = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner
 RUNNER_ARGS = --size "$(SIZE)" $(foreach engine,$(ENGINE),--engine $(engine)) \
     $(foreach scenario,$(SCENARIO),--scenario $(scenario)) $(if $(TIMEOUT),--timeout $(TIMEOUT))
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report charts bench status forget explain qa h1 full
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report charts bench status forget explain qa h1 full clean
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -44,7 +44,8 @@ help:
 	    'explain SIZE=XS|S|L [ENGINE=…] [SCENARIO=…] Zapisz brakujące plany zapytań i explain_summary.csv' \
 	    'qa SIZE=XS|S|M|L [TIMEOUT=…] Sprawdź komórki pomiarów i zapisz qa.json' \
 	    'h1 [RESULTS_DIR=results] Oceń hipotezę H1 na podstawie qa.json i planów, zapisz h1.json' \
-	    'full [SIZES="S M L"] [UNTIL=krok] Wykonaj wszystko od danych do sprawozdania, pomijając kroki już wykonane'
+	    'full [SIZES="S M L"] [UNTIL=krok] Wykonaj wszystko od danych do sprawozdania, pomijając kroki już wykonane' \
+	    'clean SIZE=XS|S|M|L Usuń dane, migawki i znaczniki kroków rozmiaru; wyniki zostają'
 
 check:
 	@tools/check-comments
@@ -168,3 +169,9 @@ full: compose-config
 	trap 'docker kill --signal=INT "$$name" >/dev/null 2>&1; docker wait "$$name" >/dev/null 2>&1; exit 130' INT TERM; \
 	$(if $(CAFFEINATE),$(CAFFEINATE) -ims) $(BENCH) run --rm -T --no-deps --build --name "$$name" runner \
 	    python -m bench.runner.full --sizes $(SIZES) $(if $(UNTIL),--until $(UNTIL))
+
+clean:
+	@case "$(SIZE)" in XS|S|M|L) ;; *) echo 'Ustaw SIZE na XS, S, M lub L' >&2; exit 2;; esac
+	@docker volume rm -f $$(for engine in $(ENGINES); do for config in base idx; do \
+	    echo "$(COMPOSE_PROJECT_NAME)_$${engine}-snapshot-$(SIZE)-$${config}"; done; done | tr '[:upper:]' '[:lower:]') >/dev/null
+	@rm -rf "$(SNAPSHOTS)/$(SIZE)" "out/state/$(COMPOSE_PROJECT_NAME)/$(SIZE)" "$(if $(filter XS,$(SIZE)),out/xs/data,data/$(SIZE))"

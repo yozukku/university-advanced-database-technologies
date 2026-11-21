@@ -1,0 +1,210 @@
+{
+  "config": "base",
+  "engine": "mongo",
+  "kind": "read",
+  "plan": {
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "i": 2,
+          "t": 1795285436
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "command": {
+      "$db": "bagazomat",
+      "aggregate": "auditEvents",
+      "cursor": {},
+      "pipeline": [
+        {
+          "$match": {
+            "$or": [
+              {
+                "actor.email": "kornelzlotek.5005103@example.test"
+              },
+              {
+                "actor.phone": "+48500005103"
+              }
+            ]
+          }
+        },
+        {
+          "$sort": {
+            "_id": 1,
+            "at": 1
+          }
+        }
+      ]
+    },
+    "executionStats": {
+      "executionStages": {
+        "advanced": 10,
+        "executionTimeMillisEstimate": 51,
+        "inputStage": {
+          "advanced": 10,
+          "executionTimeMillisEstimate": 51,
+          "inputStage": {
+            "advanced": 10,
+            "direction": "forward",
+            "docsExamined": 146384,
+            "executionTimeMillisEstimate": 51,
+            "filter": {
+              "$or": [
+                {
+                  "actor.email": {
+                    "$eq": "kornelzlotek.5005103@example.test"
+                  }
+                },
+                {
+                  "actor.phone": {
+                    "$eq": "+48500005103"
+                  }
+                }
+              ]
+            },
+            "isEOF": 1,
+            "nReturned": 10,
+            "needTime": 146374,
+            "needYield": 0,
+            "restoreState": 3,
+            "saveState": 3,
+            "stage": "COLLSCAN",
+            "works": 146385
+          },
+          "isEOF": 1,
+          "memLimit": 104857600,
+          "nReturned": 10,
+          "needTime": 146385,
+          "needYield": 0,
+          "restoreState": 3,
+          "saveState": 3,
+          "sortPattern": {
+            "_id": 1,
+            "at": 1
+          },
+          "spilledDataStorageSize": 0,
+          "spills": 0,
+          "stage": "SORT",
+          "totalDataSizeSorted": 3941,
+          "type": "simple",
+          "usedDisk": false,
+          "works": 146396
+        },
+        "isCached": false,
+        "isEOF": 1,
+        "nReturned": 10,
+        "needTime": 146385,
+        "needYield": 0,
+        "restoreState": 3,
+        "saveState": 3,
+        "stage": "SUBPLAN",
+        "works": 146396
+      },
+      "executionSuccess": true,
+      "executionTimeMillis": 52,
+      "nReturned": 10,
+      "totalDocsExamined": 146384,
+      "totalKeysExamined": 0
+    },
+    "explainVersion": "1",
+    "ok": 1.0,
+    "operationTime": {
+      "$timestamp": {
+        "i": 2,
+        "t": 1795285436
+      }
+    },
+    "queryPlanner": {
+      "indexFilterSet": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxIndexedOrSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "namespace": "bagazomat.auditEvents",
+      "optimizationTimeMillis": 0,
+      "optimizedPipeline": true,
+      "parsedQuery": {
+        "$or": [
+          {
+            "actor.email": {
+              "$eq": "kornelzlotek.5005103@example.test"
+            }
+          },
+          {
+            "actor.phone": {
+              "$eq": "+48500005103"
+            }
+          }
+        ]
+      },
+      "planCacheKey": "5ECC8323",
+      "planCacheShapeHash": "88C45C0F",
+      "prunedSimilarIndexes": false,
+      "queryHash": "88C45C0F",
+      "rejectedPlans": [],
+      "winningPlan": {
+        "inputStage": {
+          "inputStage": {
+            "direction": "forward",
+            "filter": {
+              "$or": [
+                {
+                  "actor.email": {
+                    "$eq": "kornelzlotek.5005103@example.test"
+                  }
+                },
+                {
+                  "actor.phone": {
+                    "$eq": "+48500005103"
+                  }
+                }
+              ]
+            },
+            "stage": "COLLSCAN"
+          },
+          "memLimit": 104857600,
+          "sortPattern": {
+            "_id": 1,
+            "at": 1
+          },
+          "stage": "SORT",
+          "type": "simple"
+        },
+        "isCached": false,
+        "stage": "SUBPLAN"
+      }
+    },
+    "queryShapeHash": "C6BAE29301F0EAC3047E09D5306DA2139DC6BF17E447F7B3B456695765FE8494",
+    "serverInfo": {
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568",
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38"
+    },
+    "serverParameters": {
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0
+    }
+  },
+  "qhash": "d161e697bd5f1d021e53f2dd7b31a679f09d9d693d2a9eb5654f6c9334b0842d",
+  "scenario": "J2",
+  "size": "S",
+  "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+  "text": null
+}

@@ -1,0 +1,39 @@
+{
+  "config": "idx",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "16794.14"
+      },
+      "grouping_operation": {
+        "table": {
+          "access_type": "ALL",
+          "cost_info": {
+            "data_read_per_join": "225M",
+            "eval_cost": "14332.80",
+            "prefix_cost": "16794.14",
+            "read_cost": "2461.34"
+          },
+          "filtered": "100.00",
+          "rows_examined_per_scan": 143328,
+          "rows_produced_per_join": 143328,
+          "table_name": "audit_event_",
+          "used_columns": [
+            "id_",
+            "actor_"
+          ]
+        },
+        "using_filesort": false,
+        "using_temporary_table": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+  "scenario": "J3",
+  "size": "S",
+  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+  "text": "-> Table scan on <temporary>  (actual time=101..101 rows=7 loops=1)\n    -> Aggregate using temporary table  (actual time=101..101 rows=7 loops=1)\n        -> Table scan on audit_event_  (cost=16794 rows=143328) (actual time=0.019..47.5 rows=146384 loops=1)\n"
+}

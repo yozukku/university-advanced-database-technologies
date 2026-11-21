@@ -1,0 +1,4307 @@
+{
+  "S": {
+    "cells": [
+      {
+        "config": "idx",
+        "cv": 0.08848844633667491,
+        "engine": "pg",
+        "max": 0.349718886,
+        "mean": 0.331780068,
+        "median": 0.347722153,
+        "min": 0.297899165,
+        "op": "C",
+        "qhash": "2874805b9fb740b8bbb90766a3c868c146099e9c5ed54cea4e7da77469ce7e9b",
+        "scenario": "C1",
+        "seconds": [
+          0.349718886,
+          0.297899165,
+          0.347722153
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.015125054958276972,
+        "engine": "pg",
+        "max": 1.258873821,
+        "mean": 1.2407889873333333,
+        "median": 1.242086031,
+        "min": 1.22140711,
+        "op": "C",
+        "qhash": "be65115c219222c862af99ae6aefb233126be462d960554d9874ff8b6e1e4fa1",
+        "scenario": "C2",
+        "seconds": [
+          1.242086031,
+          1.22140711,
+          1.258873821
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.01601365199619167,
+        "engine": "pg",
+        "max": 2.668930211,
+        "mean": 2.6261684113333335,
+        "median": 2.624716292,
+        "min": 2.584858731,
+        "op": "C",
+        "qhash": "7ff11bc3d0ccc1479876a181560a912bb08211541f13de76d9d5c88e60db74a8",
+        "scenario": "C3",
+        "seconds": [
+          2.668930211,
+          2.624716292,
+          2.584858731
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.02039947031470551,
+        "engine": "pg",
+        "max": 2.823986812,
+        "mean": 2.7891153873333336,
+        "median": 2.81989997,
+        "min": 2.72345938,
+        "op": "C",
+        "qhash": "d41220df02db37c682ae883987e9190bf219b1f87c498f74cebf504d9d39515c",
+        "scenario": "C4",
+        "seconds": [
+          2.81989997,
+          2.72345938,
+          2.823986812
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0022818661208630323,
+        "engine": "pg",
+        "max": 0.349890193,
+        "mean": 0.34931527533333334,
+        "median": 0.349650276,
+        "min": 0.348405357,
+        "op": "C",
+        "qhash": "2bad0d14f8c96280c310bd736c1c945855151f31cdce30ed90b69ff71a810c87",
+        "scenario": "C5",
+        "seconds": [
+          0.349650276,
+          0.348405357,
+          0.349890193
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.01817813740332719,
+        "engine": "pg",
+        "max": 0.025679151,
+        "mean": 0.02533013166666667,
+        "median": 0.02550298,
+        "min": 0.024808264,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.024808264,
+          0.02550298,
+          0.025679151
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.06462526549791092,
+        "engine": "pg",
+        "max": 0.079507061,
+        "mean": 0.074356956,
+        "median": 0.073570363,
+        "min": 0.069993444,
+        "op": "R",
+        "qhash": "e6ca3e10fca9c455b6dfa15ea873396371b8ea787c5c2bb2710ab854f53a79cb",
+        "scenario": "R1",
+        "seconds": [
+          0.073570363,
+          0.079507061,
+          0.069993444
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0409558595149454,
+        "engine": "pg",
+        "max": 0.08783533,
+        "mean": 0.08509301899999999,
+        "median": 0.086272437,
+        "min": 0.08117129,
+        "op": "R",
+        "qhash": "56d80bfe28d414d80836be86c3005f3c5b20e5fee1528f6f100909fe8464104b",
+        "scenario": "R2",
+        "seconds": [
+          0.08783533,
+          0.08117129,
+          0.086272437
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.11916205281461383,
+        "engine": "pg",
+        "max": 0.039633988,
+        "mean": 0.036542019,
+        "median": 0.038429806,
+        "min": 0.031562263,
+        "op": "R",
+        "qhash": "8a3ce61695d9408ac64dd3e1ddbf03cf178bd1db87fdb4c7304d5a9eac33cb09",
+        "scenario": "R3",
+        "seconds": [
+          0.031562263,
+          0.039633988,
+          0.038429806
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.2159100966862093,
+        "engine": "pg",
+        "max": 0.007737554,
+        "mean": 0.006609401,
+        "median": 0.007085462,
+        "min": 0.005005187,
+        "op": "R",
+        "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+        "scenario": "R4",
+        "seconds": [
+          0.005005187,
+          0.007085462,
+          0.007737554
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.051832069033953085,
+        "engine": "pg",
+        "max": 0.008398186,
+        "mean": 0.008041820666666666,
+        "median": 0.008143808,
+        "min": 0.007583468,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.008398186,
+          0.007583468,
+          0.008143808
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.11685376468950323,
+        "engine": "pg",
+        "max": 0.06665032,
+        "mean": 0.05885537699999999,
+        "median": 0.056272734,
+        "min": 0.053643077,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.056272734,
+          0.06665032,
+          0.053643077
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.11158790541579523,
+        "engine": "pg",
+        "max": 0.063755784,
+        "mean": 0.056605321333333326,
+        "median": 0.05427546,
+        "min": 0.05178472,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          0.05178472,
+          0.063755784,
+          0.05427546
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.10434082548218497,
+        "engine": "pg",
+        "max": 0.557277857,
+        "mean": 0.49736148066666663,
+        "median": 0.468192636,
+        "min": 0.466613949,
+        "op": "R",
+        "qhash": "ca07191ece8bba9a5af0c14b8e4e4a86cfdc1b6218d24a9524ee6befd1f36ca6",
+        "scenario": "R8",
+        "seconds": [
+          0.468192636,
+          0.466613949,
+          0.557277857
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.027619507387947394,
+        "engine": "pg",
+        "max": 0.109228374,
+        "mean": 0.10589500833333333,
+        "median": 0.10469819,
+        "min": 0.103758461,
+        "op": "U",
+        "qhash": "bb16c7634da37e418d388932b3b1932edba495d161d1c2d6668d13fd04de9383",
+        "scenario": "U1",
+        "seconds": [
+          0.10469819,
+          0.103758461,
+          0.109228374
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.14139408666194736,
+        "engine": "pg",
+        "max": 2.930842801,
+        "mean": 2.5644588109999997,
+        "median": 2.556767071,
+        "min": 2.205766561,
+        "op": "U",
+        "qhash": "71bdcfb9fb4b233df6d0478b2a31495d840b65d865a6b4be5531091070868520",
+        "scenario": "U2",
+        "seconds": [
+          2.205766561,
+          2.556767071,
+          2.930842801
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.3096706877564497,
+        "engine": "pg",
+        "max": 0.056566959,
+        "mean": 0.042153112666666666,
+        "median": 0.038764149,
+        "min": 0.03112823,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.038764149,
+          0.03112823,
+          0.056566959
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.014030084522098895,
+        "engine": "pg",
+        "max": 0.251856068,
+        "mean": 0.24820986266666667,
+        "median": 0.247855105,
+        "min": 0.244918415,
+        "op": "U",
+        "qhash": "f6a90cefd58815f2fa4eb4b29a05380bb140cedfffc6d961cb4742ede839ee02",
+        "scenario": "U4",
+        "seconds": [
+          0.251856068,
+          0.247855105,
+          0.244918415
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.058575643804015295,
+        "engine": "pg",
+        "max": 0.089208348,
+        "mean": 0.08375431033333335,
+        "median": 0.082353404,
+        "min": 0.079701179,
+        "op": "U",
+        "qhash": "b75fb78a4b2b6bd628c8ce7d26847d5febc5d8ed39ffa4bc52b9c2efa3d1ac00",
+        "scenario": "U5",
+        "seconds": [
+          0.082353404,
+          0.089208348,
+          0.079701179
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07683313709772141,
+        "engine": "pg",
+        "max": 0.265886173,
+        "mean": 0.246163402,
+        "median": 0.244424821,
+        "min": 0.228179212,
+        "op": "U",
+        "qhash": "acc1570f84a1896122633ee6ebfe0a19098bd3037cd8f64c57f17630dfb0c40a",
+        "scenario": "U6",
+        "seconds": [
+          0.228179212,
+          0.244424821,
+          0.265886173
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.14585261955811904,
+        "engine": "pg",
+        "max": 0.040382673,
+        "mean": 0.03461313233333333,
+        "median": 0.03245003,
+        "min": 0.031006694,
+        "op": "D",
+        "qhash": "ac2795118442813ee6717fee0899a5a36c4b868dba6c42b53042e82da05f0d24",
+        "scenario": "D1",
+        "seconds": [
+          0.031006694,
+          0.040382673,
+          0.03245003
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07977974147146058,
+        "engine": "pg",
+        "max": 3.158149471,
+        "mean": 2.9084972916666665,
+        "median": 2.867917951,
+        "min": 2.699424453,
+        "op": "D",
+        "qhash": "6fff824d6214c08d38cbfe9c4851c81a45611bdfa4dd29d4a31e52b18e2ab3ba",
+        "scenario": "D2",
+        "seconds": [
+          2.867917951,
+          3.158149471,
+          2.699424453
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.3263744311871385,
+        "engine": "pg",
+        "max": 0.03074061,
+        "mean": 0.022357827333333333,
+        "median": 0.0189035,
+        "min": 0.017429372,
+        "op": "D",
+        "qhash": "d566def9e3e7f58ca89c632477b58a4e1d744144c5b2912ebe772c2cca15840e",
+        "scenario": "D3",
+        "seconds": [
+          0.03074061,
+          0.017429372,
+          0.0189035
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.11620402919619384,
+        "engine": "pg",
+        "max": 0.012545486,
+        "mean": 0.011501400333333333,
+        "median": 0.011963568,
+        "min": 0.009995147,
+        "op": "D",
+        "qhash": "873560dfb35a729c659768dae4a1ce8ec76d370a521703ed4edd9b90f9ad7a6a",
+        "scenario": "D4",
+        "seconds": [
+          0.009995147,
+          0.012545486,
+          0.011963568
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05835385420534176,
+        "engine": "pg",
+        "max": 0.111178287,
+        "mean": 0.104669079,
+        "median": 0.103765734,
+        "min": 0.099063216,
+        "op": "D",
+        "qhash": "29a81e55f7fce6724fbfe2fb1bdf9b10970b1a4eb22fe186588669d6d1a65cb5",
+        "scenario": "D5",
+        "seconds": [
+          0.111178287,
+          0.103765734,
+          0.099063216
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.3256443380621774,
+        "engine": "pg",
+        "max": 0.008912529,
+        "mean": 0.006517943666666667,
+        "median": 0.00577299,
+        "min": 0.004868312,
+        "op": "D",
+        "qhash": "6e05f8af0725fcb35d132d03b2158191e304d81ea55429865d0e887ebb9c0758",
+        "scenario": "D6",
+        "seconds": [
+          0.008912529,
+          0.004868312,
+          0.00577299
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05294877849424014,
+        "engine": "pg",
+        "max": 0.256586133,
+        "mean": 0.24287491766666666,
+        "median": 0.240956894,
+        "min": 0.231081726,
+        "op": "C",
+        "qhash": "f56a5ce61732e1264cad25753b16629b7602a7d800962e7cf73aa663a2ed159e",
+        "scenario": "J1",
+        "seconds": [
+          0.240956894,
+          0.256586133,
+          0.231081726
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.19827462653650746,
+        "engine": "pg",
+        "max": 0.014175508,
+        "mean": 0.011748214333333333,
+        "median": 0.011538142,
+        "min": 0.009530993,
+        "op": "R",
+        "qhash": "d161e697bd5f1d021e53f2dd7b31a679f09d9d693d2a9eb5654f6c9334b0842d",
+        "scenario": "J2",
+        "seconds": [
+          0.009530993,
+          0.011538142,
+          0.014175508
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.09975367391845592,
+        "engine": "pg",
+        "max": 0.037373251,
+        "mean": 0.033520426,
+        "median": 0.031812433,
+        "min": 0.031375594,
+        "op": "R",
+        "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+        "scenario": "J3",
+        "seconds": [
+          0.037373251,
+          0.031375594,
+          0.031812433
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07298446928200801,
+        "engine": "pg",
+        "max": 0.05563856,
+        "mean": 0.051917236,
+        "median": 0.052049432,
+        "min": 0.048063716,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          0.05563856,
+          0.052049432,
+          0.048063716
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.11398071914696785,
+        "engine": "pg",
+        "max": 0.031473525,
+        "mean": 0.028240928,
+        "median": 0.0282134,
+        "min": 0.025035859,
+        "op": "U",
+        "qhash": "3d287ec0f02403d7fbecc1ca5df5e80ba55994dcbf78596996c128e0c08e0550",
+        "scenario": "J5",
+        "seconds": [
+          0.031473525,
+          0.025035859,
+          0.0282134
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.2537749057097166,
+        "engine": "pg",
+        "max": 0.057955653,
+        "mean": 0.04484804233333334,
+        "median": 0.039117081,
+        "min": 0.037471393,
+        "op": "D",
+        "qhash": "22786e1bf399e088dc854bf14e32fc98c262f3c68cb7ad145e4b124595781d3b",
+        "scenario": "J6",
+        "seconds": [
+          0.037471393,
+          0.057955653,
+          0.039117081
+        ],
+        "state": "complete",
+        "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.015544685660499347,
+        "engine": "pg",
+        "max": 1.059151535,
+        "mean": 1.042787994,
+        "median": 1.042476032,
+        "min": 1.026736415,
+        "op": "C",
+        "qhash": "be65115c219222c862af99ae6aefb233126be462d960554d9874ff8b6e1e4fa1",
+        "scenario": "C2",
+        "seconds": [
+          1.059151535,
+          1.026736415,
+          1.042476032
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.10533957451840585,
+        "engine": "pg",
+        "max": 2.722615496,
+        "mean": 2.481293681,
+        "median": 2.517608934,
+        "min": 2.203656613,
+        "op": "C",
+        "qhash": "7ff11bc3d0ccc1479876a181560a912bb08211541f13de76d9d5c88e60db74a8",
+        "scenario": "C3",
+        "seconds": [
+          2.722615496,
+          2.203656613,
+          2.517608934
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.04449043275282636,
+        "engine": "pg",
+        "max": 3.169074704,
+        "mean": 3.0142294773333336,
+        "median": 2.937902274,
+        "min": 2.935711454,
+        "op": "C",
+        "qhash": "d41220df02db37c682ae883987e9190bf219b1f87c498f74cebf504d9d39515c",
+        "scenario": "C4",
+        "seconds": [
+          2.935711454,
+          2.937902274,
+          3.169074704
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.11489081792667397,
+        "engine": "pg",
+        "max": 0.026285267,
+        "mean": 0.023243302000000004,
+        "median": 0.022159466,
+        "min": 0.021285173,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.026285267,
+          0.021285173,
+          0.022159466
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.060403984841876666,
+        "engine": "pg",
+        "max": 0.050194179,
+        "mean": 0.04773266166666667,
+        "median": 0.04844324,
+        "min": 0.044560566,
+        "op": "R",
+        "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+        "scenario": "R4",
+        "seconds": [
+          0.050194179,
+          0.044560566,
+          0.04844324
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.04483627075464248,
+        "engine": "pg",
+        "max": 0.009477412,
+        "mean": 0.009164172,
+        "median": 0.00931616,
+        "min": 0.008698944,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.00931616,
+          0.008698944,
+          0.009477412
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.004110128850869147,
+        "engine": "pg",
+        "max": 0.077635486,
+        "mean": 0.07739353833333333,
+        "median": 0.077511901,
+        "min": 0.077033228,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.077635486,
+          0.077033228,
+          0.077511901
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.029310112554626153,
+        "engine": "pg",
+        "max": 0.138329132,
+        "mean": 0.13385526966666664,
+        "median": 0.13223543,
+        "min": 0.131001247,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          0.131001247,
+          0.138329132,
+          0.13223543
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.07579192206349858,
+        "engine": "pg",
+        "max": 0.092437747,
+        "mean": 0.08510671366666667,
+        "median": 0.082581215,
+        "min": 0.080301179,
+        "op": "U",
+        "qhash": "bb16c7634da37e418d388932b3b1932edba495d161d1c2d6668d13fd04de9383",
+        "scenario": "U1",
+        "seconds": [
+          0.080301179,
+          0.092437747,
+          0.082581215
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.6020903731054166,
+        "engine": "pg",
+        "max": 0.074938797,
+        "mean": 0.044205582,
+        "median": 0.028862537,
+        "min": 0.028815412,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.074938797,
+          0.028815412,
+          0.028862537
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.05586610535439322,
+        "engine": "pg",
+        "max": 0.044105665,
+        "mean": 0.04148491433333334,
+        "median": 0.040643604,
+        "min": 0.039705474,
+        "op": "U",
+        "qhash": "b75fb78a4b2b6bd628c8ce7d26847d5febc5d8ed39ffa4bc52b9c2efa3d1ac00",
+        "scenario": "U5",
+        "seconds": [
+          0.044105665,
+          0.039705474,
+          0.040643604
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.013681217584504747,
+        "engine": "pg",
+        "max": 0.18671426,
+        "mean": 0.18443160866666666,
+        "median": 0.184858375,
+        "min": 0.181722191,
+        "op": "C",
+        "qhash": "f56a5ce61732e1264cad25753b16629b7602a7d800962e7cf73aa663a2ed159e",
+        "scenario": "J1",
+        "seconds": [
+          0.181722191,
+          0.184858375,
+          0.18671426
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0066654810322188136,
+        "engine": "pg",
+        "max": 0.62904849,
+        "mean": 0.6242448453333332,
+        "median": 0.621925316,
+        "min": 0.62176073,
+        "op": "R",
+        "qhash": "d161e697bd5f1d021e53f2dd7b31a679f09d9d693d2a9eb5654f6c9334b0842d",
+        "scenario": "J2",
+        "seconds": [
+          0.62176073,
+          0.621925316,
+          0.62904849
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.022500061079030437,
+        "engine": "pg",
+        "max": 0.123120522,
+        "mean": 0.12003508,
+        "median": 0.118885218,
+        "min": 0.1180995,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          0.1180995,
+          0.118885218,
+          0.123120522
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.18715722553706501,
+        "engine": "pg",
+        "max": 0.055031144,
+        "mean": 0.04527417166666667,
+        "median": 0.041027689,
+        "min": 0.039763682,
+        "op": "U",
+        "qhash": "3d287ec0f02403d7fbecc1ca5df5e80ba55994dcbf78596996c128e0c08e0550",
+        "scenario": "J5",
+        "seconds": [
+          0.041027689,
+          0.055031144,
+          0.039763682
+        ],
+        "state": "complete",
+        "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.09944309611028737,
+        "engine": "mysql",
+        "max": 0.474737425,
+        "mean": 0.4266841123333333,
+        "median": 0.410935815,
+        "min": 0.394379097,
+        "op": "C",
+        "qhash": "2874805b9fb740b8bbb90766a3c868c146099e9c5ed54cea4e7da77469ce7e9b",
+        "scenario": "C1",
+        "seconds": [
+          0.394379097,
+          0.474737425,
+          0.410935815
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.10049699094229422,
+        "engine": "mysql",
+        "max": 2.104086148,
+        "mean": 1.8860643216666666,
+        "median": 1.793688023,
+        "min": 1.760418794,
+        "op": "C",
+        "qhash": "be65115c219222c862af99ae6aefb233126be462d960554d9874ff8b6e1e4fa1",
+        "scenario": "C2",
+        "seconds": [
+          2.104086148,
+          1.760418794,
+          1.793688023
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03852852798848913,
+        "engine": "mysql",
+        "max": 4.122321478,
+        "mean": 3.9833109023333333,
+        "median": 4.00899188,
+        "min": 3.818619349,
+        "op": "C",
+        "qhash": "7ff11bc3d0ccc1479876a181560a912bb08211541f13de76d9d5c88e60db74a8",
+        "scenario": "C3",
+        "seconds": [
+          4.122321478,
+          3.818619349,
+          4.00899188
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.023879215830911068,
+        "engine": "mysql",
+        "max": 4.329464061,
+        "mean": 4.235865001,
+        "median": 4.249568028,
+        "min": 4.128562914,
+        "op": "C",
+        "qhash": "d41220df02db37c682ae883987e9190bf219b1f87c498f74cebf504d9d39515c",
+        "scenario": "C4",
+        "seconds": [
+          4.249568028,
+          4.329464061,
+          4.128562914
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.055646755499524615,
+        "engine": "mysql",
+        "max": 0.47884476,
+        "mean": 0.45878602333333335,
+        "median": 0.467465312,
+        "min": 0.430047998,
+        "op": "C",
+        "qhash": "2bad0d14f8c96280c310bd736c1c945855151f31cdce30ed90b69ff71a810c87",
+        "scenario": "C5",
+        "seconds": [
+          0.467465312,
+          0.47884476,
+          0.430047998
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.006019474796876915,
+        "engine": "mysql",
+        "max": 0.048353511,
+        "mean": 0.04802513466666667,
+        "median": 0.047912884,
+        "min": 0.047809009,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.047809009,
+          0.048353511,
+          0.047912884
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.13811488729074678,
+        "engine": "mysql",
+        "max": 0.355528253,
+        "mean": 0.30684242333333334,
+        "median": 0.286776199,
+        "min": 0.278222818,
+        "op": "R",
+        "qhash": "e6ca3e10fca9c455b6dfa15ea873396371b8ea787c5c2bb2710ab854f53a79cb",
+        "scenario": "R1",
+        "seconds": [
+          0.355528253,
+          0.286776199,
+          0.278222818
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.10703680191960104,
+        "engine": "mysql",
+        "max": 0.349992472,
+        "mean": 0.31159825566666666,
+        "median": 0.295009037,
+        "min": 0.289793258,
+        "op": "R",
+        "qhash": "56d80bfe28d414d80836be86c3005f3c5b20e5fee1528f6f100909fe8464104b",
+        "scenario": "R2",
+        "seconds": [
+          0.349992472,
+          0.295009037,
+          0.289793258
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.031186705597327696,
+        "engine": "mysql",
+        "max": 0.329000312,
+        "mean": 0.3179121386666666,
+        "median": 0.314835691,
+        "min": 0.309900413,
+        "op": "R",
+        "qhash": "8a3ce61695d9408ac64dd3e1ddbf03cf178bd1db87fdb4c7304d5a9eac33cb09",
+        "scenario": "R3",
+        "seconds": [
+          0.309900413,
+          0.314835691,
+          0.329000312
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0344891240416983,
+        "engine": "mysql",
+        "max": 0.022129999,
+        "mean": 0.02136284266666667,
+        "median": 0.021297787,
+        "min": 0.020660742,
+        "op": "R",
+        "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+        "scenario": "R4",
+        "seconds": [
+          0.021297787,
+          0.022129999,
+          0.020660742
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07517175538550024,
+        "engine": "mysql",
+        "max": 0.009355094,
+        "mean": 0.008655757,
+        "median": 0.008543923,
+        "min": 0.008068254,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.008543923,
+          0.008068254,
+          0.009355094
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.4226510465021748,
+        "engine": "mysql",
+        "max": 0.153599198,
+        "mean": 0.10329899866666666,
+        "median": 0.081075207,
+        "min": 0.075222591,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.153599198,
+          0.081075207,
+          0.075222591
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.21991586145590852,
+        "engine": "mysql",
+        "max": 0.107420438,
+        "mean": 0.08575762199999999,
+        "median": 0.076855225,
+        "min": 0.072997203,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          0.076855225,
+          0.107420438,
+          0.072997203
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03253222298224256,
+        "engine": "mysql",
+        "max": 0.752620324,
+        "mean": 0.7263559263333333,
+        "median": 0.719627764,
+        "min": 0.706819691,
+        "op": "R",
+        "qhash": "ca07191ece8bba9a5af0c14b8e4e4a86cfdc1b6218d24a9524ee6befd1f36ca6",
+        "scenario": "R8",
+        "seconds": [
+          0.719627764,
+          0.752620324,
+          0.706819691
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05451909613354821,
+        "engine": "mysql",
+        "max": 0.081259103,
+        "mean": 0.07649264533333333,
+        "median": 0.074702835,
+        "min": 0.073515998,
+        "op": "U",
+        "qhash": "bb16c7634da37e418d388932b3b1932edba495d161d1c2d6668d13fd04de9383",
+        "scenario": "U1",
+        "seconds": [
+          0.081259103,
+          0.073515998,
+          0.074702835
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.041921911035727545,
+        "engine": "mysql",
+        "max": 3.068809483,
+        "mean": 2.9437866326666664,
+        "median": 2.940493332,
+        "min": 2.822057083,
+        "op": "U",
+        "qhash": "71bdcfb9fb4b233df6d0478b2a31495d840b65d865a6b4be5531091070868520",
+        "scenario": "U2",
+        "seconds": [
+          2.940493332,
+          2.822057083,
+          3.068809483
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.15749120119832333,
+        "engine": "mysql",
+        "max": 0.063913346,
+        "mean": 0.05407884599999999,
+        "median": 0.049177888,
+        "min": 0.049145304,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.049177888,
+          0.049145304,
+          0.063913346
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.19507010415939438,
+        "engine": "mysql",
+        "max": 0.14972567,
+        "mean": 0.126500202,
+        "median": 0.129182863,
+        "min": 0.100592073,
+        "op": "U",
+        "qhash": "f6a90cefd58815f2fa4eb4b29a05380bb140cedfffc6d961cb4742ede839ee02",
+        "scenario": "U4",
+        "seconds": [
+          0.14972567,
+          0.129182863,
+          0.100592073
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.014932682133453945,
+        "engine": "mysql",
+        "max": 0.054037902,
+        "mean": 0.05324783033333333,
+        "median": 0.053257858,
+        "min": 0.052447731,
+        "op": "U",
+        "qhash": "b75fb78a4b2b6bd628c8ce7d26847d5febc5d8ed39ffa4bc52b9c2efa3d1ac00",
+        "scenario": "U5",
+        "seconds": [
+          0.052447731,
+          0.053257858,
+          0.054037902
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05954337194698077,
+        "engine": "mysql",
+        "max": 0.068087316,
+        "mean": 0.06547747533333333,
+        "median": 0.067349314,
+        "min": 0.060995796,
+        "op": "U",
+        "qhash": "acc1570f84a1896122633ee6ebfe0a19098bd3037cd8f64c57f17630dfb0c40a",
+        "scenario": "U6",
+        "seconds": [
+          0.067349314,
+          0.060995796,
+          0.068087316
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.29073135577356396,
+        "engine": "mysql",
+        "max": 0.069184652,
+        "mean": 0.05180288133333333,
+        "median": 0.043592497,
+        "min": 0.042631495,
+        "op": "D",
+        "qhash": "ac2795118442813ee6717fee0899a5a36c4b868dba6c42b53042e82da05f0d24",
+        "scenario": "D1",
+        "seconds": [
+          0.043592497,
+          0.042631495,
+          0.069184652
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.09044743955763185,
+        "engine": "mysql",
+        "max": 3.552230881,
+        "mean": 3.2706525013333336,
+        "median": 3.297332572,
+        "min": 2.962394051,
+        "op": "D",
+        "qhash": "6fff824d6214c08d38cbfe9c4851c81a45611bdfa4dd29d4a31e52b18e2ab3ba",
+        "scenario": "D2",
+        "seconds": [
+          3.552230881,
+          3.297332572,
+          2.962394051
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.16512447530682844,
+        "engine": "mysql",
+        "max": 0.112409749,
+        "mean": 0.09775254133333333,
+        "median": 0.100394768,
+        "min": 0.080453107,
+        "op": "D",
+        "qhash": "d566def9e3e7f58ca89c632477b58a4e1d744144c5b2912ebe772c2cca15840e",
+        "scenario": "D3",
+        "seconds": [
+          0.080453107,
+          0.100394768,
+          0.112409749
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.12055383151460787,
+        "engine": "mysql",
+        "max": 0.01214948,
+        "mean": 0.010678658,
+        "median": 0.010129768,
+        "min": 0.009756726,
+        "op": "D",
+        "qhash": "873560dfb35a729c659768dae4a1ce8ec76d370a521703ed4edd9b90f9ad7a6a",
+        "scenario": "D4",
+        "seconds": [
+          0.01214948,
+          0.010129768,
+          0.009756726
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.026669320767919048,
+        "engine": "mysql",
+        "max": 0.210768514,
+        "mean": 0.207420591,
+        "median": 0.21045768,
+        "min": 0.201035579,
+        "op": "D",
+        "qhash": "29a81e55f7fce6724fbfe2fb1bdf9b10970b1a4eb22fe186588669d6d1a65cb5",
+        "scenario": "D5",
+        "seconds": [
+          0.201035579,
+          0.21045768,
+          0.210768514
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.2880779696437438,
+        "engine": "mysql",
+        "max": 0.008735849,
+        "mean": 0.006715178666666666,
+        "median": 0.006529428,
+        "min": 0.004880259,
+        "op": "D",
+        "qhash": "6e05f8af0725fcb35d132d03b2158191e304d81ea55429865d0e887ebb9c0758",
+        "scenario": "D6",
+        "seconds": [
+          0.006529428,
+          0.004880259,
+          0.008735849
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.010716457757878365,
+        "engine": "mysql",
+        "max": 0.319303756,
+        "mean": 0.3171293353333333,
+        "median": 0.318871214,
+        "min": 0.313213036,
+        "op": "C",
+        "qhash": "f56a5ce61732e1264cad25753b16629b7602a7d800962e7cf73aa663a2ed159e",
+        "scenario": "J1",
+        "seconds": [
+          0.318871214,
+          0.313213036,
+          0.319303756
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05057419471746619,
+        "engine": "mysql",
+        "max": 0.02167308,
+        "mean": 0.020976367666666666,
+        "median": 0.021500579,
+        "min": 0.019755444,
+        "op": "R",
+        "qhash": "d161e697bd5f1d021e53f2dd7b31a679f09d9d693d2a9eb5654f6c9334b0842d",
+        "scenario": "J2",
+        "seconds": [
+          0.02167308,
+          0.021500579,
+          0.019755444
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.05858152884671437,
+        "engine": "mysql",
+        "max": 0.073322747,
+        "mean": 0.068681512,
+        "median": 0.066541166,
+        "min": 0.066180623,
+        "op": "R",
+        "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+        "scenario": "J3",
+        "seconds": [
+          0.066180623,
+          0.066541166,
+          0.073322747
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.029108163982624488,
+        "engine": "mysql",
+        "max": 0.094732117,
+        "mean": 0.092291409,
+        "median": 0.092729106,
+        "min": 0.089413004,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          0.089413004,
+          0.092729106,
+          0.094732117
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.024702551360442422,
+        "engine": "mysql",
+        "max": 0.022077707,
+        "mean": 0.021485123,
+        "median": 0.021324165,
+        "min": 0.021053497,
+        "op": "U",
+        "qhash": "3d287ec0f02403d7fbecc1ca5df5e80ba55994dcbf78596996c128e0c08e0550",
+        "scenario": "J5",
+        "seconds": [
+          0.022077707,
+          0.021053497,
+          0.021324165
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.04133502075494053,
+        "engine": "mysql",
+        "max": 0.228298379,
+        "mean": 0.22208459,
+        "median": 0.226414876,
+        "min": 0.211540515,
+        "op": "D",
+        "qhash": "22786e1bf399e088dc854bf14e32fc98c262f3c68cb7ad145e4b124595781d3b",
+        "scenario": "J6",
+        "seconds": [
+          0.226414876,
+          0.228298379,
+          0.211540515
+        ],
+        "state": "complete",
+        "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.014961932622459534,
+        "engine": "mysql",
+        "max": 1.584574133,
+        "mean": 1.561112972,
+        "median": 1.560903779,
+        "min": 1.537861004,
+        "op": "C",
+        "qhash": "be65115c219222c862af99ae6aefb233126be462d960554d9874ff8b6e1e4fa1",
+        "scenario": "C2",
+        "seconds": [
+          1.584574133,
+          1.537861004,
+          1.560903779
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0668986714229377,
+        "engine": "mysql",
+        "max": 3.581584239,
+        "mean": 3.3541399623333334,
+        "median": 3.347896097,
+        "min": 3.132939551,
+        "op": "C",
+        "qhash": "7ff11bc3d0ccc1479876a181560a912bb08211541f13de76d9d5c88e60db74a8",
+        "scenario": "C3",
+        "seconds": [
+          3.581584239,
+          3.347896097,
+          3.132939551
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.002014854270450472,
+        "engine": "mysql",
+        "max": 3.85397937,
+        "mean": 3.8459699720000002,
+        "median": 3.845420013,
+        "min": 3.838510533,
+        "op": "C",
+        "qhash": "d41220df02db37c682ae883987e9190bf219b1f87c498f74cebf504d9d39515c",
+        "scenario": "C4",
+        "seconds": [
+          3.85397937,
+          3.845420013,
+          3.838510533
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.07324159384241684,
+        "engine": "mysql",
+        "max": 0.049120352,
+        "mean": 0.04531952166666667,
+        "median": 0.043846712,
+        "min": 0.042991501,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.042991501,
+          0.049120352,
+          0.043846712
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.07700704483831168,
+        "engine": "mysql",
+        "max": 0.115125046,
+        "mean": 0.105745251,
+        "median": 0.101625563,
+        "min": 0.100485144,
+        "op": "R",
+        "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+        "scenario": "R4",
+        "seconds": [
+          0.115125046,
+          0.101625563,
+          0.100485144
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.012410495805847539,
+        "engine": "mysql",
+        "max": 0.011971314,
+        "mean": 0.011851577666666667,
+        "median": 0.011896022,
+        "min": 0.011687397,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.011971314,
+          0.011687397,
+          0.011896022
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.05995004423310523,
+        "engine": "mysql",
+        "max": 0.173059861,
+        "mean": 0.16651764033333336,
+        "median": 0.171465691,
+        "min": 0.155027369,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.155027369,
+          0.171465691,
+          0.173059861
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.030362961686453107,
+        "engine": "mysql",
+        "max": 0.323745389,
+        "mean": 0.315086623,
+        "median": 0.316698293,
+        "min": 0.304816187,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          0.316698293,
+          0.323745389,
+          0.304816187
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.030234368772572285,
+        "engine": "mysql",
+        "max": 0.045767759,
+        "mean": 0.04445613033333334,
+        "median": 0.044518881,
+        "min": 0.043081751,
+        "op": "U",
+        "qhash": "bb16c7634da37e418d388932b3b1932edba495d161d1c2d6668d13fd04de9383",
+        "scenario": "U1",
+        "seconds": [
+          0.044518881,
+          0.043081751,
+          0.045767759
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.04260405946980209,
+        "engine": "mysql",
+        "max": 0.041261537,
+        "mean": 0.03994318633333333,
+        "median": 0.04054591,
+        "min": 0.038022112,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.041261537,
+          0.038022112,
+          0.04054591
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.03207349753034838,
+        "engine": "mysql",
+        "max": 0.044294422,
+        "mean": 0.043304266,
+        "median": 0.043901795,
+        "min": 0.041716581,
+        "op": "U",
+        "qhash": "b75fb78a4b2b6bd628c8ce7d26847d5febc5d8ed39ffa4bc52b9c2efa3d1ac00",
+        "scenario": "U5",
+        "seconds": [
+          0.043901795,
+          0.044294422,
+          0.041716581
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.051115561380605926,
+        "engine": "mysql",
+        "max": 0.29819254,
+        "mean": 0.28168571400000003,
+        "median": 0.275153056,
+        "min": 0.271711546,
+        "op": "C",
+        "qhash": "f56a5ce61732e1264cad25753b16629b7602a7d800962e7cf73aa663a2ed159e",
+        "scenario": "J1",
+        "seconds": [
+          0.271711546,
+          0.275153056,
+          0.29819254
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0035767778952256954,
+        "engine": "mysql",
+        "max": 4.171864032,
+        "mean": 4.1599127739999995,
+        "median": 4.164626519,
+        "min": 4.143247771,
+        "op": "R",
+        "qhash": "d161e697bd5f1d021e53f2dd7b31a679f09d9d693d2a9eb5654f6c9334b0842d",
+        "scenario": "J2",
+        "seconds": [
+          4.164626519,
+          4.171864032,
+          4.143247771
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0115671939609618,
+        "engine": "mysql",
+        "max": 0.952104091,
+        "mean": 0.9405312776666667,
+        "median": 0.938977108,
+        "min": 0.930512634,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          0.938977108,
+          0.930512634,
+          0.952104091
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.009432406786243833,
+        "engine": "mysql",
+        "max": 0.052870905,
+        "mean": 0.05231362566666667,
+        "median": 0.052137778,
+        "min": 0.051932194,
+        "op": "U",
+        "qhash": "3d287ec0f02403d7fbecc1ca5df5e80ba55994dcbf78596996c128e0c08e0550",
+        "scenario": "J5",
+        "seconds": [
+          0.052137778,
+          0.051932194,
+          0.052870905
+        ],
+        "state": "complete",
+        "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.044388750507994255,
+        "engine": "mongo",
+        "max": 0.385592627,
+        "mean": 0.36788728499999995,
+        "median": 0.364652568,
+        "min": 0.35341666,
+        "op": "C",
+        "qhash": "2874805b9fb740b8bbb90766a3c868c146099e9c5ed54cea4e7da77469ce7e9b",
+        "scenario": "C1",
+        "seconds": [
+          0.364652568,
+          0.35341666,
+          0.385592627
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.013715671064173469,
+        "engine": "mongo",
+        "max": 6.442045988,
+        "mean": 6.353650604333333,
+        "median": 6.35109268,
+        "min": 6.267813145,
+        "op": "C",
+        "qhash": "be65115c219222c862af99ae6aefb233126be462d960554d9874ff8b6e1e4fa1",
+        "scenario": "C2",
+        "seconds": [
+          6.442045988,
+          6.267813145,
+          6.35109268
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.17922935129990367,
+        "engine": "mongo",
+        "max": 5.615980283,
+        "mean": 4.720154513,
+        "median": 4.609616218,
+        "min": 3.934867038,
+        "op": "C",
+        "qhash": "7ff11bc3d0ccc1479876a181560a912bb08211541f13de76d9d5c88e60db74a8",
+        "scenario": "C3",
+        "seconds": [
+          4.609616218,
+          5.615980283,
+          3.934867038
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0506078902767624,
+        "engine": "mongo",
+        "max": 6.328736906,
+        "mean": 5.990770016,
+        "median": 5.900856406,
+        "min": 5.742716736,
+        "op": "C",
+        "qhash": "d41220df02db37c682ae883987e9190bf219b1f87c498f74cebf504d9d39515c",
+        "scenario": "C4",
+        "seconds": [
+          5.900856406,
+          5.742716736,
+          6.328736906
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.09390153972928186,
+        "engine": "mongo",
+        "max": 0.492871273,
+        "mean": 0.4448126743333333,
+        "median": 0.424303865,
+        "min": 0.417262885,
+        "op": "C",
+        "qhash": "2bad0d14f8c96280c310bd736c1c945855151f31cdce30ed90b69ff71a810c87",
+        "scenario": "C5",
+        "seconds": [
+          0.492871273,
+          0.417262885,
+          0.424303865
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.005811381638903674,
+        "engine": "mongo",
+        "max": 0.078483646,
+        "mean": 0.07816990866666666,
+        "median": 0.078377104,
+        "min": 0.077648976,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.078377104,
+          0.078483646,
+          0.077648976
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.050555391664572014,
+        "engine": "mongo",
+        "max": 0.219990811,
+        "mean": 0.207866137,
+        "median": 0.202225843,
+        "min": 0.201381757,
+        "op": "R",
+        "qhash": "e6ca3e10fca9c455b6dfa15ea873396371b8ea787c5c2bb2710ab854f53a79cb",
+        "scenario": "R1",
+        "seconds": [
+          0.201381757,
+          0.202225843,
+          0.219990811
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07884789046522363,
+        "engine": "mongo",
+        "max": 0.249366313,
+        "mean": 0.234052713,
+        "median": 0.239229117,
+        "min": 0.213562709,
+        "op": "R",
+        "qhash": "56d80bfe28d414d80836be86c3005f3c5b20e5fee1528f6f100909fe8464104b",
+        "scenario": "R2",
+        "seconds": [
+          0.249366313,
+          0.213562709,
+          0.239229117
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.036930288349836506,
+        "engine": "mongo",
+        "max": 0.304280433,
+        "mean": 0.2921214386666667,
+        "median": 0.288387761,
+        "min": 0.283696122,
+        "op": "R",
+        "qhash": "8a3ce61695d9408ac64dd3e1ddbf03cf178bd1db87fdb4c7304d5a9eac33cb09",
+        "scenario": "R3",
+        "seconds": [
+          0.283696122,
+          0.304280433,
+          0.288387761
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.014295405974319234,
+        "engine": "mongo",
+        "max": 0.023737195,
+        "mean": 0.023361387666666667,
+        "median": 0.023248359,
+        "min": 0.023098609,
+        "op": "R",
+        "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+        "scenario": "R4",
+        "seconds": [
+          0.023248359,
+          0.023737195,
+          0.023098609
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.04928050749029424,
+        "engine": "mongo",
+        "max": 0.006340436,
+        "mean": 0.006094559666666667,
+        "median": 0.006183434,
+        "min": 0.005759809,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.005759809,
+          0.006340436,
+          0.006183434
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.02433137448830465,
+        "engine": "mongo",
+        "max": 0.084058788,
+        "mean": 0.082266644,
+        "median": 0.082634617,
+        "min": 0.080106527,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.082634617,
+          0.084058788,
+          0.080106527
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.06748356100484483,
+        "engine": "mongo",
+        "max": 0.095341571,
+        "mean": 0.08857096800000001,
+        "median": 0.086345295,
+        "min": 0.084026038,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          0.095341571,
+          0.086345295,
+          0.084026038
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.006268260447203279,
+        "engine": "mongo",
+        "max": 0.08232445,
+        "mean": 0.08185973966666667,
+        "median": 0.081945698,
+        "min": 0.081309071,
+        "op": "R",
+        "qhash": "ca07191ece8bba9a5af0c14b8e4e4a86cfdc1b6218d24a9524ee6befd1f36ca6",
+        "scenario": "R8",
+        "seconds": [
+          0.081309071,
+          0.081945698,
+          0.08232445
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.04256596805414987,
+        "engine": "mongo",
+        "max": 0.090592723,
+        "mean": 0.08810147966666666,
+        "median": 0.089923221,
+        "min": 0.083788495,
+        "op": "U",
+        "qhash": "bb16c7634da37e418d388932b3b1932edba495d161d1c2d6668d13fd04de9383",
+        "scenario": "U1",
+        "seconds": [
+          0.090592723,
+          0.089923221,
+          0.083788495
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.001233768398686032,
+        "engine": "mongo",
+        "max": 3.258455899,
+        "mean": 3.253821433666667,
+        "median": 3.251589077,
+        "min": 3.251419325,
+        "op": "U",
+        "qhash": "71bdcfb9fb4b233df6d0478b2a31495d840b65d865a6b4be5531091070868520",
+        "scenario": "U2",
+        "seconds": [
+          3.258455899,
+          3.251589077,
+          3.251419325
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03714623829536147,
+        "engine": "mongo",
+        "max": 0.023526119,
+        "mean": 0.022941739,
+        "median": 0.023335201,
+        "min": 0.021963897,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.021963897,
+          0.023335201,
+          0.023526119
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.015874150009491442,
+        "engine": "mongo",
+        "max": 0.086250869,
+        "mean": 0.08537491666666668,
+        "median": 0.086059992,
+        "min": 0.083813889,
+        "op": "U",
+        "qhash": "f6a90cefd58815f2fa4eb4b29a05380bb140cedfffc6d961cb4742ede839ee02",
+        "scenario": "U4",
+        "seconds": [
+          0.086250869,
+          0.086059992,
+          0.083813889
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.049635216803570414,
+        "engine": "mongo",
+        "max": 0.218137006,
+        "mean": 0.20760734533333333,
+        "median": 0.207141494,
+        "min": 0.197543536,
+        "op": "U",
+        "qhash": "b75fb78a4b2b6bd628c8ce7d26847d5febc5d8ed39ffa4bc52b9c2efa3d1ac00",
+        "scenario": "U5",
+        "seconds": [
+          0.218137006,
+          0.207141494,
+          0.197543536
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.027204905554439936,
+        "engine": "mongo",
+        "max": 0.099707818,
+        "mean": 0.09678333466666666,
+        "median": 0.096040912,
+        "min": 0.094601274,
+        "op": "U",
+        "qhash": "acc1570f84a1896122633ee6ebfe0a19098bd3037cd8f64c57f17630dfb0c40a",
+        "scenario": "U6",
+        "seconds": [
+          0.094601274,
+          0.096040912,
+          0.099707818
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.017835535350395938,
+        "engine": "mongo",
+        "max": 0.067618417,
+        "mean": 0.066648117,
+        "median": 0.067003745,
+        "min": 0.065322189,
+        "op": "D",
+        "qhash": "ac2795118442813ee6717fee0899a5a36c4b868dba6c42b53042e82da05f0d24",
+        "scenario": "D1",
+        "seconds": [
+          0.067618417,
+          0.065322189,
+          0.067003745
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.04214888699109709,
+        "engine": "mongo",
+        "max": 4.016273883,
+        "mean": 3.838264516666667,
+        "median": 3.798319055,
+        "min": 3.700200612,
+        "op": "D",
+        "qhash": "6fff824d6214c08d38cbfe9c4851c81a45611bdfa4dd29d4a31e52b18e2ab3ba",
+        "scenario": "D2",
+        "seconds": [
+          3.700200612,
+          4.016273883,
+          3.798319055
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.13084156988124196,
+        "engine": "mongo",
+        "max": 0.169163119,
+        "mean": 0.149980327,
+        "median": 0.150834191,
+        "min": 0.129943671,
+        "op": "D",
+        "qhash": "d566def9e3e7f58ca89c632477b58a4e1d744144c5b2912ebe772c2cca15840e",
+        "scenario": "D3",
+        "seconds": [
+          0.169163119,
+          0.150834191,
+          0.129943671
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.08441783162236083,
+        "engine": "mongo",
+        "max": 0.128836543,
+        "mean": 0.11749059299999999,
+        "median": 0.113168455,
+        "min": 0.110466781,
+        "op": "D",
+        "qhash": "873560dfb35a729c659768dae4a1ce8ec76d370a521703ed4edd9b90f9ad7a6a",
+        "scenario": "D4",
+        "seconds": [
+          0.110466781,
+          0.113168455,
+          0.128836543
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.009419134871946438,
+        "engine": "mongo",
+        "max": 0.070773911,
+        "mean": 0.070149426,
+        "median": 0.070216789,
+        "min": 0.069457578,
+        "op": "D",
+        "qhash": "29a81e55f7fce6724fbfe2fb1bdf9b10970b1a4eb22fe186588669d6d1a65cb5",
+        "scenario": "D5",
+        "seconds": [
+          0.070216789,
+          0.069457578,
+          0.070773911
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.06100764625255926,
+        "engine": "mongo",
+        "max": 0.008669722,
+        "mean": 0.008191191333333334,
+        "median": 0.008231178,
+        "min": 0.007672674,
+        "op": "D",
+        "qhash": "6e05f8af0725fcb35d132d03b2158191e304d81ea55429865d0e887ebb9c0758",
+        "scenario": "D6",
+        "seconds": [
+          0.008231178,
+          0.007672674,
+          0.008669722
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.110801879070732,
+        "engine": "mongo",
+        "max": 0.127333107,
+        "mean": 0.11289429200000001,
+        "median": 0.106011095,
+        "min": 0.105338674,
+        "op": "C",
+        "qhash": "f56a5ce61732e1264cad25753b16629b7602a7d800962e7cf73aa663a2ed159e",
+        "scenario": "J1",
+        "seconds": [
+          0.105338674,
+          0.106011095,
+          0.127333107
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.10739174947230455,
+        "engine": "mongo",
+        "max": 0.019210432,
+        "mean": 0.017273801000000002,
+        "median": 0.017098175,
+        "min": 0.015512796,
+        "op": "R",
+        "qhash": "d161e697bd5f1d021e53f2dd7b31a679f09d9d693d2a9eb5654f6c9334b0842d",
+        "scenario": "J2",
+        "seconds": [
+          0.019210432,
+          0.017098175,
+          0.015512796
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.0386314654812292,
+        "engine": "mongo",
+        "max": 0.105162308,
+        "mean": 0.10156232533333333,
+        "median": 0.102144341,
+        "min": 0.097380327,
+        "op": "R",
+        "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+        "scenario": "J3",
+        "seconds": [
+          0.097380327,
+          0.105162308,
+          0.102144341
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.007989471063901642,
+        "engine": "mongo",
+        "max": 0.034124225,
+        "mean": 0.033885946666666666,
+        "median": 0.033942058,
+        "min": 0.033591557,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          0.034124225,
+          0.033942058,
+          0.033591557
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.15356509586021216,
+        "engine": "mongo",
+        "max": 0.020062961,
+        "mean": 0.017466042333333334,
+        "median": 0.017629113,
+        "min": 0.014706053,
+        "op": "U",
+        "qhash": "3d287ec0f02403d7fbecc1ca5df5e80ba55994dcbf78596996c128e0c08e0550",
+        "scenario": "J5",
+        "seconds": [
+          0.017629113,
+          0.014706053,
+          0.020062961
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.051525236111011175,
+        "engine": "mongo",
+        "max": 0.175727833,
+        "mean": 0.1658956176666667,
+        "median": 0.161728327,
+        "min": 0.160230693,
+        "op": "D",
+        "qhash": "22786e1bf399e088dc854bf14e32fc98c262f3c68cb7ad145e4b124595781d3b",
+        "scenario": "J6",
+        "seconds": [
+          0.161728327,
+          0.175727833,
+          0.160230693
+        ],
+        "state": "complete",
+        "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.02641955059973522,
+        "engine": "mongo",
+        "max": 5.481542306,
+        "mean": 5.378573577,
+        "median": 5.437725317,
+        "min": 5.216453108,
+        "op": "C",
+        "qhash": "be65115c219222c862af99ae6aefb233126be462d960554d9874ff8b6e1e4fa1",
+        "scenario": "C2",
+        "seconds": [
+          5.481542306,
+          5.437725317,
+          5.216453108
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.02875513806173535,
+        "engine": "mongo",
+        "max": 4.294587258,
+        "mean": 4.1932825750000005,
+        "median": 4.225347681,
+        "min": 4.059912786,
+        "op": "C",
+        "qhash": "7ff11bc3d0ccc1479876a181560a912bb08211541f13de76d9d5c88e60db74a8",
+        "scenario": "C3",
+        "seconds": [
+          4.059912786,
+          4.294587258,
+          4.225347681
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.038907970345931325,
+        "engine": "mongo",
+        "max": 5.836804137,
+        "mean": 5.589204183333333,
+        "median": 5.501619471,
+        "min": 5.429188942,
+        "op": "C",
+        "qhash": "d41220df02db37c682ae883987e9190bf219b1f87c498f74cebf504d9d39515c",
+        "scenario": "C4",
+        "seconds": [
+          5.501619471,
+          5.429188942,
+          5.836804137
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.02067757777872499,
+        "engine": "mongo",
+        "max": 0.074958872,
+        "mean": 0.073276754,
+        "median": 0.072852405,
+        "min": 0.072018985,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.072018985,
+          0.074958872,
+          0.072852405
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.02556984318699228,
+        "engine": "mongo",
+        "max": 1.443532451,
+        "mean": 1.4050936356666668,
+        "median": 1.399389627,
+        "min": 1.372358829,
+        "op": "R",
+        "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+        "scenario": "R4",
+        "seconds": [
+          1.443532451,
+          1.399389627,
+          1.372358829
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.008805089547961897,
+        "engine": "mongo",
+        "max": 0.01578981,
+        "mean": 0.015635045,
+        "median": 0.0155891,
+        "min": 0.015526225,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.0155891,
+          0.015526225,
+          0.01578981
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.047282537947800705,
+        "engine": "mongo",
+        "max": 0.285516203,
+        "mean": 0.274930927,
+        "median": 0.278855077,
+        "min": 0.260421501,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.278855077,
+          0.285516203,
+          0.260421501
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.022956964788305077,
+        "engine": "mongo",
+        "max": 1.044499188,
+        "mean": 1.0182994923333333,
+        "median": 1.01082718,
+        "min": 0.999572109,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          1.044499188,
+          0.999572109,
+          1.01082718
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.12503041208686017,
+        "engine": "mongo",
+        "max": 0.089684679,
+        "mean": 0.07839242666666667,
+        "median": 0.073403532,
+        "min": 0.072089069,
+        "op": "U",
+        "qhash": "bb16c7634da37e418d388932b3b1932edba495d161d1c2d6668d13fd04de9383",
+        "scenario": "U1",
+        "seconds": [
+          0.073403532,
+          0.072089069,
+          0.089684679
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.029894538828475325,
+        "engine": "mongo",
+        "max": 0.020534704,
+        "mean": 0.019859493333333336,
+        "median": 0.019624534,
+        "min": 0.019419242,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.019624534,
+          0.020534704,
+          0.019419242
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.035439409499798444,
+        "engine": "mongo",
+        "max": 0.194081372,
+        "mean": 0.19005880100000003,
+        "median": 0.193812246,
+        "min": 0.182282785,
+        "op": "U",
+        "qhash": "b75fb78a4b2b6bd628c8ce7d26847d5febc5d8ed39ffa4bc52b9c2efa3d1ac00",
+        "scenario": "U5",
+        "seconds": [
+          0.194081372,
+          0.182282785,
+          0.193812246
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.11899105287442986,
+        "engine": "mongo",
+        "max": 0.113412395,
+        "mean": 0.10262890899999999,
+        "median": 0.105105988,
+        "min": 0.089368344,
+        "op": "C",
+        "qhash": "f56a5ce61732e1264cad25753b16629b7602a7d800962e7cf73aa663a2ed159e",
+        "scenario": "J1",
+        "seconds": [
+          0.105105988,
+          0.089368344,
+          0.113412395
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.0016907324126551227,
+        "engine": "mongo",
+        "max": 3.176614006,
+        "mean": 3.1714116113333333,
+        "median": 3.171717724,
+        "min": 3.165903104,
+        "op": "R",
+        "qhash": "d161e697bd5f1d021e53f2dd7b31a679f09d9d693d2a9eb5654f6c9334b0842d",
+        "scenario": "J2",
+        "seconds": [
+          3.176614006,
+          3.171717724,
+          3.165903104
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.018415593918677878,
+        "engine": "mongo",
+        "max": 0.491842024,
+        "mean": 0.486172835,
+        "median": 0.490825184,
+        "min": 0.475851297,
+        "op": "R",
+        "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+        "scenario": "J4",
+        "seconds": [
+          0.490825184,
+          0.475851297,
+          0.491842024
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.039330161147070365,
+        "engine": "mongo",
+        "max": 0.054473501,
+        "mean": 0.052116894999999996,
+        "median": 0.051129239,
+        "min": 0.050747945,
+        "op": "U",
+        "qhash": "3d287ec0f02403d7fbecc1ca5df5e80ba55994dcbf78596996c128e0c08e0550",
+        "scenario": "J5",
+        "seconds": [
+          0.050747945,
+          0.051129239,
+          0.054473501
+        ],
+        "state": "complete",
+        "state_id": "a835ddcfbcb831f9b4e76376215160d0cbf9e85defde68c66ecedc88a155c0a2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.030761309186498862,
+        "engine": "neo4j",
+        "max": 1.454379492,
+        "mean": 1.4184123253333334,
+        "median": 1.430982675,
+        "min": 1.369874809,
+        "op": "C",
+        "qhash": "2874805b9fb740b8bbb90766a3c868c146099e9c5ed54cea4e7da77469ce7e9b",
+        "scenario": "C1",
+        "seconds": [
+          1.430982675,
+          1.454379492,
+          1.369874809
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03256341397818305,
+        "engine": "neo4j",
+        "max": 6.34674563,
+        "mean": 6.176414521000001,
+        "median": 6.227966954,
+        "min": 5.954530979,
+        "op": "C",
+        "qhash": "be65115c219222c862af99ae6aefb233126be462d960554d9874ff8b6e1e4fa1",
+        "scenario": "C2",
+        "seconds": [
+          5.954530979,
+          6.227966954,
+          6.34674563
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.022814816149654735,
+        "engine": "neo4j",
+        "max": 5.949845915,
+        "mean": 5.8262803703333335,
+        "median": 5.843351005,
+        "min": 5.685644191,
+        "op": "C",
+        "qhash": "7ff11bc3d0ccc1479876a181560a912bb08211541f13de76d9d5c88e60db74a8",
+        "scenario": "C3",
+        "seconds": [
+          5.685644191,
+          5.843351005,
+          5.949845915
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.024590488338538944,
+        "engine": "neo4j",
+        "max": 7.322108814,
+        "mean": 7.128514331999999,
+        "median": 7.082890772,
+        "min": 6.98054341,
+        "op": "C",
+        "qhash": "d41220df02db37c682ae883987e9190bf219b1f87c498f74cebf504d9d39515c",
+        "scenario": "C4",
+        "seconds": [
+          7.082890772,
+          6.98054341,
+          7.322108814
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07725397941034885,
+        "engine": "neo4j",
+        "max": 1.803114826,
+        "mean": 1.6565004076666667,
+        "median": 1.599155644,
+        "min": 1.567230753,
+        "op": "C",
+        "qhash": "2bad0d14f8c96280c310bd736c1c945855151f31cdce30ed90b69ff71a810c87",
+        "scenario": "C5",
+        "seconds": [
+          1.599155644,
+          1.567230753,
+          1.803114826
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.030569482874874394,
+        "engine": "neo4j",
+        "max": 0.681418348,
+        "mean": 0.665293519,
+        "median": 0.672016692,
+        "min": 0.642445517,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.672016692,
+          0.642445517,
+          0.681418348
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.017727218034820566,
+        "engine": "neo4j",
+        "max": 0.822499292,
+        "mean": 0.8069905933333333,
+        "median": 0.804162013,
+        "min": 0.794310475,
+        "op": "R",
+        "qhash": "e6ca3e10fca9c455b6dfa15ea873396371b8ea787c5c2bb2710ab854f53a79cb",
+        "scenario": "R1",
+        "seconds": [
+          0.794310475,
+          0.804162013,
+          0.822499292
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.09901254652828824,
+        "engine": "neo4j",
+        "max": 1.430384257,
+        "mean": 1.3190580090000001,
+        "median": 1.351497495,
+        "min": 1.175292275,
+        "op": "R",
+        "qhash": "56d80bfe28d414d80836be86c3005f3c5b20e5fee1528f6f100909fe8464104b",
+        "scenario": "R2",
+        "seconds": [
+          1.430384257,
+          1.175292275,
+          1.351497495
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.13173375989125166,
+        "engine": "neo4j",
+        "max": 0.207047214,
+        "mean": 0.18082443233333334,
+        "median": 0.174903257,
+        "min": 0.160522826,
+        "op": "R",
+        "qhash": "8a3ce61695d9408ac64dd3e1ddbf03cf178bd1db87fdb4c7304d5a9eac33cb09",
+        "scenario": "R3",
+        "seconds": [
+          0.207047214,
+          0.174903257,
+          0.160522826
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.07153348841871807,
+        "engine": "neo4j",
+        "max": 0.039405819,
+        "mean": 0.037524936333333335,
+        "median": 0.038718065,
+        "min": 0.034450925,
+        "op": "R",
+        "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+        "scenario": "R4",
+        "seconds": [
+          0.038718065,
+          0.039405819,
+          0.034450925
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.1429549959312128,
+        "engine": "neo4j",
+        "max": 0.011351502,
+        "mean": 0.009781120666666665,
+        "median": 0.009320827,
+        "min": 0.008671033,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.011351502,
+          0.009320827,
+          0.008671033
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.08132780238326637,
+        "engine": "neo4j",
+        "max": 0.113841938,
+        "mean": 0.10801024933333332,
+        "median": 0.112281641,
+        "min": 0.097907169,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.112281641,
+          0.097907169,
+          0.113841938
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.1170261242339744,
+        "engine": "neo4j",
+        "max": 0.111518887,
+        "mean": 0.09854489300000001,
+        "median": 0.094656198,
+        "min": 0.089459594,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          0.089459594,
+          0.094656198,
+          0.111518887
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.03650010751969376,
+        "engine": "neo4j",
+        "max": 0.780315838,
+        "mean": 0.7491167593333333,
+        "median": 0.737711757,
+        "min": 0.729322683,
+        "op": "R",
+        "qhash": "ca07191ece8bba9a5af0c14b8e4e4a86cfdc1b6218d24a9524ee6befd1f36ca6",
+        "scenario": "R8",
+        "seconds": [
+          0.737711757,
+          0.729322683,
+          0.780315838
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.053435563194305105,
+        "engine": "neo4j",
+        "max": 0.514096695,
+        "mean": 0.48509784133333334,
+        "median": 0.477018913,
+        "min": 0.464177916,
+        "op": "U",
+        "qhash": "bb16c7634da37e418d388932b3b1932edba495d161d1c2d6668d13fd04de9383",
+        "scenario": "U1",
+        "seconds": [
+          0.464177916,
+          0.514096695,
+          0.477018913
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.053068958411834254,
+        "engine": "neo4j",
+        "max": 4.214184883,
+        "mean": 4.023347103666667,
+        "median": 4.063110659,
+        "min": 3.792745769,
+        "op": "U",
+        "qhash": "71bdcfb9fb4b233df6d0478b2a31495d840b65d865a6b4be5531091070868520",
+        "scenario": "U2",
+        "seconds": [
+          4.214184883,
+          3.792745769,
+          4.063110659
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.061135109697052215,
+        "engine": "neo4j",
+        "max": 0.336301555,
+        "mean": 0.31694970233333336,
+        "median": 0.316999411,
+        "min": 0.297548141,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.336301555,
+          0.297548141,
+          0.316999411
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.14535390232955647,
+        "engine": "neo4j",
+        "max": 0.464385498,
+        "mean": 0.39975414266666665,
+        "median": 0.383039035,
+        "min": 0.351837895,
+        "op": "U",
+        "qhash": "f6a90cefd58815f2fa4eb4b29a05380bb140cedfffc6d961cb4742ede839ee02",
+        "scenario": "U4",
+        "seconds": [
+          0.464385498,
+          0.351837895,
+          0.383039035
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.023391411113217908,
+        "engine": "neo4j",
+        "max": 0.37736914,
+        "mean": 0.37220717899999994,
+        "median": 0.377097337,
+        "min": 0.36215506,
+        "op": "U",
+        "qhash": "b75fb78a4b2b6bd628c8ce7d26847d5febc5d8ed39ffa4bc52b9c2efa3d1ac00",
+        "scenario": "U5",
+        "seconds": [
+          0.36215506,
+          0.377097337,
+          0.37736914
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.045243029769531214,
+        "engine": "neo4j",
+        "max": 0.323977514,
+        "mean": 0.31155501700000005,
+        "median": 0.314451443,
+        "min": 0.296236094,
+        "op": "U",
+        "qhash": "acc1570f84a1896122633ee6ebfe0a19098bd3037cd8f64c57f17630dfb0c40a",
+        "scenario": "U6",
+        "seconds": [
+          0.314451443,
+          0.296236094,
+          0.323977514
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.030122901762329478,
+        "engine": "neo4j",
+        "max": 0.308585341,
+        "mean": 0.2995148126666667,
+        "median": 0.299417479,
+        "min": 0.290541618,
+        "op": "D",
+        "qhash": "ac2795118442813ee6717fee0899a5a36c4b868dba6c42b53042e82da05f0d24",
+        "scenario": "D1",
+        "seconds": [
+          0.308585341,
+          0.290541618,
+          0.299417479
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.010187533215394477,
+        "engine": "neo4j",
+        "max": 4.673315716,
+        "mean": 4.638403301,
+        "median": 4.657261999,
+        "min": 4.584632188,
+        "op": "D",
+        "qhash": "6fff824d6214c08d38cbfe9c4851c81a45611bdfa4dd29d4a31e52b18e2ab3ba",
+        "scenario": "D2",
+        "seconds": [
+          4.673315716,
+          4.657261999,
+          4.584632188
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.026867109876859235,
+        "engine": "neo4j",
+        "max": 0.685640797,
+        "mean": 0.6655267063333333,
+        "median": 0.659505721,
+        "min": 0.651433601,
+        "op": "D",
+        "qhash": "d566def9e3e7f58ca89c632477b58a4e1d744144c5b2912ebe772c2cca15840e",
+        "scenario": "D3",
+        "seconds": [
+          0.659505721,
+          0.651433601,
+          0.685640797
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.2173381680180549,
+        "engine": "neo4j",
+        "max": 0.235417666,
+        "mean": 0.18850409933333334,
+        "median": 0.170320647,
+        "min": 0.159773985,
+        "op": "D",
+        "qhash": "873560dfb35a729c659768dae4a1ce8ec76d370a521703ed4edd9b90f9ad7a6a",
+        "scenario": "D4",
+        "seconds": [
+          0.170320647,
+          0.235417666,
+          0.159773985
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.021653861749943226,
+        "engine": "neo4j",
+        "max": 1.290171289,
+        "mean": 1.271145407,
+        "median": 1.28368125,
+        "min": 1.239583682,
+        "op": "D",
+        "qhash": "29a81e55f7fce6724fbfe2fb1bdf9b10970b1a4eb22fe186588669d6d1a65cb5",
+        "scenario": "D5",
+        "seconds": [
+          1.239583682,
+          1.290171289,
+          1.28368125
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "idx",
+        "cv": 0.2727677147639245,
+        "engine": "neo4j",
+        "max": 0.252462291,
+        "mean": 0.19204424033333334,
+        "median": 0.16433964,
+        "min": 0.15933079,
+        "op": "D",
+        "qhash": "6e05f8af0725fcb35d132d03b2158191e304d81ea55429865d0e887ebb9c0758",
+        "scenario": "D6",
+        "seconds": [
+          0.15933079,
+          0.252462291,
+          0.16433964
+        ],
+        "state": "complete",
+        "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.04023301918152706,
+        "engine": "neo4j",
+        "max": 6.286185533,
+        "mean": 6.0139097580000005,
+        "median": 5.932021091,
+        "min": 5.82352265,
+        "op": "C",
+        "qhash": "be65115c219222c862af99ae6aefb233126be462d960554d9874ff8b6e1e4fa1",
+        "scenario": "C2",
+        "seconds": [
+          5.82352265,
+          5.932021091,
+          6.286185533
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.07508178408053628,
+        "engine": "neo4j",
+        "max": 6.773398958,
+        "mean": 6.268237517333333,
+        "median": 6.189155976,
+        "min": 5.842157618,
+        "op": "C",
+        "qhash": "7ff11bc3d0ccc1479876a181560a912bb08211541f13de76d9d5c88e60db74a8",
+        "scenario": "C3",
+        "seconds": [
+          5.842157618,
+          6.189155976,
+          6.773398958
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.033464580710423124,
+        "engine": "neo4j",
+        "max": 7.360984739,
+        "mean": 7.183764815666667,
+        "median": 7.28018942,
+        "min": 6.910120288,
+        "op": "C",
+        "qhash": "d41220df02db37c682ae883987e9190bf219b1f87c498f74cebf504d9d39515c",
+        "scenario": "C4",
+        "seconds": [
+          7.28018942,
+          6.910120288,
+          7.360984739
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.11818445404010781,
+        "engine": "neo4j",
+        "max": 0.644057317,
+        "mean": 0.590887822,
+        "median": 0.616805521,
+        "min": 0.511800628,
+        "op": "C",
+        "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
+        "scenario": "C6",
+        "seconds": [
+          0.511800628,
+          0.616805521,
+          0.644057317
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.1083047462528882,
+        "engine": "neo4j",
+        "max": 0.532785876,
+        "mean": 0.47410509566666664,
+        "median": 0.452114833,
+        "min": 0.437414578,
+        "op": "R",
+        "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+        "scenario": "R4",
+        "seconds": [
+          0.532785876,
+          0.437414578,
+          0.452114833
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.07847581621350552,
+        "engine": "neo4j",
+        "max": 0.041751381,
+        "mean": 0.038358481,
+        "median": 0.037315908,
+        "min": 0.036008154,
+        "op": "R",
+        "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+        "scenario": "R5",
+        "seconds": [
+          0.041751381,
+          0.036008154,
+          0.037315908
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.06578889822225067,
+        "engine": "neo4j",
+        "max": 0.355507275,
+        "mean": 0.33098068766666666,
+        "median": 0.323511055,
+        "min": 0.313923733,
+        "op": "R",
+        "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+        "scenario": "R6",
+        "seconds": [
+          0.313923733,
+          0.323511055,
+          0.355507275
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.018362849121990047,
+        "engine": "neo4j",
+        "max": 0.524486737,
+        "mean": 0.5136278390000001,
+        "median": 0.508919264,
+        "min": 0.507477516,
+        "op": "R",
+        "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+        "scenario": "R7",
+        "seconds": [
+          0.524486737,
+          0.508919264,
+          0.507477516
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.018645714947558803,
+        "engine": "neo4j",
+        "max": 0.333637557,
+        "mean": 0.3269319023333333,
+        "median": 0.325432555,
+        "min": 0.321725595,
+        "op": "U",
+        "qhash": "bb16c7634da37e418d388932b3b1932edba495d161d1c2d6668d13fd04de9383",
+        "scenario": "U1",
+        "seconds": [
+          0.325432555,
+          0.333637557,
+          0.321725595
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.06948386929464993,
+        "engine": "neo4j",
+        "max": 0.299275312,
+        "mean": 0.284622572,
+        "median": 0.292464916,
+        "min": 0.262127488,
+        "op": "U",
+        "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+        "scenario": "U3",
+        "seconds": [
+          0.292464916,
+          0.262127488,
+          0.299275312
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "config": "base",
+        "cv": 0.11538299963621247,
+        "engine": "neo4j",
+        "max": 0.425195022,
+        "mean": 0.37720422200000003,
+        "median": 0.366128184,
+        "min": 0.34028946,
+        "op": "U",
+        "qhash": "b75fb78a4b2b6bd628c8ce7d26847d5febc5d8ed39ffa4bc52b9c2efa3d1ac00",
+        "scenario": "U5",
+        "seconds": [
+          0.34028946,
+          0.366128184,
+          0.425195022
+        ],
+        "state": "complete",
+        "state_id": "2809c2da4321cb8ff816ae4a7a81d223017ab136f6490cae4c150e7918872447",
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      }
+    ],
+    "core_complete": {
+      "C": 6,
+      "D": 6,
+      "R": 8,
+      "U": 6
+    },
+    "count_rule": true,
+    "problems": [],
+    "warnings": [
+      "pg idx R4: CV 21.6% > 15%",
+      "pg idx U3: CV 31.0% > 15%",
+      "pg idx D3: CV 32.6% > 15%",
+      "pg idx D6: CV 32.6% > 15%",
+      "pg idx J2: CV 19.8% > 15%",
+      "pg idx J6: CV 25.4% > 15%",
+      "pg base U3: CV 60.2% > 15%",
+      "pg base J5: CV 18.7% > 15%",
+      "mysql idx R6: CV 42.3% > 15%",
+      "mysql idx R7: CV 22.0% > 15%",
+      "mysql idx U3: CV 15.7% > 15%",
+      "mysql idx U4: CV 19.5% > 15%",
+      "mysql idx D1: CV 29.1% > 15%",
+      "mysql idx D3: CV 16.5% > 15%",
+      "mysql idx D6: CV 28.8% > 15%",
+      "mongo idx C3: CV 17.9% > 15%",
+      "mongo idx J5: CV 15.4% > 15%",
+      "neo4j idx D4: CV 21.7% > 15%",
+      "neo4j idx D6: CV 27.3% > 15%"
+    ]
+  }
+}

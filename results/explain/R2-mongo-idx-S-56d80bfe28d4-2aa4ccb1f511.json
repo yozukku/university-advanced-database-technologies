@@ -1,0 +1,280 @@
+{
+  "config": "idx",
+  "engine": "mongo",
+  "kind": "read",
+  "plan": {
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "i": 2,
+          "t": 1795285433
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "command": {
+      "$db": "bagazomat",
+      "aggregate": "orders",
+      "cursor": {},
+      "pipeline": [
+        {
+          "$match": {
+            "customerId": 831
+          }
+        },
+        {
+          "$sort": {
+            "_id": -1,
+            "createdAt": -1
+          }
+        },
+        {
+          "$skip": 40
+        },
+        {
+          "$limit": 20
+        },
+        {
+          "$project": {
+            "createdAt": 1,
+            "number": 1,
+            "price": 1,
+            "status": 1,
+            "type": 1
+          }
+        }
+      ]
+    },
+    "executionStats": {
+      "executionStages": {
+        "advanced": 20,
+        "executionTimeMillisEstimate": 0,
+        "inputStage": {
+          "advanced": 20,
+          "executionTimeMillisEstimate": 0,
+          "inputStage": {
+            "advanced": 60,
+            "executionTimeMillisEstimate": 0,
+            "inputStage": {
+              "advanced": 76,
+              "alreadyHasObj": 0,
+              "docsExamined": 76,
+              "executionTimeMillisEstimate": 0,
+              "inputStage": {
+                "advanced": 76,
+                "direction": "forward",
+                "dupsDropped": 0,
+                "dupsTested": 0,
+                "executionTimeMillisEstimate": 0,
+                "indexBounds": {
+                  "createdAt": [
+                    "[MaxKey, MinKey]"
+                  ],
+                  "customerId": [
+                    "[831, 831]"
+                  ]
+                },
+                "indexName": "order_customer_created__idx",
+                "indexVersion": 2,
+                "isEOF": 1,
+                "isMultiKey": false,
+                "isPartial": false,
+                "isSparse": false,
+                "isUnique": false,
+                "keyPattern": {
+                  "createdAt": -1,
+                  "customerId": 1
+                },
+                "keysExamined": 76,
+                "multiKeyPaths": {
+                  "createdAt": [],
+                  "customerId": []
+                },
+                "nReturned": 76,
+                "needTime": 0,
+                "needYield": 0,
+                "restoreState": 0,
+                "saveState": 0,
+                "seeks": 1,
+                "stage": "IXSCAN",
+                "works": 77
+              },
+              "isEOF": 1,
+              "nReturned": 76,
+              "needTime": 0,
+              "needYield": 0,
+              "restoreState": 0,
+              "saveState": 0,
+              "stage": "FETCH",
+              "works": 77
+            },
+            "isEOF": 1,
+            "limitAmount": 60,
+            "memLimit": 104857600,
+            "nReturned": 60,
+            "needTime": 77,
+            "needYield": 0,
+            "restoreState": 0,
+            "saveState": 0,
+            "sortPattern": {
+              "_id": -1,
+              "createdAt": -1
+            },
+            "spilledDataStorageSize": 0,
+            "spills": 0,
+            "stage": "SORT",
+            "totalDataSizeSorted": 74637,
+            "type": "simple",
+            "usedDisk": false,
+            "works": 138
+          },
+          "isEOF": 1,
+          "nReturned": 20,
+          "needTime": 117,
+          "needYield": 0,
+          "restoreState": 0,
+          "saveState": 0,
+          "skipAmount": 40,
+          "stage": "SKIP",
+          "works": 138
+        },
+        "isCached": false,
+        "isEOF": 1,
+        "nReturned": 20,
+        "needTime": 117,
+        "needYield": 0,
+        "restoreState": 0,
+        "saveState": 0,
+        "stage": "PROJECTION_SIMPLE",
+        "transformBy": {
+          "_id": true,
+          "createdAt": true,
+          "number": true,
+          "price": true,
+          "status": true,
+          "type": true
+        },
+        "works": 138
+      },
+      "executionSuccess": true,
+      "executionTimeMillis": 1,
+      "nReturned": 20,
+      "totalDocsExamined": 76,
+      "totalKeysExamined": 76
+    },
+    "explainVersion": "1",
+    "ok": 1.0,
+    "operationTime": {
+      "$timestamp": {
+        "i": 2,
+        "t": 1795285433
+      }
+    },
+    "queryPlanner": {
+      "indexFilterSet": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxIndexedOrSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "namespace": "bagazomat.orders",
+      "optimizationTimeMillis": 0,
+      "optimizedPipeline": true,
+      "parsedQuery": {
+        "customerId": {
+          "$eq": 831
+        }
+      },
+      "planCacheKey": "49FB5FB7",
+      "planCacheShapeHash": "AD325875",
+      "prunedSimilarIndexes": false,
+      "queryHash": "AD325875",
+      "rejectedPlans": [],
+      "winningPlan": {
+        "inputStage": {
+          "inputStage": {
+            "inputStage": {
+              "inputStage": {
+                "direction": "forward",
+                "indexBounds": {
+                  "createdAt": [
+                    "[MaxKey, MinKey]"
+                  ],
+                  "customerId": [
+                    "[831, 831]"
+                  ]
+                },
+                "indexName": "order_customer_created__idx",
+                "indexVersion": 2,
+                "isMultiKey": false,
+                "isPartial": false,
+                "isSparse": false,
+                "isUnique": false,
+                "keyPattern": {
+                  "createdAt": -1,
+                  "customerId": 1
+                },
+                "multiKeyPaths": {
+                  "createdAt": [],
+                  "customerId": []
+                },
+                "stage": "IXSCAN"
+              },
+              "stage": "FETCH"
+            },
+            "limitAmount": 60,
+            "memLimit": 104857600,
+            "sortPattern": {
+              "_id": -1,
+              "createdAt": -1
+            },
+            "stage": "SORT",
+            "type": "simple"
+          },
+          "skipAmount": 40,
+          "stage": "SKIP"
+        },
+        "isCached": false,
+        "stage": "PROJECTION_SIMPLE",
+        "transformBy": {
+          "_id": true,
+          "createdAt": true,
+          "number": true,
+          "price": true,
+          "status": true,
+          "type": true
+        }
+      }
+    },
+    "queryShapeHash": "15007F8304B1E029128A897BB19D0B8A1565BA0ECCF2A33D89133708C84384E5",
+    "serverInfo": {
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568",
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38"
+    },
+    "serverParameters": {
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0
+    }
+  },
+  "qhash": "56d80bfe28d414d80836be86c3005f3c5b20e5fee1528f6f100909fe8464104b",
+  "scenario": "R2",
+  "size": "S",
+  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
+  "text": null
+}

@@ -1,0 +1,296 @@
+{
+  "config": "idx",
+  "engine": "neo4j",
+  "kind": "read",
+  "plan": {
+    "args": {
+      "DbHits": 0,
+      "Details": "`s.id`, `r.id`, `r.from`, `r.to`, `l.id`, `l.name`, `l.address`, `c.number`",
+      "EstimatedRows": 0.020341409691629956,
+      "GlobalMemory": 64,
+      "Id": 0,
+      "Memory": 0,
+      "PageCacheHits": 0,
+      "PageCacheMisses": 0,
+      "Rows": 1,
+      "planner": "COST",
+      "planner-impl": "IDP",
+      "planner-version": "5.26.33",
+      "runtime": "SLOTTED",
+      "runtime-impl": "SLOTTED",
+      "runtime-version": "5.26.33",
+      "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+------------------+----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| Operator         | Id | Details                                                                               | Estimated Rows | Rows | DB Hits | Memory (Bytes) | Page Cache Hits/Misses |\n+------------------+----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +ProduceResults  |  0 | `s.id`, `r.id`, `r.from`, `r.to`, `l.id`, `l.name`, `l.address`, `c.number`           |              0 |    1 |       0 |              0 |                    0/0 |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Projection      |  1 | cache[r.id] AS `r.id`, s.id AS `s.id`, cache[l.id] AS `l.id`, c.number AS `c.number`, |              0 |    1 |       2 |                |                    0/0 |\n| |                |    | cache[r.from] AS `r.from`, cache[r.to] AS `r.to`, cache[l.name] AS `l.name`,          |                |      |         |                |                        |\n| |                |    | cache[l.address] AS `l.address`                                                       |                |      |         |                |                        |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +CacheProperties |  2 | cache[l.id], cache[l.name], cache[r.from], cache[l.address], cache[r.to], cache[r.id] |              0 |    1 |       6 |                |                    0/0 |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Filter          |  3 | l:Lockermat                                                                           |              0 |    1 |       1 |                |                    0/0 |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Expand(All)     |  4 | (c)<-[anon_2:HAS_CELL]-(l)                                                            |              0 |    1 |      11 |                |                    0/0 |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Filter          |  5 | c:Cell                                                                                |              0 |    1 |       1 |                |                    0/0 |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Expand(All)     |  6 | (r)-[anon_1:IN_CELL]->(c)                                                             |              0 |    1 |       5 |                |                    0/0 |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Filter          |  7 | (r.leg = $autostring_0 AND r.status = $autostring_1) AND r:Reservation                |              0 |    1 |      10 |                |                    0/0 |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Expand(All)     |  8 | (s)-[anon_0:HAS_LEG]->(r)                                                             |              8 |    6 |      19 |                |                    0/0 |\n| |                +----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +NodeIndexSeek   |  9 | RANGE INDEX s:Shipment(recipientPhone) WHERE recipientPhone = $phone                  |              4 |    3 |       4 |                |                    0/0 |\n+------------------+----+---------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n\nTotal database accesses: 59, total allocated memory: 64\n",
+      "version": "5"
+    },
+    "children": [
+      {
+        "args": {
+          "DbHits": 2,
+          "Details": "cache[r.id] AS `r.id`, s.id AS `s.id`, cache[l.id] AS `l.id`, c.number AS `c.number`, cache[r.from] AS `r.from`, cache[r.to] AS `r.to`, cache[l.name] AS `l.name`, cache[l.address] AS `l.address`",
+          "EstimatedRows": 0.020341409691629956,
+          "Id": 1,
+          "PageCacheHits": 0,
+          "PageCacheMisses": 0,
+          "Rows": 1
+        },
+        "children": [
+          {
+            "args": {
+              "DbHits": 6,
+              "Details": "cache[l.id], cache[l.name], cache[r.from], cache[l.address], cache[r.to], cache[r.id]",
+              "EstimatedRows": 0.020341409691629956,
+              "Id": 2,
+              "PageCacheHits": 0,
+              "PageCacheMisses": 0,
+              "Rows": 1
+            },
+            "children": [
+              {
+                "args": {
+                  "DbHits": 1,
+                  "Details": "l:Lockermat",
+                  "EstimatedRows": 0.020341409691629956,
+                  "Id": 3,
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 1
+                },
+                "children": [
+                  {
+                    "args": {
+                      "DbHits": 11,
+                      "Details": "(c)<-[anon_2:HAS_CELL]-(l)",
+                      "EstimatedRows": 0.020341409691629956,
+                      "Id": 4,
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 1
+                    },
+                    "children": [
+                      {
+                        "args": {
+                          "DbHits": 1,
+                          "Details": "c:Cell",
+                          "EstimatedRows": 0.020341409691629956,
+                          "Id": 5,
+                          "PageCacheHits": 0,
+                          "PageCacheMisses": 0,
+                          "Rows": 1
+                        },
+                        "children": [
+                          {
+                            "args": {
+                              "DbHits": 5,
+                              "Details": "(r)-[anon_1:IN_CELL]->(c)",
+                              "EstimatedRows": 0.020341409691629956,
+                              "Id": 6,
+                              "PageCacheHits": 0,
+                              "PageCacheMisses": 0,
+                              "Rows": 1
+                            },
+                            "children": [
+                              {
+                                "args": {
+                                  "DbHits": 10,
+                                  "Details": "(r.leg = $autostring_0 AND r.status = $autostring_1) AND r:Reservation",
+                                  "EstimatedRows": 0.020341409691629956,
+                                  "Id": 7,
+                                  "PageCacheHits": 0,
+                                  "PageCacheMisses": 0,
+                                  "Rows": 1
+                                },
+                                "children": [
+                                  {
+                                    "args": {
+                                      "DbHits": 19,
+                                      "Details": "(s)-[anon_0:HAS_LEG]->(r)",
+                                      "EstimatedRows": 8.136563876651982,
+                                      "Id": 8,
+                                      "PageCacheHits": 0,
+                                      "PageCacheMisses": 0,
+                                      "Rows": 6
+                                    },
+                                    "children": [
+                                      {
+                                        "args": {
+                                          "DbHits": 4,
+                                          "Details": "RANGE INDEX s:Shipment(recipientPhone) WHERE recipientPhone = $phone",
+                                          "EstimatedRows": 4.068281938325991,
+                                          "Id": 9,
+                                          "PageCacheHits": 0,
+                                          "PageCacheMisses": 0,
+                                          "Rows": 3
+                                        },
+                                        "dbHits": 4,
+                                        "identifiers": [
+                                          "s"
+                                        ],
+                                        "operatorType": "NodeIndexSeek@neo4j",
+                                        "pageCacheHitRatio": 0.0,
+                                        "pageCacheHits": 0,
+                                        "pageCacheMisses": 0,
+                                        "rows": 3
+                                      }
+                                    ],
+                                    "dbHits": 19,
+                                    "identifiers": [
+                                      "s",
+                                      "anon_0",
+                                      "r"
+                                    ],
+                                    "operatorType": "Expand(All)@neo4j",
+                                    "pageCacheHitRatio": 0.0,
+                                    "pageCacheHits": 0,
+                                    "pageCacheMisses": 0,
+                                    "rows": 6
+                                  }
+                                ],
+                                "dbHits": 10,
+                                "identifiers": [
+                                  "s",
+                                  "anon_0",
+                                  "r"
+                                ],
+                                "operatorType": "Filter@neo4j",
+                                "pageCacheHitRatio": 0.0,
+                                "pageCacheHits": 0,
+                                "pageCacheMisses": 0,
+                                "rows": 1
+                              }
+                            ],
+                            "dbHits": 5,
+                            "identifiers": [
+                              "s",
+                              "c",
+                              "r",
+                              "anon_0",
+                              "anon_1"
+                            ],
+                            "operatorType": "Expand(All)@neo4j",
+                            "pageCacheHitRatio": 0.0,
+                            "pageCacheHits": 0,
+                            "pageCacheMisses": 0,
+                            "rows": 1
+                          }
+                        ],
+                        "dbHits": 1,
+                        "identifiers": [
+                          "s",
+                          "c",
+                          "r",
+                          "anon_0",
+                          "anon_1"
+                        ],
+                        "operatorType": "Filter@neo4j",
+                        "pageCacheHitRatio": 0.0,
+                        "pageCacheHits": 0,
+                        "pageCacheMisses": 0,
+                        "rows": 1
+                      }
+                    ],
+                    "dbHits": 11,
+                    "identifiers": [
+                      "s",
+                      "anon_2",
+                      "l",
+                      "c",
+                      "r",
+                      "anon_0",
+                      "anon_1"
+                    ],
+                    "operatorType": "Expand(All)@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 1
+                  }
+                ],
+                "dbHits": 1,
+                "identifiers": [
+                  "s",
+                  "anon_2",
+                  "l",
+                  "c",
+                  "r",
+                  "anon_0",
+                  "anon_1"
+                ],
+                "operatorType": "Filter@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 1
+              }
+            ],
+            "dbHits": 6,
+            "identifiers": [
+              "s",
+              "anon_2",
+              "l",
+              "c",
+              "r",
+              "anon_0",
+              "anon_1"
+            ],
+            "operatorType": "CacheProperties@neo4j",
+            "pageCacheHitRatio": 0.0,
+            "pageCacheHits": 0,
+            "pageCacheMisses": 0,
+            "rows": 1
+          }
+        ],
+        "dbHits": 2,
+        "identifiers": [
+          "s",
+          "anon_2",
+          "`r.to`",
+          "`r.from`",
+          "`s.id`",
+          "c",
+          "r",
+          "anon_0",
+          "`l.address`",
+          "`r.id`",
+          "anon_1",
+          "`l.id`",
+          "l",
+          "`c.number`",
+          "`l.name`"
+        ],
+        "operatorType": "Projection@neo4j",
+        "pageCacheHitRatio": 0.0,
+        "pageCacheHits": 0,
+        "pageCacheMisses": 0,
+        "rows": 1
+      }
+    ],
+    "dbHits": 0,
+    "identifiers": [
+      "s",
+      "anon_2",
+      "`r.to`",
+      "`r.from`",
+      "`s.id`",
+      "c",
+      "r",
+      "anon_0",
+      "`l.address`",
+      "`r.id`",
+      "anon_1",
+      "`l.id`",
+      "l",
+      "`c.number`",
+      "`l.name`"
+    ],
+    "operatorType": "ProduceResults@neo4j",
+    "pageCacheHitRatio": 0.0,
+    "pageCacheHits": 0,
+    "pageCacheMisses": 0,
+    "rows": 1
+  },
+  "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+  "scenario": "R4",
+  "size": "S",
+  "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+  "text": null
+}

@@ -1,0 +1,152 @@
+{
+  "config": "idx",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "451.76"
+      },
+      "grouping_operation": {
+        "nested_loop": [
+          {
+            "table": {
+              "access_type": "range",
+              "attached_condition": "(`bagazomat`.`o`.`access_code_id_` is not null)",
+              "cost_info": {
+                "data_read_per_join": "45K",
+                "eval_cost": "14.00",
+                "prefix_cost": "169.01",
+                "read_cost": "155.01"
+              },
+              "filtered": "100.00",
+              "index_condition": "((`bagazomat`.`o`.`requested_at_` >= TIMESTAMP'2026-10-02 00:00:00') and (`bagazomat`.`o`.`requested_at_` < TIMESTAMP'2026-10-03 00:00:00'))",
+              "key": "ix4__idx",
+              "key_length": "7",
+              "possible_keys": [
+                "cell_opening_access_code__fk",
+                "ix4__idx"
+              ],
+              "rows_examined_per_scan": 140,
+              "rows_produced_per_join": 140,
+              "table_name": "o",
+              "used_columns": [
+                "id_",
+                "access_code_id_",
+                "result_",
+                "requested_at_"
+              ],
+              "used_key_parts": [
+                "requested_at_"
+              ]
+            }
+          },
+          {
+            "table": {
+              "access_type": "eq_ref",
+              "cost_info": {
+                "data_read_per_join": "38K",
+                "eval_cost": "14.00",
+                "prefix_cost": "322.86",
+                "read_cost": "139.85"
+              },
+              "filtered": "100.00",
+              "key": "PRIMARY",
+              "key_length": "8",
+              "possible_keys": [
+                "PRIMARY",
+                "access_code_reservation__idx"
+              ],
+              "ref": [
+                "bagazomat.o.access_code_id_"
+              ],
+              "rows_examined_per_scan": 1,
+              "rows_produced_per_join": 140,
+              "table_name": "a",
+              "used_columns": [
+                "id_",
+                "reservation_id_"
+              ],
+              "used_key_parts": [
+                "id_"
+              ]
+            }
+          },
+          {
+            "table": {
+              "access_type": "eq_ref",
+              "cost_info": {
+                "data_read_per_join": "51K",
+                "eval_cost": "14.00",
+                "prefix_cost": "402.76",
+                "read_cost": "65.90"
+              },
+              "filtered": "100.00",
+              "key": "PRIMARY",
+              "key_length": "8",
+              "possible_keys": [
+                "PRIMARY",
+                "reservation_id_cell_order__uq",
+                "reservation_lockermat_cell__fk",
+                "reservation_cell_from__idx"
+              ],
+              "ref": [
+                "bagazomat.a.reservation_id_"
+              ],
+              "rows_examined_per_scan": 1,
+              "rows_produced_per_join": 140,
+              "table_name": "r",
+              "used_columns": [
+                "id_",
+                "cell_id_"
+              ],
+              "used_key_parts": [
+                "id_"
+              ]
+            }
+          },
+          {
+            "table": {
+              "access_type": "eq_ref",
+              "cost_info": {
+                "data_read_per_join": "24K",
+                "eval_cost": "14.00",
+                "prefix_cost": "451.76",
+                "read_cost": "35.00"
+              },
+              "filtered": "100.00",
+              "key": "PRIMARY",
+              "key_length": "8",
+              "possible_keys": [
+                "PRIMARY",
+                "lockermat_cell_number__uq",
+                "lockermat_cell_id_size__uq"
+              ],
+              "ref": [
+                "bagazomat.r.cell_id_"
+              ],
+              "rows_examined_per_scan": 1,
+              "rows_produced_per_join": 140,
+              "table_name": "c",
+              "used_columns": [
+                "id_",
+                "lockermat_id_"
+              ],
+              "used_key_parts": [
+                "id_"
+              ]
+            }
+          }
+        ],
+        "using_filesort": false,
+        "using_temporary_table": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "66c3a6ce86322a11f3f677e42b3588d182e6ab4b2f14c093943067eed9bd36cb",
+  "scenario": "R7",
+  "size": "S",
+  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+  "text": "-> Table scan on <temporary>  (actual time=1.81..1.81 rows=37 loops=1)\n    -> Aggregate using temporary table  (actual time=1.81..1.81 rows=37 loops=1)\n        -> Nested loop inner join  (cost=452 rows=140) (actual time=0.238..1.77 rows=70 loops=1)\n            -> Nested loop inner join  (cost=403 rows=140) (actual time=0.234..1.7 rows=70 loops=1)\n                -> Nested loop inner join  (cost=323 rows=140) (actual time=0.229..1.61 rows=70 loops=1)\n                    -> Filter: (o.access_code_id_ is not null)  (cost=169 rows=140) (actual time=0.2..1.43 rows=70 loops=1)\n                        -> Index range scan on o using ix4__idx over ('2026-10-02 00:00:00.000' <= requested_at_ < '2026-10-03 00:00:00.000'), with index condition: ((o.requested_at_ >= TIMESTAMP'2026-10-02 00:00:00') and (o.requested_at_ < TIMESTAMP'2026-10-03 00:00:00'))  (cost=169 rows=140) (actual time=0.2..1.42 rows=140 loops=1)\n                    -> Single-row index lookup on a using PRIMARY (id_=o.access_code_id_)  (cost=1 rows=1) (actual time=0.00259..0.0026 rows=1 loops=70)\n                -> Single-row index lookup on r using PRIMARY (id_=a.reservation_id_)  (cost=0.471 rows=1) (actual time=0.00118..0.00119 rows=1 loops=70)\n            -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=0.251 rows=1) (actual time=834e-6..848e-6 rows=1 loops=70)\n"
+}

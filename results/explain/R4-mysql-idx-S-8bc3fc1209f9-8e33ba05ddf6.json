@@ -1,0 +1,155 @@
+{
+  "config": "idx",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "6.19"
+      },
+      "nested_loop": [
+        {
+          "table": {
+            "access_type": "ref",
+            "cost_info": {
+              "data_read_per_join": "960",
+              "eval_cost": "0.30",
+              "prefix_cost": "3.30",
+              "read_cost": "3.00"
+            },
+            "filtered": "100.00",
+            "key": "ix1__idx",
+            "key_length": "66",
+            "possible_keys": [
+              "shipment_order__uq",
+              "shipment_order__fk",
+              "ix1__idx"
+            ],
+            "ref": [
+              "const"
+            ],
+            "rows_examined_per_scan": 3,
+            "rows_produced_per_join": 3,
+            "table_name": "s",
+            "used_columns": [
+              "order_id_",
+              "recipient_phone_"
+            ],
+            "used_key_parts": [
+              "recipient_phone_"
+            ]
+          }
+        },
+        {
+          "table": {
+            "access_type": "ref",
+            "attached_condition": "((`bagazomat`.`r`.`status_` = 'OCCUPIED') and (`bagazomat`.`r`.`leg_` = 'DESTINATION'))",
+            "cost_info": {
+              "data_read_per_join": "56",
+              "eval_cost": "0.02",
+              "prefix_cost": "5.99",
+              "read_cost": "2.33"
+            },
+            "filtered": "4.21",
+            "key": "reservation_order__fk",
+            "key_length": "8",
+            "possible_keys": [
+              "reservation_order__fk",
+              "reservation_lockermat_cell__fk",
+              "reservation_order__idx",
+              "reservation_cell_from__idx"
+            ],
+            "ref": [
+              "bagazomat.s.order_id_"
+            ],
+            "rows_examined_per_scan": 1,
+            "rows_produced_per_join": 0,
+            "table_name": "r",
+            "used_columns": [
+              "id_",
+              "order_id_",
+              "cell_id_",
+              "leg_",
+              "from_",
+              "to_",
+              "status_"
+            ],
+            "used_key_parts": [
+              "order_id_"
+            ]
+          }
+        },
+        {
+          "table": {
+            "access_type": "eq_ref",
+            "cost_info": {
+              "data_read_per_join": "26",
+              "eval_cost": "0.02",
+              "prefix_cost": "6.14",
+              "read_cost": "0.14"
+            },
+            "filtered": "100.00",
+            "key": "PRIMARY",
+            "key_length": "8",
+            "possible_keys": [
+              "PRIMARY",
+              "lockermat_cell_number__uq",
+              "lockermat_cell_id_size__uq"
+            ],
+            "ref": [
+              "bagazomat.r.cell_id_"
+            ],
+            "rows_examined_per_scan": 1,
+            "rows_produced_per_join": 0,
+            "table_name": "c",
+            "used_columns": [
+              "id_",
+              "lockermat_id_",
+              "number_"
+            ],
+            "used_key_parts": [
+              "id_"
+            ]
+          }
+        },
+        {
+          "table": {
+            "access_type": "eq_ref",
+            "cost_info": {
+              "data_read_per_join": "28",
+              "eval_cost": "0.02",
+              "prefix_cost": "6.19",
+              "read_cost": "0.04"
+            },
+            "filtered": "100.00",
+            "key": "PRIMARY",
+            "key_length": "8",
+            "possible_keys": [
+              "PRIMARY"
+            ],
+            "ref": [
+              "bagazomat.c.lockermat_id_"
+            ],
+            "rows_examined_per_scan": 1,
+            "rows_produced_per_join": 0,
+            "table_name": "l",
+            "used_columns": [
+              "id_",
+              "name_",
+              "address_"
+            ],
+            "used_key_parts": [
+              "id_"
+            ]
+          }
+        }
+      ],
+      "select_id": 1
+    }
+  },
+  "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+  "scenario": "R4",
+  "size": "S",
+  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+  "text": "-> Nested loop inner join  (cost=6.19 rows=0.15) (actual time=0.117..0.117 rows=1 loops=1)\n    -> Nested loop inner join  (cost=6.14 rows=0.15) (actual time=0.114..0.114 rows=1 loops=1)\n        -> Nested loop inner join  (cost=5.99 rows=0.15) (actual time=0.103..0.103 rows=1 loops=1)\n            -> Index lookup on s using ix1__idx (recipient_phone_='+48501001580')  (cost=3.3 rows=3) (actual time=0.0507..0.0511 rows=3 loops=1)\n            -> Filter: ((r.status_ = 'OCCUPIED') and (r.leg_ = 'DESTINATION'))  (cost=0.779 rows=0.05) (actual time=0.0171..0.0172 rows=0.333 loops=3)\n                -> Index lookup on r using reservation_order__fk (order_id_=s.order_id_)  (cost=0.779 rows=1.19) (actual time=0.0166..0.0168 rows=2 loops=3)\n        -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=1.58 rows=1) (actual time=0.0113..0.0113 rows=1 loops=1)\n    -> Single-row index lookup on l using PRIMARY (id_=c.lockermat_id_)  (cost=0.917 rows=1) (actual time=0.00262..0.00262 rows=1 loops=1)\n"
+}

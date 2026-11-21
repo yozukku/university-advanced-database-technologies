@@ -1,0 +1,556 @@
+{
+  "config": "idx",
+  "engine": "neo4j",
+  "kind": "read",
+  "plan": {
+    "args": {
+      "DbHits": 0,
+      "Details": "o",
+      "EstimatedRows": 1.0,
+      "GlobalMemory": 64,
+      "Id": 0,
+      "Memory": 0,
+      "PageCacheHits": 0,
+      "PageCacheMisses": 0,
+      "Rows": 1,
+      "planner": "COST",
+      "planner-impl": "IDP",
+      "planner-version": "5.26.33",
+      "runtime": "SLOTTED",
+      "runtime-impl": "SLOTTED",
+      "runtime-version": "5.26.33",
+      "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+----------------------+----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| Operator             | Id | Details                                                                                              | Estimated Rows | Rows | DB Hits | Memory (Bytes) | Page Cache Hits/Misses |\n+----------------------+----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +ProduceResults      |  0 | o                                                                                                    |              1 |    1 |       0 |              0 |                    0/0 |\n| |                    +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Projection          |  1 | o{id: cache[o.id], number: o.number, type: o.type, status: o.status, price: o.price, createdAt: o.cr |              1 |    1 |       5 |                |                    0/0 |\n| |                    |    | eatedAt, reservations: anon_11, payments: anon_13} AS o                                              |                |      |         |                |                        |\n| |                    +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +RollUpApply         |  2 | anon_13, anon_2                                                                                      |              1 |    1 |       0 |                |                    0/0 |\n| |\\                   +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Projection        |  3 | p{id: p.id, kind: p.kind, status: p.status, amount: p.amount, createdAt: p.createdAt} AS anon_2      |              1 |    2 |       0 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Filter            |  4 | p:Payment                                                                                            |              1 |    2 |       2 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Expand(All)       |  5 | (o)-[anon_8:HAS_PAYMENT]->(p)                                                                        |              1 |    2 |       6 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Argument          |  6 | o                                                                                                    |              1 |    1 |       0 |                |                    0/0 |\n| |                    +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +RollUpApply         |  7 | anon_11, anon_0                                                                                      |              1 |    1 |       0 |                |                    0/0 |\n| |\\                   +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Projection        |  8 | r{id: r.id, leg: r.leg, status: r.status, from: r.from, to: r.to, lockermat: l{id: l.id, name: l.nam |              1 |    1 |       5 |                |                    0/0 |\n| | |                  |    | e, address: l.address}, accessCodes: anon_12} AS anon_0                                              |                |      |         |                |                        |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +RollUpApply       |  9 | anon_12, anon_1                                                                                      |              1 |    1 |       0 |                |                    0/0 |\n| | |\\                 +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | | +Projection      | 10 | a{id: a.id, purpose: a.purpose, status: a.status, validFrom: a.validFrom, validTo: a.validTo} AS ano |              2 |    2 |       0 |                |                    0/0 |\n| | | |                |    | n_1                                                                                                  |                |      |         |                |                        |\n| | | |                +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | | +Filter          | 11 | a:AccessCode                                                                                         |              2 |    2 |       2 |                |                    0/0 |\n| | | |                +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | | +Expand(All)     | 12 | (r)-[anon_7:HAS_CODE]->(a)                                                                           |              2 |    2 |       5 |                |                    0/0 |\n| | | |                +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | | +Argument        | 13 | r                                                                                                    |              1 |    1 |       0 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Filter            | 14 | l:Lockermat                                                                                          |              1 |    1 |       1 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Expand(All)       | 15 | (anon_5)<-[anon_6:HAS_CELL]-(l)                                                                      |              1 |    1 |      13 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Filter            | 16 | anon_5:Cell                                                                                          |              1 |    1 |       1 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Expand(All)       | 17 | (r)-[anon_4:IN_CELL]->(anon_5)                                                                       |              1 |    1 |       5 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Filter            | 18 | r:Reservation                                                                                        |              1 |    1 |       1 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Expand(All)       | 19 | (o)-[anon_3:HAS_LEG]->(r)                                                                            |              1 |    1 |       6 |                |                    0/0 |\n| | |                  +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| | +Argument          | 20 | o                                                                                                    |              1 |    1 |       0 |                |                    0/0 |\n| |                    +----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +NodeUniqueIndexSeek | 21 | UNIQUE o:Order(id) WHERE id = $order, cache[o.id]                                                    |              1 |    1 |       2 |                |                    0/0 |\n+----------------------+----+------------------------------------------------------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n\nTotal database accesses: 54, total allocated memory: 64\n",
+      "version": "5"
+    },
+    "children": [
+      {
+        "args": {
+          "DbHits": 5,
+          "Details": "o{id: cache[o.id], number: o.number, type: o.type, status: o.status, price: o.price, createdAt: o.createdAt, reservations: anon_11, payments: anon_13} AS o",
+          "EstimatedRows": 1.0,
+          "Id": 1,
+          "PageCacheHits": 0,
+          "PageCacheMisses": 0,
+          "Rows": 1
+        },
+        "children": [
+          {
+            "args": {
+              "DbHits": 0,
+              "Details": "anon_13, anon_2",
+              "EstimatedRows": 1.0,
+              "Id": 2,
+              "PageCacheHits": 0,
+              "PageCacheMisses": 0,
+              "Rows": 1
+            },
+            "children": [
+              {
+                "args": {
+                  "DbHits": 0,
+                  "Details": "anon_11, anon_0",
+                  "EstimatedRows": 1.0,
+                  "Id": 7,
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 1
+                },
+                "children": [
+                  {
+                    "args": {
+                      "DbHits": 2,
+                      "Details": "UNIQUE o:Order(id) WHERE id = $order, cache[o.id]",
+                      "EstimatedRows": 1.0,
+                      "Id": 21,
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 1
+                    },
+                    "dbHits": 2,
+                    "identifiers": [
+                      "o"
+                    ],
+                    "operatorType": "NodeUniqueIndexSeek@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 1
+                  },
+                  {
+                    "args": {
+                      "DbHits": 5,
+                      "Details": "r{id: r.id, leg: r.leg, status: r.status, from: r.from, to: r.to, lockermat: l{id: l.id, name: l.name, address: l.address}, accessCodes: anon_12} AS anon_0",
+                      "EstimatedRows": 1.2000216590859867,
+                      "Id": 8,
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 1
+                    },
+                    "children": [
+                      {
+                        "args": {
+                          "DbHits": 0,
+                          "Details": "anon_12, anon_1",
+                          "EstimatedRows": 1.2000216590859867,
+                          "Id": 9,
+                          "PageCacheHits": 0,
+                          "PageCacheMisses": 0,
+                          "Rows": 1
+                        },
+                        "children": [
+                          {
+                            "args": {
+                              "DbHits": 1,
+                              "Details": "l:Lockermat",
+                              "EstimatedRows": 1.2000216590859867,
+                              "Id": 14,
+                              "PageCacheHits": 0,
+                              "PageCacheMisses": 0,
+                              "Rows": 1
+                            },
+                            "children": [
+                              {
+                                "args": {
+                                  "DbHits": 13,
+                                  "Details": "(anon_5)<-[anon_6:HAS_CELL]-(l)",
+                                  "EstimatedRows": 1.2000216590859867,
+                                  "Id": 15,
+                                  "PageCacheHits": 0,
+                                  "PageCacheMisses": 0,
+                                  "Rows": 1
+                                },
+                                "children": [
+                                  {
+                                    "args": {
+                                      "DbHits": 1,
+                                      "Details": "anon_5:Cell",
+                                      "EstimatedRows": 1.2000216590859867,
+                                      "Id": 16,
+                                      "PageCacheHits": 0,
+                                      "PageCacheMisses": 0,
+                                      "Rows": 1
+                                    },
+                                    "children": [
+                                      {
+                                        "args": {
+                                          "DbHits": 5,
+                                          "Details": "(r)-[anon_4:IN_CELL]->(anon_5)",
+                                          "EstimatedRows": 1.2000216590859867,
+                                          "Id": 17,
+                                          "PageCacheHits": 0,
+                                          "PageCacheMisses": 0,
+                                          "Rows": 1
+                                        },
+                                        "children": [
+                                          {
+                                            "args": {
+                                              "DbHits": 1,
+                                              "Details": "r:Reservation",
+                                              "EstimatedRows": 1.2000216590859867,
+                                              "Id": 18,
+                                              "PageCacheHits": 0,
+                                              "PageCacheMisses": 0,
+                                              "Rows": 1
+                                            },
+                                            "children": [
+                                              {
+                                                "args": {
+                                                  "DbHits": 6,
+                                                  "Details": "(o)-[anon_3:HAS_LEG]->(r)",
+                                                  "EstimatedRows": 1.2000216590859867,
+                                                  "Id": 19,
+                                                  "PageCacheHits": 0,
+                                                  "PageCacheMisses": 0,
+                                                  "Rows": 1
+                                                },
+                                                "children": [
+                                                  {
+                                                    "args": {
+                                                      "DbHits": 0,
+                                                      "Details": "o",
+                                                      "EstimatedRows": 1.0,
+                                                      "Id": 20,
+                                                      "PageCacheHits": 0,
+                                                      "PageCacheMisses": 0,
+                                                      "Rows": 1
+                                                    },
+                                                    "dbHits": 0,
+                                                    "identifiers": [
+                                                      "o"
+                                                    ],
+                                                    "operatorType": "Argument@neo4j",
+                                                    "pageCacheHitRatio": 0.0,
+                                                    "pageCacheHits": 0,
+                                                    "pageCacheMisses": 0,
+                                                    "rows": 1
+                                                  }
+                                                ],
+                                                "dbHits": 6,
+                                                "identifiers": [
+                                                  "anon_3",
+                                                  "r",
+                                                  "o"
+                                                ],
+                                                "operatorType": "Expand(All)@neo4j",
+                                                "pageCacheHitRatio": 0.0,
+                                                "pageCacheHits": 0,
+                                                "pageCacheMisses": 0,
+                                                "rows": 1
+                                              }
+                                            ],
+                                            "dbHits": 1,
+                                            "identifiers": [
+                                              "anon_3",
+                                              "r",
+                                              "o"
+                                            ],
+                                            "operatorType": "Filter@neo4j",
+                                            "pageCacheHitRatio": 0.0,
+                                            "pageCacheHits": 0,
+                                            "pageCacheMisses": 0,
+                                            "rows": 1
+                                          }
+                                        ],
+                                        "dbHits": 5,
+                                        "identifiers": [
+                                          "anon_4",
+                                          "anon_3",
+                                          "anon_5",
+                                          "r",
+                                          "o"
+                                        ],
+                                        "operatorType": "Expand(All)@neo4j",
+                                        "pageCacheHitRatio": 0.0,
+                                        "pageCacheHits": 0,
+                                        "pageCacheMisses": 0,
+                                        "rows": 1
+                                      }
+                                    ],
+                                    "dbHits": 1,
+                                    "identifiers": [
+                                      "anon_4",
+                                      "anon_3",
+                                      "anon_5",
+                                      "r",
+                                      "o"
+                                    ],
+                                    "operatorType": "Filter@neo4j",
+                                    "pageCacheHitRatio": 0.0,
+                                    "pageCacheHits": 0,
+                                    "pageCacheMisses": 0,
+                                    "rows": 1
+                                  }
+                                ],
+                                "dbHits": 13,
+                                "identifiers": [
+                                  "anon_4",
+                                  "anon_3",
+                                  "anon_6",
+                                  "r",
+                                  "o",
+                                  "anon_5",
+                                  "l"
+                                ],
+                                "operatorType": "Expand(All)@neo4j",
+                                "pageCacheHitRatio": 0.0,
+                                "pageCacheHits": 0,
+                                "pageCacheMisses": 0,
+                                "rows": 1
+                              }
+                            ],
+                            "dbHits": 1,
+                            "identifiers": [
+                              "anon_4",
+                              "anon_3",
+                              "anon_6",
+                              "r",
+                              "o",
+                              "anon_5",
+                              "l"
+                            ],
+                            "operatorType": "Filter@neo4j",
+                            "pageCacheHitRatio": 0.0,
+                            "pageCacheHits": 0,
+                            "pageCacheMisses": 0,
+                            "rows": 1
+                          },
+                          {
+                            "args": {
+                              "DbHits": 0,
+                              "Details": "a{id: a.id, purpose: a.purpose, status: a.status, validFrom: a.validFrom, validTo: a.validTo} AS anon_1",
+                              "EstimatedRows": 2.1500108295429934,
+                              "Id": 10,
+                              "PageCacheHits": 0,
+                              "PageCacheMisses": 0,
+                              "Rows": 2
+                            },
+                            "children": [
+                              {
+                                "args": {
+                                  "DbHits": 2,
+                                  "Details": "a:AccessCode",
+                                  "EstimatedRows": 2.1500108295429934,
+                                  "Id": 11,
+                                  "PageCacheHits": 0,
+                                  "PageCacheMisses": 0,
+                                  "Rows": 2
+                                },
+                                "children": [
+                                  {
+                                    "args": {
+                                      "DbHits": 5,
+                                      "Details": "(r)-[anon_7:HAS_CODE]->(a)",
+                                      "EstimatedRows": 2.1500108295429934,
+                                      "Id": 12,
+                                      "PageCacheHits": 0,
+                                      "PageCacheMisses": 0,
+                                      "Rows": 2
+                                    },
+                                    "children": [
+                                      {
+                                        "args": {
+                                          "DbHits": 0,
+                                          "Details": "r",
+                                          "EstimatedRows": 1.2000216590859867,
+                                          "Id": 13,
+                                          "PageCacheHits": 0,
+                                          "PageCacheMisses": 0,
+                                          "Rows": 1
+                                        },
+                                        "dbHits": 0,
+                                        "identifiers": [
+                                          "r"
+                                        ],
+                                        "operatorType": "Argument@neo4j",
+                                        "pageCacheHitRatio": 0.0,
+                                        "pageCacheHits": 0,
+                                        "pageCacheMisses": 0,
+                                        "rows": 1
+                                      }
+                                    ],
+                                    "dbHits": 5,
+                                    "identifiers": [
+                                      "r",
+                                      "anon_7",
+                                      "a"
+                                    ],
+                                    "operatorType": "Expand(All)@neo4j",
+                                    "pageCacheHitRatio": 0.0,
+                                    "pageCacheHits": 0,
+                                    "pageCacheMisses": 0,
+                                    "rows": 2
+                                  }
+                                ],
+                                "dbHits": 2,
+                                "identifiers": [
+                                  "r",
+                                  "anon_7",
+                                  "a"
+                                ],
+                                "operatorType": "Filter@neo4j",
+                                "pageCacheHitRatio": 0.0,
+                                "pageCacheHits": 0,
+                                "pageCacheMisses": 0,
+                                "rows": 2
+                              }
+                            ],
+                            "dbHits": 0,
+                            "identifiers": [
+                              "r",
+                              "anon_7",
+                              "a",
+                              "anon_1"
+                            ],
+                            "operatorType": "Projection@neo4j",
+                            "pageCacheHitRatio": 0.0,
+                            "pageCacheHits": 0,
+                            "pageCacheMisses": 0,
+                            "rows": 2
+                          }
+                        ],
+                        "dbHits": 0,
+                        "identifiers": [
+                          "anon_12",
+                          "anon_4",
+                          "anon_3",
+                          "anon_6",
+                          "r",
+                          "o",
+                          "anon_5",
+                          "l"
+                        ],
+                        "operatorType": "RollUpApply@neo4j",
+                        "pageCacheHitRatio": 0.0,
+                        "pageCacheHits": 0,
+                        "pageCacheMisses": 0,
+                        "rows": 1
+                      }
+                    ],
+                    "dbHits": 5,
+                    "identifiers": [
+                      "anon_12",
+                      "anon_4",
+                      "anon_0",
+                      "anon_3",
+                      "anon_6",
+                      "r",
+                      "o",
+                      "anon_5",
+                      "l"
+                    ],
+                    "operatorType": "Projection@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 1
+                  }
+                ],
+                "dbHits": 0,
+                "identifiers": [
+                  "o",
+                  "anon_11"
+                ],
+                "operatorType": "RollUpApply@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 1
+              },
+              {
+                "args": {
+                  "DbHits": 0,
+                  "Details": "p{id: p.id, kind: p.kind, status: p.status, amount: p.amount, createdAt: p.createdAt} AS anon_2",
+                  "EstimatedRows": 1.1,
+                  "Id": 3,
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 2
+                },
+                "children": [
+                  {
+                    "args": {
+                      "DbHits": 2,
+                      "Details": "p:Payment",
+                      "EstimatedRows": 1.1,
+                      "Id": 4,
+                      "PageCacheHits": 0,
+                      "PageCacheMisses": 0,
+                      "Rows": 2
+                    },
+                    "children": [
+                      {
+                        "args": {
+                          "DbHits": 6,
+                          "Details": "(o)-[anon_8:HAS_PAYMENT]->(p)",
+                          "EstimatedRows": 1.1,
+                          "Id": 5,
+                          "PageCacheHits": 0,
+                          "PageCacheMisses": 0,
+                          "Rows": 2
+                        },
+                        "children": [
+                          {
+                            "args": {
+                              "DbHits": 0,
+                              "Details": "o",
+                              "EstimatedRows": 1.0,
+                              "Id": 6,
+                              "PageCacheHits": 0,
+                              "PageCacheMisses": 0,
+                              "Rows": 1
+                            },
+                            "dbHits": 0,
+                            "identifiers": [
+                              "o"
+                            ],
+                            "operatorType": "Argument@neo4j",
+                            "pageCacheHitRatio": 0.0,
+                            "pageCacheHits": 0,
+                            "pageCacheMisses": 0,
+                            "rows": 1
+                          }
+                        ],
+                        "dbHits": 6,
+                        "identifiers": [
+                          "o",
+                          "anon_8",
+                          "p"
+                        ],
+                        "operatorType": "Expand(All)@neo4j",
+                        "pageCacheHitRatio": 0.0,
+                        "pageCacheHits": 0,
+                        "pageCacheMisses": 0,
+                        "rows": 2
+                      }
+                    ],
+                    "dbHits": 2,
+                    "identifiers": [
+                      "o",
+                      "anon_8",
+                      "p"
+                    ],
+                    "operatorType": "Filter@neo4j",
+                    "pageCacheHitRatio": 0.0,
+                    "pageCacheHits": 0,
+                    "pageCacheMisses": 0,
+                    "rows": 2
+                  }
+                ],
+                "dbHits": 0,
+                "identifiers": [
+                  "o",
+                  "anon_8",
+                  "p",
+                  "anon_2"
+                ],
+                "operatorType": "Projection@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 2
+              }
+            ],
+            "dbHits": 0,
+            "identifiers": [
+              "o",
+              "anon_11",
+              "anon_13"
+            ],
+            "operatorType": "RollUpApply@neo4j",
+            "pageCacheHitRatio": 0.0,
+            "pageCacheHits": 0,
+            "pageCacheMisses": 0,
+            "rows": 1
+          }
+        ],
+        "dbHits": 5,
+        "identifiers": [
+          "o",
+          "anon_11",
+          "anon_13"
+        ],
+        "operatorType": "Projection@neo4j",
+        "pageCacheHitRatio": 0.0,
+        "pageCacheHits": 0,
+        "pageCacheMisses": 0,
+        "rows": 1
+      }
+    ],
+    "dbHits": 0,
+    "identifiers": [
+      "o",
+      "anon_11",
+      "anon_13"
+    ],
+    "operatorType": "ProduceResults@neo4j",
+    "pageCacheHitRatio": 0.0,
+    "pageCacheHits": 0,
+    "pageCacheMisses": 0,
+    "rows": 1
+  },
+  "qhash": "e6ca3e10fca9c455b6dfa15ea873396371b8ea787c5c2bb2710ab854f53a79cb",
+  "scenario": "R1",
+  "size": "S",
+  "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+  "text": null
+}

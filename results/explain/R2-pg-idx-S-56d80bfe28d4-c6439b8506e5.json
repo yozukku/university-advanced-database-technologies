@@ -1,0 +1,127 @@
+{
+  "config": "idx",
+  "engine": "pg",
+  "kind": "read",
+  "plan": [
+    {
+      "Execution Time": 0.484,
+      "Plan": {
+        "Actual Loops": 1,
+        "Actual Rows": 20,
+        "Actual Startup Time": 0.478,
+        "Actual Total Time": 0.479,
+        "Async Capable": false,
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Node Type": "Limit",
+        "Parallel Aware": false,
+        "Plan Rows": 20,
+        "Plan Width": 51,
+        "Plans": [
+          {
+            "Actual Loops": 1,
+            "Actual Rows": 60,
+            "Actual Startup Time": 0.285,
+            "Actual Total Time": 0.477,
+            "Async Capable": false,
+            "Full-sort Groups": {
+              "Group Count": 2,
+              "Sort Methods Used": [
+                "quicksort"
+              ],
+              "Sort Space Memory": {
+                "Average Sort Space Used": 29,
+                "Peak Sort Space Used": 29
+              }
+            },
+            "Local Dirtied Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Written Blocks": 0,
+            "Node Type": "Incremental Sort",
+            "Parallel Aware": false,
+            "Parent Relationship": "Outer",
+            "Plan Rows": 78,
+            "Plan Width": 51,
+            "Plans": [
+              {
+                "Actual Loops": 1,
+                "Actual Rows": 61,
+                "Actual Startup Time": 0.037,
+                "Actual Total Time": 0.458,
+                "Alias": "order_",
+                "Async Capable": false,
+                "Index Cond": "(customer_id_ = '831'::smallint)",
+                "Index Name": "order_customer_created__idx",
+                "Local Dirtied Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Written Blocks": 0,
+                "Node Type": "Index Scan",
+                "Parallel Aware": false,
+                "Parent Relationship": "Outer",
+                "Plan Rows": 78,
+                "Plan Width": 51,
+                "Relation Name": "order_",
+                "Rows Removed by Index Recheck": 0,
+                "Scan Direction": "Forward",
+                "Shared Dirtied Blocks": 0,
+                "Shared Hit Blocks": 0,
+                "Shared Read Blocks": 59,
+                "Shared Written Blocks": 0,
+                "Startup Cost": 0.29,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "Total Cost": 298.43
+              }
+            ],
+            "Presorted Key": [
+              "created_at_"
+            ],
+            "Shared Dirtied Blocks": 0,
+            "Shared Hit Blocks": 6,
+            "Shared Read Blocks": 59,
+            "Shared Written Blocks": 0,
+            "Sort Key": [
+              "created_at_ DESC",
+              "id_ DESC"
+            ],
+            "Startup Cost": 4.12,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Total Cost": 301.94
+          }
+        ],
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 6,
+        "Shared Read Blocks": 59,
+        "Shared Written Blocks": 0,
+        "Startup Cost": 156.85,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Total Cost": 233.21
+      },
+      "Planning": {
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 14,
+        "Shared Read Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.039,
+      "Triggers": []
+    }
+  ],
+  "qhash": "56d80bfe28d414d80836be86c3005f3c5b20e5fee1528f6f100909fe8464104b",
+  "scenario": "R2",
+  "size": "S",
+  "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+  "text": "Limit  (cost=156.85..233.21 rows=20 width=51) (actual time=0.024..0.025 rows=20 loops=1)\n  Buffers: shared hit=59\n  ->  Incremental Sort  (cost=4.12..301.94 rows=78 width=51) (actual time=0.014..0.024 rows=60 loops=1)\n        Sort Key: created_at_ DESC, id_ DESC\n        Presorted Key: created_at_\n        Full-sort Groups: 2  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB\n        Buffers: shared hit=59\n        ->  Index Scan using order_customer_created__idx on order_  (cost=0.29..298.43 rows=78 width=51) (actual time=0.002..0.016 rows=61 loops=1)\n              Index Cond: (customer_id_ = '831'::smallint)\n              Buffers: shared hit=59\nPlanning Time: 0.018 ms\nExecution Time: 0.028 ms"
+}

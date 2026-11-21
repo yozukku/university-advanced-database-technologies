@@ -1,0 +1,89 @@
+{
+  "config": "idx",
+  "engine": "pg",
+  "kind": "read",
+  "plan": [
+    {
+      "Execution Time": 46.109,
+      "Plan": {
+        "Actual Loops": 1,
+        "Actual Rows": 7,
+        "Actual Startup Time": 45.953,
+        "Actual Total Time": 46.013,
+        "Async Capable": false,
+        "Disk Usage": 0,
+        "Group Key": [
+          "(actor_ ->> 'kind'::text)"
+        ],
+        "HashAgg Batches": 1,
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Node Type": "Aggregate",
+        "Parallel Aware": false,
+        "Partial Mode": "Simple",
+        "Peak Memory Usage": 793,
+        "Plan Rows": 21804,
+        "Plan Width": 56,
+        "Planned Partitions": 0,
+        "Plans": [
+          {
+            "Actual Loops": 1,
+            "Actual Rows": 146384,
+            "Actual Startup Time": 0.03,
+            "Actual Total Time": 27.387,
+            "Alias": "audit_event_",
+            "Async Capable": false,
+            "Local Dirtied Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Written Blocks": 0,
+            "Node Type": "Seq Scan",
+            "Parallel Aware": false,
+            "Parent Relationship": "Outer",
+            "Plan Rows": 146384,
+            "Plan Width": 134,
+            "Relation Name": "audit_event_",
+            "Shared Dirtied Blocks": 0,
+            "Shared Hit Blocks": 10,
+            "Shared Read Blocks": 4432,
+            "Shared Written Blocks": 0,
+            "Startup Cost": 0.0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Total Cost": 6271.8
+          }
+        ],
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 10,
+        "Shared Read Blocks": 4432,
+        "Shared Written Blocks": 0,
+        "Startup Cost": 8833.52,
+        "Strategy": "Hashed",
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Total Cost": 9106.07
+      },
+      "Planning": {
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 9,
+        "Shared Read Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.035,
+      "Triggers": []
+    }
+  ],
+  "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+  "scenario": "J3",
+  "size": "S",
+  "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+  "text": "HashAggregate  (cost=8833.52..9106.07 rows=21804 width=56) (actual time=29.699..29.759 rows=7 loops=1)\n  Group Key: (actor_ ->> 'kind'::text)\n  Batches: 1  Memory Usage: 793kB\n  Buffers: shared hit=4442\n  ->  Seq Scan on audit_event_  (cost=0.00..6271.80 rows=146384 width=134) (actual time=0.004..11.914 rows=146384 loops=1)\n        Buffers: shared hit=4442\nPlanning Time: 0.044 ms\nExecution Time: 29.810 ms"
+}

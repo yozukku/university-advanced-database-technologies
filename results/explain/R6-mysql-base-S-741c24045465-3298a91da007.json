@@ -1,0 +1,119 @@
+{
+  "config": "base",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "6006.96"
+      },
+      "grouping_operation": {
+        "nested_loop": [
+          {
+            "table": {
+              "access_type": "ALL",
+              "attached_condition": "((`bagazomat`.`p`.`status_` = 'COMPLETED') and (`bagazomat`.`p`.`created_at_` >= TIMESTAMP'2025-11-01 00:00:00') and (`bagazomat`.`p`.`created_at_` < TIMESTAMP'2025-12-01 00:00:00'))",
+              "cost_info": {
+                "data_read_per_join": "476K",
+                "eval_cost": "57.54",
+                "prefix_cost": "5532.60",
+                "read_cost": "5475.06"
+              },
+              "filtered": "1.11",
+              "possible_keys": [
+                "payment_order__idx"
+              ],
+              "rows_examined_per_scan": 51796,
+              "rows_produced_per_join": 575,
+              "table_name": "p",
+              "used_columns": [
+                "id_",
+                "order_id_",
+                "kind_",
+                "amount_",
+                "status_",
+                "created_at_"
+              ]
+            }
+          },
+          {
+            "table": {
+              "access_type": "ref",
+              "attached_condition": "(`bagazomat`.`r`.`leg_` in ('STORAGE','ORIGIN'))",
+              "cost_info": {
+                "data_read_per_join": "50K",
+                "eval_cost": "13.65",
+                "prefix_cost": "5959.16",
+                "read_cost": "358.29"
+              },
+              "filtered": "20.00",
+              "key": "reservation_order__fk",
+              "key_length": "8",
+              "possible_keys": [
+                "reservation_order__fk",
+                "reservation_lockermat_cell__fk",
+                "reservation_order__idx",
+                "reservation_cell_from__idx"
+              ],
+              "ref": [
+                "bagazomat.p.order_id_"
+              ],
+              "rows_examined_per_scan": 1,
+              "rows_produced_per_join": 136,
+              "table_name": "r",
+              "used_columns": [
+                "id_",
+                "order_id_",
+                "cell_id_",
+                "leg_"
+              ],
+              "used_key_parts": [
+                "order_id_"
+              ]
+            }
+          },
+          {
+            "table": {
+              "access_type": "eq_ref",
+              "cost_info": {
+                "data_read_per_join": "23K",
+                "eval_cost": "13.65",
+                "prefix_cost": "6006.96",
+                "read_cost": "34.14"
+              },
+              "filtered": "100.00",
+              "key": "PRIMARY",
+              "key_length": "8",
+              "possible_keys": [
+                "PRIMARY",
+                "lockermat_cell_number__uq",
+                "lockermat_cell_id_size__uq"
+              ],
+              "ref": [
+                "bagazomat.r.cell_id_"
+              ],
+              "rows_examined_per_scan": 1,
+              "rows_produced_per_join": 136,
+              "table_name": "c",
+              "used_columns": [
+                "id_",
+                "lockermat_id_"
+              ],
+              "used_key_parts": [
+                "id_"
+              ]
+            }
+          }
+        ],
+        "using_filesort": false,
+        "using_temporary_table": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "741c2404546574b7ff18db83b1083b537b647535dc137aa82464cac7727a5fd0",
+  "scenario": "R6",
+  "size": "S",
+  "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+  "text": "-> Table scan on <temporary>  (actual time=13.9..14 rows=118 loops=1)\n    -> Aggregate using temporary table  (actual time=13.9..13.9 rows=118 loops=1)\n        -> Nested loop inner join  (cost=6007 rows=137) (actual time=2.36..13.8 rows=849 loops=1)\n            -> Nested loop inner join  (cost=5959 rows=137) (actual time=2.36..13.3 rows=849 loops=1)\n                -> Filter: ((p.status_ = 'COMPLETED') and (p.created_at_ >= TIMESTAMP'2025-11-01 00:00:00') and (p.created_at_ < TIMESTAMP'2025-12-01 00:00:00'))  (cost=5533 rows=575) (actual time=2.32..12.2 rows=849 loops=1)\n                    -> Table scan on p  (cost=5533 rows=51796) (actual time=0.207..10.2 rows=50787 loops=1)\n                -> Filter: (r.leg_ in ('STORAGE','ORIGIN'))  (cost=0.623 rows=0.237) (actual time=0.00102..0.00117 rows=1 loops=849)\n                    -> Index lookup on r using reservation_order__fk (order_id_=p.order_id_)  (cost=0.623 rows=1.19) (actual time=957e-6..0.00108 rows=1.23 loops=849)\n            -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=0.251 rows=1) (actual time=494e-6..507e-6 rows=1 loops=849)\n"
+}

@@ -1,0 +1,6103 @@
+{
+  "S": {
+    "mongo": {
+      "base": [
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "auditEvents"
+        },
+        {
+          "bytes": 4067328,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "auditEvents"
+        },
+        {
+          "bytes": 3096576,
+          "keys": [
+            "entity",
+            "entityId",
+            "at"
+          ],
+          "kind": "btree",
+          "name": "audit_event_entity_at__idx",
+          "predicate": null,
+          "scope": "auditEvents"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "customers"
+        },
+        {
+          "bytes": 167936,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "customers"
+        },
+        {
+          "bytes": 282624,
+          "keys": [
+            "keycloakId"
+          ],
+          "kind": "unique",
+          "name": "customer_keycloak_id__uq",
+          "predicate": null,
+          "scope": "customers"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "incidents"
+        },
+        {
+          "bytes": 53248,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "cellId"
+          ],
+          "kind": "btree",
+          "name": "incident_cell__idx",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "bytes": 24576,
+          "keys": [
+            "createdAt"
+          ],
+          "kind": "btree",
+          "name": "incident_open__idx",
+          "predicate": {
+            "status": {
+              "$in": [
+                "OPEN",
+                "IN_PROGRESS"
+              ]
+            }
+          },
+          "scope": "incidents"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "orderId"
+          ],
+          "kind": "btree",
+          "name": "incident_order__idx",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "reservationId"
+          ],
+          "kind": "btree",
+          "name": "incident_reservation__idx",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "bytes": 299008,
+          "keys": [
+            "serviceOpenings.id"
+          ],
+          "kind": "btree",
+          "name": "service_openings_id__idx",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "lockermats"
+        },
+        {
+          "bytes": 20480,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "lockermats"
+        },
+        {
+          "bytes": 20480,
+          "keys": [
+            "code"
+          ],
+          "kind": "unique",
+          "name": "lockermat_code__uq",
+          "predicate": null,
+          "scope": "lockermats"
+        },
+        {
+          "bytes": 20480,
+          "keys": [
+            "location"
+          ],
+          "kind": "2dsphere",
+          "name": "lockermat_location_geog__idx",
+          "predicate": null,
+          "scope": "lockermats"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "orders"
+        },
+        {
+          "bytes": 1265664,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 36864,
+          "keys": [
+            "paymentDeadline"
+          ],
+          "kind": "btree",
+          "name": "order_awaiting_payment__idx",
+          "predicate": {
+            "status": "AWAITING_PAYMENT"
+          },
+          "scope": "orders"
+        },
+        {
+          "bytes": 696320,
+          "keys": [
+            "customerId",
+            "createdAt desc"
+          ],
+          "kind": "btree",
+          "name": "order_customer_created__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 565248,
+          "keys": [
+            "number"
+          ],
+          "kind": "unique",
+          "name": "order_number__uq",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 323584,
+          "keys": [
+            "tariffId"
+          ],
+          "kind": "btree",
+          "name": "order_tariff__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 602112,
+          "keys": [
+            "payments.id"
+          ],
+          "kind": "btree",
+          "name": "payments_id__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 851968,
+          "keys": [
+            "reservations.cellId",
+            "reservations.from"
+          ],
+          "kind": "btree",
+          "name": "reservation_cell_from__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 643072,
+          "keys": [
+            "reservations.to"
+          ],
+          "kind": "btree",
+          "name": "reservation_overdue__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 1216512,
+          "keys": [
+            "reservations.accessCodes.id"
+          ],
+          "kind": "btree",
+          "name": "reservations_accessCodes_id__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 761856,
+          "keys": [
+            "reservations.accessCodes.openings.id"
+          ],
+          "kind": "btree",
+          "name": "reservations_accessCodes_openings_id__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 659456,
+          "keys": [
+            "reservations.id"
+          ],
+          "kind": "btree",
+          "name": "reservations_id__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 53248,
+          "keys": [
+            "shipment.courierKeycloakId"
+          ],
+          "kind": "btree",
+          "name": "shipment_courier__idx",
+          "predicate": {
+            "shipment.courierKeycloakId": {
+              "$exists": true
+            }
+          },
+          "scope": "orders"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "shipLinks"
+        },
+        {
+          "bytes": 266240,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "shipLinks"
+        },
+        {
+          "bytes": 151552,
+          "keys": [
+            "from",
+            "at"
+          ],
+          "kind": "btree",
+          "name": "shiplinks_from_at__idx",
+          "predicate": null,
+          "scope": "shipLinks"
+        },
+        {
+          "bytes": 122880,
+          "keys": [
+            "orderId"
+          ],
+          "kind": "btree",
+          "name": "shiplinks_order__idx",
+          "predicate": null,
+          "scope": "shipLinks"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "tariffs"
+        },
+        {
+          "bytes": 20480,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "tariffs"
+        }
+      ],
+      "idx": [
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "auditEvents"
+        },
+        {
+          "bytes": 4067328,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "auditEvents"
+        },
+        {
+          "bytes": 3096576,
+          "keys": [
+            "entity",
+            "entityId",
+            "at"
+          ],
+          "kind": "btree",
+          "name": "audit_event_entity_at__idx",
+          "predicate": null,
+          "scope": "auditEvents"
+        },
+        {
+          "bytes": 643072,
+          "keys": [
+            "actor.email"
+          ],
+          "kind": "btree",
+          "name": "jx1_email__idx",
+          "predicate": {
+            "actor.email": {
+              "$exists": true
+            }
+          },
+          "scope": "auditEvents"
+        },
+        {
+          "bytes": 57344,
+          "keys": [
+            "actor.phone"
+          ],
+          "kind": "btree",
+          "name": "jx1_phone__idx",
+          "predicate": {
+            "actor.phone": {
+              "$exists": true
+            }
+          },
+          "scope": "auditEvents"
+        },
+        {
+          "bytes": 700416,
+          "keys": [
+            "changes.f",
+            "changes.new"
+          ],
+          "kind": "btree",
+          "name": "jx2__idx",
+          "predicate": null,
+          "scope": "auditEvents"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "customers"
+        },
+        {
+          "bytes": 167936,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "customers"
+        },
+        {
+          "bytes": 282624,
+          "keys": [
+            "keycloakId"
+          ],
+          "kind": "unique",
+          "name": "customer_keycloak_id__uq",
+          "predicate": null,
+          "scope": "customers"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "incidents"
+        },
+        {
+          "bytes": 53248,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "cellId"
+          ],
+          "kind": "btree",
+          "name": "incident_cell__idx",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "bytes": 24576,
+          "keys": [
+            "createdAt"
+          ],
+          "kind": "btree",
+          "name": "incident_open__idx",
+          "predicate": {
+            "status": {
+              "$in": [
+                "OPEN",
+                "IN_PROGRESS"
+              ]
+            }
+          },
+          "scope": "incidents"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "orderId"
+          ],
+          "kind": "btree",
+          "name": "incident_order__idx",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "reservationId"
+          ],
+          "kind": "btree",
+          "name": "incident_reservation__idx",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "bytes": 299008,
+          "keys": [
+            "serviceOpenings.id"
+          ],
+          "kind": "btree",
+          "name": "service_openings_id__idx",
+          "predicate": null,
+          "scope": "incidents"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "lockermats"
+        },
+        {
+          "bytes": 20480,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "lockermats"
+        },
+        {
+          "bytes": 20480,
+          "keys": [
+            "code"
+          ],
+          "kind": "unique",
+          "name": "lockermat_code__uq",
+          "predicate": null,
+          "scope": "lockermats"
+        },
+        {
+          "bytes": 20480,
+          "keys": [
+            "location"
+          ],
+          "kind": "2dsphere",
+          "name": "lockermat_location_geog__idx",
+          "predicate": null,
+          "scope": "lockermats"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "orders"
+        },
+        {
+          "bytes": 1265664,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 118784,
+          "keys": [
+            "shipment.recipientPhone"
+          ],
+          "kind": "btree",
+          "name": "ix1__idx",
+          "predicate": {
+            "shipment.recipientPhone": {
+              "$exists": true
+            }
+          },
+          "scope": "orders"
+        },
+        {
+          "bytes": 552960,
+          "keys": [
+            "status",
+            "createdAt"
+          ],
+          "kind": "btree",
+          "name": "ix2__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 593920,
+          "keys": [
+            "payments.createdAt"
+          ],
+          "kind": "btree",
+          "name": "ix3__idx",
+          "predicate": {
+            "payments.createdAt": {
+              "$exists": true
+            }
+          },
+          "scope": "orders"
+        },
+        {
+          "bytes": 659456,
+          "keys": [
+            "reservations.accessCodes.openings.requestedAt"
+          ],
+          "kind": "btree",
+          "name": "ix4__idx",
+          "predicate": {
+            "reservations.accessCodes.openings.requestedAt": {
+              "$exists": true
+            }
+          },
+          "scope": "orders"
+        },
+        {
+          "bytes": 36864,
+          "keys": [
+            "paymentDeadline"
+          ],
+          "kind": "btree",
+          "name": "order_awaiting_payment__idx",
+          "predicate": {
+            "status": "AWAITING_PAYMENT"
+          },
+          "scope": "orders"
+        },
+        {
+          "bytes": 696320,
+          "keys": [
+            "customerId",
+            "createdAt desc"
+          ],
+          "kind": "btree",
+          "name": "order_customer_created__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 565248,
+          "keys": [
+            "number"
+          ],
+          "kind": "unique",
+          "name": "order_number__uq",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 323584,
+          "keys": [
+            "tariffId"
+          ],
+          "kind": "btree",
+          "name": "order_tariff__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 602112,
+          "keys": [
+            "payments.id"
+          ],
+          "kind": "btree",
+          "name": "payments_id__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 851968,
+          "keys": [
+            "reservations.cellId",
+            "reservations.from"
+          ],
+          "kind": "btree",
+          "name": "reservation_cell_from__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 643072,
+          "keys": [
+            "reservations.to"
+          ],
+          "kind": "btree",
+          "name": "reservation_overdue__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 1216512,
+          "keys": [
+            "reservations.accessCodes.id"
+          ],
+          "kind": "btree",
+          "name": "reservations_accessCodes_id__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 761856,
+          "keys": [
+            "reservations.accessCodes.openings.id"
+          ],
+          "kind": "btree",
+          "name": "reservations_accessCodes_openings_id__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 659456,
+          "keys": [
+            "reservations.id"
+          ],
+          "kind": "btree",
+          "name": "reservations_id__idx",
+          "predicate": null,
+          "scope": "orders"
+        },
+        {
+          "bytes": 53248,
+          "keys": [
+            "shipment.courierKeycloakId"
+          ],
+          "kind": "btree",
+          "name": "shipment_courier__idx",
+          "predicate": {
+            "shipment.courierKeycloakId": {
+              "$exists": true
+            }
+          },
+          "scope": "orders"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "shipLinks"
+        },
+        {
+          "bytes": 266240,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "shipLinks"
+        },
+        {
+          "bytes": 151552,
+          "keys": [
+            "from",
+            "at"
+          ],
+          "kind": "btree",
+          "name": "shiplinks_from_at__idx",
+          "predicate": null,
+          "scope": "shipLinks"
+        },
+        {
+          "bytes": 122880,
+          "keys": [
+            "orderId"
+          ],
+          "kind": "btree",
+          "name": "shiplinks_order__idx",
+          "predicate": null,
+          "scope": "shipLinks"
+        },
+        {
+          "keys": [],
+          "kind": "validator",
+          "name": "$jsonSchema",
+          "scope": "tariffs"
+        },
+        {
+          "bytes": 20480,
+          "keys": [
+            "_id"
+          ],
+          "kind": "primary",
+          "name": "_id_",
+          "predicate": null,
+          "scope": "tariffs"
+        }
+      ],
+      "indexes": {
+        "ix1__idx": {
+          "bytes": 118784,
+          "kind": "btree",
+          "scope": "orders",
+          "seconds": 0.147
+        },
+        "ix2__idx": {
+          "bytes": 552960,
+          "kind": "btree",
+          "scope": "orders",
+          "seconds": 0.16
+        },
+        "ix3__idx": {
+          "bytes": 593920,
+          "kind": "btree",
+          "scope": "orders",
+          "seconds": 0.167
+        },
+        "ix4__idx": {
+          "bytes": 659456,
+          "kind": "btree",
+          "scope": "orders",
+          "seconds": 0.193
+        },
+        "jx1_email__idx": {
+          "bytes": 643072,
+          "kind": "btree",
+          "scope": "auditEvents",
+          "seconds": 0.218
+        },
+        "jx1_phone__idx": {
+          "bytes": 57344,
+          "kind": "btree",
+          "scope": "auditEvents",
+          "seconds": 0.163
+        },
+        "jx2__idx": {
+          "bytes": 700416,
+          "kind": "btree",
+          "scope": "auditEvents",
+          "seconds": 0.253
+        }
+      },
+      "statistics": {}
+    },
+    "mysql": {
+      "base": [
+        {
+          "bytes": 12075008,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "access_code_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "access_code_active_purpose__bi",
+          "scope": "access_code_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "access_code_active_purpose__bu",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_hmac__ck",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 6864896,
+          "keys": [
+            "code_hmac_",
+            "valid_from_"
+          ],
+          "kind": "btree",
+          "name": "access_code_hmac_from__idx",
+          "scope": "access_code_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "access_code_hmac_window__bi",
+          "scope": "access_code_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "access_code_hmac_window__bu",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_issue_before_expiry__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_phone__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_purpose__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "foreign key",
+          "name": "access_code_reservation__fk",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "btree",
+          "name": "access_code_reservation__idx",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_status__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_used__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_validity__ck",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 40452096,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "audit_event_actor__ck",
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "audit_event_changes__ck",
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 6832128,
+          "keys": [
+            "entity_",
+            "entity_id_",
+            "at_"
+          ],
+          "kind": "btree",
+          "name": "audit_event_entity_at__idx",
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 6832128,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_access_code__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "foreign key",
+          "name": "cell_opening_access_code__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_channel__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_closed__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "(case when (`result_` in (_utf8mb4\\'PENDING\\',_utf8mb4\\'OPENED\\')) then `access_code_id_` end)"
+          ],
+          "kind": "functional",
+          "name": "cell_opening_code_live__uq",
+          "scope": "cell_opening_",
+          "unique": true
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_grant__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_incident__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "foreign key",
+          "name": "cell_opening_incident__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "(case when ((`result_` = _utf8mb4\\'OPENED\\') and (`closed_at_` is null)) then `requested_at_` end)"
+          ],
+          "kind": "functional",
+          "name": "cell_opening_open_door__idx",
+          "scope": "cell_opening_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_result__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "customer_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "customer_invoice__ck",
+          "scope": "customer_"
+        },
+        {
+          "bytes": 540672,
+          "keys": [
+            "keycloak_id_"
+          ],
+          "kind": "unique",
+          "name": "customer_keycloak_id__uq",
+          "scope": "customer_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "customer_phone__ck",
+          "scope": "customer_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "rule_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "excl_guard_"
+        },
+        {
+          "keys": [],
+          "kind": "table",
+          "name": "excl_guard_",
+          "scope": "excl_guard_"
+        },
+        {
+          "bytes": 262144,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "cell_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_cell__idx",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_customer__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "id_",
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "incident_id_order__uq",
+          "scope": "incident_"
+        },
+        {
+          "keys": [
+            "cell_id_"
+          ],
+          "kind": "foreign key",
+          "name": "incident_lockermat_cell__fk",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "(case when (`status_` in (_utf8mb4\\'OPEN\\',_utf8mb4\\'IN_PROGRESS\\')) then `created_at_` end)"
+          ],
+          "kind": "functional",
+          "name": "incident_open__idx",
+          "scope": "incident_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_reporter__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_reservation__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 81920,
+          "keys": [
+            "reservation_id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_reservation__fk",
+          "scope": "incident_"
+        },
+        {
+          "keys": [
+            "reservation_id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "incident_reservation__fk",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_reservation__idx",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_resolved__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_source__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_status__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_type__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": null,
+          "keys": [
+            "address_"
+          ],
+          "kind": "fulltext",
+          "name": "lockermat_address_trgm__idx",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "code_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_code__uq",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_location__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": null,
+          "keys": [
+            "location_"
+          ],
+          "kind": "spatial",
+          "name": "lockermat_location_geog__idx",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_status__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_time_zone__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 294912,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 114688,
+          "keys": [
+            "id_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_cell_id_size__uq",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [
+            "lockermat_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat_cell_lockermat__fk",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 147456,
+          "keys": [
+            "(case when (`status_` = _utf8mb4\\'IN_SERVICE\\') then `lockermat_id_` end)",
+            "(case when (`status_` = _utf8mb4\\'IN_SERVICE\\') then `size_` end)"
+          ],
+          "kind": "functional",
+          "name": "lockermat_cell_lockermat_size__idx",
+          "scope": "lockermat_cell_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_number__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 147456,
+          "keys": [
+            "lockermat_id_",
+            "number_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_cell_number__uq",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_size__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_status__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_opening_hours_hours__ck",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [
+            "lockermat_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat_opening_hours_lockermat__fk",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_opening_hours_weekday__ck",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "lockermat_id_",
+            "weekday_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_opening_hours_weekday__uq",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "bytes": 5783552,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "(case when (`status_` = _utf8mb4\\'AWAITING_PAYMENT\\') then `payment_deadline_` end)"
+          ],
+          "kind": "functional",
+          "name": "order_awaiting_payment__idx",
+          "scope": "order_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_chronology__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_closed__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [
+            "customer_id_"
+          ],
+          "kind": "foreign key",
+          "name": "order_customer__fk",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "customer_id_",
+            "created_at_ desc"
+          ],
+          "kind": "btree",
+          "name": "order_customer_created__idx",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "id_",
+            "type_"
+          ],
+          "kind": "unique",
+          "name": "order_id_type__uq",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "id_",
+            "type_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "order_id_type_size__uq",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "number_"
+          ],
+          "kind": "unique",
+          "name": "order_number__uq",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_price__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_status__ck",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "tariff_id_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "order_tariff__fk",
+          "scope": "order_"
+        },
+        {
+          "keys": [
+            "tariff_id_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "order_tariff__fk",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "tariff_id_"
+          ],
+          "kind": "btree",
+          "name": "order_tariff__idx",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_type__ck",
+          "scope": "order_"
+        },
+        {
+          "bytes": 5783552,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_amount__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_chronology__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_completed__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "incident_id_",
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_incident__fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "incident_id_",
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "payment_incident__fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_kind__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_link__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "payment_order__fk",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_order__idx",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "refund_of_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "btree",
+          "name": "payment_payment__refund_of_fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "refund_of_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "foreign key",
+          "name": "payment_payment__refund_of_fk",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "(case when ((`kind_` = _utf8mb4\\'CHARGE\\') and (`status_` = _utf8mb4\\'PENDING\\')) then `order_id_` end)"
+          ],
+          "kind": "functional",
+          "name": "payment_pending_charge__uq",
+          "scope": "payment_",
+          "unique": true
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_provider_ref__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "provider_",
+            "provider_ref_"
+          ],
+          "kind": "unique",
+          "name": "payment_provider_ref__uq",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "refundable_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "unique",
+          "name": "payment_refundable__uq",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_status__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 5783552,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "reservation_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "reservation_actual_occupancy__bi",
+          "scope": "reservation_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "reservation_actual_occupancy__bu",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "cell_id_",
+            "from_"
+          ],
+          "kind": "btree",
+          "name": "reservation_cell_from__idx",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_collect__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_deposit__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "reservation_id_cell_order__uq",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_leg__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "(case when (`status_` <> _utf8mb4\\'CANCELLED\\') then `order_id_` end)",
+            "(case when (`status_` <> _utf8mb4\\'CANCELLED\\') then `leg_` end)"
+          ],
+          "kind": "functional",
+          "name": "reservation_leg__uq",
+          "scope": "reservation_",
+          "unique": true
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "cell_id_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "reservation_lockermat_cell__fk",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [
+            "cell_id_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "reservation_lockermat_cell__fk",
+          "scope": "reservation_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "reservation_no_double_booking__bi",
+          "scope": "reservation_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "reservation_no_double_booking__bu",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "order_id_",
+            "order_type_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "reservation_order__fk",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [
+            "order_id_",
+            "order_type_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "reservation_order__fk",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "reservation_order__idx",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "(case when (`status_` = _utf8mb4\\'OCCUPIED\\') then `to_` end)"
+          ],
+          "kind": "functional",
+          "name": "reservation_overdue__idx",
+          "scope": "reservation_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_period__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_status__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_courier__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 393216,
+          "keys": [
+            "courier_keycloak_id_"
+          ],
+          "kind": "btree",
+          "name": "shipment_courier__idx",
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_declared_value__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 311296,
+          "keys": [
+            "order_id_",
+            "order_type_"
+          ],
+          "kind": "btree",
+          "name": "shipment_order__fk",
+          "scope": "shipment_"
+        },
+        {
+          "keys": [
+            "order_id_",
+            "order_type_"
+          ],
+          "kind": "foreign key",
+          "name": "shipment_order__fk",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 229376,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "shipment_order__uq",
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_recipient_phone__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "tariff_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "tariff_id_size__uq",
+          "scope": "tariff_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "tariff_no_overlap__bi",
+          "scope": "tariff_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "tariff_no_overlap__bu",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_prices__ck",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_size__ck",
+          "scope": "tariff_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "size_",
+            "valid_from_"
+          ],
+          "kind": "btree",
+          "name": "tariff_size_from__idx",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_validity__ck",
+          "scope": "tariff_"
+        }
+      ],
+      "idx": [
+        {
+          "bytes": 12075008,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "access_code_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "access_code_active_purpose__bi",
+          "scope": "access_code_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "access_code_active_purpose__bu",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_hmac__ck",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 6864896,
+          "keys": [
+            "code_hmac_",
+            "valid_from_"
+          ],
+          "kind": "btree",
+          "name": "access_code_hmac_from__idx",
+          "scope": "access_code_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "access_code_hmac_window__bi",
+          "scope": "access_code_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "access_code_hmac_window__bu",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_issue_before_expiry__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_phone__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_purpose__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "foreign key",
+          "name": "access_code_reservation__fk",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "btree",
+          "name": "access_code_reservation__idx",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_status__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_used__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_validity__ck",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 40452096,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "audit_event_actor__ck",
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "audit_event_changes__ck",
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 6832128,
+          "keys": [
+            "entity_",
+            "entity_id_",
+            "at_"
+          ],
+          "kind": "btree",
+          "name": "audit_event_entity_at__idx",
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 5783552,
+          "keys": [
+            "(cast(json_unquote(json_extract(`actor_`,_utf8mb4\\'$.email\\')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin)"
+          ],
+          "kind": "functional",
+          "name": "jx1_email__idx",
+          "scope": "audit_event_",
+          "unique": false
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "(cast(json_unquote(json_extract(`actor_`,_utf8mb4\\'$.phone\\')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin)"
+          ],
+          "kind": "functional",
+          "name": "jx1_phone__idx",
+          "scope": "audit_event_",
+          "unique": false
+        },
+        {
+          "bytes": 4734976,
+          "keys": [
+            "cast(`changes_new_` as char(32) array)"
+          ],
+          "kind": "multi_valued",
+          "name": "jx2__idx",
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 6832128,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_access_code__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "foreign key",
+          "name": "cell_opening_access_code__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_channel__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_closed__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "(case when (`result_` in (_utf8mb4\\'PENDING\\',_utf8mb4\\'OPENED\\')) then `access_code_id_` end)"
+          ],
+          "kind": "functional",
+          "name": "cell_opening_code_live__uq",
+          "scope": "cell_opening_",
+          "unique": true
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_grant__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_incident__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "foreign key",
+          "name": "cell_opening_incident__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "(case when ((`result_` = _utf8mb4\\'OPENED\\') and (`closed_at_` is null)) then `requested_at_` end)"
+          ],
+          "kind": "functional",
+          "name": "cell_opening_open_door__idx",
+          "scope": "cell_opening_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_result__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "requested_at_"
+          ],
+          "kind": "btree",
+          "name": "ix4__idx",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "customer_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "customer_invoice__ck",
+          "scope": "customer_"
+        },
+        {
+          "bytes": 540672,
+          "keys": [
+            "keycloak_id_"
+          ],
+          "kind": "unique",
+          "name": "customer_keycloak_id__uq",
+          "scope": "customer_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "customer_phone__ck",
+          "scope": "customer_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "rule_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "excl_guard_"
+        },
+        {
+          "keys": [],
+          "kind": "table",
+          "name": "excl_guard_",
+          "scope": "excl_guard_"
+        },
+        {
+          "bytes": 262144,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "cell_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_cell__idx",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_customer__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "id_",
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "incident_id_order__uq",
+          "scope": "incident_"
+        },
+        {
+          "keys": [
+            "cell_id_"
+          ],
+          "kind": "foreign key",
+          "name": "incident_lockermat_cell__fk",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "(case when (`status_` in (_utf8mb4\\'OPEN\\',_utf8mb4\\'IN_PROGRESS\\')) then `created_at_` end)"
+          ],
+          "kind": "functional",
+          "name": "incident_open__idx",
+          "scope": "incident_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_reporter__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_reservation__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 81920,
+          "keys": [
+            "reservation_id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_reservation__fk",
+          "scope": "incident_"
+        },
+        {
+          "keys": [
+            "reservation_id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "incident_reservation__fk",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_reservation__idx",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_resolved__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_source__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_status__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_type__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": null,
+          "keys": [
+            "address_"
+          ],
+          "kind": "fulltext",
+          "name": "lockermat_address_trgm__idx",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "code_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_code__uq",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_location__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": null,
+          "keys": [
+            "location_"
+          ],
+          "kind": "spatial",
+          "name": "lockermat_location_geog__idx",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_status__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_time_zone__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 294912,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 114688,
+          "keys": [
+            "id_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_cell_id_size__uq",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [
+            "lockermat_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat_cell_lockermat__fk",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 147456,
+          "keys": [
+            "(case when (`status_` = _utf8mb4\\'IN_SERVICE\\') then `lockermat_id_` end)",
+            "(case when (`status_` = _utf8mb4\\'IN_SERVICE\\') then `size_` end)"
+          ],
+          "kind": "functional",
+          "name": "lockermat_cell_lockermat_size__idx",
+          "scope": "lockermat_cell_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_number__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 147456,
+          "keys": [
+            "lockermat_id_",
+            "number_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_cell_number__uq",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_size__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_status__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_opening_hours_hours__ck",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [
+            "lockermat_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat_opening_hours_lockermat__fk",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_opening_hours_weekday__ck",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "lockermat_id_",
+            "weekday_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_opening_hours_weekday__uq",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "bytes": 5783552,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "status_",
+            "created_at_"
+          ],
+          "kind": "btree",
+          "name": "ix2__idx",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "(case when (`status_` = _utf8mb4\\'AWAITING_PAYMENT\\') then `payment_deadline_` end)"
+          ],
+          "kind": "functional",
+          "name": "order_awaiting_payment__idx",
+          "scope": "order_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_chronology__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_closed__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [
+            "customer_id_"
+          ],
+          "kind": "foreign key",
+          "name": "order_customer__fk",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "customer_id_",
+            "created_at_ desc"
+          ],
+          "kind": "btree",
+          "name": "order_customer_created__idx",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "id_",
+            "type_"
+          ],
+          "kind": "unique",
+          "name": "order_id_type__uq",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "id_",
+            "type_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "order_id_type_size__uq",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "number_"
+          ],
+          "kind": "unique",
+          "name": "order_number__uq",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_price__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_status__ck",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "tariff_id_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "order_tariff__fk",
+          "scope": "order_"
+        },
+        {
+          "keys": [
+            "tariff_id_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "order_tariff__fk",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "tariff_id_"
+          ],
+          "kind": "btree",
+          "name": "order_tariff__idx",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_type__ck",
+          "scope": "order_"
+        },
+        {
+          "bytes": 5783552,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "created_at_"
+          ],
+          "kind": "btree",
+          "name": "ix3__idx",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_amount__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_chronology__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_completed__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "incident_id_",
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_incident__fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "incident_id_",
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "payment_incident__fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_kind__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_link__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "payment_order__fk",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_order__idx",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "refund_of_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "btree",
+          "name": "payment_payment__refund_of_fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "refund_of_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "foreign key",
+          "name": "payment_payment__refund_of_fk",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "(case when ((`kind_` = _utf8mb4\\'CHARGE\\') and (`status_` = _utf8mb4\\'PENDING\\')) then `order_id_` end)"
+          ],
+          "kind": "functional",
+          "name": "payment_pending_charge__uq",
+          "scope": "payment_",
+          "unique": true
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_provider_ref__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "provider_",
+            "provider_ref_"
+          ],
+          "kind": "unique",
+          "name": "payment_provider_ref__uq",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "refundable_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "unique",
+          "name": "payment_refundable__uq",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_status__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 5783552,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "reservation_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "reservation_actual_occupancy__bi",
+          "scope": "reservation_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "reservation_actual_occupancy__bu",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "cell_id_",
+            "from_"
+          ],
+          "kind": "btree",
+          "name": "reservation_cell_from__idx",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_collect__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_deposit__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "reservation_id_cell_order__uq",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_leg__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "(case when (`status_` <> _utf8mb4\\'CANCELLED\\') then `order_id_` end)",
+            "(case when (`status_` <> _utf8mb4\\'CANCELLED\\') then `leg_` end)"
+          ],
+          "kind": "functional",
+          "name": "reservation_leg__uq",
+          "scope": "reservation_",
+          "unique": true
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "cell_id_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "reservation_lockermat_cell__fk",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [
+            "cell_id_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "reservation_lockermat_cell__fk",
+          "scope": "reservation_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "reservation_no_double_booking__bi",
+          "scope": "reservation_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "reservation_no_double_booking__bu",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2637824,
+          "keys": [
+            "order_id_",
+            "order_type_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "reservation_order__fk",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [
+            "order_id_",
+            "order_type_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "reservation_order__fk",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "reservation_order__idx",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "(case when (`status_` = _utf8mb4\\'OCCUPIED\\') then `to_` end)"
+          ],
+          "kind": "functional",
+          "name": "reservation_overdue__idx",
+          "scope": "reservation_",
+          "unique": false
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_period__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_status__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1589248,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 278528,
+          "keys": [
+            "recipient_phone_"
+          ],
+          "kind": "btree",
+          "name": "ix1__idx",
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_courier__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 393216,
+          "keys": [
+            "courier_keycloak_id_"
+          ],
+          "kind": "btree",
+          "name": "shipment_courier__idx",
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_declared_value__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 311296,
+          "keys": [
+            "order_id_",
+            "order_type_"
+          ],
+          "kind": "btree",
+          "name": "shipment_order__fk",
+          "scope": "shipment_"
+        },
+        {
+          "keys": [
+            "order_id_",
+            "order_type_"
+          ],
+          "kind": "foreign key",
+          "name": "shipment_order__fk",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 229376,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "shipment_order__uq",
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_recipient_phone__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "PRIMARY",
+          "scope": "tariff_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "tariff_id_size__uq",
+          "scope": "tariff_"
+        },
+        {
+          "event": "before insert",
+          "keys": [],
+          "kind": "trigger",
+          "name": "tariff_no_overlap__bi",
+          "scope": "tariff_"
+        },
+        {
+          "event": "before update",
+          "keys": [],
+          "kind": "trigger",
+          "name": "tariff_no_overlap__bu",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_prices__ck",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_size__ck",
+          "scope": "tariff_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "size_",
+            "valid_from_"
+          ],
+          "kind": "btree",
+          "name": "tariff_size_from__idx",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_validity__ck",
+          "scope": "tariff_"
+        }
+      ],
+      "indexes": {
+        "ix1__idx": {
+          "bytes": 278528,
+          "kind": "btree",
+          "scope": "shipment_",
+          "seconds": 0.059
+        },
+        "ix2__idx": {
+          "bytes": 1589248,
+          "kind": "btree",
+          "scope": "order_",
+          "seconds": 0.216
+        },
+        "ix3__idx": {
+          "bytes": 1589248,
+          "kind": "btree",
+          "scope": "payment_",
+          "seconds": 0.166
+        },
+        "ix4__idx": {
+          "bytes": 2637824,
+          "kind": "btree",
+          "scope": "cell_opening_",
+          "seconds": 0.243
+        },
+        "jx1_email__idx": {
+          "bytes": 5783552,
+          "kind": "functional",
+          "scope": "audit_event_",
+          "seconds": 0.739
+        },
+        "jx1_phone__idx": {
+          "bytes": 2637824,
+          "kind": "functional",
+          "scope": "audit_event_",
+          "seconds": 0.244
+        },
+        "jx2__idx": {
+          "bytes": 4734976,
+          "kind": "multi_valued",
+          "scope": "audit_event_",
+          "seconds": 0.342
+        }
+      },
+      "statistics": {
+        "analyze table audit_event_": 0.009
+      }
+    },
+    "neo4j": {
+      "base": [
+        {
+          "bytes": 2170880,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "AccessCode_id__uq",
+          "scope": "AccessCode",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 3178496,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "AuditEvent_id__uq",
+          "scope": "AuditEvent",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 7389184,
+          "keys": [
+            "entity",
+            "entityId",
+            "at"
+          ],
+          "kind": "range",
+          "name": "audit_event_entity_at__idx",
+          "scope": "AuditEvent",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 147456,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Cell_id__uq",
+          "scope": "Cell",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 122880,
+          "keys": [
+            "size"
+          ],
+          "kind": "range",
+          "name": "lockermat_cell_lockermat_size__idx",
+          "scope": "Cell",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1753088,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "CellOpening_id__uq",
+          "scope": "CellOpening",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 573440,
+          "keys": [
+            "incidentId"
+          ],
+          "kind": "range",
+          "name": "cell_opening_incident__idx",
+          "scope": "CellOpening",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 163840,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Customer_id__uq",
+          "scope": "Customer",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 344064,
+          "keys": [
+            "keycloakId"
+          ],
+          "kind": "unique",
+          "name": "customer_keycloak_id__uq",
+          "scope": "Customer",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 73728,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Incident_id__uq",
+          "scope": "Incident",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 73728,
+          "keys": [
+            "cellId"
+          ],
+          "kind": "range",
+          "name": "incident_cell__idx",
+          "scope": "Incident",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 81920,
+          "keys": [
+            "createdAt"
+          ],
+          "kind": "range",
+          "name": "incident_open__idx",
+          "scope": "Incident",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 73728,
+          "keys": [
+            "orderId"
+          ],
+          "kind": "range",
+          "name": "incident_order__idx",
+          "scope": "Incident",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Lockermat_id__uq",
+          "scope": "Lockermat",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "code"
+          ],
+          "kind": "unique",
+          "name": "lockermat_code__uq",
+          "scope": "Lockermat",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "location"
+          ],
+          "kind": "point",
+          "name": "lockermat_location_geog__idx",
+          "scope": "Lockermat",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 57344,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "OpeningHours_id__uq",
+          "scope": "OpeningHours",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1024000,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Order_id__uq",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1368064,
+          "keys": [
+            "paymentDeadline"
+          ],
+          "kind": "range",
+          "name": "order_awaiting_payment__idx",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1892352,
+          "keys": [
+            "customerId",
+            "createdAt"
+          ],
+          "kind": "range",
+          "name": "order_customer_created__idx",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1368064,
+          "keys": [
+            "number"
+          ],
+          "kind": "unique",
+          "name": "order_number__uq",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1024000,
+          "keys": [
+            "tariffId"
+          ],
+          "kind": "range",
+          "name": "order_tariff__idx",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1122304,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Payment_id__uq",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "incidentId"
+          ],
+          "kind": "range",
+          "name": "payment_incident__idx",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1769472,
+          "keys": [
+            "provider",
+            "providerRef"
+          ],
+          "kind": "unique",
+          "name": "payment_provider_ref__uq",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 139264,
+          "keys": [
+            "refundOfId"
+          ],
+          "kind": "range",
+          "name": "payment_refund_of__idx",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1220608,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Reservation_id__uq",
+          "scope": "Reservation",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1630208,
+          "keys": [
+            "to"
+          ],
+          "kind": "range",
+          "name": "reservation_overdue__idx",
+          "scope": "Reservation",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 237568,
+          "keys": [
+            "orderId"
+          ],
+          "kind": "range",
+          "name": "ships_to_order__idx",
+          "scope": "SHIPS_TO",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 237568,
+          "keys": [
+            "shipmentId"
+          ],
+          "kind": "unique",
+          "name": "Shipment_id__uq",
+          "scope": "Shipment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 368640,
+          "keys": [
+            "courierKeycloakId"
+          ],
+          "kind": "range",
+          "name": "shipment_courier__idx",
+          "scope": "Shipment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Tariff_id__uq",
+          "scope": "Tariff",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 319488,
+          "keys": [],
+          "kind": "lookup",
+          "name": "node_label_lookup",
+          "scope": "nodes",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 311296,
+          "keys": [],
+          "kind": "lookup",
+          "name": "relationship_type_lookup",
+          "scope": "relationships",
+          "state": "ONLINE"
+        }
+      ],
+      "idx": [
+        {
+          "bytes": 2170880,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "AccessCode_id__uq",
+          "scope": "AccessCode",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 3178496,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "AuditEvent_id__uq",
+          "scope": "AuditEvent",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 7389184,
+          "keys": [
+            "entity",
+            "entityId",
+            "at"
+          ],
+          "kind": "range",
+          "name": "audit_event_entity_at__idx",
+          "scope": "AuditEvent",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 147456,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Cell_id__uq",
+          "scope": "Cell",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 122880,
+          "keys": [
+            "size"
+          ],
+          "kind": "range",
+          "name": "lockermat_cell_lockermat_size__idx",
+          "scope": "Cell",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1753088,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "CellOpening_id__uq",
+          "scope": "CellOpening",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 573440,
+          "keys": [
+            "incidentId"
+          ],
+          "kind": "range",
+          "name": "cell_opening_incident__idx",
+          "scope": "CellOpening",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 2326528,
+          "keys": [
+            "requestedAt"
+          ],
+          "kind": "range",
+          "name": "ix4__idx",
+          "scope": "CellOpening",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 163840,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Customer_id__uq",
+          "scope": "Customer",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 344064,
+          "keys": [
+            "keycloakId"
+          ],
+          "kind": "unique",
+          "name": "customer_keycloak_id__uq",
+          "scope": "Customer",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 73728,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Incident_id__uq",
+          "scope": "Incident",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 73728,
+          "keys": [
+            "cellId"
+          ],
+          "kind": "range",
+          "name": "incident_cell__idx",
+          "scope": "Incident",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 81920,
+          "keys": [
+            "createdAt"
+          ],
+          "kind": "range",
+          "name": "incident_open__idx",
+          "scope": "Incident",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 73728,
+          "keys": [
+            "orderId"
+          ],
+          "kind": "range",
+          "name": "incident_order__idx",
+          "scope": "Incident",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Lockermat_id__uq",
+          "scope": "Lockermat",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "code"
+          ],
+          "kind": "unique",
+          "name": "lockermat_code__uq",
+          "scope": "Lockermat",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "location"
+          ],
+          "kind": "point",
+          "name": "lockermat_location_geog__idx",
+          "scope": "Lockermat",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 57344,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "OpeningHours_id__uq",
+          "scope": "OpeningHours",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1024000,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Order_id__uq",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1875968,
+          "keys": [
+            "status",
+            "createdAt"
+          ],
+          "kind": "range",
+          "name": "ix2__idx",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1368064,
+          "keys": [
+            "paymentDeadline"
+          ],
+          "kind": "range",
+          "name": "order_awaiting_payment__idx",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1892352,
+          "keys": [
+            "customerId",
+            "createdAt"
+          ],
+          "kind": "range",
+          "name": "order_customer_created__idx",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1368064,
+          "keys": [
+            "number"
+          ],
+          "kind": "unique",
+          "name": "order_number__uq",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1024000,
+          "keys": [
+            "tariffId"
+          ],
+          "kind": "range",
+          "name": "order_tariff__idx",
+          "scope": "Order",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1122304,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Payment_id__uq",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1499136,
+          "keys": [
+            "createdAt"
+          ],
+          "kind": "range",
+          "name": "ix3__idx",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "incidentId"
+          ],
+          "kind": "range",
+          "name": "payment_incident__idx",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1769472,
+          "keys": [
+            "provider",
+            "providerRef"
+          ],
+          "kind": "unique",
+          "name": "payment_provider_ref__uq",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 139264,
+          "keys": [
+            "refundOfId"
+          ],
+          "kind": "range",
+          "name": "payment_refund_of__idx",
+          "scope": "Payment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1220608,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Reservation_id__uq",
+          "scope": "Reservation",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 1630208,
+          "keys": [
+            "to"
+          ],
+          "kind": "range",
+          "name": "reservation_overdue__idx",
+          "scope": "Reservation",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 237568,
+          "keys": [
+            "orderId"
+          ],
+          "kind": "range",
+          "name": "ships_to_order__idx",
+          "scope": "SHIPS_TO",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 237568,
+          "keys": [
+            "shipmentId"
+          ],
+          "kind": "unique",
+          "name": "Shipment_id__uq",
+          "scope": "Shipment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 286720,
+          "keys": [
+            "recipientPhone"
+          ],
+          "kind": "range",
+          "name": "ix1__idx",
+          "scope": "Shipment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 368640,
+          "keys": [
+            "courierKeycloakId"
+          ],
+          "kind": "range",
+          "name": "shipment_courier__idx",
+          "scope": "Shipment",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "id"
+          ],
+          "kind": "unique",
+          "name": "Tariff_id__uq",
+          "scope": "Tariff",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 319488,
+          "keys": [],
+          "kind": "lookup",
+          "name": "node_label_lookup",
+          "scope": "nodes",
+          "state": "ONLINE"
+        },
+        {
+          "bytes": 311296,
+          "keys": [],
+          "kind": "lookup",
+          "name": "relationship_type_lookup",
+          "scope": "relationships",
+          "state": "ONLINE"
+        }
+      ],
+      "indexes": {
+        "ix1__idx": {
+          "bytes": 286720,
+          "kind": "range",
+          "scope": "Shipment",
+          "seconds": 0.271
+        },
+        "ix2__idx": {
+          "bytes": 1875968,
+          "kind": "range",
+          "scope": "Order",
+          "seconds": 0.291
+        },
+        "ix3__idx": {
+          "bytes": 1499136,
+          "kind": "range",
+          "scope": "Payment",
+          "seconds": 0.13
+        },
+        "ix4__idx": {
+          "bytes": 2326528,
+          "kind": "range",
+          "scope": "CellOpening",
+          "seconds": 0.161
+        }
+      },
+      "statistics": {
+        "call db.awaitIndexes(3600)": 0.024,
+        "call db.resampleOutdatedIndexes()": 0.02
+      }
+    },
+    "pg": {
+      "base": [
+        {
+          "bytes": 2244608,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "access_code__pkey",
+          "predicate": false,
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 5890048,
+          "keys": [
+            "reservation_id_",
+            "purpose_",
+            "tstzrange(valid_from_, valid_to_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "access_code_active_purpose__ex",
+          "predicate": true,
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_hmac__ck",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 12353536,
+          "keys": [
+            "code_hmac_",
+            "tstzrange(valid_from_, valid_to_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "access_code_hmac_window__ex",
+          "predicate": false,
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_issue_before_expiry__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_phone__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_purpose__ck",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 2023424,
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "btree",
+          "name": "access_code_reservation__idx",
+          "predicate": false,
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_status__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_used__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_validity__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "foreign key",
+          "name": "reservation__fk",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 3309568,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "audit_event__pkey",
+          "predicate": false,
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "audit_event_actor__ck",
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "audit_event_changes__ck",
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 6381568,
+          "keys": [
+            "entity_",
+            "entity_id_",
+            "at_"
+          ],
+          "kind": "btree",
+          "name": "audit_event_entity_at__idx",
+          "predicate": false,
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "foreign key",
+          "name": "access_code__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1810432,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "cell_opening__pkey",
+          "predicate": false,
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1392640,
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_access_code__idx",
+          "predicate": false,
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_channel__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_closed__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1630208,
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "unique",
+          "name": "cell_opening_code_live__uq",
+          "predicate": true,
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_grant__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 221184,
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_incident__idx",
+          "predicate": true,
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 8192,
+          "keys": [
+            "requested_at_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_open_door__idx",
+          "predicate": true,
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_result__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "foreign key",
+          "name": "incident__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 147456,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "customer__pkey",
+          "predicate": false,
+          "scope": "customer_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "customer_invoice__ck",
+          "scope": "customer_"
+        },
+        {
+          "bytes": 204800,
+          "keys": [
+            "keycloak_id_"
+          ],
+          "kind": "unique",
+          "name": "customer_keycloak_id__uq",
+          "predicate": false,
+          "scope": "customer_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "customer_phone__ck",
+          "scope": "customer_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "incident__pkey",
+          "predicate": false,
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "cell_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_cell__idx",
+          "predicate": false,
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_customer__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "id_",
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "incident_id_order__uq",
+          "predicate": false,
+          "scope": "incident_"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "created_at_"
+          ],
+          "kind": "btree",
+          "name": "incident_open__idx",
+          "predicate": true,
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_reporter__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_reservation__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_reservation__idx",
+          "predicate": false,
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_resolved__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_source__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_status__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_type__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [
+            "cell_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat_cell__fk",
+          "scope": "incident_"
+        },
+        {
+          "keys": [
+            "reservation_id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "reservation__fk",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "lockermat__pkey",
+          "predicate": false,
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "lower(address_)"
+          ],
+          "kind": "gin",
+          "name": "lockermat_address_trgm__idx",
+          "predicate": false,
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "code_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_code__uq",
+          "predicate": false,
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_location__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 8192,
+          "keys": [
+            "(location_::geography)"
+          ],
+          "kind": "gist",
+          "name": "lockermat_location_geog__idx",
+          "predicate": false,
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_status__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_time_zone__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [
+            "lockermat_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat__fk",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 131072,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "lockermat_cell__pkey",
+          "predicate": false,
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 180224,
+          "keys": [
+            "id_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_cell_id_size__uq",
+          "predicate": false,
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "lockermat_id_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "lockermat_cell_lockermat_size__idx",
+          "predicate": true,
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_number__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 180224,
+          "keys": [
+            "lockermat_id_",
+            "number_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_cell_number__uq",
+          "predicate": false,
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_size__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_status__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [
+            "lockermat_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat__fk",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "lockermat_opening_hours__pkey",
+          "predicate": false,
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_opening_hours_hours__ck",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_opening_hours_weekday__ck",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "lockermat_id_",
+            "weekday_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_opening_hours_weekday__uq",
+          "predicate": false,
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [
+            "customer_id_"
+          ],
+          "kind": "foreign key",
+          "name": "customer__fk",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1056768,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "order__pkey",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "payment_deadline_"
+          ],
+          "kind": "btree",
+          "name": "order_awaiting_payment__idx",
+          "predicate": true,
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_chronology__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_closed__ck",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1466368,
+          "keys": [
+            "customer_id_",
+            "created_at_ desc"
+          ],
+          "kind": "btree",
+          "name": "order_customer_created__idx",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 1548288,
+          "keys": [
+            "id_",
+            "type_"
+          ],
+          "kind": "unique",
+          "name": "order_id_type__uq",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 1884160,
+          "keys": [
+            "id_",
+            "type_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "order_id_type_size__uq",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 1466368,
+          "keys": [
+            "number_"
+          ],
+          "kind": "unique",
+          "name": "order_number__uq",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_price__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_status__ck",
+          "scope": "order_"
+        },
+        {
+          "bytes": 344064,
+          "keys": [
+            "tariff_id_"
+          ],
+          "kind": "btree",
+          "name": "order_tariff__idx",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_type__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [
+            "tariff_id_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "tariff__fk",
+          "scope": "order_"
+        },
+        {
+          "keys": [
+            "incident_id_",
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "incident__fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "order__fk",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1155072,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "payment__pkey",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "refund_of_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "foreign key",
+          "name": "payment__refund_of_fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_amount__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_chronology__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_completed__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 8192,
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_incident__idx",
+          "predicate": true,
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_kind__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_link__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1138688,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_order__idx",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "payment_pending_charge__uq",
+          "predicate": true,
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_provider_ref__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2039808,
+          "keys": [
+            "provider_",
+            "provider_ref_"
+          ],
+          "kind": "unique",
+          "name": "payment_provider_ref__uq",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "bytes": 122880,
+          "keys": [
+            "refund_of_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_refund_of__idx",
+          "predicate": true,
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2072576,
+          "keys": [
+            "refundable_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "unique",
+          "name": "payment_refundable__uq",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_status__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "cell_id_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat_cell__fk",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [
+            "order_id_",
+            "order_type_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "order__fk",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1261568,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "reservation__pkey",
+          "predicate": false,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2048000,
+          "keys": [
+            "cell_id_",
+            "tstzrange(deposited_at_, collected_at_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "reservation_actual_occupancy__ex",
+          "predicate": true,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 565248,
+          "keys": [
+            "cell_id_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "reservation_cell_size__idx",
+          "predicate": false,
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_collect__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_deposit__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2252800,
+          "keys": [
+            "id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "reservation_id_cell_order__uq",
+          "predicate": false,
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_leg__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1515520,
+          "keys": [
+            "order_id_",
+            "leg_"
+          ],
+          "kind": "unique",
+          "name": "reservation_leg__uq",
+          "predicate": true,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2113536,
+          "keys": [
+            "cell_id_",
+            "tstzrange(from_, to_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "reservation_no_double_booking__ex",
+          "predicate": true,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1220608,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "reservation_order__idx",
+          "predicate": false,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 98304,
+          "keys": [
+            "to_"
+          ],
+          "kind": "btree",
+          "name": "reservation_overdue__idx",
+          "predicate": true,
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_period__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_status__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [
+            "order_id_",
+            "order_type_"
+          ],
+          "kind": "foreign key",
+          "name": "order__fk",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 229376,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "shipment__pkey",
+          "predicate": false,
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_courier__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "courier_keycloak_id_"
+          ],
+          "kind": "btree",
+          "name": "shipment_courier__idx",
+          "predicate": true,
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_declared_value__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 229376,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "shipment_order__uq",
+          "predicate": false,
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_recipient_phone__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "tariff__pkey",
+          "predicate": false,
+          "scope": "tariff_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "tariff_id_size__uq",
+          "predicate": false,
+          "scope": "tariff_"
+        },
+        {
+          "bytes": 8192,
+          "keys": [
+            "size_",
+            "tstzrange(valid_from_, valid_to_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "tariff_no_overlap__ex",
+          "predicate": false,
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_prices__ck",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_size__ck",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_validity__ck",
+          "scope": "tariff_"
+        }
+      ],
+      "idx": [
+        {
+          "bytes": 2244608,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "access_code__pkey",
+          "predicate": false,
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 5890048,
+          "keys": [
+            "reservation_id_",
+            "purpose_",
+            "tstzrange(valid_from_, valid_to_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "access_code_active_purpose__ex",
+          "predicate": true,
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_hmac__ck",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 12353536,
+          "keys": [
+            "code_hmac_",
+            "tstzrange(valid_from_, valid_to_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "access_code_hmac_window__ex",
+          "predicate": false,
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_issue_before_expiry__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_phone__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_purpose__ck",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 2023424,
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "btree",
+          "name": "access_code_reservation__idx",
+          "predicate": false,
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_status__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_used__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "access_code_validity__ck",
+          "scope": "access_code_"
+        },
+        {
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "foreign key",
+          "name": "reservation__fk",
+          "scope": "access_code_"
+        },
+        {
+          "bytes": 3309568,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "audit_event__pkey",
+          "predicate": false,
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "audit_event_actor__ck",
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "audit_event_changes__ck",
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 6381568,
+          "keys": [
+            "entity_",
+            "entity_id_",
+            "at_"
+          ],
+          "kind": "btree",
+          "name": "audit_event_entity_at__idx",
+          "predicate": false,
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 1335296,
+          "keys": [
+            "(actor_ ->> 'email'::text)"
+          ],
+          "kind": "btree",
+          "name": "jx1_email__idx",
+          "predicate": false,
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 1081344,
+          "keys": [
+            "(actor_ ->> 'phone'::text)"
+          ],
+          "kind": "btree",
+          "name": "jx1_phone__idx",
+          "predicate": false,
+          "scope": "audit_event_"
+        },
+        {
+          "bytes": 614400,
+          "keys": [
+            "changes_"
+          ],
+          "kind": "gin",
+          "name": "jx2__idx",
+          "predicate": false,
+          "scope": "audit_event_"
+        },
+        {
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "foreign key",
+          "name": "access_code__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1810432,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "cell_opening__pkey",
+          "predicate": false,
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1392640,
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_access_code__idx",
+          "predicate": false,
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_channel__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_closed__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1630208,
+          "keys": [
+            "access_code_id_"
+          ],
+          "kind": "unique",
+          "name": "cell_opening_code_live__uq",
+          "predicate": true,
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_grant__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 221184,
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_incident__idx",
+          "predicate": true,
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 8192,
+          "keys": [
+            "requested_at_"
+          ],
+          "kind": "btree",
+          "name": "cell_opening_open_door__idx",
+          "predicate": true,
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "cell_opening_result__ck",
+          "scope": "cell_opening_"
+        },
+        {
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "foreign key",
+          "name": "incident__fk",
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 1794048,
+          "keys": [
+            "requested_at_"
+          ],
+          "kind": "btree",
+          "name": "ix4__idx",
+          "predicate": false,
+          "scope": "cell_opening_"
+        },
+        {
+          "bytes": 147456,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "customer__pkey",
+          "predicate": false,
+          "scope": "customer_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "customer_invoice__ck",
+          "scope": "customer_"
+        },
+        {
+          "bytes": 204800,
+          "keys": [
+            "keycloak_id_"
+          ],
+          "kind": "unique",
+          "name": "customer_keycloak_id__uq",
+          "predicate": false,
+          "scope": "customer_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "customer_phone__ck",
+          "scope": "customer_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "incident__pkey",
+          "predicate": false,
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "cell_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_cell__idx",
+          "predicate": false,
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_customer__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "id_",
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "incident_id_order__uq",
+          "predicate": false,
+          "scope": "incident_"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "created_at_"
+          ],
+          "kind": "btree",
+          "name": "incident_open__idx",
+          "predicate": true,
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_reporter__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_reservation__ck",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "reservation_id_"
+          ],
+          "kind": "btree",
+          "name": "incident_reservation__idx",
+          "predicate": false,
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_resolved__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_source__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_status__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "incident_type__ck",
+          "scope": "incident_"
+        },
+        {
+          "keys": [
+            "cell_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat_cell__fk",
+          "scope": "incident_"
+        },
+        {
+          "keys": [
+            "reservation_id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "reservation__fk",
+          "scope": "incident_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "lockermat__pkey",
+          "predicate": false,
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "lower(address_)"
+          ],
+          "kind": "gin",
+          "name": "lockermat_address_trgm__idx",
+          "predicate": false,
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "code_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_code__uq",
+          "predicate": false,
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_location__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "bytes": 8192,
+          "keys": [
+            "(location_::geography)"
+          ],
+          "kind": "gist",
+          "name": "lockermat_location_geog__idx",
+          "predicate": false,
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_status__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_time_zone__ck",
+          "scope": "lockermat_"
+        },
+        {
+          "keys": [
+            "lockermat_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat__fk",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 131072,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "lockermat_cell__pkey",
+          "predicate": false,
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 180224,
+          "keys": [
+            "id_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_cell_id_size__uq",
+          "predicate": false,
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "lockermat_id_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "lockermat_cell_lockermat_size__idx",
+          "predicate": true,
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_number__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "bytes": 180224,
+          "keys": [
+            "lockermat_id_",
+            "number_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_cell_number__uq",
+          "predicate": false,
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_size__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_cell_status__ck",
+          "scope": "lockermat_cell_"
+        },
+        {
+          "keys": [
+            "lockermat_id_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat__fk",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "bytes": 32768,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "lockermat_opening_hours__pkey",
+          "predicate": false,
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_opening_hours_hours__ck",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "lockermat_opening_hours_weekday__ck",
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "bytes": 40960,
+          "keys": [
+            "lockermat_id_",
+            "weekday_"
+          ],
+          "kind": "unique",
+          "name": "lockermat_opening_hours_weekday__uq",
+          "predicate": false,
+          "scope": "lockermat_opening_hours_"
+        },
+        {
+          "keys": [
+            "customer_id_"
+          ],
+          "kind": "foreign key",
+          "name": "customer__fk",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1687552,
+          "keys": [
+            "status_",
+            "created_at_"
+          ],
+          "kind": "btree",
+          "name": "ix2__idx",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 1056768,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "order__pkey",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "payment_deadline_"
+          ],
+          "kind": "btree",
+          "name": "order_awaiting_payment__idx",
+          "predicate": true,
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_chronology__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_closed__ck",
+          "scope": "order_"
+        },
+        {
+          "bytes": 1466368,
+          "keys": [
+            "customer_id_",
+            "created_at_ desc"
+          ],
+          "kind": "btree",
+          "name": "order_customer_created__idx",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 1548288,
+          "keys": [
+            "id_",
+            "type_"
+          ],
+          "kind": "unique",
+          "name": "order_id_type__uq",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 1884160,
+          "keys": [
+            "id_",
+            "type_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "order_id_type_size__uq",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "bytes": 1466368,
+          "keys": [
+            "number_"
+          ],
+          "kind": "unique",
+          "name": "order_number__uq",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_price__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_status__ck",
+          "scope": "order_"
+        },
+        {
+          "bytes": 344064,
+          "keys": [
+            "tariff_id_"
+          ],
+          "kind": "btree",
+          "name": "order_tariff__idx",
+          "predicate": false,
+          "scope": "order_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "order_type__ck",
+          "scope": "order_"
+        },
+        {
+          "keys": [
+            "tariff_id_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "tariff__fk",
+          "scope": "order_"
+        },
+        {
+          "keys": [
+            "incident_id_",
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "incident__fk",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1155072,
+          "keys": [
+            "created_at_"
+          ],
+          "kind": "btree",
+          "name": "ix3__idx",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "foreign key",
+          "name": "order__fk",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1155072,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "payment__pkey",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "refund_of_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "foreign key",
+          "name": "payment__refund_of_fk",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_amount__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_chronology__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_completed__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 8192,
+          "keys": [
+            "incident_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_incident__idx",
+          "predicate": true,
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_kind__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_link__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 1138688,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_order__idx",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "bytes": 49152,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "payment_pending_charge__uq",
+          "predicate": true,
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_provider_ref__ck",
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2039808,
+          "keys": [
+            "provider_",
+            "provider_ref_"
+          ],
+          "kind": "unique",
+          "name": "payment_provider_ref__uq",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "bytes": 122880,
+          "keys": [
+            "refund_of_id_"
+          ],
+          "kind": "btree",
+          "name": "payment_refund_of__idx",
+          "predicate": true,
+          "scope": "payment_"
+        },
+        {
+          "bytes": 2072576,
+          "keys": [
+            "refundable_id_",
+            "order_id_",
+            "provider_"
+          ],
+          "kind": "unique",
+          "name": "payment_refundable__uq",
+          "predicate": false,
+          "scope": "payment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "payment_status__ck",
+          "scope": "payment_"
+        },
+        {
+          "keys": [
+            "cell_id_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "lockermat_cell__fk",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [
+            "order_id_",
+            "order_type_",
+            "size_"
+          ],
+          "kind": "foreign key",
+          "name": "order__fk",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1261568,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "reservation__pkey",
+          "predicate": false,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2048000,
+          "keys": [
+            "cell_id_",
+            "tstzrange(deposited_at_, collected_at_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "reservation_actual_occupancy__ex",
+          "predicate": true,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 565248,
+          "keys": [
+            "cell_id_",
+            "size_"
+          ],
+          "kind": "btree",
+          "name": "reservation_cell_size__idx",
+          "predicate": false,
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_collect__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_deposit__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2252800,
+          "keys": [
+            "id_",
+            "cell_id_",
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "reservation_id_cell_order__uq",
+          "predicate": false,
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_leg__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1515520,
+          "keys": [
+            "order_id_",
+            "leg_"
+          ],
+          "kind": "unique",
+          "name": "reservation_leg__uq",
+          "predicate": true,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 2113536,
+          "keys": [
+            "cell_id_",
+            "tstzrange(from_, to_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "reservation_no_double_booking__ex",
+          "predicate": true,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 1220608,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "btree",
+          "name": "reservation_order__idx",
+          "predicate": false,
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 98304,
+          "keys": [
+            "to_"
+          ],
+          "kind": "btree",
+          "name": "reservation_overdue__idx",
+          "predicate": true,
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_period__ck",
+          "scope": "reservation_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "reservation_status__ck",
+          "scope": "reservation_"
+        },
+        {
+          "bytes": 155648,
+          "keys": [
+            "recipient_phone_"
+          ],
+          "kind": "btree",
+          "name": "ix1__idx",
+          "predicate": false,
+          "scope": "shipment_"
+        },
+        {
+          "keys": [
+            "order_id_",
+            "order_type_"
+          ],
+          "kind": "foreign key",
+          "name": "order__fk",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 229376,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "shipment__pkey",
+          "predicate": false,
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_courier__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 65536,
+          "keys": [
+            "courier_keycloak_id_"
+          ],
+          "kind": "btree",
+          "name": "shipment_courier__idx",
+          "predicate": true,
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_declared_value__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 229376,
+          "keys": [
+            "order_id_"
+          ],
+          "kind": "unique",
+          "name": "shipment_order__uq",
+          "predicate": false,
+          "scope": "shipment_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "shipment_recipient_phone__ck",
+          "scope": "shipment_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_"
+          ],
+          "kind": "primary",
+          "name": "tariff__pkey",
+          "predicate": false,
+          "scope": "tariff_"
+        },
+        {
+          "bytes": 16384,
+          "keys": [
+            "id_",
+            "size_"
+          ],
+          "kind": "unique",
+          "name": "tariff_id_size__uq",
+          "predicate": false,
+          "scope": "tariff_"
+        },
+        {
+          "bytes": 8192,
+          "keys": [
+            "size_",
+            "tstzrange(valid_from_, valid_to_, '[)'::text)"
+          ],
+          "kind": "exclude",
+          "name": "tariff_no_overlap__ex",
+          "predicate": false,
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_prices__ck",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_size__ck",
+          "scope": "tariff_"
+        },
+        {
+          "keys": [],
+          "kind": "check",
+          "name": "tariff_validity__ck",
+          "scope": "tariff_"
+        }
+      ],
+      "indexes": {
+        "ix1__idx": {
+          "bytes": 155648,
+          "kind": "btree",
+          "scope": "shipment_",
+          "seconds": 0.012
+        },
+        "ix2__idx": {
+          "bytes": 1687552,
+          "kind": "btree",
+          "scope": "order_",
+          "seconds": 0.037
+        },
+        "ix3__idx": {
+          "bytes": 1155072,
+          "kind": "btree",
+          "scope": "payment_",
+          "seconds": 0.015
+        },
+        "ix4__idx": {
+          "bytes": 1794048,
+          "kind": "btree",
+          "scope": "cell_opening_",
+          "seconds": 0.023
+        },
+        "jx1_email__idx": {
+          "bytes": 1335296,
+          "kind": "btree",
+          "scope": "audit_event_",
+          "seconds": 0.048
+        },
+        "jx1_phone__idx": {
+          "bytes": 1081344,
+          "kind": "btree",
+          "scope": "audit_event_",
+          "seconds": 0.04
+        },
+        "jx2__idx": {
+          "bytes": 614400,
+          "kind": "gin",
+          "scope": "audit_event_",
+          "seconds": 0.065
+        }
+      },
+      "statement_timeout": "0",
+      "statistics": {
+        "analyze audit_event_": 0.188,
+        "vacuum": 0.06
+      }
+    }
+  }
+}

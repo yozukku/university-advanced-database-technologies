@@ -1,0 +1,117 @@
+{
+  "config": "idx",
+  "engine": "neo4j",
+  "kind": "read",
+  "plan": {
+    "args": {
+      "DbHits": 0,
+      "Details": "`b.id`, `length(p)`",
+      "EstimatedRows": 26.7964549231678,
+      "GlobalMemory": 139592,
+      "Id": 0,
+      "Memory": 0,
+      "PageCacheHits": 0,
+      "PageCacheMisses": 0,
+      "Rows": 55,
+      "planner": "COST",
+      "planner-impl": "IDP",
+      "planner-version": "5.26.33",
+      "runtime": "SLOTTED",
+      "runtime-impl": "SLOTTED",
+      "runtime-version": "5.26.33",
+      "string-representation": "Cypher 5\n\nPlanner COST\n\nRuntime SLOTTED\n\nRuntime version 5.26.33\n\n+----------------------------+----+---------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| Operator                   | Id | Details                                                 | Estimated Rows | Rows | DB Hits | Memory (Bytes) | Page Cache Hits/Misses |\n+----------------------------+----+---------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +ProduceResults            |  0 | `b.id`, `length(p)`                                     |             27 |   55 |       0 |              0 |                    0/0 |\n| |                          +----+---------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +Projection                |  1 | b.id AS `b.id`, length((a)-[r*]->(b)) AS `length(p)`    |             27 |   55 |      55 |                |                    0/0 |\n| |                          +----+---------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +StatefulShortestPath(All) |  2 | SHORTEST 1 (a) ((`anon_2`)-[`r`]->(`anon_4`)){1, 3} (b) |             27 |   55 |    2905 |         139528 |                    0/0 |\n| |                          |    |         expanding from: a                               |                |      |         |                |                        |\n| |                          |    |     inlined predicates: NOT b = a                       |                |      |         |                |                        |\n| |                          |    |                         b:Lockermat                     |                |      |         |                |                        |\n| |                          |    |                         cache[r.at] >= $since           |                |      |         |                |                        |\n| |                          |    |                         r:SHIPS_TO                      |                |      |         |                |                        |\n| |                          +----+---------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n| +NodeUniqueIndexSeek       |  3 | UNIQUE a:Lockermat(id) WHERE id = $lockermat            |              1 |    1 |       2 |                |                    0/0 |\n+----------------------------+----+---------------------------------------------------------+----------------+------+---------+----------------+------------------------+\n\nTotal database accesses: 2962, total allocated memory: 139592\n",
+      "version": "5"
+    },
+    "children": [
+      {
+        "args": {
+          "DbHits": 55,
+          "Details": "b.id AS `b.id`, length((a)-[r*]->(b)) AS `length(p)`",
+          "EstimatedRows": 26.7964549231678,
+          "Id": 1,
+          "PageCacheHits": 0,
+          "PageCacheMisses": 0,
+          "Rows": 55
+        },
+        "children": [
+          {
+            "args": {
+              "DbHits": 2905,
+              "Details": "SHORTEST 1 (a) ((`anon_2`)-[`r`]->(`anon_4`)){1, 3} (b)\n        expanding from: a\n    inlined predicates: NOT b = a\n                        b:Lockermat\n                        cache[r.at] >= $since\n                        r:SHIPS_TO",
+              "EstimatedRows": 26.7964549231678,
+              "Id": 2,
+              "Memory": 139528,
+              "PageCacheHits": 0,
+              "PageCacheMisses": 0,
+              "Rows": 55
+            },
+            "children": [
+              {
+                "args": {
+                  "DbHits": 2,
+                  "Details": "UNIQUE a:Lockermat(id) WHERE id = $lockermat",
+                  "EstimatedRows": 1.0,
+                  "Id": 3,
+                  "PageCacheHits": 0,
+                  "PageCacheMisses": 0,
+                  "Rows": 1
+                },
+                "dbHits": 2,
+                "identifiers": [
+                  "a"
+                ],
+                "operatorType": "NodeUniqueIndexSeek@neo4j",
+                "pageCacheHitRatio": 0.0,
+                "pageCacheHits": 0,
+                "pageCacheMisses": 0,
+                "rows": 1
+              }
+            ],
+            "dbHits": 2905,
+            "identifiers": [
+              "a",
+              "b",
+              "r"
+            ],
+            "operatorType": "StatefulShortestPath(All)@neo4j",
+            "pageCacheHitRatio": 0.0,
+            "pageCacheHits": 0,
+            "pageCacheMisses": 0,
+            "rows": 55
+          }
+        ],
+        "dbHits": 55,
+        "identifiers": [
+          "a",
+          "b",
+          "r",
+          "`b.id`",
+          "`length(p)`"
+        ],
+        "operatorType": "Projection@neo4j",
+        "pageCacheHitRatio": 0.0,
+        "pageCacheHits": 0,
+        "pageCacheMisses": 0,
+        "rows": 55
+      }
+    ],
+    "dbHits": 0,
+    "identifiers": [
+      "a",
+      "b",
+      "r",
+      "`b.id`",
+      "`length(p)`"
+    ],
+    "operatorType": "ProduceResults@neo4j",
+    "pageCacheHitRatio": 0.0,
+    "pageCacheHits": 0,
+    "pageCacheMisses": 0,
+    "rows": 55
+  },
+  "qhash": "ca07191ece8bba9a5af0c14b8e4e4a86cfdc1b6218d24a9524ee6befd1f36ca6",
+  "scenario": "R8",
+  "size": "S",
+  "state_id": "2dfe543b9ef81b6aee1db1c04ec0ba874e471effafe9a7cb7c7ef3063ae395c2",
+  "text": null
+}

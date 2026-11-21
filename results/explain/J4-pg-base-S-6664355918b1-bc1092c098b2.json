@@ -1,0 +1,194 @@
+{
+  "config": "base",
+  "engine": "pg",
+  "kind": "read",
+  "plan": [
+    {
+      "Execution Time": 7.954,
+      "Plan": {
+        "Actual Loops": 1,
+        "Actual Rows": 1,
+        "Actual Startup Time": 6.451,
+        "Actual Total Time": 7.938,
+        "Async Capable": false,
+        "Group Key": [
+          "entity_"
+        ],
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Node Type": "Aggregate",
+        "Parallel Aware": false,
+        "Partial Mode": "Finalize",
+        "Plan Rows": 3,
+        "Plan Width": 15,
+        "Plans": [
+          {
+            "Actual Loops": 1,
+            "Actual Rows": 3,
+            "Actual Startup Time": 6.448,
+            "Actual Total Time": 7.935,
+            "Async Capable": false,
+            "Local Dirtied Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Written Blocks": 0,
+            "Node Type": "Gather Merge",
+            "Parallel Aware": false,
+            "Parent Relationship": "Outer",
+            "Plan Rows": 6,
+            "Plan Width": 15,
+            "Plans": [
+              {
+                "Actual Loops": 3,
+                "Actual Rows": 1,
+                "Actual Startup Time": 5.618,
+                "Actual Total Time": 5.618,
+                "Async Capable": false,
+                "Group Key": [
+                  "entity_"
+                ],
+                "Local Dirtied Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Written Blocks": 0,
+                "Node Type": "Aggregate",
+                "Parallel Aware": false,
+                "Parent Relationship": "Outer",
+                "Partial Mode": "Partial",
+                "Plan Rows": 3,
+                "Plan Width": 15,
+                "Plans": [
+                  {
+                    "Actual Loops": 3,
+                    "Actual Rows": 50,
+                    "Actual Startup Time": 5.612,
+                    "Actual Total Time": 5.613,
+                    "Async Capable": false,
+                    "Local Dirtied Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Node Type": "Sort",
+                    "Parallel Aware": false,
+                    "Parent Relationship": "Outer",
+                    "Plan Rows": 45,
+                    "Plan Width": 7,
+                    "Plans": [
+                      {
+                        "Actual Loops": 3,
+                        "Actual Rows": 50,
+                        "Actual Startup Time": 3.685,
+                        "Actual Total Time": 5.586,
+                        "Alias": "audit_event_",
+                        "Async Capable": false,
+                        "Filter": "((at_ >= '2025-11-01 00:00:00+00'::timestamp with time zone) AND (at_ < '2025-12-01 00:00:00+00'::timestamp with time zone) AND (changes_ @> jsonb_build_array(jsonb_build_object('f', 'status_', 'new', 'CANCELLED'::text))))",
+                        "Local Dirtied Blocks": 0,
+                        "Local Hit Blocks": 0,
+                        "Local Read Blocks": 0,
+                        "Local Written Blocks": 0,
+                        "Node Type": "Seq Scan",
+                        "Parallel Aware": true,
+                        "Parent Relationship": "Outer",
+                        "Plan Rows": 45,
+                        "Plan Width": 7,
+                        "Relation Name": "audit_event_",
+                        "Rows Removed by Filter": 48744,
+                        "Shared Dirtied Blocks": 0,
+                        "Shared Hit Blocks": 4454,
+                        "Shared Read Blocks": 0,
+                        "Shared Written Blocks": 0,
+                        "Startup Cost": 0.0,
+                        "Temp Read Blocks": 0,
+                        "Temp Written Blocks": 0,
+                        "Total Cost": 5814.35,
+                        "Workers": []
+                      }
+                    ],
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Hit Blocks": 4530,
+                    "Shared Read Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Sort Key": [
+                      "entity_"
+                    ],
+                    "Sort Method": "quicksort",
+                    "Sort Space Type": "Memory",
+                    "Sort Space Used": 25,
+                    "Startup Cost": 5815.59,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "Total Cost": 5815.7,
+                    "Workers": [
+                      {
+                        "Sort Method": "quicksort",
+                        "Sort Space Type": "Memory",
+                        "Sort Space Used": 25,
+                        "Worker Number": 0
+                      },
+                      {
+                        "Sort Method": "quicksort",
+                        "Sort Space Type": "Memory",
+                        "Sort Space Used": 25,
+                        "Worker Number": 1
+                      }
+                    ]
+                  }
+                ],
+                "Shared Dirtied Blocks": 0,
+                "Shared Hit Blocks": 4530,
+                "Shared Read Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Startup Cost": 5815.59,
+                "Strategy": "Sorted",
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "Total Cost": 5815.95,
+                "Workers": []
+              }
+            ],
+            "Shared Dirtied Blocks": 0,
+            "Shared Hit Blocks": 4530,
+            "Shared Read Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Startup Cost": 6815.61,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Total Cost": 6816.67,
+            "Workers Launched": 2,
+            "Workers Planned": 2
+          }
+        ],
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 4530,
+        "Shared Read Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Startup Cost": 6815.61,
+        "Strategy": "Sorted",
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Total Cost": 6816.73
+      },
+      "Planning": {
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 8,
+        "Shared Read Blocks": 1,
+        "Shared Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.077,
+      "Triggers": []
+    }
+  ],
+  "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+  "scenario": "J4",
+  "size": "S",
+  "state_id": "bc1092c098b20ef195a875be709fa7f20dc4eb34a17c5466b8c85972c5de47bf",
+  "text": "Finalize GroupAggregate  (cost=6815.61..6816.73 rows=3 width=15) (actual time=6.452..7.619 rows=1 loops=1)\n  Group Key: entity_\n  Buffers: shared hit=4530\n  ->  Gather Merge  (cost=6815.61..6816.67 rows=6 width=15) (actual time=6.451..7.617 rows=3 loops=1)\n        Workers Planned: 2\n        Workers Launched: 2\n        Buffers: shared hit=4530\n        ->  Partial GroupAggregate  (cost=5815.59..5815.95 rows=3 width=15) (actual time=5.560..5.560 rows=1 loops=3)\n              Group Key: entity_\n              Buffers: shared hit=4530\n              ->  Sort  (cost=5815.59..5815.70 rows=45 width=7) (actual time=5.554..5.555 rows=50 loops=3)\n                    Sort Key: entity_\n                    Sort Method: quicksort  Memory: 25kB\n                    Buffers: shared hit=4530\n                    Worker 0:  Sort Method: quicksort  Memory: 25kB\n                    Worker 1:  Sort Method: quicksort  Memory: 25kB\n                    ->  Parallel Seq Scan on audit_event_  (cost=0.00..5814.35 rows=45 width=7) (actual time=3.538..5.527 rows=50 loops=3)\n                          Filter: ((at_ >= '2025-11-01 00:00:00+00'::timestamp with time zone) AND (at_ < '2025-12-01 00:00:00+00'::timestamp with time zone) AND (changes_ @> jsonb_build_array(jsonb_build_object('f', 'status_', 'new', 'CANCELLED'::text))))\n                          Rows Removed by Filter: 48744\n                          Buffers: shared hit=4454\nPlanning Time: 0.064 ms\nExecution Time: 7.628 ms"
+}

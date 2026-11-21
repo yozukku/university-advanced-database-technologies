@@ -1,0 +1,90 @@
+{
+  "config": "idx",
+  "engine": "pg",
+  "kind": "write-discovery",
+  "plan": [
+    {
+      "Execution Time": 0.225,
+      "Plan": {
+        "Actual Loops": 1,
+        "Actual Rows": 1206,
+        "Actual Startup Time": 0.171,
+        "Actual Total Time": 0.199,
+        "Async Capable": false,
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Node Type": "Sort",
+        "Parallel Aware": false,
+        "Plan Rows": 1318,
+        "Plan Width": 8,
+        "Plans": [
+          {
+            "Actual Loops": 1,
+            "Actual Rows": 1206,
+            "Actual Startup Time": 0.039,
+            "Actual Total Time": 0.142,
+            "Alias": "order_",
+            "Async Capable": false,
+            "Index Cond": "(payment_deadline_ < '2026-11-01 00:00:00+00'::timestamp with time zone)",
+            "Index Name": "order_awaiting_payment__idx",
+            "Local Dirtied Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Written Blocks": 0,
+            "Node Type": "Index Scan",
+            "Parallel Aware": false,
+            "Parent Relationship": "Outer",
+            "Plan Rows": 1318,
+            "Plan Width": 8,
+            "Relation Name": "order_",
+            "Rows Removed by Index Recheck": 0,
+            "Scan Direction": "Forward",
+            "Shared Dirtied Blocks": 0,
+            "Shared Hit Blocks": 27,
+            "Shared Read Blocks": 14,
+            "Shared Written Blocks": 0,
+            "Startup Cost": 0.28,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Total Cost": 71.34
+          }
+        ],
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 27,
+        "Shared Read Blocks": 14,
+        "Shared Written Blocks": 0,
+        "Sort Key": [
+          "id_"
+        ],
+        "Sort Method": "quicksort",
+        "Sort Space Type": "Memory",
+        "Sort Space Used": 49,
+        "Startup Cost": 139.64,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Total Cost": 142.94
+      },
+      "Planning": {
+        "Local Dirtied Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Written Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Hit Blocks": 3,
+        "Shared Read Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.076,
+      "Triggers": []
+    }
+  ],
+  "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
+  "scenario": "U3",
+  "size": "S",
+  "state_id": "c6439b8506e54f33ba0d1a00bfec8af0fd358b9607858b6982e5b7c051a1988a",
+  "text": "Sort  (cost=139.64..142.94 rows=1318 width=8) (actual time=0.095..0.119 rows=1206 loops=1)\n  Sort Key: id_\n  Sort Method: quicksort  Memory: 49kB\n  Buffers: shared hit=41\n  ->  Index Scan using order_awaiting_payment__idx on order_  (cost=0.28..71.34 rows=1318 width=8) (actual time=0.005..0.068 rows=1206 loops=1)\n        Index Cond: (payment_deadline_ < '2026-11-01 00:00:00+00'::timestamp with time zone)\n        Buffers: shared hit=41\nPlanning Time: 0.022 ms\nExecution Time: 0.140 ms"
+}

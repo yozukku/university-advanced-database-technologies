@@ -1,0 +1,52 @@
+{
+  "config": "base",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "14817.05"
+      },
+      "grouping_operation": {
+        "table": {
+          "access_type": "index",
+          "attached_condition": "(<cache>('CANCELLED') member of (`bagazomat`.`audit_event_`.`changes_new_`) and json_contains(`bagazomat`.`audit_event_`.`changes_`,<cache>(json_object('f','status_','new','CANCELLED'))) and (`bagazomat`.`audit_event_`.`at_` >= TIMESTAMP'2025-11-01 00:00:00') and (`bagazomat`.`audit_event_`.`at_` < TIMESTAMP'2025-12-01 00:00:00'))",
+          "cost_info": {
+            "data_read_per_join": "4M",
+            "eval_cost": "1577.44",
+            "prefix_cost": "14817.05",
+            "read_cost": "13239.61"
+          },
+          "filtered": "11.11",
+          "key": "audit_event_entity_at__idx",
+          "key_length": "113",
+          "possible_keys": [
+            "audit_event_entity_at__idx"
+          ],
+          "rows_examined_per_scan": 141998,
+          "rows_produced_per_join": 15774,
+          "table_name": "audit_event_",
+          "used_columns": [
+            "id_",
+            "at_",
+            "entity_",
+            "changes_",
+            "changes_new_"
+          ],
+          "used_key_parts": [
+            "entity_",
+            "entity_id_",
+            "at_"
+          ]
+        },
+        "using_filesort": false
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+  "scenario": "J4",
+  "size": "S",
+  "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
+  "text": "-> Group aggregate: count(0)  (cost=16394 rows=2) (actual time=84.6..84.6 rows=1 loops=1)\n    -> Filter: (<cache>('CANCELLED') member of (audit_event_.changes_new_) and json_contains(audit_event_.changes_,<cache>(json_object('f','status_','new','CANCELLED'))) and (audit_event_.at_ >= TIMESTAMP'2025-11-01 00:00:00') and (audit_event_.at_ < TIMESTAMP'2025-12-01 00:00:00'))  (cost=14817 rows=15774) (actual time=14.1..84.6 rows=151 loops=1)\n        -> Index scan on audit_event_ using audit_event_entity_at__idx  (cost=14817 rows=141998) (actual time=0.047..71.1 rows=146384 loops=1)\n"
+}

@@ -1,0 +1,56 @@
+{
+  "config": "idx",
+  "engine": "mysql",
+  "kind": "read",
+  "plan": {
+    "query_block": {
+      "cost_info": {
+        "query_cost": "1615.95"
+      },
+      "grouping_operation": {
+        "table": {
+          "access_type": "ref",
+          "attached_condition": "(json'\"CANCELLED\"' member of (cast(`changes_new_` as char(32) array)) and json_contains(`bagazomat`.`audit_event_`.`changes_`,<cache>(json_object('f','status_','new','CANCELLED'))) and (`bagazomat`.`audit_event_`.`at_` >= TIMESTAMP'2025-11-01 00:00:00') and (`bagazomat`.`audit_event_`.`at_` < TIMESTAMP'2025-12-01 00:00:00'))",
+          "cost_info": {
+            "data_read_per_join": "825K",
+            "eval_cost": "51.29",
+            "prefix_cost": "1615.95",
+            "read_cost": "1154.25"
+          },
+          "filtered": "11.11",
+          "key": "jx2__idx",
+          "key_length": "131",
+          "possible_keys": [
+            "audit_event_entity_at__idx",
+            "jx2__idx"
+          ],
+          "ref": [
+            "const"
+          ],
+          "rows_examined_per_scan": 4617,
+          "rows_produced_per_join": 512,
+          "table_name": "audit_event_",
+          "used_columns": [
+            "id_",
+            "at_",
+            "entity_",
+            "changes_",
+            "changes_new_",
+            "cast(`changes_new_` as char(32) array)"
+          ],
+          "used_key_parts": [
+            "cast(`changes_new_` as char(32) array)"
+          ]
+        },
+        "using_filesort": false,
+        "using_temporary_table": true
+      },
+      "select_id": 1
+    }
+  },
+  "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+  "scenario": "J4",
+  "size": "S",
+  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
+  "text": "-> Table scan on <temporary>  (actual time=7.12..7.12 rows=1 loops=1)\n    -> Aggregate using temporary table  (actual time=7.11..7.11 rows=1 loops=1)\n        -> Filter: (json'\"CANCELLED\"' member of (cast(changes_new_ as char(32) array)) and json_contains(audit_event_.changes_,<cache>(json_object('f','status_','new','CANCELLED'))) and (audit_event_.at_ >= TIMESTAMP'2025-11-01 00:00:00') and (audit_event_.at_ < TIMESTAMP'2025-12-01 00:00:00'))  (cost=1206 rows=513) (actual time=2.87..7.09 rows=151 loops=1)\n            -> Index lookup on audit_event_ using jx2__idx (cast(changes_new_ as char(32) array)=json'\"CANCELLED\"')  (cost=1206 rows=4617) (actual time=0.0258..4.13 rows=4617 loops=1)\n"
+}
