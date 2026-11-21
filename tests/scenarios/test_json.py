@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from bench.scenarios.json.pseudonymise import pseudonym
 from bench.scenarios.normalise import digest, result
 from bench.scenarios.params import dataset
 from bench.scenarios.registry import load
@@ -12,7 +13,11 @@ REGISTRY = load()
 APPEND = REGISTRY["J1"]
 PERSON = REGISTRY["J2"]
 KINDS = REGISTRY["J3"]
-JX1 = json.loads(Path("docs/bench/indexes.yaml").read_text())["idx"]["JX1"]["engines"]
+CHANGES = REGISTRY["J4"]
+FORGET = REGISTRY["J5"]
+IDX = json.loads(Path("docs/bench/indexes.yaml").read_text())["idx"]
+JX1 = IDX["JX1"]["engines"]
+JX2 = IDX["JX2"]["engines"]
 EXPECTED_PERSON = """
 select id_, at_, entity_, entity_id_, action_, actor_, changes_
 from audit_event_
@@ -26,6 +31,21 @@ select json_extract_string(actor_, '$.kind'), count(*),
                           and not json_exists(actor_, '$.email'))
 from audit_event_
 group by 1
+"""
+EXPECTED_CHANGES = """
+select entity_, count(*)
+from audit_event_ a
+where at_ >= $since and at_ < $until
+  and exists (select 1 from json_each(a.changes_) c
+              where json_extract_string(c.value, '$.f') = 'status_' and json_extract_string(c.value, '$.new') = $value)
+group by 1
+"""
+EXPECTED_FORGOTTEN = """
+select id_
+from audit_event_
+where list_contains($emails, json_extract_string(actor_, '$.email'))
+   or list_contains($phones, json_extract_string(actor_, '$.phone'))
+order by 1
 """
 
 
@@ -70,7 +90,7 @@ def test_idx_plan_uses_jx1(scenario, bench, size):
         assert wanted and wanted <= set(access["index"]), f"{engine}: {access}"
 
 
-@pytest.mark.parametrize("scenario", [PERSON], ids=["J2"])
+@pytest.mark.parametrize("scenario", [PERSON, FORGET], ids=["J2", "J5"])
 def test_mysql_repeats_jx1_expression(scenario):
     text = compact(scenario.impls["mysql"].text)
     for item in JX1["mysql"]:
@@ -82,3 +102,42 @@ def test_mysql_writes_changes_new(scenario, bench):
     count = sum(len(batch) for batch in bench.params[scenario.id])
     for config in scenario.configs:
         assert bench.runs[(scenario.id, "mysql", config)].after == {"rows": count, "wrong": 0}, config
+
+
+@pytest.mark.parametrize("scenario", [CHANGES], ids=["J4"])
+def test_status_counts_equal_duckdb_answer(scenario, bench, size):
+    params = bench.params[scenario.id]
+    _, answer = expected(scenario, size, params, EXPECTED_CHANGES)
+    for engine in scenario.engines:
+        for config in scenario.configs:
+            assert bench.runs[(scenario.id, engine, config)].hash == answer, f"{engine}/{config}"
+
+
+@pytest.mark.parametrize("scenario", [CHANGES], ids=["J4"])
+def test_idx_plan_uses_jx2(scenario, bench, size):
+    if size == "XS":
+        pytest.skip("plans are checked from S on")
+    for engine in scenario.engines:
+        access = bench.runs[(scenario.id, engine, "idx")].access
+        assert {item["name"] for item in JX2[engine]} <= set(access["index"]), f"{engine}: {access}"
+
+
+@pytest.mark.parametrize("scenario", [FORGET], ids=["J5"])
+def test_pseudonymised_persons_keep_no_identifier(scenario, bench, size):
+    params = bench.params[scenario.id]
+    with dataset(size) as (db, _):
+        wanted = [found for found, in db.execute(EXPECTED_FORGOTTEN, {key: params[key] for key in ("emails", "phones")})
+                  .fetchall()]
+    assert wanted, "no event of the chosen persons"
+    for engine in scenario.engines:
+        for config in scenario.configs:
+            run = bench.runs[(scenario.id, engine, config)]
+            entry = run.probe["audit_event_"]
+            assert not entry["inserted"] and not entry["deleted"], f"{engine}/{config}"
+            assert [key for key, _ in entry["changed"]] == wanted, f"{engine}/{config}"
+            for key, change in entry["changed"]:
+                old, new = change["actor_"]
+                assert not {"name", "phone"} & new.keys(), f"{engine}/{config} event {key}: {new}"
+                email = pseudonym(params["key"], old["email"]) if "email" in old else None
+                assert new.get("email") == email, f"{engine}/{config} event {key}: {new}"
+            assert run.after == {"left": 0}, f"{engine}/{config}: {run.after}"
