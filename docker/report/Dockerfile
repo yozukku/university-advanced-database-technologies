@@ -6,6 +6,8 @@ RUN apt-get update \
         fonts-crosextra-carlito fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*
 
+COPY docker/report/fonts.conf /etc/fonts/local.conf
+
 RUN pip install --no-cache-dir uv==0.13.8
 
 ENV UV_PROJECT_ENVIRONMENT=/opt/ztb-python

@@ -4,11 +4,14 @@ import re
 import subprocess
 from pathlib import Path
 
+from bench.report import dataset
+
 CHAPTERS = Path("report/chapters")
 METADATA = Path("report/metadata.yaml")
 REFERENCE = Path("report/reference.docx")
 OFFICE = Path(__file__).with_name("office.py")
 MISSING = "brak danych"
+EMPTY_TABLE = f"| {MISSING} |\n|---|"
 MARKER = re.compile(r"\{\{\s*(\w+)\((.*?)\)\s*\}\}")
 LEFTOVER = re.compile(r"\{\{.*?\}\}", re.DOTALL)
 CAPTION_ID = re.compile(r"\{#((?:fig|tab):[^\s{}]+)\}")
@@ -26,13 +29,24 @@ def figure(results, name, caption):
     return f"::: {{#fig:{name} .figure}}\n{body}\n\n{caption}\n:::"
 
 
+def captioned(body, name, caption):
+    return f"{body or EMPTY_TABLE}\n\n: {caption} {{#tab:{name}}}"
+
+
 def table(results, name, caption):
     fragment = Path(results) / "tables" / f"{name}.md"
-    body = fragment.read_text(encoding="utf-8").strip() if fragment.is_file() else f"| {MISSING} |\n|---|"
-    return f"{body}\n\n: {caption} {{#tab:{name}}}"
+    return captioned(fragment.read_text(encoding="utf-8").strip() if fragment.is_file() else None, name, caption)
 
 
-MARKERS = {"fig": figure, "table": table}
+def data(results, name, caption):
+    return captioned(dataset.TABLES[name](results), name, caption)
+
+
+def sample(results, name, caption):
+    return f"::: {{#fig:{name} .figure .listing}}\n```\n{dataset.sample(name)}\n```\n\n{caption}\n:::"
+
+
+MARKERS = {"fig": figure, "table": table, "dataset": data, "sample": sample}
 
 
 def resolve(text, results, source):
@@ -71,6 +85,13 @@ def as_figure(node):
     node["t"] = "Figure"
     node["c"] = [[identifier, [name for name in classes if name != "figure"], attributes],
                  [None, [{"t": "Plain", "c": content[-1]["c"]}]], content[:-1]]
+
+
+def as_listing(node):
+    attributes, (_, caption), content = node["c"]
+    style = ["", [], [["custom-style", "Image Caption"]]]
+    node["t"] = "Div"
+    node["c"] = [attributes, [*content, {"t": "Div", "c": [style, [{"t": "Para", "c": caption[0]["c"]}]]}]]
 
 
 def number_header(node, label, sections, source):
@@ -122,6 +143,8 @@ def number(blocks, label, targets, source):
             number_header(node, label, sections, source)
         elif node["t"] in CAPTIONS:
             number_caption(node, label, counts, targets, source)
+            if "listing" in node["c"][0][1]:
+                as_listing(node)
 
 
 def link(blocks, targets):
