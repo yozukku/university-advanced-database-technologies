@@ -93,6 +93,7 @@ services:
       ZTB_HOST_MACOS: ${ZTB_HOST_MACOS:-unknown}
       ZTB_HOST_MODEL: ${ZTB_HOST_MODEL:-unknown}
       ZTB_HOST_ORBSTACK: ${ZTB_HOST_ORBSTACK:-unknown}
+      RESULTS_DIR: ${RESULTS_DIR:-}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - .:/workspace

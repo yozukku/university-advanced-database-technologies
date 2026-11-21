@@ -1,12 +1,16 @@
 import inspect
 import tomllib
 from functools import cache
+from hashlib import sha256
 from pathlib import Path
 
 from .normalise import digest
 from .params import seed
 
-POLICY = {"timeout_seconds": 600, "discarded_runs": 1, "measured_runs": 3}
+TIMEOUT_SECONDS = 600
+DISCARDED_RUNS = 1
+MEASURED_RUNS = 3
+POLICY_FILES = ("bench/runner/warmup.py", "bench/runner/limits.py")
 DRIVERS = ("psycopg", "mysql-connector-python", "pymongo", "neo4j")
 LOCK = Path("uv.lock")
 
@@ -33,5 +37,11 @@ def entry(scenario, profile):
     }
 
 
-def qhash(scenario, profile, params):
-    return digest({"entry": entry(scenario, profile), "parameters": digest(params), "policy": POLICY, "drivers": drivers()})
+def policy(timeout=TIMEOUT_SECONDS):
+    return {"timeout_seconds": timeout, "discarded_runs": DISCARDED_RUNS, "measured_runs": MEASURED_RUNS,
+            "files": {path: sha256(Path(path).read_bytes()).hexdigest() for path in POLICY_FILES}}
+
+
+def qhash(scenario, profile, params, timeout=TIMEOUT_SECONDS):
+    return digest({"entry": entry(scenario, profile), "parameters": digest(params), "policy": policy(timeout),
+                   "drivers": drivers()})

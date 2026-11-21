@@ -1,9 +1,17 @@
 import json
+import os
 from pathlib import Path
 
 
+def root(size):
+    configured = os.environ.get("RESULTS_DIR")
+    if configured:
+        return Path(configured)
+    return Path("out/xs/results") if size == "XS" else Path("results")
+
+
 def directory(size):
-    return (Path("out/xs/results") if size == "XS" else Path("results")) / "load"
+    return root(size) / "load"
 
 
 def path(size):

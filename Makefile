@@ -14,8 +14,12 @@ APP = docker compose -p "$(COMPOSE_PROJECT_NAME)-app" -f compose.app.yaml
 ENGINES = pg mysql mongo neo4j
 SNAPSHOTS = out/snapshots/$(COMPOSE_PROJECT_NAME)
 STATE = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner.state
+CAFFEINATE = $(shell command -v caffeinate 2>/dev/null)
+RUNNER = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner
+RUNNER_ARGS = --size "$(SIZE)" $(foreach engine,$(ENGINE),--engine $(engine)) \
+    $(foreach scenario,$(SCENARIO),--scenario $(scenario)) $(if $(TIMEOUT),--timeout $(TIMEOUT))
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report bench status forget
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -31,7 +35,10 @@ help:
 	    'restore ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L CONFIG=base|idx Odtwórz bazę z migawki' \
 	    'test-scenarios SIZE=XS|S [K=…] Sprawdź scenariusze w czterech bazach na migawkach' \
 	    'catalogue [CHECK=1] Zapisz katalog scenariuszy docs/bench/scenarios.md albo go sprawdź' \
-	    'report [RESULTS_DIR=results] [OUT=out] Zbuduj sprawozdanie DOCX i PDF oraz prezentację PPTX'
+	    'report [RESULTS_DIR=results] [OUT=out] Zbuduj sprawozdanie DOCX i PDF oraz prezentację PPTX' \
+	    'bench SIZE=XS|S|M|L [ENGINE=…] [SCENARIO=…] [TIMEOUT=…] Zmierz brakujące przebiegi scenariuszy' \
+	    'status SIZE=XS|S|M|L Pokaż zmierzone i brakujące komórki pomiarów' \
+	    'forget ENGINE=… SIZE=… SCENARIO=… REASON=… Usuń przebiegi komórki, aby zmierzyć ją ponownie'
 
 check:
 	@tools/check-comments
@@ -120,3 +127,15 @@ catalogue:
 
 report:
 	@$(BENCH) run --rm -T --no-deps --build report python -m bench.report --results "$(RESULTS_DIR)" --out "$(OUT)"
+
+bench: compose-config
+	@$(BENCH) stop $(ENGINES)
+	@$(BENCH) create $(ENGINES)
+	@$(if $(CAFFEINATE),$(CAFFEINATE) -ims) $(RUNNER) run $(RUNNER_ARGS)
+
+status: compose-config
+	@$(RUNNER) status $(RUNNER_ARGS)
+
+forget:
+	@test -n "$(ENGINE)" -a -n "$(SCENARIO)" -a -n "$(REASON)" || { echo 'Ustaw ENGINE, SCENARIO i REASON' >&2; exit 2; }
+	@$(RUNNER) forget $(RUNNER_ARGS) --reason "$(REASON)"
