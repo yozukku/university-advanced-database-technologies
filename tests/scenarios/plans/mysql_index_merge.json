@@ -1,0 +1,45 @@
+{
+ "query_block": {
+  "select_id": 1,
+  "cost_info": {
+   "query_cost": "30.38"
+  },
+  "ordering_operation": {
+   "using_filesort": true,
+   "cost_info": {
+    "sort_cost": "11.00"
+   },
+   "table": {
+    "table_name": "audit_event_",
+    "access_type": "index_merge",
+    "possible_keys": [
+     "jx1_email__idx",
+     "jx1_phone__idx"
+    ],
+    "key": "sort_union(jx1_email__idx,jx1_phone__idx)",
+    "key_length": "1283,67",
+    "rows_examined_per_scan": 11,
+    "rows_produced_per_join": 11,
+    "filtered": "100.00",
+    "cost_info": {
+     "read_cost": "18.28",
+     "eval_cost": "1.10",
+     "prefix_cost": "19.38",
+     "data_read_per_join": "17K"
+    },
+    "used_columns": [
+     "id_",
+     "at_",
+     "entity_",
+     "entity_id_",
+     "action_",
+     "actor_",
+     "changes_",
+     "(cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin)",
+     "(cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin)"
+    ],
+    "attached_condition": "(((cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'kornelzlotek.5005103@example.test') or ((cast(json_unquote(json_extract(`actor_`,_utf8mb4'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500005103'))"
+   }
+  }
+ }
+}

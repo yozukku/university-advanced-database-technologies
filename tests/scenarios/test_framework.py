@@ -91,3 +91,8 @@ def test_diff_finds_the_wrong_leg():
 ])
 def test_plan_access_path_and_index(engine, expected):
     assert access(engine, json.loads((PLANS / f"{engine}.json").read_text())) == expected
+
+
+def test_mysql_index_merge_names_each_index():
+    found = access("mysql", json.loads((PLANS / "mysql_index_merge.json").read_text()))
+    assert found == {"access_path": ["index_merge"], "index": ["jx1_email__idx", "jx1_phone__idx"]}

@@ -9,6 +9,7 @@ INDEXES = Path("docs/bench/indexes.yaml")
 SKIPPED = {"rejectedPlans", "allPlansExecution", "slotBasedPlan", "executionStats"}
 NEO4J_ACCESS = re.compile(r"Scan|Seek")
 NEO4J_INDEX = re.compile(r"\b\w+:(\w+)\(([^)]*)\)")
+MYSQL_MERGED = re.compile(r"(\w+)(?=[,)])")
 
 
 @dataclass(frozen=True)
@@ -54,7 +55,9 @@ def pg_access(found):
 def mysql_access(found):
     for node in nodes(found):
         if "access_type" in node:
-            yield node["access_type"], node.get("key")
+            key = node.get("key")
+            for index in MYSQL_MERGED.findall(key) if key and node["access_type"] == "index_merge" else [key]:
+                yield node["access_type"], index
 
 
 def mongo_access(found):
