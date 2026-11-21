@@ -12,6 +12,8 @@ REGISTRY = load()
 DETAIL = REGISTRY["R1"]
 PAGE = REGISTRY["R2"]
 NEARBY = REGISTRY["R3"]
+INCOMING = REGISTRY["R4"]
+RANKING = REGISTRY["R5"]
 REACH = REGISTRY["R8"]
 EARTH_METRES = 6_371_000
 MARGIN = 0.01
@@ -34,6 +36,16 @@ SHIP_LINKS = """
     join (select r.order_id_, c.lockermat_id_ from reservation_ r join lockermat_cell_ c on c.id_ = r.cell_id_
           where r.leg_ = 'DESTINATION') d on d.order_id_ = s.order_id_
     where x.created_at_ >= ?
+"""
+EXPECTED_RANKING = """
+    select c.lockermat_id_, count(*) as n
+    from order_ o join reservation_ r on r.order_id_ = o.id_ join lockermat_cell_ c on c.id_ = r.cell_id_
+    where o.status_ = 'COMPLETED' and r.leg_ in ('STORAGE', 'ORIGIN') and o.{column} >= $since and o.{column} < $now
+    group by 1 order by n desc, 1 limit $limit
+"""
+CREATED_BEFORE_COMPLETED_INSIDE = """
+    select count(*) from order_
+    where status_ = 'COMPLETED' and created_at_ < $since and closed_at_ >= $since and closed_at_ < $now
 """
 LOCKER_FIELDS = ("lockermat_id", "lockermat_name", "lockermat_address")
 EXPECTED_ORDERS = """
@@ -184,3 +196,30 @@ def test_reach_equals_breadth_first_answer(scenario, bench, size):
 def test_reach_frontier_seeks_from_at_index(scenario, bench):
     access = bench.runs[(scenario.id, "mongo", "idx")].access
     assert "IXSCAN" in access["access_path"] and access["index"] == ["shiplinks_from_at__idx"], access
+
+
+def ranking(db, parameter, column):
+    found = db.execute(EXPECTED_RANKING.format(column=column), parameter).fetchall()
+    return digest([result([kind for _, kind in RANKING.columns], found, True)])
+
+
+@pytest.mark.parametrize("scenario", [RANKING], ids=["R5"])
+def test_ranking_equals_duckdb_answer(scenario, bench, size):
+    [parameter] = bench.params[scenario.id]
+    with dataset(size) as (db, _):
+        [(outside,)] = db.execute(CREATED_BEFORE_COMPLETED_INSIDE, {key: parameter[key] for key in ("since", "now")}).fetchall()
+        expected = ranking(db, parameter, "created_at_")
+        by_completion = ranking(db, parameter, "closed_at_")
+    assert outside, "no completed order created before the window and closed inside it"
+    assert by_completion != expected, "the orders created before the window do not change the ranking"
+    for engine in scenario.engines:
+        for config in scenario.configs:
+            assert bench.runs[(scenario.id, engine, config)].hash == expected, f"{engine}/{config}"
+
+
+@pytest.mark.parametrize(("scenario", "index"), [(INCOMING, "ix1__idx"), (RANKING, "ix2__idx")], ids=["R4", "R5"])
+def test_idx_plan_uses_added_index(scenario, index, bench, size):
+    if size == "XS":
+        pytest.skip("plans are checked from S on")
+    access = bench.runs[(scenario.id, "pg", "idx")].access
+    assert index in access["index"], access
