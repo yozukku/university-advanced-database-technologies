@@ -65,6 +65,14 @@ export function pinPurpose(order: Order): AccessCode['purpose'] | null {
   return order.reservationStatus === 'OCCUPIED' ? 'PICK_UP' : null
 }
 
+export function canOpen(order: Order) {
+  return order.status === 'PAID' && (order.reservationStatus === 'BOOKED' || order.reservationStatus === 'OCCUPIED')
+}
+
+export function canCollect(shipment: IncomingShipment) {
+  return shipment.status === 'OCCUPIED'
+}
+
 export function canCancel(order: Order) {
   return order.status === 'PAID' && order.reservationStatus === 'BOOKED'
 }

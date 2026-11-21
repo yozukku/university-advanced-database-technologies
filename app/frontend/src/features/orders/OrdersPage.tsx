@@ -2,6 +2,7 @@ import { Link, useSearchParams } from 'react-router'
 import { paths } from '../../app/paths'
 import { Badge, Button, EmptyState, Loading, Page, Tabs, formatWindow } from '../../ui'
 import type { Order } from '../checkout/orders'
+import { SimulateShipment } from '../dev/SimulateShipment'
 import styles from './OrdersPage.module.css'
 import { useIncoming, useOrders } from './queries'
 import { incomingStatus, isActive, orderStatus, type Status } from './status'
@@ -62,7 +63,11 @@ function IncomingList() {
     return <Pending isError={incoming.isError} retry={() => void incoming.refetch()} />
   }
   if (incoming.data.length === 0) {
-    return <EmptyState title="Nie masz przesyłek do odbioru." />
+    return (
+      <EmptyState title="Nie masz przesyłek do odbioru.">
+        <SimulateShipment />
+      </EmptyState>
+    )
   }
   const rows = incoming.data.map(shipment => ({
     key: shipment.reservationId,
@@ -72,7 +77,12 @@ function IncomingList() {
     to: shipment.to,
     status: incomingStatus(shipment),
   }))
-  return <RowList label="Przesyłki" rows={rows} />
+  return (
+    <div className={styles.panel}>
+      <RowList label="Przesyłki" rows={rows} />
+      <SimulateShipment />
+    </div>
+  )
 }
 
 function orderRow(order: Order): Row {

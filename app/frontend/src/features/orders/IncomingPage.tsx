@@ -1,11 +1,12 @@
 import { Link, useParams } from 'react-router'
 import { paths } from '../../app/paths'
 import { Card, EmptyState, Loading, Page, formatWindow } from '../../ui'
+import { OpenCell } from '../opening/OpenCell'
 import { Fact, Facts, StatusLine, Summary } from './Detail'
 import styles from './Detail.module.css'
 import { OrderHistory } from './OrderHistory'
 import { useIncoming } from './queries'
-import { incomingStatus } from './status'
+import { canCollect, incomingStatus } from './status'
 
 const TITLE = 'Przesyłka'
 
@@ -35,6 +36,11 @@ export function IncomingPage() {
         <Facts>
           <Fact label="Skrytka" value={shipment.cellNumber} />
         </Facts>
+        {canCollect(shipment) && (
+          <div className={styles.actions}>
+            <OpenCell reservationId={shipment.reservationId} cellNumber={shipment.cellNumber} />
+          </div>
+        )}
         <OrderHistory orderId={shipment.orderId} />
       </Card>
     </Page>

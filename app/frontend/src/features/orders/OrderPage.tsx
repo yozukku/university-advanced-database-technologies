@@ -2,11 +2,12 @@ import { Link, Navigate, useParams } from 'react-router'
 import { paths } from '../../app/paths'
 import { Card, EmptyState, Loading, Page, formatWindow } from '../../ui'
 import { useAccessCodes, useOrder, type AccessCode } from '../checkout/orders'
+import { OpenCell } from '../opening/OpenCell'
 import { CancelOrder } from './CancelOrder'
 import { Fact, Facts, StatusLine, Summary } from './Detail'
 import styles from './Detail.module.css'
 import { OrderHistory } from './OrderHistory'
-import { canCancel, orderStatus, pinPurpose } from './status'
+import { canCancel, canOpen, orderStatus, pinPurpose } from './status'
 
 const TITLE = 'Rezerwacja'
 
@@ -42,9 +43,10 @@ function OrderDetail({ id }: { id: number }) {
           <Fact label="Skrytka" value={order.data.cellNumber} />
           {purpose && <Pin orderId={id} purpose={purpose} />}
         </Facts>
-        {canCancel(order.data) && (
+        {canOpen(order.data) && (
           <div className={styles.actions}>
-            <CancelOrder order={order.data} />
+            <OpenCell reservationId={order.data.reservationId} cellNumber={order.data.cellNumber} />
+            {canCancel(order.data) && <CancelOrder order={order.data} />}
           </div>
         )}
         <OrderHistory orderId={id} />

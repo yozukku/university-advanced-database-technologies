@@ -58,12 +58,20 @@ export function payOrder(user: User, orderId: number) {
   return call<unknown>(user, 'POST', `/api/orders/${orderId}/payments`, { result: 'SUCCESS' })
 }
 
+export function cancelOrder(user: User, orderId: number) {
+  return call<unknown>(user, 'POST', `/api/orders/${orderId}/cancel`)
+}
+
 export function openCell(user: User, reservationId: number) {
   return call<Opening>(user, 'POST', `/api/reservations/${reservationId}/open`)
 }
 
 export function findHistory(user: User, orderId: number) {
   return call<OrderEvent[]>(user, 'GET', `/api/orders/${orderId}/history`)
+}
+
+export function findIncoming(user: User) {
+  return call<IncomingShipment[]>(user, 'GET', '/api/shipments/incoming')
 }
 
 export function simulateShipment(user: User) {
