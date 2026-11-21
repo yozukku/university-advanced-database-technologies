@@ -35,11 +35,12 @@ def h1(results, engine):
 def plan(results, scenario, engine, config, size):
     path = Path(results) / "explain_summary.csv"
     rows = list(csv.DictReader(path.open(encoding="utf-8"))) if path.is_file() else []
-    key = (size, scenario, engine, config)
-    for row in rows:
-        if (row["size"], row["scenario"], row["engine"], row["config"]) == key:
-            index = f" ({row['index']})" if row["index"] else ""
-            return f"{row['access_path']}{index}, przejrzane wiersze: {number(int(row['rows_examined']))}"
+    for found in dict.fromkeys((size, "S")):
+        for row in rows:
+            if (row["size"], row["scenario"], row["engine"], row["config"]) == (found, scenario, engine, config):
+                index = f" ({row['index']})" if row["index"] else ""
+                label = f" (rozmiar {found})" if found != size else ""
+                return f"{row['access_path']}{index}, przejrzane wiersze: {number(int(row['rows_examined']))}{label}"
     return MISSING
 
 

@@ -27,6 +27,8 @@ Kolumna „Indeks IDX” podaje dla odczytu indeks dodany w IDX, który go obsł
 
 {{ dataset("scenarios-core", "Scenariusze podstawowe we wszystkich czterech SZBD") }}
 
+C2 dopisuje 100 000 wpisów do kodów aktywnych i ważnych w chwili T0: 3 763 kodów przy S, 5 530 przy M i 37 303 przy L (≈ 27, 18 i 3 wpisy na kod).
+
 ## Scenariusze JSON
 
 @Tab:scenarios-json zawiera 6 scenariuszy na dzienniku zdarzeń `audit_event_` z migawką aktora `actor_` i listą zmian `changes_` w JSON. Wynikają one z obowiązków RODO (dostęp do danych osoby, pseudonimizacja) i retencji dziennika.

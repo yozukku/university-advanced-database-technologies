@@ -1,13 +1,84 @@
 {
-  "config": "idx",
+  "scenario": "R1",
   "engine": "mongo",
+  "config": "idx",
+  "size": "S",
   "kind": "read",
+  "qhash": "e6ca3e10fca9c455b6dfa15ea873396371b8ea787c5c2bb2710ab854f53a79cb",
+  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "plan": {
+    "explainVersion": "1",
+    "queryPlanner": {
+      "namespace": "bagazomat.orders",
+      "parsedQuery": {
+        "_id": {
+          "$eq": 1863
+        }
+      },
+      "indexFilterSet": false,
+      "queryHash": "9B5DE45B",
+      "planCacheShapeHash": "9B5DE45B",
+      "planCacheKey": "1277757D",
+      "optimizationTimeMillis": 0,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
+      "winningPlan": {
+        "isCached": false,
+        "stage": "EXPRESS_IXSCAN",
+        "keyPattern": "{ _id: 1 }",
+        "indexName": "_id_"
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 1,
+      "executionTimeMillis": 0,
+      "totalKeysExamined": 1,
+      "totalDocsExamined": 1,
+      "executionStages": {
+        "isCached": false,
+        "stage": "EXPRESS_IXSCAN",
+        "keyPattern": "{ _id: 1 }",
+        "indexName": "_id_",
+        "keysExamined": 1,
+        "docsExamined": 1,
+        "nReturned": 1
+      }
+    },
+    "command": {
+      "find": "orders",
+      "filter": {
+        "_id": 1863
+      },
+      "$db": "bagazomat"
+    },
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
     "$clusterTime": {
       "clusterTime": {
         "$timestamp": {
-          "i": 2,
-          "t": 1795285433
+          "t": 1795295340,
+          "i": 2
         }
       },
       "signature": {
@@ -20,83 +91,12 @@
         "keyId": 0
       }
     },
-    "command": {
-      "$db": "bagazomat",
-      "filter": {
-        "_id": 1863
-      },
-      "find": "orders"
-    },
-    "executionStats": {
-      "executionStages": {
-        "docsExamined": 1,
-        "indexName": "_id_",
-        "isCached": false,
-        "keyPattern": "{ _id: 1 }",
-        "keysExamined": 1,
-        "nReturned": 1,
-        "stage": "EXPRESS_IXSCAN"
-      },
-      "executionSuccess": true,
-      "executionTimeMillis": 1,
-      "nReturned": 1,
-      "totalDocsExamined": 1,
-      "totalKeysExamined": 1
-    },
-    "explainVersion": "1",
-    "ok": 1.0,
     "operationTime": {
       "$timestamp": {
-        "i": 2,
-        "t": 1795285433
+        "t": 1795295340,
+        "i": 2
       }
-    },
-    "queryPlanner": {
-      "indexFilterSet": false,
-      "maxIndexedAndSolutionsReached": false,
-      "maxIndexedOrSolutionsReached": false,
-      "maxScansToExplodeReached": false,
-      "namespace": "bagazomat.orders",
-      "optimizationTimeMillis": 0,
-      "parsedQuery": {
-        "_id": {
-          "$eq": 1863
-        }
-      },
-      "planCacheKey": "1277757D",
-      "planCacheShapeHash": "9B5DE45B",
-      "prunedSimilarIndexes": false,
-      "queryHash": "9B5DE45B",
-      "rejectedPlans": [],
-      "winningPlan": {
-        "indexName": "_id_",
-        "isCached": false,
-        "keyPattern": "{ _id: 1 }",
-        "stage": "EXPRESS_IXSCAN"
-      }
-    },
-    "serverInfo": {
-      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568",
-      "host": "3e937261ce17",
-      "port": 27017,
-      "version": "8.0.38"
-    },
-    "serverParameters": {
-      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
-      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
-      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
-      "internalQueryFacetBufferSizeBytes": 104857600,
-      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
-      "internalQueryFrameworkControl": "trySbeRestricted",
-      "internalQueryMaxAddToSetBytes": 104857600,
-      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
-      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1,
-      "internalQueryProhibitBlockingMergeOnMongoS": 0
     }
   },
-  "qhash": "e6ca3e10fca9c455b6dfa15ea873396371b8ea787c5c2bb2710ab854f53a79cb",
-  "scenario": "R1",
-  "size": "S",
-  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "text": null
 }

@@ -5,24 +5,24 @@
   "plan": {
     "query_block": {
       "cost_info": {
-        "query_cost": "158666.80"
+        "query_cost": "161857.90"
       },
       "ordering_operation": {
         "cost_info": {
-          "sort_cost": "141998.00"
+          "sort_cost": "144899.00"
         },
         "table": {
           "access_type": "ALL",
           "attached_condition": "(((cast(json_unquote(json_extract(`bagazomat`.`audit_event_`.`actor_`,'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'kornelzlotek.5005103@example.test') or ((cast(json_unquote(json_extract(`bagazomat`.`audit_event_`.`actor_`,'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500005103'))",
           "cost_info": {
             "data_read_per_join": "39M",
-            "eval_cost": "14199.80",
-            "prefix_cost": "16668.80",
+            "eval_cost": "14489.90",
+            "prefix_cost": "16958.90",
             "read_cost": "2469.00"
           },
           "filtered": "100.00",
-          "rows_examined_per_scan": 141998,
-          "rows_produced_per_join": 141998,
+          "rows_examined_per_scan": 144899,
+          "rows_produced_per_join": 144899,
           "table_name": "audit_event_",
           "used_columns": [
             "id_",
@@ -42,6 +42,6 @@
   "qhash": "d161e697bd5f1d021e53f2dd7b31a679f09d9d693d2a9eb5654f6c9334b0842d",
   "scenario": "J2",
   "size": "S",
-  "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
-  "text": "-> Sort: audit_event_.at_, audit_event_.id_  (cost=16669 rows=141998) (actual time=77.9..77.9 rows=10 loops=1)\n    -> Filter: (((cast(json_unquote(json_extract(audit_event_.actor_,'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'kornelzlotek.5005103@example.test') or ((cast(json_unquote(json_extract(audit_event_.actor_,'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500005103'))  (cost=16669 rows=141998) (actual time=6.26..77.8 rows=10 loops=1)\n        -> Table scan on audit_event_  (cost=16669 rows=141998) (actual time=0.119..56.9 rows=146384 loops=1)\n"
+  "state_id": "5b247a71a165d166432868182ef8861e2294ea673762451494cea9c0a4c713d1",
+  "text": "-> Sort: audit_event_.at_, audit_event_.id_  (cost=16959 rows=144899) (actual time=64.6..64.6 rows=10 loops=1)\n    -> Filter: (((cast(json_unquote(json_extract(audit_event_.actor_,'$.email')) as char(320) charset utf8mb4) collate utf8mb4_0900_bin) = 'kornelzlotek.5005103@example.test') or ((cast(json_unquote(json_extract(audit_event_.actor_,'$.phone')) as char(16) charset utf8mb4) collate utf8mb4_0900_bin) = '+48500005103'))  (cost=16959 rows=144899) (actual time=6.63..64.6 rows=10 loops=1)\n        -> Table scan on audit_event_  (cost=16959 rows=144899) (actual time=0.1..46.3 rows=146384 loops=1)\n"
 }

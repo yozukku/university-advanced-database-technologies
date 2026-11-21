@@ -648,7 +648,7 @@
     },
     "order_.order_customer_created__idx": {
       "pg": [{"scope": "order_", "name": "order_customer_created__idx", "kind": "btree", "keys": ["customer_id_", "created_at_ desc"]}],
-      "mysql": [{"scope": "order_", "name": "order_customer_created__idx", "kind": "btree", "keys": ["customer_id_", "created_at_ desc"]}],
+      "mysql": [{"scope": "order_", "name": "order_customer_created__idx", "kind": "btree", "keys": ["customer_id_", "created_at_"]}],
       "mongo": [{"scope": "orders", "name": "order_customer_created__idx", "kind": "btree", "keys": ["customerId", "createdAt desc"]}],
       "neo4j": [{"scope": "Order", "name": "order_customer_created__idx", "kind": "range", "keys": ["customerId", "createdAt"]}]
     },

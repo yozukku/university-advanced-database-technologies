@@ -1,11 +1,11 @@
 {
-  "config": "base",
+  "config": "idx",
   "engine": "mysql",
   "kind": "write-discovery",
   "plan": {
     "query_block": {
       "cost_info": {
-        "query_cost": "1748.96"
+        "query_cost": "1769.87"
       },
       "ordering_operation": {
         "cost_info": {
@@ -17,8 +17,8 @@
           "cost_info": {
             "data_read_per_join": "367K",
             "eval_cost": "120.60",
-            "prefix_cost": "542.96",
-            "read_cost": "422.36"
+            "prefix_cost": "563.87",
+            "read_cost": "443.27"
           },
           "filtered": "100.00",
           "key": "order_awaiting_payment__idx",
@@ -47,6 +47,6 @@
   "qhash": "ea25599e83e664f03d7fc58c2a20fd7490a5b9bd7f81b035f761f5117f7b849c",
   "scenario": "U3",
   "size": "S",
-  "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
-  "text": "-> Sort: order_.id_  (cost=543 rows=1206) (actual time=0.831..0.853 rows=1206 loops=1)\n    -> Filter: ((case when (status_ = _utf8mb4'AWAITING_PAYMENT') then payment_deadline_ end) < '2026-11-01 00:00:00')  (cost=543 rows=1206) (actual time=0.0779..0.76 rows=1206 loops=1)\n        -> Index range scan on order_ using order_awaiting_payment__idx over (NULL < (case when (`status_` = _utf8mb4'AWAITING_PAYMENT') then `payment_deadline_` end) < '2026-11-01 00:00:00.000')  (cost=543 rows=1206) (actual time=0.0768..0.717 rows=1206 loops=1)\n"
+  "state_id": "9f704d5d96c641d3326d661012eb7c1e2fc092cb50f5b714baee9719812812cd",
+  "text": "-> Sort: order_.id_  (cost=564 rows=1206) (actual time=0.76..0.781 rows=1206 loops=1)\n    -> Filter: ((case when (status_ = _utf8mb4'AWAITING_PAYMENT') then payment_deadline_ end) < '2026-11-01 00:00:00')  (cost=564 rows=1206) (actual time=0.0585..0.697 rows=1206 loops=1)\n        -> Index range scan on order_ using order_awaiting_payment__idx over (NULL < (case when (`status_` = _utf8mb4'AWAITING_PAYMENT') then `payment_deadline_` end) < '2026-11-01 00:00:00.000')  (cost=564 rows=1206) (actual time=0.0577..0.656 rows=1206 loops=1)\n"
 }

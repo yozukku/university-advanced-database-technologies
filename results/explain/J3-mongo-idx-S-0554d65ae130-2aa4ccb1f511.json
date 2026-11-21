@@ -1,203 +1,89 @@
 {
-  "config": "idx",
+  "scenario": "J3",
   "engine": "mongo",
+  "config": "idx",
+  "size": "S",
   "kind": "read",
+  "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
+  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "plan": {
-    "$clusterTime": {
-      "clusterTime": {
-        "$timestamp": {
-          "i": 2,
-          "t": 1795285433
-        }
-      },
-      "signature": {
-        "hash": {
-          "$binary": {
-            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-            "subType": "00"
-          }
-        },
-        "keyId": 0
-      }
-    },
-    "command": {
-      "$db": "bagazomat",
-      "aggregate": "auditEvents",
-      "cursor": {},
-      "pipeline": [
-        {
-          "$group": {
-            "_id": "$actor.kind",
-            "events": {
-              "$sum": 1
-            },
-            "nameOrPhoneOnly": {
-              "$sum": {
-                "$cond": [
-                  {
-                    "$and": [
-                      {
-                        "$not": [
-                          {
-                            "$ne": [
-                              {
-                                "$type": "$actor.email"
-                              },
-                              "missing"
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "$or": [
-                          {
-                            "$ne": [
-                              {
-                                "$type": "$actor.name"
-                              },
-                              "missing"
-                            ]
-                          },
-                          {
-                            "$ne": [
-                              {
-                                "$type": "$actor.phone"
-                              },
-                              "missing"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  1,
-                  0
-                ]
-              }
-            },
-            "withEmail": {
-              "$sum": {
-                "$cond": [
-                  {
-                    "$ne": [
-                      {
-                        "$type": "$actor.email"
-                      },
-                      "missing"
-                    ]
-                  },
-                  1,
-                  0
-                ]
-              }
-            }
-          }
-        }
-      ]
-    },
     "explainVersion": "1",
-    "ok": 1.0,
-    "operationTime": {
-      "$timestamp": {
-        "i": 2,
-        "t": 1795285433
-      }
-    },
-    "queryShapeHash": "3462C157A58D3619E88C9D2FCC673995536FF8D77BD2B4FB0253547E070B4E24",
-    "serverInfo": {
-      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568",
-      "host": "3e937261ce17",
-      "port": 27017,
-      "version": "8.0.38"
-    },
-    "serverParameters": {
-      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
-      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
-      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
-      "internalQueryFacetBufferSizeBytes": 104857600,
-      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
-      "internalQueryFrameworkControl": "trySbeRestricted",
-      "internalQueryMaxAddToSetBytes": 104857600,
-      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
-      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1,
-      "internalQueryProhibitBlockingMergeOnMongoS": 0
-    },
     "stages": [
       {
         "$cursor": {
-          "executionStats": {
-            "executionStages": {
-              "advanced": 146384,
-              "executionTimeMillisEstimate": 26,
-              "inputStage": {
-                "advanced": 146384,
-                "direction": "forward",
-                "docsExamined": 146384,
-                "executionTimeMillisEstimate": 12,
-                "isEOF": 1,
-                "nReturned": 146384,
-                "needTime": 0,
-                "needYield": 0,
-                "restoreState": 18,
-                "saveState": 18,
-                "stage": "COLLSCAN",
-                "works": 146385
-              },
+          "queryPlanner": {
+            "namespace": "bagazomat.auditEvents",
+            "parsedQuery": {},
+            "indexFilterSet": false,
+            "queryHash": "3078B869",
+            "planCacheShapeHash": "3078B869",
+            "planCacheKey": "1E04F06E",
+            "optimizationTimeMillis": 0,
+            "maxIndexedOrSolutionsReached": false,
+            "maxIndexedAndSolutionsReached": false,
+            "maxScansToExplodeReached": false,
+            "prunedSimilarIndexes": false,
+            "winningPlan": {
               "isCached": false,
-              "isEOF": 1,
+              "stage": "PROJECTION_DEFAULT",
+              "transformBy": {
+                "actor.email": 1,
+                "actor.kind": 1,
+                "actor.name": 1,
+                "actor.phone": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "COLLSCAN",
+                "direction": "forward"
+              }
+            },
+            "rejectedPlans": []
+          },
+          "executionStats": {
+            "executionSuccess": true,
+            "nReturned": 146384,
+            "executionTimeMillis": 106,
+            "totalKeysExamined": 0,
+            "totalDocsExamined": 146384,
+            "executionStages": {
+              "isCached": false,
+              "stage": "PROJECTION_DEFAULT",
               "nReturned": 146384,
+              "executionTimeMillisEstimate": 27,
+              "works": 146385,
+              "advanced": 146384,
               "needTime": 0,
               "needYield": 0,
-              "restoreState": 18,
-              "saveState": 18,
-              "stage": "PROJECTION_DEFAULT",
+              "saveState": 19,
+              "restoreState": 19,
+              "isEOF": 1,
               "transformBy": {
-                "_id": 0,
                 "actor.email": 1,
                 "actor.kind": 1,
                 "actor.name": 1,
-                "actor.phone": 1
+                "actor.phone": 1,
+                "_id": 0
               },
-              "works": 146385
-            },
-            "executionSuccess": true,
-            "executionTimeMillis": 107,
-            "nReturned": 146384,
-            "totalDocsExamined": 146384,
-            "totalKeysExamined": 0
-          },
-          "queryPlanner": {
-            "indexFilterSet": false,
-            "maxIndexedAndSolutionsReached": false,
-            "maxIndexedOrSolutionsReached": false,
-            "maxScansToExplodeReached": false,
-            "namespace": "bagazomat.auditEvents",
-            "optimizationTimeMillis": 0,
-            "parsedQuery": {},
-            "planCacheKey": "1E04F06E",
-            "planCacheShapeHash": "3078B869",
-            "prunedSimilarIndexes": false,
-            "queryHash": "3078B869",
-            "rejectedPlans": [],
-            "winningPlan": {
               "inputStage": {
+                "stage": "COLLSCAN",
+                "nReturned": 146384,
+                "executionTimeMillisEstimate": 19,
+                "works": 146385,
+                "advanced": 146384,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 19,
+                "restoreState": 19,
+                "isEOF": 1,
                 "direction": "forward",
-                "stage": "COLLSCAN"
-              },
-              "isCached": false,
-              "stage": "PROJECTION_DEFAULT",
-              "transformBy": {
-                "_id": 0,
-                "actor.email": 1,
-                "actor.kind": 1,
-                "actor.name": 1,
-                "actor.phone": 1
+                "docsExamined": 146384
               }
             }
           }
         },
-        "executionTimeMillisEstimate": 78,
-        "nReturned": 146384
+        "nReturned": 146384,
+        "executionTimeMillisEstimate": 66
       },
       {
         "$group": {
@@ -205,6 +91,30 @@
           "events": {
             "$sum": {
               "$const": 1
+            }
+          },
+          "withEmail": {
+            "$sum": {
+              "$cond": [
+                {
+                  "$ne": [
+                    {
+                      "$type": [
+                        "$actor.email"
+                      ]
+                    },
+                    {
+                      "$const": "missing"
+                    }
+                  ]
+                },
+                {
+                  "$const": 1
+                },
+                {
+                  "$const": 0
+                }
+              ]
             }
           },
           "nameOrPhoneOnly": {
@@ -266,51 +176,141 @@
                 }
               ]
             }
-          },
-          "withEmail": {
-            "$sum": {
-              "$cond": [
-                {
-                  "$ne": [
-                    {
-                      "$type": [
-                        "$actor.email"
-                      ]
-                    },
-                    {
-                      "$const": "missing"
-                    }
-                  ]
-                },
-                {
-                  "$const": 1
-                },
-                {
-                  "$const": 0
-                }
-              ]
-            }
           }
         },
-        "executionTimeMillisEstimate": 103,
         "maxAccumulatorMemoryUsageBytes": {
           "events": 896,
-          "nameOrPhoneOnly": 896,
-          "withEmail": 896
+          "withEmail": 896,
+          "nameOrPhoneOnly": 896
         },
-        "nReturned": 7,
-        "numBytesSpilledEstimate": 0,
-        "spilledDataStorageSize": 0,
-        "spilledRecords": 0,
-        "spills": 0,
         "totalOutputDataSizeBytes": 2163,
-        "usedDisk": false
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "numBytesSpilledEstimate": 0,
+        "spilledRecords": 0,
+        "nReturned": 7,
+        "executionTimeMillisEstimate": 100
       }
-    ]
+    ],
+    "queryShapeHash": "3462C157A58D3619E88C9D2FCC673995536FF8D77BD2B4FB0253547E070B4E24",
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "command": {
+      "aggregate": "auditEvents",
+      "pipeline": [
+        {
+          "$group": {
+            "_id": "$actor.kind",
+            "events": {
+              "$sum": 1
+            },
+            "withEmail": {
+              "$sum": {
+                "$cond": [
+                  {
+                    "$ne": [
+                      {
+                        "$type": "$actor.email"
+                      },
+                      "missing"
+                    ]
+                  },
+                  1,
+                  0
+                ]
+              }
+            },
+            "nameOrPhoneOnly": {
+              "$sum": {
+                "$cond": [
+                  {
+                    "$and": [
+                      {
+                        "$not": [
+                          {
+                            "$ne": [
+                              {
+                                "$type": "$actor.email"
+                              },
+                              "missing"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "$or": [
+                          {
+                            "$ne": [
+                              {
+                                "$type": "$actor.name"
+                              },
+                              "missing"
+                            ]
+                          },
+                          {
+                            "$ne": [
+                              {
+                                "$type": "$actor.phone"
+                              },
+                              "missing"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  1,
+                  0
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795295340,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795295340,
+        "i": 2
+      }
+    }
   },
-  "qhash": "0554d65ae130f7d5dbd78f88992b03b7cf3be3f6542fbab9961ae4ee2d0e2b24",
-  "scenario": "J3",
-  "size": "S",
-  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "text": null
 }

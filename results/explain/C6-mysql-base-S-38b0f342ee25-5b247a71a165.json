@@ -48,6 +48,6 @@
   "qhash": "38b0f342ee25e691e3510c6f4d7f0dcef6dc321caa480c9b7cddefe5fa1b6f8e",
   "scenario": "C6",
   "size": "S",
-  "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
-  "text": "-> Sort: reservation_.order_id_  (cost=2133 rows=1777) (actual time=2.57..2.6 rows=1777 loops=1)\n    -> Filter: ((case when (status_ = _utf8mb4'OCCUPIED') then to_ end) < '2026-11-01 00:00:00')  (cost=2133 rows=1777) (actual time=0.942..2.37 rows=1777 loops=1)\n        -> Index range scan on reservation_ using reservation_overdue__idx over (NULL < (case when (`status_` = _utf8mb4'OCCUPIED') then `to_` end) < '2026-11-01 00:00:00.000')  (cost=2133 rows=1777) (actual time=0.937..2.3 rows=1777 loops=1)\n"
+  "state_id": "5b247a71a165d166432868182ef8861e2294ea673762451494cea9c0a4c713d1",
+  "text": "-> Sort: reservation_.order_id_  (cost=2133 rows=1777) (actual time=2.75..2.79 rows=1777 loops=1)\n    -> Filter: ((case when (status_ = _utf8mb4'OCCUPIED') then to_ end) < '2026-11-01 00:00:00')  (cost=2133 rows=1777) (actual time=0.978..2.53 rows=1777 loops=1)\n        -> Index range scan on reservation_ using reservation_overdue__idx over (NULL < (case when (`status_` = _utf8mb4'OCCUPIED') then `to_` end) < '2026-11-01 00:00:00.000')  (cost=2133 rows=1777) (actual time=0.973..2.45 rows=1777 loops=1)\n"
 }

@@ -8,7 +8,7 @@ alter table tariff_
     add index tariff_size_from__idx (size_, valid_from_);
 
 alter table order_
-    add index order_customer_created__idx (customer_id_, created_at_ desc),
+    add index order_customer_created__idx (customer_id_, created_at_),
     add index order_awaiting_payment__idx ((case when status_ = 'AWAITING_PAYMENT' then payment_deadline_ end)),
     add index order_tariff__idx (tariff_id_);
 

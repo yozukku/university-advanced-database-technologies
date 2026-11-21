@@ -1,32 +1,251 @@
 {
-  "config": "idx",
+  "scenario": "R5",
   "engine": "mongo",
+  "config": "idx",
+  "size": "S",
   "kind": "read",
+  "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
+  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "plan": {
-    "$clusterTime": {
-      "clusterTime": {
-        "$timestamp": {
-          "i": 2,
-          "t": 1795285433
-        }
-      },
-      "signature": {
-        "hash": {
-          "$binary": {
-            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-            "subType": "00"
+    "explainVersion": "1",
+    "stages": [
+      {
+        "$cursor": {
+          "queryPlanner": {
+            "namespace": "bagazomat.orders",
+            "parsedQuery": {
+              "$and": [
+                {
+                  "status": {
+                    "$eq": "COMPLETED"
+                  }
+                },
+                {
+                  "createdAt": {
+                    "$lt": {
+                      "$date": "2026-11-01T00:00:00Z"
+                    }
+                  }
+                },
+                {
+                  "createdAt": {
+                    "$gte": {
+                      "$date": "2026-10-02T00:00:00Z"
+                    }
+                  }
+                }
+              ]
+            },
+            "indexFilterSet": false,
+            "queryHash": "CC44D48E",
+            "planCacheShapeHash": "CC44D48E",
+            "planCacheKey": "8F2627CA",
+            "optimizationTimeMillis": 0,
+            "maxIndexedOrSolutionsReached": false,
+            "maxIndexedAndSolutionsReached": false,
+            "maxScansToExplodeReached": false,
+            "prunedSimilarIndexes": false,
+            "winningPlan": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "transformBy": {
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "FETCH",
+                "inputStage": {
+                  "stage": "IXSCAN",
+                  "keyPattern": {
+                    "status": 1,
+                    "createdAt": 1
+                  },
+                  "indexName": "ix2__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "status": [],
+                    "createdAt": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": false,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "status": [
+                      "[\"COMPLETED\", \"COMPLETED\"]"
+                    ],
+                    "createdAt": [
+                      "[new Date(1790899200000), new Date(1793491200000))"
+                    ]
+                  }
+                }
+              }
+            },
+            "rejectedPlans": []
+          },
+          "executionStats": {
+            "executionSuccess": true,
+            "nReturned": 4048,
+            "executionTimeMillis": 6,
+            "totalKeysExamined": 4048,
+            "totalDocsExamined": 4048,
+            "executionStages": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "nReturned": 4048,
+              "executionTimeMillisEstimate": 0,
+              "works": 4049,
+              "advanced": 4048,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 7,
+              "restoreState": 7,
+              "isEOF": 1,
+              "transformBy": {
+                "reservations": 1,
+                "_id": 0
+              },
+              "inputStage": {
+                "stage": "FETCH",
+                "nReturned": 4048,
+                "executionTimeMillisEstimate": 0,
+                "works": 4049,
+                "advanced": 4048,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 7,
+                "restoreState": 7,
+                "isEOF": 1,
+                "docsExamined": 4048,
+                "alreadyHasObj": 0,
+                "inputStage": {
+                  "stage": "IXSCAN",
+                  "nReturned": 4048,
+                  "executionTimeMillisEstimate": 0,
+                  "works": 4049,
+                  "advanced": 4048,
+                  "needTime": 0,
+                  "needYield": 0,
+                  "saveState": 7,
+                  "restoreState": 7,
+                  "isEOF": 1,
+                  "keyPattern": {
+                    "status": 1,
+                    "createdAt": 1
+                  },
+                  "indexName": "ix2__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "status": [],
+                    "createdAt": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": false,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "status": [
+                      "[\"COMPLETED\", \"COMPLETED\"]"
+                    ],
+                    "createdAt": [
+                      "[new Date(1790899200000), new Date(1793491200000))"
+                    ]
+                  },
+                  "keysExamined": 4048,
+                  "seeks": 1,
+                  "dupsTested": 0,
+                  "dupsDropped": 0
+                }
+              }
+            }
           }
         },
-        "keyId": 0
+        "nReturned": 4048,
+        "executionTimeMillisEstimate": 2
+      },
+      {
+        "$unwind": {
+          "path": "$reservations"
+        },
+        "nReturned": 4921,
+        "executionTimeMillisEstimate": 2
+      },
+      {
+        "$match": {
+          "reservations.leg": {
+            "$in": [
+              "ORIGIN",
+              "STORAGE"
+            ]
+          }
+        },
+        "nReturned": 4048,
+        "executionTimeMillisEstimate": 3
+      },
+      {
+        "$group": {
+          "_id": "$reservations.lockermatId",
+          "orders": {
+            "$sum": {
+              "$const": 1
+            }
+          }
+        },
+        "maxAccumulatorMemoryUsageBytes": {
+          "orders": 15872
+        },
+        "totalOutputDataSizeBytes": 30380,
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "numBytesSpilledEstimate": 0,
+        "spilledRecords": 0,
+        "nReturned": 124,
+        "executionTimeMillisEstimate": 3
+      },
+      {
+        "$sort": {
+          "sortKey": {
+            "orders": -1,
+            "_id": 1
+          },
+          "limit": 20
+        },
+        "totalDataSizeSortedBytesEstimate": 6500,
+        "usedDisk": false,
+        "spills": 0,
+        "spilledDataStorageSize": 0,
+        "nReturned": 20,
+        "executionTimeMillisEstimate": 3
       }
+    ],
+    "queryShapeHash": "0A5B94CD3356C6D3A2DD7F6563605913C393509762FDF688D7AF38705F9161C8",
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
     },
     "command": {
-      "$db": "bagazomat",
       "aggregate": "orders",
-      "cursor": {},
       "pipeline": [
         {
           "$match": {
+            "status": "COMPLETED",
             "createdAt": {
               "$gte": {
                 "$date": "2026-10-02T00:00:00Z"
@@ -34,8 +253,7 @@
               "$lt": {
                 "$date": "2026-11-01T00:00:00Z"
               }
-            },
-            "status": "COMPLETED"
+            }
           }
         },
         {
@@ -61,259 +279,41 @@
         },
         {
           "$sort": {
-            "_id": 1,
-            "orders": -1
+            "orders": -1,
+            "_id": 1
           }
         },
         {
           "$limit": 20
         }
-      ]
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
     },
-    "explainVersion": "1",
     "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795295340,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
     "operationTime": {
       "$timestamp": {
-        "i": 2,
-        "t": 1795285433
+        "t": 1795295340,
+        "i": 2
       }
-    },
-    "queryShapeHash": "0A5B94CD3356C6D3A2DD7F6563605913C393509762FDF688D7AF38705F9161C8",
-    "serverInfo": {
-      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568",
-      "host": "3e937261ce17",
-      "port": 27017,
-      "version": "8.0.38"
-    },
-    "serverParameters": {
-      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
-      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
-      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
-      "internalQueryFacetBufferSizeBytes": 104857600,
-      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
-      "internalQueryFrameworkControl": "trySbeRestricted",
-      "internalQueryMaxAddToSetBytes": 104857600,
-      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
-      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1,
-      "internalQueryProhibitBlockingMergeOnMongoS": 0
-    },
-    "stages": [
-      {
-        "$cursor": {
-          "executionStats": {
-            "executionStages": {
-              "advanced": 4048,
-              "executionTimeMillisEstimate": 2,
-              "inputStage": {
-                "advanced": 4048,
-                "alreadyHasObj": 0,
-                "docsExamined": 4048,
-                "executionTimeMillisEstimate": 2,
-                "inputStage": {
-                  "advanced": 4048,
-                  "direction": "forward",
-                  "dupsDropped": 0,
-                  "dupsTested": 0,
-                  "executionTimeMillisEstimate": 0,
-                  "indexBounds": {
-                    "createdAt": [
-                      "[new Date(1790899200000), new Date(1793491200000))"
-                    ],
-                    "status": [
-                      "[\"COMPLETED\", \"COMPLETED\"]"
-                    ]
-                  },
-                  "indexName": "ix2__idx",
-                  "indexVersion": 2,
-                  "isEOF": 1,
-                  "isMultiKey": false,
-                  "isPartial": false,
-                  "isSparse": false,
-                  "isUnique": false,
-                  "keyPattern": {
-                    "createdAt": 1,
-                    "status": 1
-                  },
-                  "keysExamined": 4048,
-                  "multiKeyPaths": {
-                    "createdAt": [],
-                    "status": []
-                  },
-                  "nReturned": 4048,
-                  "needTime": 0,
-                  "needYield": 0,
-                  "restoreState": 7,
-                  "saveState": 7,
-                  "seeks": 1,
-                  "stage": "IXSCAN",
-                  "works": 4049
-                },
-                "isEOF": 1,
-                "nReturned": 4048,
-                "needTime": 0,
-                "needYield": 0,
-                "restoreState": 7,
-                "saveState": 7,
-                "stage": "FETCH",
-                "works": 4049
-              },
-              "isCached": false,
-              "isEOF": 1,
-              "nReturned": 4048,
-              "needTime": 0,
-              "needYield": 0,
-              "restoreState": 7,
-              "saveState": 7,
-              "stage": "PROJECTION_SIMPLE",
-              "transformBy": {
-                "_id": 0,
-                "reservations": 1
-              },
-              "works": 4049
-            },
-            "executionSuccess": true,
-            "executionTimeMillis": 7,
-            "nReturned": 4048,
-            "totalDocsExamined": 4048,
-            "totalKeysExamined": 4048
-          },
-          "queryPlanner": {
-            "indexFilterSet": false,
-            "maxIndexedAndSolutionsReached": false,
-            "maxIndexedOrSolutionsReached": false,
-            "maxScansToExplodeReached": false,
-            "namespace": "bagazomat.orders",
-            "optimizationTimeMillis": 0,
-            "parsedQuery": {
-              "$and": [
-                {
-                  "status": {
-                    "$eq": "COMPLETED"
-                  }
-                },
-                {
-                  "createdAt": {
-                    "$lt": {
-                      "$date": "2026-11-01T00:00:00Z"
-                    }
-                  }
-                },
-                {
-                  "createdAt": {
-                    "$gte": {
-                      "$date": "2026-10-02T00:00:00Z"
-                    }
-                  }
-                }
-              ]
-            },
-            "planCacheKey": "8F2627CA",
-            "planCacheShapeHash": "CC44D48E",
-            "prunedSimilarIndexes": false,
-            "queryHash": "CC44D48E",
-            "rejectedPlans": [],
-            "winningPlan": {
-              "inputStage": {
-                "inputStage": {
-                  "direction": "forward",
-                  "indexBounds": {
-                    "createdAt": [
-                      "[new Date(1790899200000), new Date(1793491200000))"
-                    ],
-                    "status": [
-                      "[\"COMPLETED\", \"COMPLETED\"]"
-                    ]
-                  },
-                  "indexName": "ix2__idx",
-                  "indexVersion": 2,
-                  "isMultiKey": false,
-                  "isPartial": false,
-                  "isSparse": false,
-                  "isUnique": false,
-                  "keyPattern": {
-                    "createdAt": 1,
-                    "status": 1
-                  },
-                  "multiKeyPaths": {
-                    "createdAt": [],
-                    "status": []
-                  },
-                  "stage": "IXSCAN"
-                },
-                "stage": "FETCH"
-              },
-              "isCached": false,
-              "stage": "PROJECTION_SIMPLE",
-              "transformBy": {
-                "_id": 0,
-                "reservations": 1
-              }
-            }
-          }
-        },
-        "executionTimeMillisEstimate": 5,
-        "nReturned": 4048
-      },
-      {
-        "$unwind": {
-          "path": "$reservations"
-        },
-        "executionTimeMillisEstimate": 5,
-        "nReturned": 4921
-      },
-      {
-        "$match": {
-          "reservations.leg": {
-            "$in": [
-              "ORIGIN",
-              "STORAGE"
-            ]
-          }
-        },
-        "executionTimeMillisEstimate": 6,
-        "nReturned": 4048
-      },
-      {
-        "$group": {
-          "_id": "$reservations.lockermatId",
-          "orders": {
-            "$sum": {
-              "$const": 1
-            }
-          }
-        },
-        "executionTimeMillisEstimate": 6,
-        "maxAccumulatorMemoryUsageBytes": {
-          "orders": 15872
-        },
-        "nReturned": 124,
-        "numBytesSpilledEstimate": 0,
-        "spilledDataStorageSize": 0,
-        "spilledRecords": 0,
-        "spills": 0,
-        "totalOutputDataSizeBytes": 30380,
-        "usedDisk": false
-      },
-      {
-        "$sort": {
-          "limit": 20,
-          "sortKey": {
-            "_id": 1,
-            "orders": -1
-          }
-        },
-        "executionTimeMillisEstimate": 6,
-        "nReturned": 20,
-        "spilledDataStorageSize": 0,
-        "spills": 0,
-        "totalDataSizeSortedBytesEstimate": 6500,
-        "usedDisk": false
-      }
-    ]
+    }
   },
-  "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
-  "scenario": "R5",
-  "size": "S",
-  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "text": null
 }

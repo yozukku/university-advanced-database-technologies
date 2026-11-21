@@ -32,7 +32,8 @@ where mbrcontains(st_geomfromtext(%(box)s, 4326, 'axis-order=long-lat'), l.locat
   and l.status_ = 'ACTIVE'
   and st_distance_sphere(l.location_, st_geomfromtext(%(point)s, 4326, 'axis-order=long-lat')) <= %(radius)s
   and exists (select 1 from lockermat_cell_ c
-              where c.lockermat_id_ = l.id_ and c.size_ = %(size)s and c.status_ = 'IN_SERVICE'
+              where (case when c.status_ = 'IN_SERVICE' then c.lockermat_id_ end) = l.id_
+                and (case when c.status_ = 'IN_SERVICE' then c.size_ end) = %(size)s
                 and not exists (select 1 from reservation_ r
                                 where r.cell_id_ = c.id_ and r.status_ in ('BOOKED', 'OCCUPIED')
                                   and r.from_ < %(to)s and r.to_ > %(from)s)

@@ -5,7 +5,7 @@
   "plan": {
     "query_block": {
       "cost_info": {
-        "query_cost": "14817.05"
+        "query_cost": "15107.15"
       },
       "grouping_operation": {
         "table": {
@@ -13,9 +13,9 @@
           "attached_condition": "(<cache>('CANCELLED') member of (`bagazomat`.`audit_event_`.`changes_new_`) and json_contains(`bagazomat`.`audit_event_`.`changes_`,<cache>(json_object('f','status_','new','CANCELLED'))) and (`bagazomat`.`audit_event_`.`at_` >= TIMESTAMP'2025-11-01 00:00:00') and (`bagazomat`.`audit_event_`.`at_` < TIMESTAMP'2025-12-01 00:00:00'))",
           "cost_info": {
             "data_read_per_join": "4M",
-            "eval_cost": "1577.44",
-            "prefix_cost": "14817.05",
-            "read_cost": "13239.61"
+            "eval_cost": "1609.67",
+            "prefix_cost": "15107.15",
+            "read_cost": "13497.48"
           },
           "filtered": "11.11",
           "key": "audit_event_entity_at__idx",
@@ -23,8 +23,8 @@
           "possible_keys": [
             "audit_event_entity_at__idx"
           ],
-          "rows_examined_per_scan": 141998,
-          "rows_produced_per_join": 15774,
+          "rows_examined_per_scan": 144899,
+          "rows_produced_per_join": 16096,
           "table_name": "audit_event_",
           "used_columns": [
             "id_",
@@ -47,6 +47,6 @@
   "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
   "scenario": "J4",
   "size": "S",
-  "state_id": "3298a91da00717e2df28bb88d21131432d2dd0620d1b43366006b9ea397e1726",
-  "text": "-> Group aggregate: count(0)  (cost=16394 rows=2) (actual time=84.6..84.6 rows=1 loops=1)\n    -> Filter: (<cache>('CANCELLED') member of (audit_event_.changes_new_) and json_contains(audit_event_.changes_,<cache>(json_object('f','status_','new','CANCELLED'))) and (audit_event_.at_ >= TIMESTAMP'2025-11-01 00:00:00') and (audit_event_.at_ < TIMESTAMP'2025-12-01 00:00:00'))  (cost=14817 rows=15774) (actual time=14.1..84.6 rows=151 loops=1)\n        -> Index scan on audit_event_ using audit_event_entity_at__idx  (cost=14817 rows=141998) (actual time=0.047..71.1 rows=146384 loops=1)\n"
+  "state_id": "5b247a71a165d166432868182ef8861e2294ea673762451494cea9c0a4c713d1",
+  "text": "-> Group aggregate: count(0)  (cost=16717 rows=2) (actual time=84..84 rows=1 loops=1)\n    -> Filter: (<cache>('CANCELLED') member of (audit_event_.changes_new_) and json_contains(audit_event_.changes_,<cache>(json_object('f','status_','new','CANCELLED'))) and (audit_event_.at_ >= TIMESTAMP'2025-11-01 00:00:00') and (audit_event_.at_ < TIMESTAMP'2025-12-01 00:00:00'))  (cost=15107 rows=16097) (actual time=13.6..84 rows=151 loops=1)\n        -> Index scan on audit_event_ using audit_event_entity_at__idx  (cost=15107 rows=144899) (actual time=0.0385..70.8 rows=146384 loops=1)\n"
 }

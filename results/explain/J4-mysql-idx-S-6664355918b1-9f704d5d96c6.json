@@ -51,6 +51,6 @@
   "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
   "scenario": "J4",
   "size": "S",
-  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
-  "text": "-> Table scan on <temporary>  (actual time=7.12..7.12 rows=1 loops=1)\n    -> Aggregate using temporary table  (actual time=7.11..7.11 rows=1 loops=1)\n        -> Filter: (json'\"CANCELLED\"' member of (cast(changes_new_ as char(32) array)) and json_contains(audit_event_.changes_,<cache>(json_object('f','status_','new','CANCELLED'))) and (audit_event_.at_ >= TIMESTAMP'2025-11-01 00:00:00') and (audit_event_.at_ < TIMESTAMP'2025-12-01 00:00:00'))  (cost=1206 rows=513) (actual time=2.87..7.09 rows=151 loops=1)\n            -> Index lookup on audit_event_ using jx2__idx (cast(changes_new_ as char(32) array)=json'\"CANCELLED\"')  (cost=1206 rows=4617) (actual time=0.0258..4.13 rows=4617 loops=1)\n"
+  "state_id": "9f704d5d96c641d3326d661012eb7c1e2fc092cb50f5b714baee9719812812cd",
+  "text": "-> Table scan on <temporary>  (actual time=7.01..7.01 rows=1 loops=1)\n    -> Aggregate using temporary table  (actual time=7.01..7.01 rows=1 loops=1)\n        -> Filter: (json'\"CANCELLED\"' member of (cast(changes_new_ as char(32) array)) and json_contains(audit_event_.changes_,<cache>(json_object('f','status_','new','CANCELLED'))) and (audit_event_.at_ >= TIMESTAMP'2025-11-01 00:00:00') and (audit_event_.at_ < TIMESTAMP'2025-12-01 00:00:00'))  (cost=1206 rows=513) (actual time=2.76..6.98 rows=151 loops=1)\n            -> Index lookup on audit_event_ using jx2__idx (cast(changes_new_ as char(32) array)=json'\"CANCELLED\"')  (cost=1206 rows=4617) (actual time=0.0186..4 rows=4617 loops=1)\n"
 }

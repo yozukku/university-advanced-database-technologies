@@ -15,7 +15,7 @@ from .state import snapshot as state
 COLUMNS = ("size", "scenario", "engine", "config", "kind", "access_path", "index", "rows_examined", "rows_returned", "file")
 MYSQL_ACCESS = re.compile(r"(?:scan|lookup|search) on [^<]")
 MYSQL_ACTUAL = re.compile(r"actual time=\S+ rows=([\d.e+]+) loops=(\d+)")
-MONGO_SKIPPED = {"rejectedPlans", "allPlansExecution"}
+MONGO_SKIPPED = {"rejectedPlans", "allPlansExecution", "executionStages"}
 
 
 def directory(size):
@@ -79,7 +79,7 @@ def group(bench, target, engine, config, missing):
             entry = {"scenario": scenario.id, "engine": engine, "config": config, "size": bench.size,
                      "kind": "read" if scenario.read else "write-discovery", "qhash": bench.qhashes[scenario.id],
                      "state_id": bench.state_id(engine, config), "plan": found, "text": text}
-            (target / name).write_text(json.dumps(entry, ensure_ascii=False, indent=2, sort_keys=True, default=str) + "\n")
+            (target / name).write_text(json.dumps(entry, ensure_ascii=False, indent=2, sort_keys=engine != "mongo", default=str) + "\n")
             print(f"{engine} {bench.size} {config} {scenario.id}: {name}")
     return failed
 

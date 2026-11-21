@@ -5,7 +5,7 @@
   "plan": {
     "query_block": {
       "cost_info": {
-        "query_cost": "6.19"
+        "query_cost": "6.18"
       },
       "nested_loop": [
         {
@@ -47,11 +47,11 @@
             "cost_info": {
               "data_read_per_join": "56",
               "eval_cost": "0.02",
-              "prefix_cost": "5.99",
-              "read_cost": "2.33"
+              "prefix_cost": "5.98",
+              "read_cost": "2.32"
             },
-            "filtered": "4.21",
-            "key": "reservation_order__fk",
+            "filtered": "4.22",
+            "key": "reservation_order__idx",
             "key_length": "8",
             "possible_keys": [
               "reservation_order__fk",
@@ -85,7 +85,7 @@
             "cost_info": {
               "data_read_per_join": "26",
               "eval_cost": "0.02",
-              "prefix_cost": "6.14",
+              "prefix_cost": "6.13",
               "read_cost": "0.14"
             },
             "filtered": "100.00",
@@ -118,7 +118,7 @@
             "cost_info": {
               "data_read_per_join": "28",
               "eval_cost": "0.02",
-              "prefix_cost": "6.19",
+              "prefix_cost": "6.18",
               "read_cost": "0.04"
             },
             "filtered": "100.00",
@@ -150,6 +150,6 @@
   "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
   "scenario": "R4",
   "size": "S",
-  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
-  "text": "-> Nested loop inner join  (cost=6.19 rows=0.15) (actual time=0.117..0.117 rows=1 loops=1)\n    -> Nested loop inner join  (cost=6.14 rows=0.15) (actual time=0.114..0.114 rows=1 loops=1)\n        -> Nested loop inner join  (cost=5.99 rows=0.15) (actual time=0.103..0.103 rows=1 loops=1)\n            -> Index lookup on s using ix1__idx (recipient_phone_='+48501001580')  (cost=3.3 rows=3) (actual time=0.0507..0.0511 rows=3 loops=1)\n            -> Filter: ((r.status_ = 'OCCUPIED') and (r.leg_ = 'DESTINATION'))  (cost=0.779 rows=0.05) (actual time=0.0171..0.0172 rows=0.333 loops=3)\n                -> Index lookup on r using reservation_order__fk (order_id_=s.order_id_)  (cost=0.779 rows=1.19) (actual time=0.0166..0.0168 rows=2 loops=3)\n        -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=1.58 rows=1) (actual time=0.0113..0.0113 rows=1 loops=1)\n    -> Single-row index lookup on l using PRIMARY (id_=c.lockermat_id_)  (cost=0.917 rows=1) (actual time=0.00262..0.00262 rows=1 loops=1)\n"
+  "state_id": "9f704d5d96c641d3326d661012eb7c1e2fc092cb50f5b714baee9719812812cd",
+  "text": "-> Nested loop inner join  (cost=6.18 rows=0.15) (actual time=0.0832..0.0838 rows=1 loops=1)\n    -> Nested loop inner join  (cost=6.13 rows=0.15) (actual time=0.0807..0.0813 rows=1 loops=1)\n        -> Nested loop inner join  (cost=5.98 rows=0.15) (actual time=0.0714..0.0719 rows=1 loops=1)\n            -> Index lookup on s using ix1__idx (recipient_phone_='+48501001580')  (cost=3.3 rows=3) (actual time=0.0399..0.0404 rows=3 loops=1)\n            -> Filter: ((r.status_ = 'OCCUPIED') and (r.leg_ = 'DESTINATION'))  (cost=0.776 rows=0.05) (actual time=0.0103..0.0103 rows=0.333 loops=3)\n                -> Index lookup on r using reservation_order__idx (order_id_=s.order_id_)  (cost=0.776 rows=1.19) (actual time=0.00979..0.0101 rows=2 loops=3)\n        -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=1.58 rows=1) (actual time=0.00921..0.00921 rows=1 loops=1)\n    -> Single-row index lookup on l using PRIMARY (id_=c.lockermat_id_)  (cost=0.917 rows=1) (actual time=0.00233..0.00233 rows=1 loops=1)\n"
 }

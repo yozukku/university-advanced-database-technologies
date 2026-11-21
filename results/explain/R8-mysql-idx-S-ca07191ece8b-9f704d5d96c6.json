@@ -38,7 +38,7 @@
                     "dependent": false,
                     "query_block": {
                       "cost_info": {
-                        "query_cost": "279.05"
+                        "query_cost": "310.11"
                       },
                       "nested_loop": [
                         {
@@ -67,8 +67,8 @@
                             "cost_info": {
                               "data_read_per_join": "6K",
                               "eval_cost": "4.00",
-                              "prefix_cost": "7.71",
-                              "read_cost": "0.98"
+                              "prefix_cost": "7.81",
+                              "read_cost": "1.09"
                             },
                             "filtered": "100.00",
                             "key": "lockermat_cell_number__uq",
@@ -99,13 +99,13 @@
                             "access_type": "ref",
                             "attached_condition": "(`bagazomat`.`ol`.`leg_` = 'ORIGIN')",
                             "cost_info": {
-                              "data_read_per_join": "15K",
-                              "eval_cost": "4.10",
-                              "prefix_cost": "240.04",
-                              "read_cost": "191.30"
+                              "data_read_per_join": "16K",
+                              "eval_cost": "4.57",
+                              "prefix_cost": "266.53",
+                              "read_cost": "213.03"
                             },
                             "filtered": "10.00",
-                            "key": "reservation_cell_from__idx",
+                            "key": "reservation_lockermat_cell__fk",
                             "key_length": "8",
                             "possible_keys": [
                               "reservation_order__fk",
@@ -116,8 +116,8 @@
                             "ref": [
                               "bagazomat.oc.id_"
                             ],
-                            "rows_examined_per_scan": 10,
-                            "rows_produced_per_join": 41,
+                            "rows_examined_per_scan": 11,
+                            "rows_produced_per_join": 45,
                             "table_name": "ol",
                             "used_columns": [
                               "order_id_",
@@ -135,12 +135,12 @@
                             "attached_condition": "(`bagazomat`.`dl`.`leg_` = 'DESTINATION')",
                             "cost_info": {
                               "data_read_per_join": "1K",
-                              "eval_cost": "0.49",
-                              "prefix_cost": "267.61",
-                              "read_cost": "22.70"
+                              "eval_cost": "0.54",
+                              "prefix_cost": "297.19",
+                              "read_cost": "25.25"
                             },
                             "filtered": "10.00",
-                            "key": "reservation_order__fk",
+                            "key": "reservation_order__idx",
                             "key_length": "8",
                             "possible_keys": [
                               "reservation_order__fk",
@@ -152,7 +152,7 @@
                               "bagazomat.ol.order_id_"
                             ],
                             "rows_examined_per_scan": 1,
-                            "rows_produced_per_join": 4,
+                            "rows_produced_per_join": 5,
                             "table_name": "dl",
                             "used_columns": [
                               "order_id_",
@@ -168,10 +168,10 @@
                           "table": {
                             "access_type": "eq_ref",
                             "cost_info": {
-                              "data_read_per_join": "856",
-                              "eval_cost": "0.49",
-                              "prefix_cost": "269.31",
-                              "read_cost": "1.22"
+                              "data_read_per_join": "953",
+                              "eval_cost": "0.54",
+                              "prefix_cost": "299.09",
+                              "read_cost": "1.35"
                             },
                             "filtered": "100.00",
                             "key": "PRIMARY",
@@ -184,7 +184,7 @@
                               "bagazomat.dl.cell_id_"
                             ],
                             "rows_examined_per_scan": 1,
-                            "rows_produced_per_join": 4,
+                            "rows_produced_per_join": 5,
                             "table_name": "dc",
                             "used_columns": [
                               "id_",
@@ -200,9 +200,9 @@
                             "access_type": "eq_ref",
                             "cost_info": {
                               "data_read_per_join": "1K",
-                              "eval_cost": "0.49",
-                              "prefix_cost": "274.50",
-                              "read_cost": "4.71"
+                              "eval_cost": "0.54",
+                              "prefix_cost": "304.86",
+                              "read_cost": "5.23"
                             },
                             "filtered": "100.00",
                             "key": "shipment_order__uq",
@@ -215,7 +215,7 @@
                               "bagazomat.ol.order_id_"
                             ],
                             "rows_examined_per_scan": 1,
-                            "rows_produced_per_join": 4,
+                            "rows_produced_per_join": 5,
                             "table_name": "s",
                             "used_columns": [
                               "order_id_"
@@ -231,10 +231,10 @@
                             "access_type": "eq_ref",
                             "attached_condition": "(`bagazomat`.`o`.`created_at_` >= TIMESTAMP'2026-08-03 00:00:00')",
                             "cost_info": {
-                              "data_read_per_join": "506",
-                              "eval_cost": "0.16",
-                              "prefix_cost": "279.05",
-                              "read_cost": "4.06"
+                              "data_read_per_join": "563",
+                              "eval_cost": "0.18",
+                              "prefix_cost": "310.11",
+                              "read_cost": "4.70"
                             },
                             "filtered": "33.33",
                             "key": "PRIMARY",
@@ -289,6 +289,6 @@
   "qhash": "ca07191ece8bba9a5af0c14b8e4e4a86cfdc1b6218d24a9524ee6befd1f36ca6",
   "scenario": "R8",
   "size": "S",
-  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
-  "text": "-> Table scan on <temporary>  (actual time=17.7..17.7 rows=55 loops=1)\n    -> Aggregate using temporary table  (actual time=17.7..17.7 rows=55 loops=1)\n        -> Filter: (reach.lockermat_id_ <> 85)  (cost=141..2.84 rows=2) (actual time=17.6..17.6 rows=64 loops=1)\n            -> Table scan on reach  (cost=280..282 rows=2.62) (actual time=17.6..17.6 rows=66 loops=1)\n                -> Materialize recursive CTE reach with deduplication  (cost=279..279 rows=2.62) (actual time=17.6..17.6 rows=66 loops=1)\n                    -> Rows fetched before execution  (cost=0..0 rows=1) (actual time=125e-6..167e-6 rows=1 loops=1)\n                    -> Repeat until convergence\n                        -> Nested loop inner join  (cost=279 rows=1.62) (actual time=0.113..8.72 rows=438 loops=2)\n                            -> Nested loop inner join  (cost=275 rows=4.87) (actual time=0.0972..6.69 rows=695 loops=2)\n                                -> Nested loop inner join  (cost=269 rows=4.87) (actual time=0.0739..6.2 rows=695 loops=2)\n                                    -> Nested loop inner join  (cost=268 rows=4.87) (actual time=0.0718..5.81 rows=695 loops=2)\n                                        -> Nested loop inner join  (cost=240 rows=41) (actual time=0.0686..4.17 rows=695 loops=2)\n                                            -> Nested loop inner join  (cost=7.71 rows=40) (actual time=0.0246..0.114 rows=400 loops=2)\n                                                -> Filter: ((r.hops_ < 3) and (r.lockermat_id_ is not null))  (cost=2.73 rows=1) (actual time=0.00137..0.00529 rows=10 loops=2)\n                                                    -> Scan new records on r  (cost=2.73 rows=2) (actual time=833e-6..0.00223 rows=33 loops=2)\n                                                -> Covering index lookup on oc using lockermat_cell_number__uq (lockermat_id_=r.lockermat_id_)  (cost=4.98 rows=40) (actual time=0.00808..0.00979 rows=40 loops=20)\n                                            -> Filter: (ol.leg_ = 'ORIGIN')  (cost=4.79 rows=1.03) (actual time=0.00862..0.01 rows=1.74 loops=800)\n                                                -> Index lookup on ol using reservation_cell_from__idx (cell_id_=oc.id_)  (cost=4.79 rows=10.3) (actual time=0.00813..0.00976 rows=10.9 loops=800)\n                                        -> Filter: (dl.leg_ = 'DESTINATION')  (cost=0.553 rows=0.119) (actual time=0.00217..0.0023 rows=1 loops=1390)\n                                            -> Index lookup on dl using reservation_order__fk (order_id_=ol.order_id_)  (cost=0.553 rows=1.19) (actual time=0.00205..0.0022 rows=2 loops=1390)\n                                    -> Single-row index lookup on dc using PRIMARY (id_=dl.cell_id_)  (cost=0.271 rows=1) (actual time=472e-6..484e-6 rows=1 loops=1390)\n                                -> Single-row covering index lookup on s using shipment_order__uq (order_id_=ol.order_id_)  (cost=0.987 rows=1) (actual time=629e-6..642e-6 rows=1 loops=1390)\n                            -> Filter: (o.created_at_ >= TIMESTAMP'2026-08-03 00:00:00')  (cost=0.841 rows=0.333) (actual time=0.00284..0.00286 rows=0.63 loops=1390)\n                                -> Single-row index lookup on o using PRIMARY (id_=ol.order_id_)  (cost=0.841 rows=1) (actual time=0.00275..0.00276 rows=1 loops=1390)\n"
+  "state_id": "9f704d5d96c641d3326d661012eb7c1e2fc092cb50f5b714baee9719812812cd",
+  "text": "-> Table scan on <temporary>  (actual time=14..14 rows=55 loops=1)\n    -> Aggregate using temporary table  (actual time=14..14 rows=55 loops=1)\n        -> Filter: (reach.lockermat_id_ <> 85)  (cost=157..2.84 rows=2) (actual time=14..14 rows=64 loops=1)\n            -> Table scan on reach  (cost=311..313 rows=2.8) (actual time=14..14 rows=66 loops=1)\n                -> Materialize recursive CTE reach with deduplication  (cost=310..310 rows=2.8) (actual time=14..14 rows=66 loops=1)\n                    -> Rows fetched before execution  (cost=0..0 rows=1) (actual time=0..42e-6 rows=1 loops=1)\n                    -> Repeat until convergence\n                        -> Nested loop inner join  (cost=310 rows=1.8) (actual time=0.0627..6.92 rows=438 loops=2)\n                            -> Nested loop inner join  (cost=305 rows=5.42) (actual time=0.054..5.45 rows=695 loops=2)\n                                -> Nested loop inner join  (cost=299 rows=5.42) (actual time=0.0453..5.01 rows=695 loops=2)\n                                    -> Nested loop inner join  (cost=297 rows=5.42) (actual time=0.0443..4.64 rows=695 loops=2)\n                                        -> Nested loop inner join  (cost=267 rows=45.7) (actual time=0.0424..3.35 rows=695 loops=2)\n                                            -> Nested loop inner join  (cost=7.81 rows=40) (actual time=0.0163..0.0984 rows=400 loops=2)\n                                                -> Filter: ((r.hops_ < 3) and (r.lockermat_id_ is not null))  (cost=2.73 rows=1) (actual time=855e-6..0.004 rows=10 loops=2)\n                                                    -> Scan new records on r  (cost=2.73 rows=2) (actual time=500e-6..0.00135 rows=33 loops=2)\n                                                -> Covering index lookup on oc using lockermat_cell_number__uq (lockermat_id_=r.lockermat_id_)  (cost=5.09 rows=40) (actual time=0.00664..0.0083 rows=40 loops=20)\n                                            -> Filter: (ol.leg_ = 'ORIGIN')  (cost=5.33 rows=1.14) (actual time=0.00695..0.00804 rows=1.74 loops=800)\n                                                -> Index lookup on ol using reservation_lockermat_cell__fk (cell_id_=oc.id_)  (cost=5.33 rows=11.4) (actual time=0.00651..0.00774 rows=10.9 loops=800)\n                                        -> Filter: (dl.leg_ = 'DESTINATION')  (cost=0.553 rows=0.119) (actual time=0.00166..0.00179 rows=1 loops=1390)\n                                            -> Index lookup on dl using reservation_order__idx (order_id_=ol.order_id_)  (cost=0.553 rows=1.19) (actual time=0.00154..0.00168 rows=2 loops=1390)\n                                    -> Single-row index lookup on dc using PRIMARY (id_=dl.cell_id_)  (cost=0.268 rows=1) (actual time=457e-6..469e-6 rows=1 loops=1390)\n                                -> Single-row covering index lookup on s using shipment_order__uq (order_id_=ol.order_id_)  (cost=0.985 rows=1) (actual time=551e-6..562e-6 rows=1 loops=1390)\n                            -> Filter: (o.created_at_ >= TIMESTAMP'2026-08-03 00:00:00')  (cost=0.875 rows=0.333) (actual time=0.00204..0.00206 rows=0.63 loops=1390)\n                                -> Single-row index lookup on o using PRIMARY (id_=ol.order_id_)  (cost=0.875 rows=1) (actual time=0.00197..0.00198 rows=1 loops=1390)\n"
 }

@@ -1,274 +1,15 @@
 {
-  "config": "idx",
+  "scenario": "J4",
   "engine": "mongo",
+  "config": "idx",
+  "size": "S",
   "kind": "read",
+  "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
+  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "plan": {
-    "$clusterTime": {
-      "clusterTime": {
-        "$timestamp": {
-          "i": 2,
-          "t": 1795285433
-        }
-      },
-      "signature": {
-        "hash": {
-          "$binary": {
-            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-            "subType": "00"
-          }
-        },
-        "keyId": 0
-      }
-    },
-    "command": {
-      "$db": "bagazomat",
-      "aggregate": "auditEvents",
-      "cursor": {},
-      "pipeline": [
-        {
-          "$match": {
-            "at": {
-              "$gte": {
-                "$date": "2025-11-01T00:00:00Z"
-              },
-              "$lt": {
-                "$date": "2025-12-01T00:00:00Z"
-              }
-            },
-            "changes": {
-              "$elemMatch": {
-                "f": "status_",
-                "new": "CANCELLED"
-              }
-            }
-          }
-        },
-        {
-          "$group": {
-            "_id": "$entity",
-            "events": {
-              "$sum": 1
-            }
-          }
-        }
-      ]
-    },
-    "executionStats": {
-      "executionStages": {
-        "closes": 1,
-        "executionTimeMillisEstimate": 0,
-        "inputStage": {
-          "closes": 1,
-          "executionTimeMillisEstimate": 0,
-          "inputStage": {
-            "closes": 1,
-            "executionTimeMillisEstimate": 0,
-            "expressions": {
-              "13": "count() ",
-              "initExprs": {
-                "13": null
-              }
-            },
-            "groupBySlots": [
-              12
-            ],
-            "inputStage": {
-              "closes": 1,
-              "executionTimeMillisEstimate": 0,
-              "inputStage": {
-                "closes": 1,
-                "executionTimeMillisEstimate": 0,
-                "filter": "(((isArray(s10) && traverseF(s10, lambda(l7.0) { (typeMatch(l7.0, 24) && (traverseF(getField(l7.0, \"f\"), lambda(l8.0) { ((move(l8.0) == \"status_\") ?: false) }, false) && traverseF(getField(l7.0, \"new\"), lambda(l9.0) { ((move(l9.0) == \"CANCELLED\") ?: false) }, false))) }, false)) ?: false) && (traverseF(s9, lambda(l10.0) { ((move(l10.0) < Date(1764547200000)) ?: false) }, false) && traverseF(s9, lambda(l11.0) { ((move(l11.0) >= Date(1761955200000)) ?: false) }, false))) ",
-                "inputStage": {
-                  "closes": 1,
-                  "collectionScans": 0,
-                  "collectionSeeks": 4617,
-                  "executionTimeMillisEstimate": 0,
-                  "indexScans": 0,
-                  "indexSeeks": 1,
-                  "indexesUsed": [
-                    "jx2__idx"
-                  ],
-                  "innerCloses": 1,
-                  "innerOpens": 4617,
-                  "innerStage": {
-                    "closes": 1,
-                    "executionTimeMillisEstimate": 0,
-                    "inputStage": {
-                      "closes": 1,
-                      "executionTimeMillisEstimate": 0,
-                      "indexIdentSlot": 3,
-                      "indexKeyPatternSlot": 5,
-                      "indexKeySlot": 4,
-                      "isEOF": 0,
-                      "nReturned": 4617,
-                      "numReads": 4617,
-                      "opens": 4617,
-                      "planNodeId": 2,
-                      "recordIdSlot": 7,
-                      "recordSlot": 6,
-                      "restoreState": 0,
-                      "saveState": 0,
-                      "scanFieldNames": [
-                        "entity",
-                        "at",
-                        "changes"
-                      ],
-                      "scanFieldSlots": [
-                        8,
-                        9,
-                        10
-                      ],
-                      "seekRecordIdSlot": 1,
-                      "snapshotIdSlot": 2,
-                      "stage": "seek"
-                    },
-                    "isEOF": 1,
-                    "limit": 1,
-                    "nReturned": 4617,
-                    "opens": 4617,
-                    "planNodeId": 2,
-                    "restoreState": 0,
-                    "saveState": 0,
-                    "stage": "limit"
-                  },
-                  "isEOF": 1,
-                  "nReturned": 4617,
-                  "opens": 1,
-                  "outerCorrelated": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
-                  ],
-                  "outerProjects": [],
-                  "outerStage": {
-                    "closes": 1,
-                    "dupsDropped": 0,
-                    "dupsTested": 4617,
-                    "executionTimeMillisEstimate": 0,
-                    "inputStage": {
-                      "closes": 1,
-                      "executionTimeMillisEstimate": 0,
-                      "indexIdentSlot": 3,
-                      "indexKeySlot": 4,
-                      "indexKeysToInclude": "00000000000000000000000000000000",
-                      "indexName": "jx2__idx",
-                      "isEOF": 1,
-                      "keysExamined": 4617,
-                      "nReturned": 4617,
-                      "numReads": 4618,
-                      "opens": 1,
-                      "outputSlots": [],
-                      "planNodeId": 1,
-                      "recordIdSlot": 1,
-                      "restoreState": 0,
-                      "saveState": 0,
-                      "seekKeyHigh": "KS(3C7374617475735F003C43414E43454C4C454400FE04) ",
-                      "seekKeyLow": "KS(3C7374617475735F003C43414E43454C4C4544000104) ",
-                      "seeks": 1,
-                      "snapshotIdSlot": 2,
-                      "stage": "ixseek"
-                    },
-                    "isEOF": 1,
-                    "keySlots": [
-                      1
-                    ],
-                    "nReturned": 4617,
-                    "opens": 1,
-                    "planNodeId": 1,
-                    "restoreState": 0,
-                    "saveState": 0,
-                    "stage": "unique"
-                  },
-                  "planNodeId": 2,
-                  "restoreState": 0,
-                  "saveState": 0,
-                  "stage": "nlj",
-                  "totalDocsExamined": 4617,
-                  "totalKeysExamined": 4617
-                },
-                "isEOF": 1,
-                "nReturned": 151,
-                "numTested": 4617,
-                "opens": 1,
-                "planNodeId": 2,
-                "restoreState": 0,
-                "saveState": 0,
-                "stage": "filter"
-              },
-              "isEOF": 1,
-              "nReturned": 151,
-              "opens": 1,
-              "planNodeId": 4,
-              "projections": {
-                "12": "(s8 ?: null) "
-              },
-              "restoreState": 0,
-              "saveState": 0,
-              "stage": "project"
-            },
-            "isEOF": 1,
-            "mergingExprs": {
-              "11": "sum(s11) "
-            },
-            "nReturned": 1,
-            "opens": 1,
-            "planNodeId": 4,
-            "restoreState": 0,
-            "saveState": 0,
-            "spilledBytes": 0,
-            "spilledDataStorageSize": 0,
-            "spilledRecords": 0,
-            "spills": 0,
-            "stage": "group",
-            "usedDisk": false
-          },
-          "isEOF": 1,
-          "nReturned": 1,
-          "opens": 1,
-          "planNodeId": 4,
-          "projections": {
-            "14": "(convert ( s13, int32) ?: s13) "
-          },
-          "restoreState": 0,
-          "saveState": 0,
-          "stage": "project"
-        },
-        "isEOF": 1,
-        "nReturned": 1,
-        "opens": 1,
-        "planNodeId": 4,
-        "projections": {
-          "15": "newBsonObj(\"_id\", s12, \"events\", s14) "
-        },
-        "restoreState": 0,
-        "saveState": 0,
-        "stage": "project"
-      },
-      "executionSuccess": true,
-      "executionTimeMillis": 4,
-      "nReturned": 1,
-      "totalDocsExamined": 4617,
-      "totalKeysExamined": 4617
-    },
     "explainVersion": "2",
-    "ok": 1.0,
-    "operationTime": {
-      "$timestamp": {
-        "i": 2,
-        "t": 1795285433
-      }
-    },
     "queryPlanner": {
-      "indexFilterSet": false,
-      "maxIndexedAndSolutionsReached": false,
-      "maxIndexedOrSolutionsReached": false,
-      "maxScansToExplodeReached": false,
       "namespace": "bagazomat.auditEvents",
-      "optimizationTimeMillis": 0,
-      "optimizedPipeline": true,
       "parsedQuery": {
         "$and": [
           {
@@ -305,15 +46,24 @@
           }
         ]
       },
-      "planCacheKey": "3CBEADA2",
-      "planCacheShapeHash": "DD6CF778",
-      "prunedSimilarIndexes": false,
+      "indexFilterSet": false,
       "queryHash": "DD6CF778",
-      "rejectedPlans": [],
+      "planCacheShapeHash": "DD6CF778",
+      "planCacheKey": "3CBEADA2",
+      "optimizationTimeMillis": 0,
+      "optimizedPipeline": true,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
       "winningPlan": {
         "isCached": false,
         "queryPlan": {
+          "stage": "GROUP",
+          "planNodeId": 4,
           "inputStage": {
+            "stage": "FETCH",
+            "planNodeId": 2,
             "filter": {
               "$and": [
                 {
@@ -351,25 +101,14 @@
               ]
             },
             "inputStage": {
-              "direction": "forward",
-              "indexBounds": {
-                "changes.f": [
-                  "[\"status_\", \"status_\"]"
-                ],
-                "changes.new": [
-                  "[\"CANCELLED\", \"CANCELLED\"]"
-                ]
-              },
-              "indexName": "jx2__idx",
-              "indexVersion": 2,
-              "isMultiKey": true,
-              "isPartial": false,
-              "isSparse": false,
-              "isUnique": false,
+              "stage": "IXSCAN",
+              "planNodeId": 1,
               "keyPattern": {
                 "changes.f": 1,
                 "changes.new": 1
               },
+              "indexName": "jx2__idx",
+              "isMultiKey": true,
               "multiKeyPaths": {
                 "changes.f": [
                   "changes"
@@ -378,44 +117,305 @@
                   "changes"
                 ]
               },
-              "planNodeId": 1,
-              "stage": "IXSCAN"
-            },
-            "planNodeId": 2,
-            "stage": "FETCH"
-          },
-          "planNodeId": 4,
-          "stage": "GROUP"
+              "isUnique": false,
+              "isSparse": false,
+              "isPartial": false,
+              "indexVersion": 2,
+              "direction": "forward",
+              "indexBounds": {
+                "changes.f": [
+                  "[\"status_\", \"status_\"]"
+                ],
+                "changes.new": [
+                  "[\"CANCELLED\", \"CANCELLED\"]"
+                ]
+              }
+            }
+          }
         },
         "slotBasedPlan": {
           "slots": "$$RESULT=s15 env: { s5 = {\"changes.f\" : 1, \"changes.new\" : 1} }",
           "stages": "[4] project [s15 = newBsonObj(\"_id\", s12, \"events\", s14)] \n[4] project [s14 = (convert ( s13, int32) ?: s13)] \n[4] group [s12] [s13 = count()] spillSlots[s11] mergingExprs[sum(s11)] \n[4] project [s12 = (s8 ?: null)] \n[2] filter {(((isArray(s10) && traverseF(s10, lambda(l7.0) { (typeMatch(l7.0, 24) && (traverseF(getField(l7.0, \"f\"), lambda(l8.0) { ((move(l8.0) == \"status_\") ?: false) }, false) && traverseF(getField(l7.0, \"new\"), lambda(l9.0) { ((move(l9.0) == \"CANCELLED\") ?: false) }, false))) }, false)) ?: false) && (traverseF(s9, lambda(l10.0) { ((move(l10.0) < Date(1764547200000)) ?: false) }, false) && traverseF(s9, lambda(l11.0) { ((move(l11.0) >= Date(1761955200000)) ?: false) }, false)))} \n[2] nlj inner [] [s1, s2, s3, s4, s5] \n    left \n        [1] unique [s1] \n        [1] ixseek KS(3C7374617475735F003C43414E43454C4C4544000104) KS(3C7374617475735F003C43414E43454C4C454400FE04) s4 s1 s2 s3 [] @\"25b36371-32dc-4340-bbd1-fdb8e8cd1daa\" @\"jx2__idx\" true \n    right \n        [2] limit 1ll \n        [2] seek s1 s6 s7 s2 s3 s4 s5 none none [s8 = entity, s9 = at, s10 = changes] @\"25b36371-32dc-4340-bbd1-fdb8e8cd1daa\" true false \n"
         }
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 1,
+      "executionTimeMillis": 3,
+      "totalKeysExamined": 4617,
+      "totalDocsExamined": 4617,
+      "executionStages": {
+        "stage": "project",
+        "planNodeId": 4,
+        "nReturned": 1,
+        "executionTimeMillisEstimate": 2,
+        "opens": 1,
+        "closes": 1,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "projections": {
+          "15": "newBsonObj(\"_id\", s12, \"events\", s14) "
+        },
+        "inputStage": {
+          "stage": "project",
+          "planNodeId": 4,
+          "nReturned": 1,
+          "executionTimeMillisEstimate": 2,
+          "opens": 1,
+          "closes": 1,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "projections": {
+            "14": "(convert ( s13, int32) ?: s13) "
+          },
+          "inputStage": {
+            "stage": "group",
+            "planNodeId": 4,
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 2,
+            "opens": 1,
+            "closes": 1,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "groupBySlots": [
+              12
+            ],
+            "expressions": {
+              "13": "count() ",
+              "initExprs": {
+                "13": null
+              }
+            },
+            "mergingExprs": {
+              "11": "sum(s11) "
+            },
+            "usedDisk": false,
+            "spills": 0,
+            "spilledBytes": 0,
+            "spilledRecords": 0,
+            "spilledDataStorageSize": 0,
+            "inputStage": {
+              "stage": "project",
+              "planNodeId": 4,
+              "nReturned": 151,
+              "executionTimeMillisEstimate": 2,
+              "opens": 1,
+              "closes": 1,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "projections": {
+                "12": "(s8 ?: null) "
+              },
+              "inputStage": {
+                "stage": "filter",
+                "planNodeId": 2,
+                "nReturned": 151,
+                "executionTimeMillisEstimate": 2,
+                "opens": 1,
+                "closes": 1,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "numTested": 4617,
+                "filter": "(((isArray(s10) && traverseF(s10, lambda(l7.0) { (typeMatch(l7.0, 24) && (traverseF(getField(l7.0, \"f\"), lambda(l8.0) { ((move(l8.0) == \"status_\") ?: false) }, false) && traverseF(getField(l7.0, \"new\"), lambda(l9.0) { ((move(l9.0) == \"CANCELLED\") ?: false) }, false))) }, false)) ?: false) && (traverseF(s9, lambda(l10.0) { ((move(l10.0) < Date(1764547200000)) ?: false) }, false) && traverseF(s9, lambda(l11.0) { ((move(l11.0) >= Date(1761955200000)) ?: false) }, false))) ",
+                "inputStage": {
+                  "stage": "nlj",
+                  "planNodeId": 2,
+                  "nReturned": 4617,
+                  "executionTimeMillisEstimate": 2,
+                  "opens": 1,
+                  "closes": 1,
+                  "saveState": 0,
+                  "restoreState": 0,
+                  "isEOF": 1,
+                  "totalDocsExamined": 4617,
+                  "totalKeysExamined": 4617,
+                  "collectionScans": 0,
+                  "collectionSeeks": 4617,
+                  "indexScans": 0,
+                  "indexSeeks": 1,
+                  "indexesUsed": [
+                    "jx2__idx"
+                  ],
+                  "innerOpens": 4617,
+                  "innerCloses": 1,
+                  "outerProjects": [],
+                  "outerCorrelated": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ],
+                  "outerStage": {
+                    "stage": "unique",
+                    "planNodeId": 1,
+                    "nReturned": 4617,
+                    "executionTimeMillisEstimate": 2,
+                    "opens": 1,
+                    "closes": 1,
+                    "saveState": 0,
+                    "restoreState": 0,
+                    "isEOF": 1,
+                    "dupsTested": 4617,
+                    "dupsDropped": 0,
+                    "keySlots": [
+                      1
+                    ],
+                    "inputStage": {
+                      "stage": "ixseek",
+                      "planNodeId": 1,
+                      "nReturned": 4617,
+                      "executionTimeMillisEstimate": 2,
+                      "opens": 1,
+                      "closes": 1,
+                      "saveState": 0,
+                      "restoreState": 0,
+                      "isEOF": 1,
+                      "indexName": "jx2__idx",
+                      "keysExamined": 4617,
+                      "seeks": 1,
+                      "numReads": 4618,
+                      "indexKeySlot": 4,
+                      "recordIdSlot": 1,
+                      "snapshotIdSlot": 2,
+                      "indexIdentSlot": 3,
+                      "outputSlots": [],
+                      "indexKeysToInclude": "00000000000000000000000000000000",
+                      "seekKeyLow": "KS(3C7374617475735F003C43414E43454C4C4544000104) ",
+                      "seekKeyHigh": "KS(3C7374617475735F003C43414E43454C4C454400FE04) "
+                    }
+                  },
+                  "innerStage": {
+                    "stage": "limit",
+                    "planNodeId": 2,
+                    "nReturned": 4617,
+                    "executionTimeMillisEstimate": 0,
+                    "opens": 4617,
+                    "closes": 1,
+                    "saveState": 0,
+                    "restoreState": 0,
+                    "isEOF": 1,
+                    "limit": 1,
+                    "inputStage": {
+                      "stage": "seek",
+                      "planNodeId": 2,
+                      "nReturned": 4617,
+                      "executionTimeMillisEstimate": 0,
+                      "opens": 4617,
+                      "closes": 1,
+                      "saveState": 0,
+                      "restoreState": 0,
+                      "isEOF": 0,
+                      "numReads": 4617,
+                      "recordSlot": 6,
+                      "recordIdSlot": 7,
+                      "seekRecordIdSlot": 1,
+                      "snapshotIdSlot": 2,
+                      "indexIdentSlot": 3,
+                      "indexKeySlot": 4,
+                      "indexKeyPatternSlot": 5,
+                      "scanFieldNames": [
+                        "entity",
+                        "at",
+                        "changes"
+                      ],
+                      "scanFieldSlots": [
+                        8,
+                        9,
+                        10
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "queryShapeHash": "649E636C359F48C68C8227AC049E44BFCF6D2D0F966EE3A26520F7D03FCB81D7",
+    "command": {
+      "aggregate": "auditEvents",
+      "pipeline": [
+        {
+          "$match": {
+            "changes": {
+              "$elemMatch": {
+                "f": "status_",
+                "new": "CANCELLED"
+              }
+            },
+            "at": {
+              "$gte": {
+                "$date": "2025-11-01T00:00:00Z"
+              },
+              "$lt": {
+                "$date": "2025-12-01T00:00:00Z"
+              }
+            }
+          }
+        },
+        {
+          "$group": {
+            "_id": "$entity",
+            "events": {
+              "$sum": 1
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
     "serverInfo": {
-      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568",
       "host": "3e937261ce17",
       "port": 27017,
-      "version": "8.0.38"
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
     },
     "serverParameters": {
-      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
-      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
-      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
       "internalQueryFacetBufferSizeBytes": 104857600,
       "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
-      "internalQueryFrameworkControl": "trySbeRestricted",
-      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
       "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
-      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1,
-      "internalQueryProhibitBlockingMergeOnMongoS": 0
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795295340,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795295340,
+        "i": 2
+      }
     }
   },
-  "qhash": "6664355918b18c0211343f71daea05b998e9642d1fa6dd687fcb8922b80d9822",
-  "scenario": "J4",
-  "size": "S",
-  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "text": null
 }

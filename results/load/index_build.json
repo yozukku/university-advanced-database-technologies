@@ -1435,7 +1435,7 @@
           "bytes": 31014912,
           "keys": [
             "customer_id_",
-            "created_at_ desc"
+            "created_at_"
           ],
           "kind": "btree",
           "name": "order_customer_created__idx",
@@ -2579,7 +2579,7 @@
           "bytes": 31014912,
           "keys": [
             "customer_id_",
-            "created_at_ desc"
+            "created_at_"
           ],
           "kind": "btree",
           "name": "order_customer_created__idx",
@@ -3107,47 +3107,47 @@
           "bytes": 5783552,
           "kind": "btree",
           "scope": "shipment_",
-          "seconds": 0.407
+          "seconds": 0.679
         },
         "ix2__idx": {
           "bytes": 31014912,
           "kind": "btree",
           "scope": "order_",
-          "seconds": 2.257
+          "seconds": 2.907
         },
         "ix3__idx": {
           "bytes": 24690688,
           "kind": "btree",
           "scope": "payment_",
-          "seconds": 1.648
+          "seconds": 1.613
         },
         "ix4__idx": {
           "bytes": 38354944,
           "kind": "btree",
           "scope": "cell_opening_",
-          "seconds": 2.743
+          "seconds": 2.326
         },
         "jx1_email__idx": {
           "bytes": 111968256,
           "kind": "functional",
           "scope": "audit_event_",
-          "seconds": 6.924
+          "seconds": 5.941
         },
         "jx1_phone__idx": {
           "bytes": 50937856,
           "kind": "functional",
           "scope": "audit_event_",
-          "seconds": 4.336
+          "seconds": 3.454
         },
         "jx2__idx": {
           "bytes": 85622784,
           "kind": "multi_valued",
           "scope": "audit_event_",
-          "seconds": 5.324
+          "seconds": 5.038
         }
       },
       "statistics": {
-        "analyze table audit_event_": 0.013
+        "analyze table audit_event_": 0.006
       }
     },
     "neo4j": {
@@ -7536,7 +7536,7 @@
           "bytes": 1589248,
           "keys": [
             "customer_id_",
-            "created_at_ desc"
+            "created_at_"
           ],
           "kind": "btree",
           "name": "order_customer_created__idx",
@@ -8680,7 +8680,7 @@
           "bytes": 1589248,
           "keys": [
             "customer_id_",
-            "created_at_ desc"
+            "created_at_"
           ],
           "kind": "btree",
           "name": "order_customer_created__idx",
@@ -9208,47 +9208,47 @@
           "bytes": 278528,
           "kind": "btree",
           "scope": "shipment_",
-          "seconds": 0.059
+          "seconds": 0.052
         },
         "ix2__idx": {
           "bytes": 1589248,
           "kind": "btree",
           "scope": "order_",
-          "seconds": 0.216
+          "seconds": 0.192
         },
         "ix3__idx": {
           "bytes": 1589248,
           "kind": "btree",
           "scope": "payment_",
-          "seconds": 0.166
+          "seconds": 0.161
         },
         "ix4__idx": {
           "bytes": 2637824,
           "kind": "btree",
           "scope": "cell_opening_",
-          "seconds": 0.243
+          "seconds": 0.214
         },
         "jx1_email__idx": {
           "bytes": 5783552,
           "kind": "functional",
           "scope": "audit_event_",
-          "seconds": 0.739
+          "seconds": 0.685
         },
         "jx1_phone__idx": {
           "bytes": 2637824,
           "kind": "functional",
           "scope": "audit_event_",
-          "seconds": 0.244
+          "seconds": 0.279
         },
         "jx2__idx": {
           "bytes": 4734976,
           "kind": "multi_valued",
           "scope": "audit_event_",
-          "seconds": 0.342
+          "seconds": 0.353
         }
       },
       "statistics": {
-        "analyze table audit_event_": 0.009
+        "analyze table audit_event_": 0.007
       }
     },
     "neo4j": {

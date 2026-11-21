@@ -5,7 +5,7 @@
   "plan": {
     "query_block": {
       "cost_info": {
-        "query_cost": "5408.25"
+        "query_cost": "5392.07"
       },
       "ordering_operation": {
         "grouping_operation": {
@@ -50,12 +50,12 @@
                 "attached_condition": "(`bagazomat`.`r`.`leg_` in ('STORAGE','ORIGIN'))",
                 "cost_info": {
                   "data_read_per_join": "352K",
-                  "eval_cost": "96.06",
-                  "prefix_cost": "4478.68",
-                  "read_cost": "3148.07"
+                  "eval_cost": "95.95",
+                  "prefix_cost": "4463.60",
+                  "read_cost": "3133.56"
                 },
                 "filtered": "20.00",
-                "key": "reservation_order__fk",
+                "key": "reservation_order__idx",
                 "key_length": "8",
                 "possible_keys": [
                   "reservation_order__fk",
@@ -67,7 +67,7 @@
                   "bagazomat.o.id_"
                 ],
                 "rows_examined_per_scan": 1,
-                "rows_produced_per_join": 960,
+                "rows_produced_per_join": 959,
                 "table_name": "r",
                 "used_columns": [
                   "id_",
@@ -84,10 +84,10 @@
               "table": {
                 "access_type": "eq_ref",
                 "cost_info": {
-                  "data_read_per_join": "165K",
-                  "eval_cost": "96.06",
-                  "prefix_cost": "5408.25",
-                  "read_cost": "833.50"
+                  "data_read_per_join": "164K",
+                  "eval_cost": "95.95",
+                  "prefix_cost": "5392.08",
+                  "read_cost": "832.52"
                 },
                 "filtered": "100.00",
                 "key": "PRIMARY",
@@ -101,7 +101,7 @@
                   "bagazomat.r.cell_id_"
                 ],
                 "rows_examined_per_scan": 1,
-                "rows_produced_per_join": 960,
+                "rows_produced_per_join": 959,
                 "table_name": "c",
                 "used_columns": [
                   "id_",
@@ -124,6 +124,6 @@
   "qhash": "960125e3d4be18cdf7674f431525020b674afada13d3175372eb4bf61decb728",
   "scenario": "R5",
   "size": "S",
-  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
-  "text": "-> Limit: 20 row(s)  (actual time=10.1..10.1 rows=20 loops=1)\n    -> Sort: orders_ DESC, c.lockermat_id_, limit input to 20 row(s) per chunk  (actual time=10.1..10.1 rows=20 loops=1)\n        -> Table scan on <temporary>  (actual time=10..10 rows=124 loops=1)\n            -> Aggregate using temporary table  (actual time=10..10 rows=124 loops=1)\n                -> Nested loop inner join  (cost=5405 rows=961) (actual time=0.134..9.62 rows=4048 loops=1)\n                    -> Nested loop inner join  (cost=4475 rows=961) (actual time=0.0709..7.32 rows=4048 loops=1)\n                        -> Filter: ((o.status_ = 'COMPLETED') and (o.created_at_ >= TIMESTAMP'2026-10-02 00:00:00') and (o.created_at_ < TIMESTAMP'2026-11-01 00:00:00'))  (cost=847 rows=4048) (actual time=0.0512..0.704 rows=4048 loops=1)\n                            -> Covering index range scan on o using ix2__idx over (status_ = 'COMPLETED' AND '2026-10-02 00:00:00.000' <= created_at_ < '2026-11-01 00:00:00.000')  (cost=847 rows=4048) (actual time=0.0498..0.458 rows=4048 loops=1)\n                        -> Filter: (r.leg_ in ('STORAGE','ORIGIN'))  (cost=0.778 rows=0.237) (actual time=0.00143..0.00157 rows=1 loops=4048)\n                            -> Index lookup on r using reservation_order__fk (order_id_=o.id_)  (cost=0.778 rows=1.19) (actual time=0.00136..0.00146 rows=1.22 loops=4048)\n                    -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=0.868 rows=1) (actual time=489e-6..500e-6 rows=1 loops=4048)\n"
+  "state_id": "9f704d5d96c641d3326d661012eb7c1e2fc092cb50f5b714baee9719812812cd",
+  "text": "-> Limit: 20 row(s)  (actual time=8.5..8.5 rows=20 loops=1)\n    -> Sort: orders_ DESC, c.lockermat_id_, limit input to 20 row(s) per chunk  (actual time=8.5..8.5 rows=20 loops=1)\n        -> Table scan on <temporary>  (actual time=8.47..8.48 rows=124 loops=1)\n            -> Aggregate using temporary table  (actual time=8.47..8.47 rows=124 loops=1)\n                -> Nested loop inner join  (cost=5389 rows=960) (actual time=0.0537..8.06 rows=4048 loops=1)\n                    -> Nested loop inner join  (cost=4460 rows=960) (actual time=0.0411..5.9 rows=4048 loops=1)\n                        -> Filter: ((o.status_ = 'COMPLETED') and (o.created_at_ >= TIMESTAMP'2026-10-02 00:00:00') and (o.created_at_ < TIMESTAMP'2026-11-01 00:00:00'))  (cost=847 rows=4048) (actual time=0.0371..0.692 rows=4048 loops=1)\n                            -> Covering index range scan on o using ix2__idx over (status_ = 'COMPLETED' AND '2026-10-02 00:00:00.000' <= created_at_ < '2026-11-01 00:00:00.000')  (cost=847 rows=4048) (actual time=0.036..0.444 rows=4048 loops=1)\n                        -> Filter: (r.leg_ in ('STORAGE','ORIGIN'))  (cost=0.774 rows=0.237) (actual time=0.00109..0.00122 rows=1 loops=4048)\n                            -> Index lookup on r using reservation_order__idx (order_id_=o.id_)  (cost=0.774 rows=1.19) (actual time=0.00102..0.00112 rows=1.22 loops=4048)\n                    -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=0.868 rows=1) (actual time=455e-6..466e-6 rows=1 loops=4048)\n"
 }

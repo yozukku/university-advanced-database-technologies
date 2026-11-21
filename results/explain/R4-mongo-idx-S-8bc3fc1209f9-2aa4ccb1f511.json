@@ -1,225 +1,18 @@
 {
-  "config": "idx",
+  "scenario": "R4",
   "engine": "mongo",
+  "config": "idx",
+  "size": "S",
   "kind": "read",
+  "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
+  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "plan": {
-    "$clusterTime": {
-      "clusterTime": {
-        "$timestamp": {
-          "i": 2,
-          "t": 1795285433
-        }
-      },
-      "signature": {
-        "hash": {
-          "$binary": {
-            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-            "subType": "00"
-          }
-        },
-        "keyId": 0
-      }
-    },
-    "command": {
-      "$db": "bagazomat",
-      "aggregate": "orders",
-      "cursor": {},
-      "pipeline": [
-        {
-          "$match": {
-            "reservations": {
-              "$elemMatch": {
-                "leg": "DESTINATION",
-                "status": "OCCUPIED"
-              }
-            },
-            "shipment.recipientPhone": "+48501001580"
-          }
-        },
-        {
-          "$unwind": "$reservations"
-        },
-        {
-          "$match": {
-            "reservations.leg": "DESTINATION",
-            "reservations.status": "OCCUPIED"
-          }
-        },
-        {
-          "$lookup": {
-            "as": "locker",
-            "foreignField": "_id",
-            "from": "lockermats",
-            "let": {
-              "cell": "$reservations.cellId"
-            },
-            "localField": "reservations.lockermatId",
-            "pipeline": [
-              {
-                "$project": {
-                  "address": 1,
-                  "cell": {
-                    "$first": {
-                      "$filter": {
-                        "cond": {
-                          "$eq": [
-                            "$$this.id",
-                            "$$cell"
-                          ]
-                        },
-                        "input": "$cells"
-                      }
-                    }
-                  },
-                  "name": 1
-                }
-              }
-            ]
-          }
-        },
-        {
-          "$unwind": "$locker"
-        },
-        {
-          "$project": {
-            "address": "$locker.address",
-            "from": "$reservations.from",
-            "lockermat": "$locker._id",
-            "name": "$locker.name",
-            "number": "$locker.cell.number",
-            "reservation": "$reservations.id",
-            "to": "$reservations.to"
-          }
-        }
-      ]
-    },
     "explainVersion": "1",
-    "ok": 1.0,
-    "operationTime": {
-      "$timestamp": {
-        "i": 2,
-        "t": 1795285433
-      }
-    },
-    "queryShapeHash": "6895DE987547846AD7492116842F5D0E2CB824ECC54C7D5A7815243D83D14DF4",
-    "serverInfo": {
-      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568",
-      "host": "3e937261ce17",
-      "port": 27017,
-      "version": "8.0.38"
-    },
-    "serverParameters": {
-      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
-      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
-      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
-      "internalQueryFacetBufferSizeBytes": 104857600,
-      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
-      "internalQueryFrameworkControl": "trySbeRestricted",
-      "internalQueryMaxAddToSetBytes": 104857600,
-      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
-      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1,
-      "internalQueryProhibitBlockingMergeOnMongoS": 0
-    },
     "stages": [
       {
         "$cursor": {
-          "executionStats": {
-            "executionStages": {
-              "advanced": 1,
-              "executionTimeMillisEstimate": 0,
-              "inputStage": {
-                "advanced": 1,
-                "alreadyHasObj": 0,
-                "docsExamined": 3,
-                "executionTimeMillisEstimate": 0,
-                "filter": {
-                  "reservations": {
-                    "$elemMatch": {
-                      "$and": [
-                        {
-                          "leg": {
-                            "$eq": "DESTINATION"
-                          }
-                        },
-                        {
-                          "status": {
-                            "$eq": "OCCUPIED"
-                          }
-                        }
-                      ]
-                    }
-                  }
-                },
-                "inputStage": {
-                  "advanced": 3,
-                  "direction": "forward",
-                  "dupsDropped": 0,
-                  "dupsTested": 0,
-                  "executionTimeMillisEstimate": 0,
-                  "indexBounds": {
-                    "shipment.recipientPhone": [
-                      "[\"+48501001580\", \"+48501001580\"]"
-                    ]
-                  },
-                  "indexName": "ix1__idx",
-                  "indexVersion": 2,
-                  "isEOF": 1,
-                  "isMultiKey": false,
-                  "isPartial": true,
-                  "isSparse": false,
-                  "isUnique": false,
-                  "keyPattern": {
-                    "shipment.recipientPhone": 1
-                  },
-                  "keysExamined": 3,
-                  "multiKeyPaths": {
-                    "shipment.recipientPhone": []
-                  },
-                  "nReturned": 3,
-                  "needTime": 0,
-                  "needYield": 0,
-                  "restoreState": 1,
-                  "saveState": 1,
-                  "seeks": 1,
-                  "stage": "IXSCAN",
-                  "works": 4
-                },
-                "isEOF": 1,
-                "nReturned": 1,
-                "needTime": 2,
-                "needYield": 0,
-                "restoreState": 1,
-                "saveState": 1,
-                "stage": "FETCH",
-                "works": 4
-              },
-              "isCached": false,
-              "isEOF": 1,
-              "nReturned": 1,
-              "needTime": 2,
-              "needYield": 0,
-              "restoreState": 1,
-              "saveState": 1,
-              "stage": "PROJECTION_SIMPLE",
-              "transformBy": {
-                "_id": 1,
-                "reservations": 1
-              },
-              "works": 4
-            },
-            "executionSuccess": true,
-            "executionTimeMillis": 1,
-            "nReturned": 1,
-            "totalDocsExamined": 3,
-            "totalKeysExamined": 3
-          },
           "queryPlanner": {
-            "indexFilterSet": false,
-            "maxIndexedAndSolutionsReached": false,
-            "maxIndexedOrSolutionsReached": false,
-            "maxScansToExplodeReached": false,
             "namespace": "bagazomat.orders",
-            "optimizationTimeMillis": 0,
             "parsedQuery": {
               "$and": [
                 {
@@ -247,13 +40,24 @@
                 }
               ]
             },
-            "planCacheKey": "5783D9BE",
-            "planCacheShapeHash": "1E246930",
-            "prunedSimilarIndexes": false,
+            "indexFilterSet": false,
             "queryHash": "1E246930",
-            "rejectedPlans": [],
+            "planCacheShapeHash": "1E246930",
+            "planCacheKey": "5783D9BE",
+            "optimizationTimeMillis": 0,
+            "maxIndexedOrSolutionsReached": false,
+            "maxIndexedAndSolutionsReached": false,
+            "maxScansToExplodeReached": false,
+            "prunedSimilarIndexes": false,
             "winningPlan": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "transformBy": {
+                "_id": 1,
+                "reservations": 1
+              },
               "inputStage": {
+                "stage": "FETCH",
                 "filter": {
                   "reservations": {
                     "$elemMatch": {
@@ -273,46 +77,130 @@
                   }
                 },
                 "inputStage": {
+                  "stage": "IXSCAN",
+                  "keyPattern": {
+                    "shipment.recipientPhone": 1
+                  },
+                  "indexName": "ix1__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "shipment.recipientPhone": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": true,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "shipment.recipientPhone": [
+                      "[\"+48501001580\", \"+48501001580\"]"
+                    ]
+                  }
+                }
+              }
+            },
+            "rejectedPlans": []
+          },
+          "executionStats": {
+            "executionSuccess": true,
+            "nReturned": 1,
+            "executionTimeMillis": 1,
+            "totalKeysExamined": 3,
+            "totalDocsExamined": 3,
+            "executionStages": {
+              "isCached": false,
+              "stage": "PROJECTION_SIMPLE",
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 4,
+              "advanced": 1,
+              "needTime": 2,
+              "needYield": 0,
+              "saveState": 1,
+              "restoreState": 1,
+              "isEOF": 1,
+              "transformBy": {
+                "_id": 1,
+                "reservations": 1
+              },
+              "inputStage": {
+                "stage": "FETCH",
+                "filter": {
+                  "reservations": {
+                    "$elemMatch": {
+                      "$and": [
+                        {
+                          "leg": {
+                            "$eq": "DESTINATION"
+                          }
+                        },
+                        {
+                          "status": {
+                            "$eq": "OCCUPIED"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "nReturned": 1,
+                "executionTimeMillisEstimate": 0,
+                "works": 4,
+                "advanced": 1,
+                "needTime": 2,
+                "needYield": 0,
+                "saveState": 1,
+                "restoreState": 1,
+                "isEOF": 1,
+                "docsExamined": 3,
+                "alreadyHasObj": 0,
+                "inputStage": {
+                  "stage": "IXSCAN",
+                  "nReturned": 3,
+                  "executionTimeMillisEstimate": 0,
+                  "works": 4,
+                  "advanced": 3,
+                  "needTime": 0,
+                  "needYield": 0,
+                  "saveState": 1,
+                  "restoreState": 1,
+                  "isEOF": 1,
+                  "keyPattern": {
+                    "shipment.recipientPhone": 1
+                  },
+                  "indexName": "ix1__idx",
+                  "isMultiKey": false,
+                  "multiKeyPaths": {
+                    "shipment.recipientPhone": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": true,
+                  "indexVersion": 2,
                   "direction": "forward",
                   "indexBounds": {
                     "shipment.recipientPhone": [
                       "[\"+48501001580\", \"+48501001580\"]"
                     ]
                   },
-                  "indexName": "ix1__idx",
-                  "indexVersion": 2,
-                  "isMultiKey": false,
-                  "isPartial": true,
-                  "isSparse": false,
-                  "isUnique": false,
-                  "keyPattern": {
-                    "shipment.recipientPhone": 1
-                  },
-                  "multiKeyPaths": {
-                    "shipment.recipientPhone": []
-                  },
-                  "stage": "IXSCAN"
-                },
-                "stage": "FETCH"
-              },
-              "isCached": false,
-              "stage": "PROJECTION_SIMPLE",
-              "transformBy": {
-                "_id": 1,
-                "reservations": 1
+                  "keysExamined": 3,
+                  "seeks": 1,
+                  "dupsTested": 0,
+                  "dupsDropped": 0
+                }
               }
             }
           }
         },
-        "executionTimeMillisEstimate": 0,
-        "nReturned": 1
+        "nReturned": 1,
+        "executionTimeMillisEstimate": 0
       },
       {
         "$unwind": {
           "path": "$reservations"
         },
-        "executionTimeMillisEstimate": 0,
-        "nReturned": 2
+        "nReturned": 2,
+        "executionTimeMillisEstimate": 0
       },
       {
         "$match": {
@@ -329,36 +217,36 @@
             }
           ]
         },
-        "executionTimeMillisEstimate": 0,
-        "nReturned": 1
+        "nReturned": 1,
+        "executionTimeMillisEstimate": 0
       },
       {
         "$lookup": {
-          "as": "locker",
-          "foreignField": "_id",
           "from": "lockermats",
+          "as": "locker",
+          "localField": "reservations.lockermatId",
+          "foreignField": "_id",
           "let": {
             "cell": "$reservations.cellId"
           },
-          "localField": "reservations.lockermatId",
           "pipeline": [
             {
               "$project": {
+                "name": 1,
                 "address": 1,
                 "cell": {
                   "$first": {
                     "$filter": {
+                      "input": "$cells",
                       "cond": {
                         "$eq": [
                           "$$this.id",
                           "$$cell"
                         ]
-                      },
-                      "input": "$cells"
+                      }
                     }
                   }
-                },
-                "name": 1
+                }
               }
             }
           ],
@@ -366,34 +254,146 @@
             "preserveNullAndEmptyArrays": false
           }
         },
+        "totalDocsExamined": 1,
+        "totalKeysExamined": 1,
         "collectionScans": 0,
-        "executionTimeMillisEstimate": 1,
         "indexesUsed": [
           "_id_"
         ],
         "nReturned": 1,
-        "totalDocsExamined": 1,
-        "totalKeysExamined": 1
+        "executionTimeMillisEstimate": 2
       },
       {
         "$project": {
           "_id": true,
-          "address": "$locker.address",
+          "reservation": "$reservations.id",
           "from": "$reservations.from",
+          "to": "$reservations.to",
           "lockermat": "$locker._id",
           "name": "$locker.name",
-          "number": "$locker.cell.number",
-          "reservation": "$reservations.id",
-          "to": "$reservations.to"
+          "address": "$locker.address",
+          "number": "$locker.cell.number"
         },
-        "executionTimeMillisEstimate": 1,
-        "nReturned": 1
+        "nReturned": 1,
+        "executionTimeMillisEstimate": 2
       }
-    ]
+    ],
+    "queryShapeHash": "6895DE987547846AD7492116842F5D0E2CB824ECC54C7D5A7815243D83D14DF4",
+    "serverInfo": {
+      "host": "3e937261ce17",
+      "port": 27017,
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
+    },
+    "serverParameters": {
+      "internalQueryFacetBufferSizeBytes": 104857600,
+      "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+      "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "command": {
+      "aggregate": "orders",
+      "pipeline": [
+        {
+          "$match": {
+            "shipment.recipientPhone": "+48501001580",
+            "reservations": {
+              "$elemMatch": {
+                "leg": "DESTINATION",
+                "status": "OCCUPIED"
+              }
+            }
+          }
+        },
+        {
+          "$unwind": "$reservations"
+        },
+        {
+          "$match": {
+            "reservations.leg": "DESTINATION",
+            "reservations.status": "OCCUPIED"
+          }
+        },
+        {
+          "$lookup": {
+            "from": "lockermats",
+            "localField": "reservations.lockermatId",
+            "foreignField": "_id",
+            "let": {
+              "cell": "$reservations.cellId"
+            },
+            "pipeline": [
+              {
+                "$project": {
+                  "name": 1,
+                  "address": 1,
+                  "cell": {
+                    "$first": {
+                      "$filter": {
+                        "input": "$cells",
+                        "cond": {
+                          "$eq": [
+                            "$$this.id",
+                            "$$cell"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "as": "locker"
+          }
+        },
+        {
+          "$unwind": "$locker"
+        },
+        {
+          "$project": {
+            "reservation": "$reservations.id",
+            "from": "$reservations.from",
+            "to": "$reservations.to",
+            "lockermat": "$locker._id",
+            "name": "$locker.name",
+            "address": "$locker.address",
+            "number": "$locker.cell.number"
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "bagazomat"
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795295340,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795295340,
+        "i": 2
+      }
+    }
   },
-  "qhash": "8bc3fc1209f9d74fd6e8b0bd841bd504583be1314ad23772411ce9d7d165b72a",
-  "scenario": "R4",
-  "size": "S",
-  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "text": null
 }

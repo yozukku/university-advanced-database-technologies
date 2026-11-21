@@ -58,6 +58,10 @@ Dla każdego SZBD, rozmiaru i konfiguracji runner wykonuje kroki w tej kolejnoś
 - każdy przebieg zapisu zaczyna od odtworzenia migawki i uruchomienia bazy. Przed rozgrzewką uruchamia sondę kluczy, czyli wyszukanie celów zapisu, i odczytuje ich stan. Na XS i S robi to w każdym przebiegu, a na M i L w pierwszym. Potem rozgrzewa bazę, wykonuje zapis z pomiarem i bez pomiaru sprawdza jego skutki. Na końcu zatrzymuje bazę poleceniem `docker kill`;
 - zapisuje czas, liczbę zwróconych lub zmienionych wierszy, liczbę zatwierdzeń, skrót wyniku i status przebiegu: `ok`, `timeout`, `skipped` albo `error`.
 
+Scenariusze mierzone w BASE i IDX runner mierzy parami: dla każdego najpierw BASE, zaraz potem IDX. Pozostałe scenariusze mierzy na końcu, w IDX.
+
+W Neo4j każdy przebieg zapisu trafia na świeżo uruchomioną JVM, więc zmierzony czas obejmuje pierwszą kompilację zapytań Cypher i kod jeszcze nieskompilowany przez JIT.
+
 Na XS i S po każdym przebiegu zapisu liczby wierszy 13 tabel muszą równać się manifestowi migawki powiększonemu o wstawione i pomniejszonemu o usunięte wiersze. Na M i L ta kontrola odbywa się raz na sesję, po odczytach.
 
 Dla zapisów runner zapisuje też przyrost licznika odczytów z dysku: `blks_read` w PostgreSQL, `Innodb_buffer_pool_reads` w MySQL, „bytes read into cache” WiredTiger w MongoDB. Neo4j Community nie udostępnia licznika braków w pamięci stron, więc runner zapisuje `rchar` procesu JVM. Licznik służy tylko do wyjaśniania nietypowych wyników i nie decyduje o poprawności przebiegu.

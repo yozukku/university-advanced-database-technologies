@@ -10,6 +10,7 @@
       "ordering_operation": {
         "table": {
           "access_type": "ref",
+          "backward_index_scan": true,
           "cost_info": {
             "data_read_per_join": "23K",
             "eval_cost": "7.60",
@@ -41,7 +42,7 @@
             "customer_id_"
           ]
         },
-        "using_filesort": true
+        "using_filesort": false
       },
       "select_id": 1
     }
@@ -49,6 +50,6 @@
   "qhash": "56d80bfe28d414d80836be86c3005f3c5b20e5fee1528f6f100909fe8464104b",
   "scenario": "R2",
   "size": "S",
-  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
-  "text": "-> Limit/Offset: 20/40 row(s)  (cost=83.4 rows=20) (actual time=0.873..0.874 rows=20 loops=1)\n    -> Sort: order_.created_at_ DESC, order_.id_ DESC, limit input to 60 row(s) per chunk  (cost=83.4 rows=76) (actual time=0.87..0.871 rows=60 loops=1)\n        -> Index lookup on order_ using order_customer_created__idx (customer_id_=831)  (cost=83.4 rows=76) (actual time=0.179..0.853 rows=76 loops=1)\n"
+  "state_id": "9f704d5d96c641d3326d661012eb7c1e2fc092cb50f5b714baee9719812812cd",
+  "text": "-> Limit/Offset: 20/40 row(s)  (cost=83.4 rows=20) (actual time=0.335..0.428 rows=20 loops=1)\n    -> Index lookup on order_ using order_customer_created__idx (customer_id_=831) (reverse)  (cost=83.4 rows=76) (actual time=0.116..0.425 rows=60 loops=1)\n"
 }

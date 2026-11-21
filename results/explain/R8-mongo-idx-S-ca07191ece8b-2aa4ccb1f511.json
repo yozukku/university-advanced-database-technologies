@@ -1,117 +1,15 @@
 {
-  "config": "idx",
+  "scenario": "R8",
   "engine": "mongo",
+  "config": "idx",
+  "size": "S",
   "kind": "read",
+  "qhash": "ca07191ece8bba9a5af0c14b8e4e4a86cfdc1b6218d24a9524ee6befd1f36ca6",
+  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "plan": {
-    "$clusterTime": {
-      "clusterTime": {
-        "$timestamp": {
-          "i": 2,
-          "t": 1795285433
-        }
-      },
-      "signature": {
-        "hash": {
-          "$binary": {
-            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-            "subType": "00"
-          }
-        },
-        "keyId": 0
-      }
-    },
-    "command": {
-      "$db": "bagazomat",
-      "filter": {
-        "at": {
-          "$gte": {
-            "$date": "2026-08-03T00:00:00Z"
-          }
-        },
-        "from": {
-          "$in": [
-            85
-          ]
-        }
-      },
-      "find": "shipLinks"
-    },
-    "executionStats": {
-      "executionStages": {
-        "advanced": 49,
-        "alreadyHasObj": 0,
-        "docsExamined": 49,
-        "executionTimeMillisEstimate": 0,
-        "inputStage": {
-          "advanced": 49,
-          "direction": "forward",
-          "dupsDropped": 0,
-          "dupsTested": 0,
-          "executionTimeMillisEstimate": 0,
-          "indexBounds": {
-            "at": [
-              "[new Date(1785715200000), new Date(9223372036854775807)]"
-            ],
-            "from": [
-              "[85, 85]"
-            ]
-          },
-          "indexName": "shiplinks_from_at__idx",
-          "indexVersion": 2,
-          "isEOF": 1,
-          "isMultiKey": false,
-          "isPartial": false,
-          "isSparse": false,
-          "isUnique": false,
-          "keyPattern": {
-            "at": 1,
-            "from": 1
-          },
-          "keysExamined": 49,
-          "multiKeyPaths": {
-            "at": [],
-            "from": []
-          },
-          "nReturned": 49,
-          "needTime": 0,
-          "needYield": 0,
-          "restoreState": 0,
-          "saveState": 0,
-          "seeks": 1,
-          "stage": "IXSCAN",
-          "works": 50
-        },
-        "isCached": false,
-        "isEOF": 1,
-        "nReturned": 49,
-        "needTime": 0,
-        "needYield": 0,
-        "restoreState": 0,
-        "saveState": 0,
-        "stage": "FETCH",
-        "works": 50
-      },
-      "executionSuccess": true,
-      "executionTimeMillis": 1,
-      "nReturned": 49,
-      "totalDocsExamined": 49,
-      "totalKeysExamined": 49
-    },
     "explainVersion": "1",
-    "ok": 1.0,
-    "operationTime": {
-      "$timestamp": {
-        "i": 2,
-        "t": 1795285433
-      }
-    },
     "queryPlanner": {
-      "indexFilterSet": false,
-      "maxIndexedAndSolutionsReached": false,
-      "maxIndexedOrSolutionsReached": false,
-      "maxScansToExplodeReached": false,
       "namespace": "bagazomat.shipLinks",
-      "optimizationTimeMillis": 0,
       "parsedQuery": {
         "$and": [
           {
@@ -128,65 +26,167 @@
           }
         ]
       },
-      "planCacheKey": "2B1553AB",
-      "planCacheShapeHash": "370DC110",
-      "prunedSimilarIndexes": false,
+      "indexFilterSet": false,
       "queryHash": "370DC110",
-      "rejectedPlans": [],
+      "planCacheShapeHash": "370DC110",
+      "planCacheKey": "2B1553AB",
+      "optimizationTimeMillis": 0,
+      "maxIndexedOrSolutionsReached": false,
+      "maxIndexedAndSolutionsReached": false,
+      "maxScansToExplodeReached": false,
+      "prunedSimilarIndexes": false,
       "winningPlan": {
+        "isCached": false,
+        "stage": "FETCH",
         "inputStage": {
-          "direction": "forward",
-          "indexBounds": {
-            "at": [
-              "[new Date(1785715200000), new Date(9223372036854775807)]"
-            ],
-            "from": [
-              "[85, 85]"
-            ]
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "from": 1,
+            "at": 1
           },
           "indexName": "shiplinks_from_at__idx",
-          "indexVersion": 2,
           "isMultiKey": false,
-          "isPartial": false,
-          "isSparse": false,
-          "isUnique": false,
-          "keyPattern": {
-            "at": 1,
-            "from": 1
-          },
           "multiKeyPaths": {
-            "at": [],
-            "from": []
+            "from": [],
+            "at": []
           },
-          "stage": "IXSCAN"
-        },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "from": [
+              "[85, 85]"
+            ],
+            "at": [
+              "[new Date(1785715200000), new Date(9223372036854775807)]"
+            ]
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 49,
+      "executionTimeMillis": 1,
+      "totalKeysExamined": 49,
+      "totalDocsExamined": 49,
+      "executionStages": {
         "isCached": false,
-        "stage": "FETCH"
+        "stage": "FETCH",
+        "nReturned": 49,
+        "executionTimeMillisEstimate": 0,
+        "works": 50,
+        "advanced": 49,
+        "needTime": 0,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "docsExamined": 49,
+        "alreadyHasObj": 0,
+        "inputStage": {
+          "stage": "IXSCAN",
+          "nReturned": 49,
+          "executionTimeMillisEstimate": 0,
+          "works": 50,
+          "advanced": 49,
+          "needTime": 0,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "keyPattern": {
+            "from": 1,
+            "at": 1
+          },
+          "indexName": "shiplinks_from_at__idx",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "from": [],
+            "at": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "from": [
+              "[85, 85]"
+            ],
+            "at": [
+              "[new Date(1785715200000), new Date(9223372036854775807)]"
+            ]
+          },
+          "keysExamined": 49,
+          "seeks": 1,
+          "dupsTested": 0,
+          "dupsDropped": 0
+        }
       }
     },
     "queryShapeHash": "3E513044AA35F880EDE9C40DAC473015B9CC2DAB71955D69678D6609B21C24A0",
+    "command": {
+      "find": "shipLinks",
+      "filter": {
+        "from": {
+          "$in": [
+            85
+          ]
+        },
+        "at": {
+          "$gte": {
+            "$date": "2026-08-03T00:00:00Z"
+          }
+        }
+      },
+      "$db": "bagazomat"
+    },
     "serverInfo": {
-      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568",
       "host": "3e937261ce17",
       "port": 27017,
-      "version": "8.0.38"
+      "version": "8.0.38",
+      "gitVersion": "b2f7afe3a6838999fd375c7a7ea678189f795568"
     },
     "serverParameters": {
-      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
-      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
-      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
       "internalQueryFacetBufferSizeBytes": 104857600,
       "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
-      "internalQueryFrameworkControl": "trySbeRestricted",
-      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+      "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
       "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
-      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1,
-      "internalQueryProhibitBlockingMergeOnMongoS": 0
+      "internalQueryProhibitBlockingMergeOnMongoS": 0,
+      "internalQueryMaxAddToSetBytes": 104857600,
+      "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+      "internalQueryFrameworkControl": "trySbeRestricted",
+      "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "ok": 1.0,
+    "$clusterTime": {
+      "clusterTime": {
+        "$timestamp": {
+          "t": 1795295340,
+          "i": 2
+        }
+      },
+      "signature": {
+        "hash": {
+          "$binary": {
+            "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "subType": "00"
+          }
+        },
+        "keyId": 0
+      }
+    },
+    "operationTime": {
+      "$timestamp": {
+        "t": 1795295340,
+        "i": 2
+      }
     }
   },
-  "qhash": "ca07191ece8bba9a5af0c14b8e4e4a86cfdc1b6218d24a9524ee6befd1f36ca6",
-  "scenario": "R8",
-  "size": "S",
-  "state_id": "2aa4ccb1f511c710542e5a9e21c7923254ae129680533ced9fd0f978fecbfdf7",
   "text": null
 }

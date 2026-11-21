@@ -725,7 +725,8 @@ where mbrcontains(st_geomfromtext(%(box)s, 4326, 'axis-order=long-lat'), l.locat
   and l.status_ = 'ACTIVE'
   and st_distance_sphere(l.location_, st_geomfromtext(%(point)s, 4326, 'axis-order=long-lat')) <= %(radius)s
   and exists (select 1 from lockermat_cell_ c
-              where c.lockermat_id_ = l.id_ and c.size_ = %(size)s and c.status_ = 'IN_SERVICE'
+              where (case when c.status_ = 'IN_SERVICE' then c.lockermat_id_ end) = l.id_
+                and (case when c.status_ = 'IN_SERVICE' then c.size_ end) = %(size)s
                 and not exists (select 1 from reservation_ r
                                 where r.cell_id_ = c.id_ and r.status_ in ('BOOKED', 'OCCUPIED')
                                   and r.from_ < %(to)s and r.to_ > %(from)s)
@@ -2005,7 +2006,7 @@ Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń 
 | `lockermat_opening_hours_weekday__uq` | `lockermat_opening_hours_` | `lockermat_id_`, `weekday_` | unique |
 | `PRIMARY` | `order_` | `id_` | primary |
 | `order_awaiting_payment__idx` | `order_` | `CASE WHEN status_ = 'AWAITING_PAYMENT' THEN payment_deadline_ END` | functional |
-| `order_customer_created__idx` | `order_` | `customer_id_`, `created_at_ desc` | btree |
+| `order_customer_created__idx` | `order_` | `customer_id_`, `created_at_` | btree |
 | `order_id_type__uq` | `order_` | `id_`, `type_` | unique |
 | `order_id_type_size__uq` | `order_` | `id_`, `type_`, `size_` | unique |
 | `order_number__uq` | `order_` | `number_` | unique |

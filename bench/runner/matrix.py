@@ -23,7 +23,7 @@ from .store import Store
 HASHED = ("XS", "S")
 CONFIGS = ("idx", "base")
 RUNS = tuple(range(1, MEASURED_RUNS + 1))
-WARMUP_CAP_SECONDS = 24
+WARMUP_CAP_SECONDS = 60
 
 
 @dataclass
@@ -84,13 +84,15 @@ class Bench:
     def run(self):
         try:
             for engine in self.engines:
-                for config in CONFIGS:
-                    self.configuration(engine, config)
+                paired = self.group(engine, "base")
+                for scenario in paired:
+                    for config in ("base", "idx"):
+                        self.configuration(engine, config, [scenario])
+                self.configuration(engine, "idx", [scenario for scenario in self.group(engine, "idx") if scenario not in paired])
         finally:
             self.stop()
 
-    def configuration(self, engine, config):
-        group = self.group(engine, config)
+    def configuration(self, engine, config, group):
         pending = {scenario.id: self.pending(scenario, engine, config) for scenario in group}
         reads = [scenario for scenario in group if scenario.read]
         if any(pending[scenario.id][0] for scenario in reads):
@@ -161,7 +163,8 @@ class Bench:
         self.restore(engine, config)
         try:
             with Session(engine, self.timeout) as session:
-                warmed = warmup.run(session, warmup.script(engine, warmup.catalog(session), reads, self.values),
+                read_set = [scenario for scenario in self.group(engine, config) if scenario.read]
+                warmed = warmup.run(session, warmup.script(engine, warmup.catalog(session), read_set, self.values),
                                     WARMUP_CAP_SECONDS)
         except Exception:
             for scenario in reads:

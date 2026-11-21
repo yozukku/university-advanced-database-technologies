@@ -17,6 +17,7 @@ LEFTOVER = re.compile(r"\{\{.*?\}\}", re.DOTALL)
 CAPTION_ID = re.compile(r"\{#((?:fig|tab):[^\s{}]+)\}")
 CAPTIONS = {"Figure": ("fig", "Rys."), "Table": ("tab", "Tab.")}
 REFERENCES = {"fig": "rys.", "tab": "tab."}
+MEANS = re.compile(r"([CRUD])-(XS|S|M|L)")
 
 
 class ReportError(Exception):
@@ -33,9 +34,25 @@ def captioned(body, name, caption):
     return f"{body or EMPTY_TABLE}\n\n: {caption} {{#tab:{name}}}"
 
 
+def means(results, name):
+    match = MEANS.fullmatch(name)
+    path = Path(results) / "qa.json"
+    if not match or not path.is_file():
+        return None
+    op, size = match.groups()
+    cells = json.loads(path.read_text(encoding="utf-8")).get(size, {}).get("cells", [])
+    found = {(cell["scenario"], cell["engine"]): cell["mean"] for cell in cells
+             if cell["config"] == "idx" and cell["state"] == "complete" and cell["scenario"].startswith(op)}
+    rows = [[scenario, *(dataset.number(found[scenario, engine] * 1000, 1) if (scenario, engine) in found else "—"
+                         for engine in dataset.ENGINES)]
+            for scenario in sorted({scenario for scenario, _ in found}, key=lambda scenario: int(scenario[1:]))]
+    return dataset.markdown(["Scenariusz", *(f"{title} [ms]" for title in dataset.ENGINES.values())], rows) if rows else None
+
+
 def table(results, name, caption):
     fragment = Path(results) / "tables" / f"{name}.md"
-    return captioned(fragment.read_text(encoding="utf-8").strip() if fragment.is_file() else None, name, caption)
+    return captioned(fragment.read_text(encoding="utf-8").strip() if fragment.is_file() else means(results, name),
+                     name, caption)
 
 
 def data(results, name, caption):

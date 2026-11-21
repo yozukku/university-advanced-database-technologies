@@ -11,7 +11,7 @@
             "dependent": false,
             "query_block": {
               "cost_info": {
-                "query_cost": "5.23"
+                "query_cost": "5.24"
               },
               "nested_loop": [
                 {
@@ -279,6 +279,6 @@
   "qhash": "e6ca3e10fca9c455b6dfa15ea873396371b8ea787c5c2bb2710ab854f53a79cb",
   "scenario": "R1",
   "size": "S",
-  "state_id": "8e33ba05ddf6d902e0cc2a0fd36592d462218d18b3f17fe6276d07897d53d86d",
-  "text": "-> Append  (cost=7.44 rows=3.98) (actual time=0.28..0.323 rows=4 loops=1)\n    -> Stream results  (cost=5.24 rows=1.98) (actual time=0.279..0.281 rows=2 loops=1)\n        -> Nested loop left join  (cost=5.24 rows=1.98) (actual time=0.273..0.275 rows=2 loops=1)\n            -> Nested loop inner join  (cost=3.06 rows=1) (actual time=0.174..0.174 rows=1 loops=1)\n                -> Nested loop inner join  (cost=1.96 rows=1) (actual time=0.101..0.102 rows=1 loops=1)\n                    -> Index lookup on r using reservation_order__fk (order_id_=1863)  (cost=0.857 rows=1) (actual time=0.0216..0.022 rows=1 loops=1)\n                    -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=1.1 rows=1) (actual time=0.079..0.079 rows=1 loops=1)\n                -> Single-row index lookup on l using PRIMARY (id_=c.lockermat_id_)  (cost=1.1 rows=1) (actual time=0.0727..0.0727 rows=1 loops=1)\n            -> Index lookup on a using access_code_reservation__idx (reservation_id_=r.id_)  (cost=2.18 rows=1.98) (actual time=0.0983..0.0989 rows=2 loops=1)\n    -> Stream results  (cost=2.2 rows=2) (actual time=0.0393..0.0401 rows=2 loops=1)\n        -> Index lookup on p using payment_order__idx (order_id_=1863)  (cost=2.2 rows=2) (actual time=0.038..0.0382 rows=2 loops=1)\n"
+  "state_id": "9f704d5d96c641d3326d661012eb7c1e2fc092cb50f5b714baee9719812812cd",
+  "text": "-> Append  (cost=7.44 rows=3.98) (actual time=0.202..0.234 rows=4 loops=1)\n    -> Stream results  (cost=5.24 rows=1.98) (actual time=0.201..0.203 rows=2 loops=1)\n        -> Nested loop left join  (cost=5.24 rows=1.98) (actual time=0.196..0.198 rows=2 loops=1)\n            -> Nested loop inner join  (cost=3.06 rows=1) (actual time=0.125..0.126 rows=1 loops=1)\n                -> Nested loop inner join  (cost=1.96 rows=1) (actual time=0.0761..0.0765 rows=1 loops=1)\n                    -> Index lookup on r using reservation_order__fk (order_id_=1863)  (cost=0.857 rows=1) (actual time=0.0157..0.016 rows=1 loops=1)\n                    -> Single-row index lookup on c using PRIMARY (id_=r.cell_id_)  (cost=1.1 rows=1) (actual time=0.0598..0.0598 rows=1 loops=1)\n                -> Single-row index lookup on l using PRIMARY (id_=c.lockermat_id_)  (cost=1.1 rows=1) (actual time=0.0491..0.0492 rows=1 loops=1)\n            -> Index lookup on a using access_code_reservation__idx (reservation_id_=r.id_)  (cost=2.18 rows=1.98) (actual time=0.0702..0.0707 rows=2 loops=1)\n    -> Stream results  (cost=2.2 rows=2) (actual time=0.029..0.03 rows=2 loops=1)\n        -> Index lookup on p using payment_order__idx (order_id_=1863)  (cost=2.2 rows=2) (actual time=0.0276..0.028 rows=2 loops=1)\n"
 }

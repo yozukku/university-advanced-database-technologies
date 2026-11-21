@@ -181,11 +181,11 @@
       "distance_km": 251.322,
       "load_phases": {
         "analyze": 0.1,
-        "data": 40.4,
-        "foreign keys": 17.1,
-        "indexes": 46.5
+        "data": 35.6,
+        "foreign keys": 21.4,
+        "indexes": 42.3
       },
-      "load_seconds": 104.0,
+      "load_seconds": 99.5,
       "problem_count": 0,
       "problems": [],
       "tables": {
@@ -242,7 +242,7 @@
           "rows": 9
         }
       },
-      "verify_seconds": 141.0,
+      "verify_seconds": 133.7,
       "warmup": {
         "base": {
           "restore_seconds": 3.4,
