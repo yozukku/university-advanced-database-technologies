@@ -6,6 +6,7 @@ export ZTB_HOST_MODEL = $(shell sysctl -n hw.model 2>/dev/null || echo unknown)
 export ZTB_HOST_ORBSTACK = $(shell orb version 2>/dev/null || echo unknown)
 
 SIZE ?= S
+SIZES ?= S M L
 RESULTS_DIR ?= results
 OUT ?= out
 
@@ -19,7 +20,7 @@ RUNNER = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner
 RUNNER_ARGS = --size "$(SIZE)" $(foreach engine,$(ENGINE),--engine $(engine)) \
     $(foreach scenario,$(SCENARIO),--scenario $(scenario)) $(if $(TIMEOUT),--timeout $(TIMEOUT))
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report charts bench status forget explain qa h1
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report charts bench status forget explain qa h1 full
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -42,7 +43,8 @@ help:
 	    'forget ENGINE=… SIZE=… SCENARIO=… REASON=… Usuń przebiegi komórki, aby zmierzyć ją ponownie' \
 	    'explain SIZE=XS|S|L [ENGINE=…] [SCENARIO=…] Zapisz brakujące plany zapytań i explain_summary.csv' \
 	    'qa SIZE=XS|S|M|L [TIMEOUT=…] Sprawdź komórki pomiarów i zapisz qa.json' \
-	    'h1 [RESULTS_DIR=results] Oceń hipotezę H1 na podstawie qa.json i planów, zapisz h1.json'
+	    'h1 [RESULTS_DIR=results] Oceń hipotezę H1 na podstawie qa.json i planów, zapisz h1.json' \
+	    'full [SIZES="S M L"] [UNTIL=krok] Wykonaj wszystko od danych do sprawozdania, pomijając kroki już wykonane'
 
 check:
 	@tools/check-comments
@@ -157,3 +159,12 @@ qa: compose-config
 
 h1:
 	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.analysis h1 --results "$(RESULTS_DIR)"
+
+full: compose-config
+	@$(BENCH) build pg report
+	@$(BENCH) stop $(ENGINES)
+	@$(BENCH) create $(ENGINES)
+	@name="$(COMPOSE_PROJECT_NAME)-full"; \
+	trap 'docker kill --signal=INT "$$name" >/dev/null 2>&1; docker wait "$$name" >/dev/null 2>&1; exit 130' INT TERM; \
+	$(if $(CAFFEINATE),$(CAFFEINATE) -ims) $(BENCH) run --rm -T --no-deps --build --name "$$name" runner \
+	    python -m bench.runner.full --sizes $(SIZES) $(if $(UNTIL),--until $(UNTIL))
