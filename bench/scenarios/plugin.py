@@ -28,6 +28,7 @@ class Run:
     access: dict | None = None
     probe: dict | None = None
     rebuild: dict | None = None
+    after: dict | None = None
     error: str | None = None
 
 
@@ -101,10 +102,13 @@ class Harness:
 
     def write(self, scenario, session, before):
         params = self.params[scenario.id]
-        keys = scenario.impls[session.engine].keys(session, params)
+        impl = scenario.impls[session.engine]
+        keys = impl.keys(session, params)
         old = oracle.probe(session, self.schema, keys)
         outcome = execute(scenario, session, params)
         run = Run(outcome=outcome, probe=oracle.diff(old, oracle.probe(session, self.schema, keys), self.schema))
+        if impl.after:
+            run.after = impl.after(session, params)
         if before is not None:
             run.rebuild = oracle.diff(before, oracle.snapshot(session, self.schema), self.schema)
         return run

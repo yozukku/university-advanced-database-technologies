@@ -23,6 +23,7 @@ class Impl:
     run: Callable
     keys: Callable | None = None
     plan: Callable | None = None
+    after: Callable | None = None
 
 
 @dataclass(frozen=True, eq=False)
