@@ -1,7 +1,7 @@
 C1: {ops: 10000, ops_xs: 100, batch: 100}
 C2: {ops: 100000, ops_xs: 1000, batch: 1000}
 C3: {ops: 1000, ops_xs: 20, batch: 1, days_after_t0: 40, window_hours: 4}
-C4: {ops: 1000, ops_xs: 20, batch: 1, days_after_t0: 40, window_hours: 4}
+C4: {ops: 1000, ops_xs: 20, batch: 1, days_after_t0: 40, window_hours: 4, destination_gap_days: 5, destination_hours: 24}
 C5: {ops: 10000, ops_xs: 100, batch: 100}
 C6: {ops: null, ops_xs: null, batch: 5000}
 R1: {ops: 1000, ops_xs: 20}

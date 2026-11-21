@@ -23,6 +23,8 @@ H1 = {"H1-S": frozenset({"R4", "R5", "R6", "R7", "J2", "J4"}),
       "H1-U": frozenset({"U1", "U5"})}
 H1_OPS = {"H1-S": ("R", "SELECT"), "H1-I": ("C", "INSERT"), "H1-U": ("U", "UPDATE")}
 NUANCES = frozenset({"U3", "J5"})
+INDEX_KINDS = frozenset({"primary", "unique", "btree", "range", "multikey", "functional", "multi_valued", "gist", "gin",
+                         "spatial", "point", "2dsphere", "fulltext", "exclude", "lookup"})
 
 
 def is_json(scenario):
@@ -57,6 +59,16 @@ def objects(entry):
                      for item in entry)
 
 
+def base_indexes(indexes, engine):
+    found = {(item["scope"], item["name"]): item
+             for entry in [*indexes["base"].values(), *indexes["base_extras"].values()]
+             if isinstance(entry[engine], list) for item in entry[engine] if item["kind"] in INDEX_KINDS}
+    if engine == "mysql":
+        found |= {(item["scope"], item["name"]): item for item in indexes["mysql_fk_support"].values()}
+    return [(f"`{name}`", f"`{scope}`", cell(", ".join(f"`{key}`" for key in item.get("keys", ()))) or "—", item["kind"])
+            for (scope, name), item in sorted(found.items())]
+
+
 def settings(scenario_id):
     return ", ".join(f"`{key}: {'null' if value is None else value}`" for key, value in read_ops()[scenario_id].items())
 
@@ -76,7 +88,8 @@ def section(plan, scenario):
 
 
 def render(registry):
-    plan = yaml.safe_load(INDEXES.read_text())["idx"]
+    indexes = yaml.safe_load(INDEXES.read_text())
+    plan = indexes["idx"]
     core = [scenario for scenario in registry.values() if not is_json(scenario)]
     documents = [scenario for scenario in registry.values() if is_json(scenario)]
     lines = [
@@ -110,6 +123,13 @@ def render(registry):
     lines += ["## Scenariusze JSON", ""]
     for scenario in documents:
         lines += section(plan, scenario)
+    lines += ["## Indeksy BASE", "",
+              "Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń CHECK, walidatorów "
+              "i wyzwalaczy. Pełne skrypty: `bench/ddl/<silnik>/base/`.", ""]
+    for engine in ENGINES:
+        lines += [f"### {NAMES[engine]}", "",
+                  *table(("Indeks", "Tabela, kolekcja lub etykieta", "Klucze", "Rodzaj"), base_indexes(indexes, engine)),
+                  ""]
     lines += ["## Indeksy IDX", "",
               *table(("Indeks", *(NAMES[engine] for engine in ENGINES), "Obsługuje", "Utrzymują"),
                      [(name, *(objects(row["engines"][engine]) for engine in ENGINES),

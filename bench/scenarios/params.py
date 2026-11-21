@@ -58,7 +58,15 @@ def plain(value):
     return value
 
 
+def empty(params):
+    found = [params] if isinstance(params, list) else [value for value in params.values() if isinstance(value, list)]
+    return bool(found) and not any(found)
+
+
 def parameters(scenario, db, profile):
     config = scenario.config(profile.size)
     rng = np.random.default_rng(np.random.SeedSequence(seed(profile, scenario)))
-    return plain(scenario.select(Pick(db, rng, config["count"], config, profile.t0)))
+    found = plain(scenario.select(Pick(db, rng, config["count"], config, profile.t0)))
+    if empty(found):
+        raise ValueError(f"{scenario.id}: the selector yields no parameter sets or batches at {profile.size}")
+    return found

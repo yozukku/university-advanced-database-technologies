@@ -58,11 +58,13 @@ def expiry(db, profile, params):
 
 
 def decommission(db, profile, params):
-    rows = db.execute(LOCKERS, [[locker for batch in params["lockers"] for locker in batch]]).fetchall()
+    lockers = [locker for batch in params["lockers"] for locker in batch]
+    rows = db.execute(LOCKERS, [lockers]).fetchall()
     cells = {cell for cell, status, _, _ in rows if status == "IN_SERVICE"}
     legs = {leg for _, _, leg, _ in rows} - {None}
     codes = {code for *_, code in rows} - {None}
     return changed({
+        "lockermat_": [(locker, {"status_": ["ACTIVE", "DECOMMISSIONED"]}) for locker in lockers],
         "lockermat_cell_": [(cell, {"status_": ["IN_SERVICE", "OUT_OF_SERVICE"]}) for cell in cells],
         "reservation_": [(leg, {"status_": ["BOOKED", "CANCELLED"]}) for leg in legs],
         "access_code_": [(code, {"status_": ["ACTIVE", "REVOKED"]}) for code in codes],

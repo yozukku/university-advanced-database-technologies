@@ -47,6 +47,11 @@ def test_selector_changes_only_its_qhash(size):
     assert [key for key in before if before[key] != after[key]] == [COUNT.id]
 
 
+def test_empty_selection_fails(size):
+    with dataset(size) as (db, profile), pytest.raises(ValueError, match="no parameter sets"):
+        parameters(replace(COUNT, select=lambda pick: []), db, profile)
+
+
 def test_parameters_repeat(size):
     with dataset(size) as (db, profile):
         assert parameters(COUNT, db, profile) == parameters(COUNT, db, profile)

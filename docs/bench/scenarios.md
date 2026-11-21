@@ -29,7 +29,7 @@ Parametry: `%(nazwa)s` i `%s` w SQL, `$nazwa` w Cypher, `:nazwa` w wywołaniach 
 | U1 | U | Zamknięcie 5000 opłaconych zamówień (PAID → COMPLETED) według id, w transakcjach po 1000 zamówień | BA, H1-U | IX2 |
 | U2 | U | Użycie kodu nadania ×1000: otwarcie skrytki → OPENED, kod → USED, noga → OCCUPIED w jednej transakcji, z kontrolą faktycznego zajęcia skrytki | — | — |
 | U3 | U | Wygaszenie nieopłaconych zamówień po terminie płatności (→ EXPIRED) i anulowanie ich nóg (→ CANCELLED), partiami po 5000 zamówień | BA | IX2 |
-| U4 | U | Wycofanie 20 automatów z eksploatacji w jednej transakcji: ich skrytki → OUT_OF_SERVICE, przyszłe zarezerwowane nogi → CANCELLED, aktywne kody tych nóg → REVOKED | — | — |
+| U4 | U | Wycofanie 20 automatów z eksploatacji w jednej transakcji: automaty → DECOMMISSIONED, ich skrytki → OUT_OF_SERVICE, przyszłe zarezerwowane nogi → CANCELLED, aktywne kody tych nóg → REVOKED | — | — |
 | U5 | U | Korekta numeru telefonu odbiorcy 5000 przesyłek według id zamówienia, w transakcjach po 1000 przesyłek | BA, H1-U | IX1 |
 | U6 | U | Unieważnienie wszystkich aktywnych kodów dostępu po upływie ich ważności (ACTIVE → REVOKED), partiami po 5000 kodów | — | — |
 | D1 | D | Usunięcie 1000 wpisów dziennika otwarć skrytek według id, w transakcjach po 100 wpisów | — | — |
@@ -213,7 +213,9 @@ tariffs.findOne({size: :size, validFrom: {$lte: :now}, $or: [{validTo: null}, {v
 lockermats.findOne({_id: :locker, status: 'ACTIVE'}, {cells: 1});
 orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki punktu>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
                                   {reservations: {$elemMatch: {cellId: {$in: <skrytki punktu>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
-                  {$unwind: '$reservations'}, {$match: <te same dwa warunki na reservations>},
+                  {$unwind: '$reservations'},
+                  {$match: {$or: [{'reservations.cellId': {$in: <skrytki punktu>}, 'reservations.status': {$in: ['BOOKED', 'OCCUPIED']}, 'reservations.from': {$lt: :to}, 'reservations.to': {$gt: :from}},
+                                  {'reservations.cellId': {$in: <skrytki punktu>}, 'reservations.status': 'OCCUPIED', 'reservations.to': {$lte: :now}}]}},
                   {$group: {_id: '$reservations.cellId'}}]);
 lockermats.updateOne({_id: :locker, 'cells.id': <pierwsza wolna skrytka według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
 orders.findOne({reservations: {$elemMatch: {cellId: <wybrana skrytka>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
@@ -258,7 +260,7 @@ RETURN c.id
 
 Nadanie przesyłki ×1000: zamówienie, przesyłka, dwie nogi w różnych punktach, cztery kody i opłata w jednej transakcji, z wyborem taryfy i wolnych skrytek oraz zapisem połączenia między punktami
 
-Flagi: BA, H1-I. Indeks IDX: IX1, IX2, IX3. Ustawienia z `ops.yaml`: `ops: 1000`, `ops_xs: 20`, `batch: 1`, `days_after_t0: 40`, `window_hours: 4`.
+Flagi: BA, H1-I. Indeks IDX: IX1, IX2, IX3. Ustawienia z `ops.yaml`: `ops: 1000`, `ops_xs: 20`, `batch: 1`, `days_after_t0: 40`, `window_hours: 4`, `destination_gap_days: 5`, `destination_hours: 24`.
 
 **PostgreSQL**
 
@@ -276,14 +278,15 @@ with origin as (
     order by c.number_
     limit 1
     for update of c skip locked
-), destination as (
+),
+destination as (
     select c.id_
     from lockermat_cell_ c
     join lockermat_ l on l.id_ = c.lockermat_id_
     where l.id_ = %(destination)s and l.status_ = 'ACTIVE' and c.size_ = %(size)s and c.status_ = 'IN_SERVICE'
       and not exists (select 1 from reservation_ r
                       where r.cell_id_ = c.id_ and r.status_ in ('BOOKED', 'OCCUPIED')
-                        and tstzrange(r.from_, r.to_, '[)') && tstzrange(%(from)s, %(to)s, '[)'))
+                        and tstzrange(r.from_, r.to_, '[)') && tstzrange(%(destination_from)s, %(destination_to)s, '[)'))
       and not exists (select 1 from reservation_ r
                       where r.cell_id_ = c.id_ and r.status_ = 'OCCUPIED' and r.to_ <= %(now)s)
     order by c.number_
@@ -304,11 +307,12 @@ placed as (
     from placed
 ), legs as (
     insert into reservation_ (id_, order_id_, size_, cell_id_, leg_, from_, to_)
-    select leg.id_, p.id_, p.size_, leg.cell_id_, leg.leg_, %(from)s, %(to)s
+    select leg.id_, p.id_, p.size_, leg.cell_id_, leg.leg_, leg.from_, leg.to_
     from placed p
-    cross join (select %(origin_leg)s::bigint, id_, 'ORIGIN' from origin
+    cross join (select %(origin_leg)s::bigint, id_, 'ORIGIN', %(from)s::timestamptz, %(to)s::timestamptz from origin
                 union all
-                select %(destination_leg)s::bigint, id_, 'DESTINATION' from destination) leg(id_, cell_id_, leg_)
+                select %(destination_leg)s::bigint, id_, 'DESTINATION', %(destination_from)s::timestamptz,
+                       %(destination_to)s::timestamptz from destination) leg(id_, cell_id_, leg_, from_, to_)
     returning id_, leg_, from_, to_
 ), charge as (
     insert into payment_ (id_, order_id_, kind_, amount_, status_, provider_, provider_ref_, created_at_, completed_at_)
@@ -344,7 +348,7 @@ join lockermat_ l on l.id_ = c.lockermat_id_
 where l.id_ = %(destination)s and l.status_ = 'ACTIVE' and c.size_ = %(size)s and c.status_ = 'IN_SERVICE'
   and not exists (select 1 from reservation_ r
                   where r.cell_id_ = c.id_ and r.status_ in ('BOOKED', 'OCCUPIED')
-                    and r.from_ < %(to)s and r.to_ > %(from)s)
+                    and r.from_ < %(destination_to)s and r.to_ > %(destination_from)s)
   and not exists (select 1 from reservation_ r
                   where r.cell_id_ = c.id_ and r.status_ = 'OCCUPIED' and r.to_ <= %(now)s)
 order by c.number_
@@ -359,7 +363,8 @@ insert into shipment_ (id_, order_id_, recipient_name_, recipient_phone_, declar
 values (%(shipment)s, %(order)s, %(recipient_name)s, %(recipient_phone)s, %(declared)s / 100);
 insert into reservation_ (id_, order_id_, size_, cell_id_, leg_, from_, to_)
 values (%(origin_leg)s, %(order)s, %(size)s, %(origin_cell)s, 'ORIGIN', %(from)s, %(to)s),
-       (%(destination_leg)s, %(order)s, %(size)s, %(destination_cell)s, 'DESTINATION', %(from)s, %(to)s);
+       (%(destination_leg)s, %(order)s, %(size)s, %(destination_cell)s, 'DESTINATION', %(destination_from)s,
+        %(destination_to)s);
 insert into payment_ (id_, order_id_, kind_, amount_, status_, provider_, provider_ref_, created_at_, completed_at_)
 select %(payment)s, o.id_, 'CHARGE', o.price_, 'COMPLETED', 'MOCK', %(provider_ref)s, %(now)s, %(now)s
 from order_ o
@@ -373,13 +378,22 @@ values (%s, %s, %s, %s, %s, %s, %s, %s)
 ```javascript
 tariffs.findOne({size: :size, validFrom: {$lte: :now}, $or: [{validTo: null}, {validTo: {$gt: :now}}]});
 lockermats.find({_id: {$in: [:origin, :destination]}, status: 'ACTIVE'}, {cells: 1});
-orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki obu punktów>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
-                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki obu punktów>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
-                  {$unwind: '$reservations'}, {$match: <te same dwa warunki na reservations>},
+orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki punktu nadania>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
+                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki punktu nadania>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
+                  {$unwind: '$reservations'},
+                  {$match: {$or: [{'reservations.cellId': {$in: <skrytki punktu nadania>}, 'reservations.status': {$in: ['BOOKED', 'OCCUPIED']}, 'reservations.from': {$lt: :to}, 'reservations.to': {$gt: :from}},
+                                  {'reservations.cellId': {$in: <skrytki punktu nadania>}, 'reservations.status': 'OCCUPIED', 'reservations.to': {$lte: :now}}]}},
+                  {$group: {_id: '$reservations.cellId'}}]);
+orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki punktu docelowego>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :destination_to}, to: {$gt: :destination_from}}}},
+                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki punktu docelowego>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
+                  {$unwind: '$reservations'},
+                  {$match: {$or: [{'reservations.cellId': {$in: <skrytki punktu docelowego>}, 'reservations.status': {$in: ['BOOKED', 'OCCUPIED']}, 'reservations.from': {$lt: :destination_to}, 'reservations.to': {$gt: :destination_from}},
+                                  {'reservations.cellId': {$in: <skrytki punktu docelowego>}, 'reservations.status': 'OCCUPIED', 'reservations.to': {$lte: :now}}]}},
                   {$group: {_id: '$reservations.cellId'}}]);
 lockermats.updateOne({_id: :origin, 'cells.id': <pierwsza wolna skrytka nadania według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
 lockermats.updateOne({_id: :destination, 'cells.id': <pierwsza wolna skrytka docelowa według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
-orders.findOne({reservations: {$elemMatch: {cellId: {$in: <obie wybrane skrytki>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
+orders.findOne({$or: [{reservations: {$elemMatch: {cellId: <wybrana skrytka nadania>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
+                     {reservations: {$elemMatch: {cellId: <wybrana skrytka docelowa>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :destination_to}, to: {$gt: :destination_from}}}}]});
 orders.insertOne({_id: :order, …, shipment: {…, originLockermatId, destinationLockermatId},
                   reservations: [{leg: 'ORIGIN', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP>]},
                                  {leg: 'DESTINATION', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP wysłany do odbiorcy>]}],
@@ -404,7 +418,7 @@ MATCH (dl:Lockermat {id: $destination, status: 'ACTIVE'})-[:HAS_CELL]->(dc:Cell 
 
     WHERE NOT EXISTS {
         MATCH (dc)<-[:IN_CELL]-(r:Reservation)
-        WHERE (r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < $to AND r.to > $from)
+        WHERE (r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < $destination_to AND r.to > $destination_from)
            OR (r.status = 'OCCUPIED' AND r.to <= $now)
     }
 
@@ -416,10 +430,11 @@ WHERE
         MATCH (oc)<-[:IN_CELL]-(r:Reservation)
         WHERE r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < $to AND r.to > $from
     }
- AND 
+
+  AND 
     NOT EXISTS {
         MATCH (dc)<-[:IN_CELL]-(r:Reservation)
-        WHERE r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < $to AND r.to > $from
+        WHERE r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < $destination_to AND r.to > $destination_from
     }
 
 MATCH (t:Tariff {size: $size})
@@ -432,8 +447,8 @@ CREATE (u)-[:PLACED]->(o:Order:Shipment {id: $order, number: $number, customerId
                                          recipientPhone: $recipient_phone, declaredValue: $declared})-[:PRICED_BY]->(t)
 CREATE (o)-[:HAS_LEG]->(ro:Reservation {id: $origin_leg, size: $size, leg: 'ORIGIN', from: $from, to: $to,
                                         status: 'BOOKED'})-[:IN_CELL]->(oc)
-CREATE (o)-[:HAS_LEG]->(rd:Reservation {id: $destination_leg, size: $size, leg: 'DESTINATION', from: $from, to: $to,
-                                        status: 'BOOKED'})-[:IN_CELL]->(dc)
+CREATE (o)-[:HAS_LEG]->(rd:Reservation {id: $destination_leg, size: $size, leg: 'DESTINATION',
+                                        from: $destination_from, to: $destination_to, status: 'BOOKED'})-[:IN_CELL]->(dc)
 CREATE (o)-[:HAS_PAYMENT]->(:Payment {id: $payment, kind: 'CHARGE', amount: t.shipmentPrice, status: 'COMPLETED',
                                       provider: 'MOCK', providerRef: $provider_ref, createdAt: $now,
                                       completedAt: $now})
@@ -441,13 +456,15 @@ CREATE (ol)-[:SHIPS_TO {orderId: $order, at: $now}]->(dl)
 
 FOREACH (code IN [item IN $codes WHERE item.leg = 'ORIGIN'] |
     CREATE (ro)-[:HAS_CODE]->(:AccessCode {id: code.id, purpose: code.purpose, codeHmac: code.hmac,
-                                                  sentToPhone: code.phone, validFrom: $from, validTo: $to,
+                                                  sentToPhone: code.phone, validFrom: ro.from,
+                                                  validTo: ro.to,
                                                   status: 'ACTIVE', createdAt: $now}))
 
 
 FOREACH (code IN [item IN $codes WHERE item.leg = 'DESTINATION'] |
     CREATE (rd)-[:HAS_CODE]->(:AccessCode {id: code.id, purpose: code.purpose, codeHmac: code.hmac,
-                                                  sentToPhone: code.phone, validFrom: $from, validTo: $to,
+                                                  sentToPhone: code.phone, validFrom: rd.from,
+                                                  validTo: rd.to,
                                                   status: 'ACTIVE', createdAt: $now}))
 
 RETURN oc.id, dc.id
@@ -725,12 +742,15 @@ lockermats.aggregate([
   {$geoNear: {near: {type: 'Point', coordinates: [:lng, :lat]}, key: 'location', distanceField: 'distance',
               maxDistance: :radius, spherical: true,
               query: {status: 'ACTIVE', cells: {$elemMatch: {size: :size, status: 'IN_SERVICE'}}}}},
-  {$project: {distance: 1, cells: <id skrytek o rozmiarze :size i statusie IN_SERVICE>}},
+  {$project: {distance: 1, cells: {$map: {input: {$filter: {input: '$cells', cond: {$and: [{$eq: ['$$this.size', :size]}, {$eq: ['$$this.status', 'IN_SERVICE']}]}}},
+                                        in: '$$this.id'}}}},
   {$lookup: {from: 'orders', localField: 'cells', foreignField: 'reservations.cellId', let: {cells: '$cells'},
              pipeline: [{$match: {$or: [{reservations: {$elemMatch: {status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
                                         {reservations: {$elemMatch: {status: 'OCCUPIED', to: {$lte: :now}}}}]}},
                         {$unwind: '$reservations'},
-                        {$match: {$expr: {$in: ['$reservations.cellId', '$$cells']}, $or: <te same dwa warunki na reservations>}},
+                        {$match: {$expr: {$in: ['$reservations.cellId', '$$cells']},
+                                  $or: [{'reservations.status': {$in: ['BOOKED', 'OCCUPIED']}, 'reservations.from': {$lt: :to}, 'reservations.to': {$gt: :from}},
+                                        {'reservations.status': 'OCCUPIED', 'reservations.to': {$lte: :now}}]}},
                         {$project: {_id: 0, cellId: '$reservations.cellId'}}],
              as: 'busy'}},
   {$match: {$expr: {$gt: [{$size: {$setDifference: ['$cells', '$busy.cellId']}}, 0]}}},
@@ -1237,14 +1257,17 @@ SET r.status = 'CANCELLED'
 
 ### U4 — aktualizacja (UPDATE)
 
-Wycofanie 20 automatów z eksploatacji w jednej transakcji: ich skrytki → OUT_OF_SERVICE, przyszłe zarezerwowane nogi → CANCELLED, aktywne kody tych nóg → REVOKED
+Wycofanie 20 automatów z eksploatacji w jednej transakcji: automaty → DECOMMISSIONED, ich skrytki → OUT_OF_SERVICE, przyszłe zarezerwowane nogi → CANCELLED, aktywne kody tych nóg → REVOKED
 
 Flagi: —. Indeks IDX: —. Ustawienia z `ops.yaml`: `ops: 20`, `ops_xs: 2`, `batch: 5000`.
 
 **PostgreSQL**
 
 ```sql
-with cells as (
+with lockers as (
+    update lockermat_ set status_ = 'DECOMMISSIONED'
+    where id_ = any(%(lockers)s)
+), cells as (
     update lockermat_cell_ set status_ = 'OUT_OF_SERVICE'
     where lockermat_id_ = any(%(lockers)s) and status_ = 'IN_SERVICE'
 ), legs as (
@@ -1261,18 +1284,19 @@ where a.reservation_id_ = l.id_ and a.status_ = 'ACTIVE'
 **MySQL**
 
 ```sql
-update lockermat_cell_ c
+update lockermat_ l
+join lockermat_cell_ c on c.lockermat_id_ = l.id_
 left join reservation_ r on r.cell_id_ = c.id_ and r.status_ = 'BOOKED' and r.from_ > %s
 left join access_code_ a on a.reservation_id_ = r.id_ and a.status_ = 'ACTIVE'
-set c.status_ = 'OUT_OF_SERVICE', r.status_ = 'CANCELLED', a.status_ = 'REVOKED'
-where c.lockermat_id_ in ({marks})
+set l.status_ = 'DECOMMISSIONED', c.status_ = 'OUT_OF_SERVICE', r.status_ = 'CANCELLED', a.status_ = 'REVOKED'
+where l.id_ in ({marks})
 ```
 
 **MongoDB**
 
 ```javascript
 lockermats.find({_id: {$in: :lockers}}, {'cells.id': 1});
-lockermats.updateMany({_id: {$in: :lockers}}, {$set: {'cells.$[cell].status': 'OUT_OF_SERVICE'}},
+lockermats.updateMany({_id: {$in: :lockers}}, {$set: {status: 'DECOMMISSIONED', 'cells.$[cell].status': 'OUT_OF_SERVICE'}},
                       {arrayFilters: [{'cell.status': 'IN_SERVICE'}]});
 orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <skrytki punktów>}, status: 'BOOKED', from: {$gt: :now}}}},
                   {$set: {'reservations.$[leg].accessCodes.$[code].status': 'REVOKED'}},
@@ -1287,8 +1311,11 @@ orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <skrytki punktów>}
 **Neo4j**
 
 ```cypher
-MATCH (l:Lockermat)-[:HAS_CELL]->(c:Cell)
+MATCH (l:Lockermat)
 WHERE l.id IN $lockers
+SET l.status = 'DECOMMISSIONED'
+WITH l
+MATCH (l)-[:HAS_CELL]->(c:Cell)
 SET c.status = 'OUT_OF_SERVICE'
 WITH c
 MATCH (c)<-[:IN_CELL]-(r:Reservation)
@@ -1759,10 +1786,11 @@ group by 1
 ```javascript
 auditEvents.aggregate([
   {$group: {_id: '$actor.kind', events: {$sum: 1},
-            withEmail: {$sum: {$cond: [<email istnieje>, 1, 0]}},
-            nameOrPhoneOnly: {$sum: {$cond: [{$and: [{$not: [<email istnieje>]}, {$or: [<name istnieje>, <phone istnieje>]}]}, 1, 0]}}}}
+            withEmail: {$sum: {$cond: [{$ne: [{$type: '$actor.email'}, 'missing']}, 1, 0]}},
+            nameOrPhoneOnly: {$sum: {$cond: [{$and: [{$not: [{$ne: [{$type: '$actor.email'}, 'missing']}]},
+                                                     {$or: [{$ne: [{$type: '$actor.name'}, 'missing']},
+                                                            {$ne: [{$type: '$actor.phone'}, 'missing']}]}]}, 1, 0]}}}}
 ])
-// <klucz istnieje> = {$ne: [{$type: '$actor.<klucz>'}, 'missing']}
 ```
 
 ### J4 — odczyt (SELECT)
@@ -1876,6 +1904,208 @@ auditEvents.find({at: {$lt: :cutoff}, entity: {$ne: 'PAYMENT'}}, {_id: 1});
 auditEvents.deleteMany({_id: {$in: :events}})
 // jedna transakcja na partię
 ```
+
+## Indeksy BASE
+
+Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń CHECK, walidatorów i wyzwalaczy. Pełne skrypty: `bench/ddl/<silnik>/base/`.
+
+### PostgreSQL
+
+| Indeks | Tabela, kolekcja lub etykieta | Klucze | Rodzaj |
+|---|---|---|---|
+| `access_code__pkey` | `access_code_` | `id_` | primary |
+| `access_code_active_purpose__ex` | `access_code_` | `reservation_id_`, `purpose_`, `tstzrange(valid_from_, valid_to_, '[)')` | exclude |
+| `access_code_hmac_window__ex` | `access_code_` | `code_hmac_`, `tstzrange(valid_from_, valid_to_, '[)')` | exclude |
+| `access_code_reservation__idx` | `access_code_` | `reservation_id_` | btree |
+| `audit_event__pkey` | `audit_event_` | `id_` | primary |
+| `audit_event_entity_at__idx` | `audit_event_` | `entity_`, `entity_id_`, `at_` | btree |
+| `cell_opening__pkey` | `cell_opening_` | `id_` | primary |
+| `cell_opening_access_code__idx` | `cell_opening_` | `access_code_id_` | btree |
+| `cell_opening_code_live__uq` | `cell_opening_` | `access_code_id_` | unique |
+| `cell_opening_incident__idx` | `cell_opening_` | `incident_id_` | btree |
+| `cell_opening_open_door__idx` | `cell_opening_` | `requested_at_` | btree |
+| `customer__pkey` | `customer_` | `id_` | primary |
+| `customer_keycloak_id__uq` | `customer_` | `keycloak_id_` | unique |
+| `incident__pkey` | `incident_` | `id_` | primary |
+| `incident_cell__idx` | `incident_` | `cell_id_` | btree |
+| `incident_id_order__uq` | `incident_` | `id_`, `order_id_` | unique |
+| `incident_open__idx` | `incident_` | `created_at_` | btree |
+| `incident_reservation__idx` | `incident_` | `reservation_id_` | btree |
+| `lockermat__pkey` | `lockermat_` | `id_` | primary |
+| `lockermat_address_trgm__idx` | `lockermat_` | `lower(address_) gin_trgm_ops` | gin |
+| `lockermat_code__uq` | `lockermat_` | `code_` | unique |
+| `lockermat_location_geog__idx` | `lockermat_` | `(location_::geography)` | gist |
+| `lockermat_cell__pkey` | `lockermat_cell_` | `id_` | primary |
+| `lockermat_cell_id_size__uq` | `lockermat_cell_` | `id_`, `size_` | unique |
+| `lockermat_cell_lockermat_size__idx` | `lockermat_cell_` | `lockermat_id_`, `size_` | btree |
+| `lockermat_cell_number__uq` | `lockermat_cell_` | `lockermat_id_`, `number_` | unique |
+| `lockermat_opening_hours__pkey` | `lockermat_opening_hours_` | `id_` | primary |
+| `lockermat_opening_hours_weekday__uq` | `lockermat_opening_hours_` | `lockermat_id_`, `weekday_` | unique |
+| `order__pkey` | `order_` | `id_` | primary |
+| `order_awaiting_payment__idx` | `order_` | `payment_deadline_` | btree |
+| `order_customer_created__idx` | `order_` | `customer_id_`, `created_at_ desc` | btree |
+| `order_id_type__uq` | `order_` | `id_`, `type_` | unique |
+| `order_id_type_size__uq` | `order_` | `id_`, `type_`, `size_` | unique |
+| `order_number__uq` | `order_` | `number_` | unique |
+| `order_tariff__idx` | `order_` | `tariff_id_` | btree |
+| `payment__pkey` | `payment_` | `id_` | primary |
+| `payment_incident__idx` | `payment_` | `incident_id_` | btree |
+| `payment_order__idx` | `payment_` | `order_id_` | btree |
+| `payment_pending_charge__uq` | `payment_` | `order_id_` | unique |
+| `payment_provider_ref__uq` | `payment_` | `provider_`, `provider_ref_` | unique |
+| `payment_refund_of__idx` | `payment_` | `refund_of_id_` | btree |
+| `payment_refundable__uq` | `payment_` | `refundable_id_`, `order_id_`, `provider_` | unique |
+| `reservation__pkey` | `reservation_` | `id_` | primary |
+| `reservation_actual_occupancy__ex` | `reservation_` | `cell_id_`, `tstzrange(deposited_at_, collected_at_, '[)')` | exclude |
+| `reservation_cell_size__idx` | `reservation_` | `cell_id_`, `size_` | btree |
+| `reservation_id_cell_order__uq` | `reservation_` | `id_`, `cell_id_`, `order_id_` | unique |
+| `reservation_leg__uq` | `reservation_` | `order_id_`, `leg_` | unique |
+| `reservation_no_double_booking__ex` | `reservation_` | `cell_id_`, `tstzrange(from_, to_, '[)')` | exclude |
+| `reservation_order__idx` | `reservation_` | `order_id_` | btree |
+| `reservation_overdue__idx` | `reservation_` | `to_` | btree |
+| `shipment__pkey` | `shipment_` | `id_` | primary |
+| `shipment_courier__idx` | `shipment_` | `courier_keycloak_id_` | btree |
+| `shipment_order__uq` | `shipment_` | `order_id_` | unique |
+| `tariff__pkey` | `tariff_` | `id_` | primary |
+| `tariff_id_size__uq` | `tariff_` | `id_`, `size_` | unique |
+| `tariff_no_overlap__ex` | `tariff_` | `size_`, `tstzrange(valid_from_, valid_to_, '[)')` | exclude |
+
+### MySQL
+
+| Indeks | Tabela, kolekcja lub etykieta | Klucze | Rodzaj |
+|---|---|---|---|
+| `PRIMARY` | `access_code_` | `id_` | primary |
+| `access_code_hmac_from__idx` | `access_code_` | `code_hmac_`, `valid_from_` | btree |
+| `access_code_reservation__idx` | `access_code_` | `reservation_id_` | btree |
+| `PRIMARY` | `audit_event_` | `id_` | primary |
+| `audit_event_entity_at__idx` | `audit_event_` | `entity_`, `entity_id_`, `at_` | btree |
+| `PRIMARY` | `cell_opening_` | `id_` | primary |
+| `cell_opening_access_code__fk` | `cell_opening_` | `access_code_id_` | btree |
+| `cell_opening_code_live__uq` | `cell_opening_` | `CASE WHEN result_ in ('PENDING', 'OPENED') THEN access_code_id_ END` | functional |
+| `cell_opening_incident__fk` | `cell_opening_` | `incident_id_` | btree |
+| `cell_opening_open_door__idx` | `cell_opening_` | `CASE WHEN result_ = 'OPENED' and closed_at_ is null THEN requested_at_ END` | functional |
+| `PRIMARY` | `customer_` | `id_` | primary |
+| `customer_keycloak_id__uq` | `customer_` | `keycloak_id_` | unique |
+| `PRIMARY` | `excl_guard_` | `rule_` | primary |
+| `PRIMARY` | `incident_` | `id_` | primary |
+| `incident_cell__idx` | `incident_` | `cell_id_` | btree |
+| `incident_id_order__uq` | `incident_` | `id_`, `order_id_` | unique |
+| `incident_open__idx` | `incident_` | `CASE WHEN status_ in ('OPEN', 'IN_PROGRESS') THEN created_at_ END` | functional |
+| `incident_reservation__fk` | `incident_` | `reservation_id_`, `cell_id_`, `order_id_` | btree |
+| `incident_reservation__idx` | `incident_` | `reservation_id_` | btree |
+| `PRIMARY` | `lockermat_` | `id_` | primary |
+| `lockermat_address_trgm__idx` | `lockermat_` | `address_` | fulltext |
+| `lockermat_code__uq` | `lockermat_` | `code_` | unique |
+| `lockermat_location_geog__idx` | `lockermat_` | `location_` | spatial |
+| `PRIMARY` | `lockermat_cell_` | `id_` | primary |
+| `lockermat_cell_id_size__uq` | `lockermat_cell_` | `id_`, `size_` | unique |
+| `lockermat_cell_lockermat_size__idx` | `lockermat_cell_` | `CASE WHEN status_ = 'IN_SERVICE' THEN lockermat_id_ END`, `CASE WHEN status_ = 'IN_SERVICE' THEN size_ END` | functional |
+| `lockermat_cell_number__uq` | `lockermat_cell_` | `lockermat_id_`, `number_` | unique |
+| `PRIMARY` | `lockermat_opening_hours_` | `id_` | primary |
+| `lockermat_opening_hours_weekday__uq` | `lockermat_opening_hours_` | `lockermat_id_`, `weekday_` | unique |
+| `PRIMARY` | `order_` | `id_` | primary |
+| `order_awaiting_payment__idx` | `order_` | `CASE WHEN status_ = 'AWAITING_PAYMENT' THEN payment_deadline_ END` | functional |
+| `order_customer_created__idx` | `order_` | `customer_id_`, `created_at_ desc` | btree |
+| `order_id_type__uq` | `order_` | `id_`, `type_` | unique |
+| `order_id_type_size__uq` | `order_` | `id_`, `type_`, `size_` | unique |
+| `order_number__uq` | `order_` | `number_` | unique |
+| `order_tariff__fk` | `order_` | `tariff_id_`, `size_` | btree |
+| `order_tariff__idx` | `order_` | `tariff_id_` | btree |
+| `PRIMARY` | `payment_` | `id_` | primary |
+| `payment_incident__fk` | `payment_` | `incident_id_`, `order_id_` | btree |
+| `payment_order__idx` | `payment_` | `order_id_` | btree |
+| `payment_payment__refund_of_fk` | `payment_` | `refund_of_id_`, `order_id_`, `provider_` | btree |
+| `payment_pending_charge__uq` | `payment_` | `CASE WHEN kind_ = 'CHARGE' and status_ = 'PENDING' THEN order_id_ END` | functional |
+| `payment_provider_ref__uq` | `payment_` | `provider_`, `provider_ref_` | unique |
+| `payment_refundable__uq` | `payment_` | `refundable_id_`, `order_id_`, `provider_` | unique |
+| `PRIMARY` | `reservation_` | `id_` | primary |
+| `reservation_cell_from__idx` | `reservation_` | `cell_id_`, `from_` | btree |
+| `reservation_id_cell_order__uq` | `reservation_` | `id_`, `cell_id_`, `order_id_` | unique |
+| `reservation_leg__uq` | `reservation_` | `CASE WHEN status_ <> 'CANCELLED' THEN order_id_ END`, `CASE WHEN status_ <> 'CANCELLED' THEN leg_ END` | functional |
+| `reservation_lockermat_cell__fk` | `reservation_` | `cell_id_`, `size_` | btree |
+| `reservation_order__fk` | `reservation_` | `order_id_`, `order_type_`, `size_` | btree |
+| `reservation_order__idx` | `reservation_` | `order_id_` | btree |
+| `reservation_overdue__idx` | `reservation_` | `CASE WHEN status_ = 'OCCUPIED' THEN to_ END` | functional |
+| `PRIMARY` | `shipment_` | `id_` | primary |
+| `shipment_courier__idx` | `shipment_` | `courier_keycloak_id_` | btree |
+| `shipment_order__fk` | `shipment_` | `order_id_`, `order_type_` | btree |
+| `shipment_order__uq` | `shipment_` | `order_id_` | unique |
+| `PRIMARY` | `tariff_` | `id_` | primary |
+| `tariff_id_size__uq` | `tariff_` | `id_`, `size_` | unique |
+| `tariff_size_from__idx` | `tariff_` | `size_`, `valid_from_` | btree |
+
+### MongoDB
+
+| Indeks | Tabela, kolekcja lub etykieta | Klucze | Rodzaj |
+|---|---|---|---|
+| `_id_` | `auditEvents` | `_id` | primary |
+| `audit_event_entity_at__idx` | `auditEvents` | `entity`, `entityId`, `at` | btree |
+| `_id_` | `customers` | `_id` | primary |
+| `customer_keycloak_id__uq` | `customers` | `keycloakId` | unique |
+| `_id_` | `incidents` | `_id` | primary |
+| `incident_cell__idx` | `incidents` | `cellId` | btree |
+| `incident_open__idx` | `incidents` | `createdAt` | btree |
+| `incident_order__idx` | `incidents` | `orderId` | btree |
+| `incident_reservation__idx` | `incidents` | `reservationId` | btree |
+| `service_openings_id__idx` | `incidents` | `serviceOpenings.id` | multikey |
+| `_id_` | `lockermats` | `_id` | primary |
+| `lockermat_code__uq` | `lockermats` | `code` | unique |
+| `lockermat_location_geog__idx` | `lockermats` | `location` | 2dsphere |
+| `_id_` | `orders` | `_id` | primary |
+| `order_awaiting_payment__idx` | `orders` | `paymentDeadline` | btree |
+| `order_customer_created__idx` | `orders` | `customerId`, `createdAt desc` | btree |
+| `order_number__uq` | `orders` | `number` | unique |
+| `order_tariff__idx` | `orders` | `tariffId` | btree |
+| `payments_id__idx` | `orders` | `payments.id` | multikey |
+| `reservation_cell_from__idx` | `orders` | `reservations.cellId`, `reservations.from` | multikey |
+| `reservation_overdue__idx` | `orders` | `reservations.to` | multikey |
+| `reservations_accessCodes_id__idx` | `orders` | `reservations.accessCodes.id` | multikey |
+| `reservations_accessCodes_openings_id__idx` | `orders` | `reservations.accessCodes.openings.id` | multikey |
+| `reservations_id__idx` | `orders` | `reservations.id` | multikey |
+| `shipment_courier__idx` | `orders` | `shipment.courierKeycloakId` | btree |
+| `_id_` | `shipLinks` | `_id` | primary |
+| `shiplinks_from_at__idx` | `shipLinks` | `from`, `at` | btree |
+| `shiplinks_order__idx` | `shipLinks` | `orderId` | btree |
+| `_id_` | `tariffs` | `_id` | primary |
+
+### Neo4j
+
+| Indeks | Tabela, kolekcja lub etykieta | Klucze | Rodzaj |
+|---|---|---|---|
+| `AccessCode_id__uq` | `AccessCode` | `id` | unique |
+| `AuditEvent_id__uq` | `AuditEvent` | `id` | unique |
+| `audit_event_entity_at__idx` | `AuditEvent` | `entity`, `entityId`, `at` | range |
+| `Cell_id__uq` | `Cell` | `id` | unique |
+| `lockermat_cell_lockermat_size__idx` | `Cell` | `size` | range |
+| `CellOpening_id__uq` | `CellOpening` | `id` | unique |
+| `cell_opening_incident__idx` | `CellOpening` | `incidentId` | range |
+| `Customer_id__uq` | `Customer` | `id` | unique |
+| `customer_keycloak_id__uq` | `Customer` | `keycloakId` | unique |
+| `Incident_id__uq` | `Incident` | `id` | unique |
+| `incident_cell__idx` | `Incident` | `cellId` | range |
+| `incident_open__idx` | `Incident` | `createdAt` | range |
+| `incident_order__idx` | `Incident` | `orderId` | range |
+| `Lockermat_id__uq` | `Lockermat` | `id` | unique |
+| `lockermat_code__uq` | `Lockermat` | `code` | unique |
+| `lockermat_location_geog__idx` | `Lockermat` | `location` | point |
+| `OpeningHours_id__uq` | `OpeningHours` | `id` | unique |
+| `Order_id__uq` | `Order` | `id` | unique |
+| `order_awaiting_payment__idx` | `Order` | `paymentDeadline` | range |
+| `order_customer_created__idx` | `Order` | `customerId`, `createdAt` | range |
+| `order_number__uq` | `Order` | `number` | unique |
+| `order_tariff__idx` | `Order` | `tariffId` | range |
+| `Payment_id__uq` | `Payment` | `id` | unique |
+| `payment_incident__idx` | `Payment` | `incidentId` | range |
+| `payment_provider_ref__uq` | `Payment` | `provider`, `providerRef` | unique |
+| `payment_refund_of__idx` | `Payment` | `refundOfId` | range |
+| `Reservation_id__uq` | `Reservation` | `id` | unique |
+| `reservation_overdue__idx` | `Reservation` | `to` | range |
+| `ships_to_order__idx` | `SHIPS_TO` | `orderId` | range |
+| `Shipment_id__uq` | `Shipment` | `shipmentId` | unique |
+| `shipment_courier__idx` | `Shipment` | `courierKeycloakId` | range |
+| `Tariff_id__uq` | `Tariff` | `id` | unique |
+| `node_label_lookup` | `nodes` | — | lookup |
+| `relationship_type_lookup` | `relationships` | — | lookup |
 
 ## Indeksy IDX
 

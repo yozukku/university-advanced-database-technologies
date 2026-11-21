@@ -95,7 +95,9 @@ tariffs.findOne({size: :size, validFrom: {$lte: :now}, $or: [{validTo: null}, {v
 lockermats.findOne({_id: :locker, status: 'ACTIVE'}, {cells: 1});
 orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki punktu>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
                                   {reservations: {$elemMatch: {cellId: {$in: <skrytki punktu>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
-                  {$unwind: '$reservations'}, {$match: <te same dwa warunki na reservations>},
+                  {$unwind: '$reservations'},
+                  {$match: {$or: [{'reservations.cellId': {$in: <skrytki punktu>}, 'reservations.status': {$in: ['BOOKED', 'OCCUPIED']}, 'reservations.from': {$lt: :to}, 'reservations.to': {$gt: :from}},
+                                  {'reservations.cellId': {$in: <skrytki punktu>}, 'reservations.status': 'OCCUPIED', 'reservations.to': {$lte: :now}}]}},
                   {$group: {_id: '$reservations.cellId'}}]);
 lockermats.updateOne({_id: :locker, 'cells.id': <pierwsza wolna skrytka według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
 orders.findOne({reservations: {$elemMatch: {cellId: <wybrana skrytka>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});

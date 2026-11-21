@@ -11,7 +11,10 @@ where l.status_ = 'ACTIVE' and r.status_ = 'BOOKED' and r.from_ > getvariable('b
 order by 1
 """
 DECOMMISSION_PG = """
-with cells as (
+with lockers as (
+    update lockermat_ set status_ = 'DECOMMISSIONED'
+    where id_ = any(%(lockers)s)
+), cells as (
     update lockermat_cell_ set status_ = 'OUT_OF_SERVICE'
     where lockermat_id_ = any(%(lockers)s) and status_ = 'IN_SERVICE'
 ), legs as (
@@ -25,15 +28,16 @@ from legs l
 where a.reservation_id_ = l.id_ and a.status_ = 'ACTIVE'
 """
 DECOMMISSION_MYSQL = """
-update lockermat_cell_ c
+update lockermat_ l
+join lockermat_cell_ c on c.lockermat_id_ = l.id_
 left join reservation_ r on r.cell_id_ = c.id_ and r.status_ = 'BOOKED' and r.from_ > %s
 left join access_code_ a on a.reservation_id_ = r.id_ and a.status_ = 'ACTIVE'
-set c.status_ = 'OUT_OF_SERVICE', r.status_ = 'CANCELLED', a.status_ = 'REVOKED'
-where c.lockermat_id_ in ({marks})
+set l.status_ = 'DECOMMISSIONED', c.status_ = 'OUT_OF_SERVICE', r.status_ = 'CANCELLED', a.status_ = 'REVOKED'
+where l.id_ in ({marks})
 """
 DECOMMISSION_MONGO = """
 lockermats.find({_id: {$in: :lockers}}, {'cells.id': 1});
-lockermats.updateMany({_id: {$in: :lockers}}, {$set: {'cells.$[cell].status': 'OUT_OF_SERVICE'}},
+lockermats.updateMany({_id: {$in: :lockers}}, {$set: {status: 'DECOMMISSIONED', 'cells.$[cell].status': 'OUT_OF_SERVICE'}},
                       {arrayFilters: [{'cell.status': 'IN_SERVICE'}]});
 orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <skrytki punktów>}, status: 'BOOKED', from: {$gt: :now}}}},
                   {$set: {'reservations.$[leg].accessCodes.$[code].status': 'REVOKED'}},
@@ -45,8 +49,11 @@ orders.updateMany({reservations: {$elemMatch: {cellId: {$in: <skrytki punktów>}
 // jedna transakcja na partię
 """
 DECOMMISSION_CYPHER = """
-MATCH (l:Lockermat)-[:HAS_CELL]->(c:Cell)
+MATCH (l:Lockermat)
 WHERE l.id IN $lockers
+SET l.status = 'DECOMMISSIONED'
+WITH l
+MATCH (l)-[:HAS_CELL]->(c:Cell)
 SET c.status = 'OUT_OF_SERVICE'
 WITH c
 MATCH (c)<-[:IN_CELL]-(r:Reservation)
@@ -97,7 +104,7 @@ def targets(rows):
 
 def keys_sql(session, params):
     found = every_locker(params)
-    return targets(session.fetch(TARGETS_SQL.format(marks=marks(found)), [params["now"], *found]))
+    return targets(session.fetch(TARGETS_SQL.format(marks=marks(found)), [params["now"], *found])) | {"lockermat_": found}
 
 
 def booked(cells, now):
@@ -123,13 +130,15 @@ def keys_mongo(session, params):
         {"$match": {f"reservations.{field}": value for field, value in condition.items()}},
         {"$project": {"_id": 0, "leg": "$reservations.id", "codes": "$reservations.accessCodes"}},
     ]))
-    return {"lockermat_cell_": sorted(cells), "reservation_": sorted(found["leg"] for found in legs),
+    return {"lockermat_": every_locker(params), "lockermat_cell_": sorted(cells),
+            "reservation_": sorted(found["leg"] for found in legs),
             "access_code_": sorted(code["id"] for found in legs for code in found.get("codes", ())
                                    if code["status"] == "ACTIVE")}
 
 
 def keys_cypher(session, params):
-    return targets(session.fetch(TARGETS_CYPHER, {"lockers": every_locker(params), "now": params["now"]}))
+    found = every_locker(params)
+    return targets(session.fetch(TARGETS_CYPHER, {"lockers": found, "now": params["now"]})) | {"lockermat_": found}
 
 
 def decommission_pg(session, params):
@@ -153,7 +162,8 @@ def decommission_mongo(session, params):
         with session.transaction() as transaction:
             cells = cells_mongo(session, batch, transaction)
             done = db.lockermats.update_many({"_id": {"$in": batch}},
-                                             {"$set": {"cells.$[cell].status": "OUT_OF_SERVICE"}},
+                                             {"$set": {"status": "DECOMMISSIONED",
+                                                       "cells.$[cell].status": "OUT_OF_SERVICE"}},
                                              array_filters=[{"cell.status": "IN_SERVICE"}], session=transaction)
             session.driver_counts["lockermats"] += done.modified_count
             legs = {"reservations": {"$elemMatch": booked(cells, now)}}
@@ -175,7 +185,8 @@ def decommission_cypher(session, params):
 
 SCENARIOS = [Scenario(
     id="U4", op="U", select=lockers,
-    description="Wycofanie 20 automatów z eksploatacji w jednej transakcji: ich skrytki → OUT_OF_SERVICE, "
+    description="Wycofanie 20 automatów z eksploatacji w jednej transakcji: automaty → DECOMMISSIONED, "
+                "ich skrytki → OUT_OF_SERVICE, "
                 "przyszłe zarezerwowane nogi → CANCELLED, aktywne kody tych nóg → REVOKED",
     impls={
         "pg": Impl(DECOMMISSION_PG, decommission_pg, keys=keys_sql),

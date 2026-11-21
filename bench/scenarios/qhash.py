@@ -27,6 +27,7 @@ def entry(scenario, profile):
         "op": scenario.op,
         "config": scenario.config(profile.size),
         "seed": seed(profile, scenario),
+        "module": inspect.getsource(inspect.getmodule(scenario.select)),
         "queries": {engine: {"text": impl.text, "run": source(impl.run), "keys": source(impl.keys), "plan": source(impl.plan)}
                     for engine, impl in sorted(scenario.impls.items())},
     }

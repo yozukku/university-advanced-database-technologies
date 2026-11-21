@@ -11,6 +11,7 @@ from bench.scenarios.params import child_id, chunks, fresh_id
 from bench.scenarios.registry import Impl, Scenario
 
 ROUTE = (("ORIGIN", "origin"), ("DESTINATION", "destination"))
+WINDOWS = {"origin": ("from", "to"), "destination": ("destination_from", "destination_to")}
 CODES = tuple((leg, purpose) for leg, _ in ROUTE for purpose in PURPOSES)
 RECIPIENTS = "select distinct recipient_name_, recipient_phone_ from shipment_ order by all"
 PICK_PG = """
@@ -20,7 +21,7 @@ PICK_PG = """
     where l.id_ = %({locker})s and l.status_ = 'ACTIVE' and c.size_ = %(size)s and c.status_ = 'IN_SERVICE'
       and not exists (select 1 from reservation_ r
                       where r.cell_id_ = c.id_ and r.status_ in ('BOOKED', 'OCCUPIED')
-                        and tstzrange(r.from_, r.to_, '[)') && tstzrange(%(from)s, %(to)s, '[)'))
+                        and tstzrange(r.from_, r.to_, '[)') && tstzrange(%({start})s, %({end})s, '[)'))
       and not exists (select 1 from reservation_ r
                       where r.cell_id_ = c.id_ and r.status_ = 'OCCUPIED' and r.to_ <= %(now)s)
     order by c.number_
@@ -28,7 +29,8 @@ PICK_PG = """
     for update of c skip locked
 """
 SHIP_PG = f"""
-with origin as ({PICK_PG.format(locker="origin")}), destination as ({PICK_PG.format(locker="destination")}),
+with origin as ({PICK_PG.format(locker="origin", start="from", end="to")}),
+destination as ({PICK_PG.format(locker="destination", start="destination_from", end="destination_to")}),
 placed as (
     insert into order_ (id_, number_, customer_id_, type_, size_, tariff_id_, status_, price_, payment_deadline_,
                         created_at_)
@@ -43,11 +45,12 @@ placed as (
     from placed
 ), legs as (
     insert into reservation_ (id_, order_id_, size_, cell_id_, leg_, from_, to_)
-    select leg.id_, p.id_, p.size_, leg.cell_id_, leg.leg_, %(from)s, %(to)s
+    select leg.id_, p.id_, p.size_, leg.cell_id_, leg.leg_, leg.from_, leg.to_
     from placed p
-    cross join (select %(origin_leg)s::bigint, id_, 'ORIGIN' from origin
+    cross join (select %(origin_leg)s::bigint, id_, 'ORIGIN', %(from)s::timestamptz, %(to)s::timestamptz from origin
                 union all
-                select %(destination_leg)s::bigint, id_, 'DESTINATION' from destination) leg(id_, cell_id_, leg_)
+                select %(destination_leg)s::bigint, id_, 'DESTINATION', %(destination_from)s::timestamptz,
+                       %(destination_to)s::timestamptz from destination) leg(id_, cell_id_, leg_, from_, to_)
     returning id_, leg_, from_, to_
 ), charge as (
     insert into payment_ (id_, order_id_, kind_, amount_, status_, provider_, provider_ref_, created_at_, completed_at_)
@@ -75,25 +78,37 @@ values (%(shipment)s, %(order)s, %(recipient_name)s, %(recipient_phone)s, %(decl
 LEGS_MYSQL = """
 insert into reservation_ (id_, order_id_, size_, cell_id_, leg_, from_, to_)
 values (%(origin_leg)s, %(order)s, %(size)s, %(origin_cell)s, 'ORIGIN', %(from)s, %(to)s),
-       (%(destination_leg)s, %(order)s, %(size)s, %(destination_cell)s, 'DESTINATION', %(from)s, %(to)s)
+       (%(destination_leg)s, %(order)s, %(size)s, %(destination_cell)s, 'DESTINATION', %(destination_from)s,
+        %(destination_to)s)
 """
 CODES_MYSQL = """
 insert into access_code_ (id_, reservation_id_, purpose_, code_hmac_, sent_to_phone_, valid_from_, valid_to_, created_at_)
 values (%s, %s, %s, %s, %s, %s, %s, %s)
 """
 SHIP_MYSQL = ";\n".join(text.strip() for text in (
-    PICK_MYSQL.replace("%(locker)s", "%(origin)s"), PICK_MYSQL.replace("%(locker)s", "%(destination)s"),
+    PICK_MYSQL.replace("%(locker)s", "%(origin)s"),
+    PICK_MYSQL.replace("%(locker)s", "%(destination)s").replace("%(from)s", "%(destination_from)s")
+              .replace("%(to)s", "%(destination_to)s"),
     PLACE_MYSQL, PARCEL_MYSQL, LEGS_MYSQL, CHARGE_MYSQL, CODES_MYSQL))
 SHIP_MONGO = """
 tariffs.findOne({size: :size, validFrom: {$lte: :now}, $or: [{validTo: null}, {validTo: {$gt: :now}}]});
 lockermats.find({_id: {$in: [:origin, :destination]}, status: 'ACTIVE'}, {cells: 1});
-orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki obu punktów>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
-                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki obu punktów>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
-                  {$unwind: '$reservations'}, {$match: <te same dwa warunki na reservations>},
+orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki punktu nadania>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
+                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki punktu nadania>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
+                  {$unwind: '$reservations'},
+                  {$match: {$or: [{'reservations.cellId': {$in: <skrytki punktu nadania>}, 'reservations.status': {$in: ['BOOKED', 'OCCUPIED']}, 'reservations.from': {$lt: :to}, 'reservations.to': {$gt: :from}},
+                                  {'reservations.cellId': {$in: <skrytki punktu nadania>}, 'reservations.status': 'OCCUPIED', 'reservations.to': {$lte: :now}}]}},
+                  {$group: {_id: '$reservations.cellId'}}]);
+orders.aggregate([{$match: {$or: [{reservations: {$elemMatch: {cellId: {$in: <skrytki punktu docelowego>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :destination_to}, to: {$gt: :destination_from}}}},
+                                  {reservations: {$elemMatch: {cellId: {$in: <skrytki punktu docelowego>}, status: 'OCCUPIED', to: {$lte: :now}}}}]}},
+                  {$unwind: '$reservations'},
+                  {$match: {$or: [{'reservations.cellId': {$in: <skrytki punktu docelowego>}, 'reservations.status': {$in: ['BOOKED', 'OCCUPIED']}, 'reservations.from': {$lt: :destination_to}, 'reservations.to': {$gt: :destination_from}},
+                                  {'reservations.cellId': {$in: <skrytki punktu docelowego>}, 'reservations.status': 'OCCUPIED', 'reservations.to': {$lte: :now}}]}},
                   {$group: {_id: '$reservations.cellId'}}]);
 lockermats.updateOne({_id: :origin, 'cells.id': <pierwsza wolna skrytka nadania według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
 lockermats.updateOne({_id: :destination, 'cells.id': <pierwsza wolna skrytka docelowa według numeru>}, {$inc: {'cells.$.guardSeq': 1}});
-orders.findOne({reservations: {$elemMatch: {cellId: {$in: <obie wybrane skrytki>}, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}});
+orders.findOne({$or: [{reservations: {$elemMatch: {cellId: <wybrana skrytka nadania>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :to}, to: {$gt: :from}}}},
+                     {reservations: {$elemMatch: {cellId: <wybrana skrytka docelowa>, status: {$in: ['BOOKED', 'OCCUPIED']}, from: {$lt: :destination_to}, to: {$gt: :destination_from}}}}]});
 orders.insertOne({_id: :order, …, shipment: {…, originLockermatId, destinationLockermatId},
                   reservations: [{leg: 'ORIGIN', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP>]},
                                  {leg: 'DESTINATION', lockermatId, accessCodes: [<DROP_OFF>, <PICK_UP wysłany do odbiorcy>]}],
@@ -104,32 +119,34 @@ shipLinks.insertOne({_id: :order, orderId: :order, from: :origin, to: :destinati
 FREE_CYPHER = """
     WHERE NOT EXISTS {{
         MATCH ({cell})<-[:IN_CELL]-(r:Reservation)
-        WHERE (r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < $to AND r.to > $from)
+        WHERE (r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < ${end} AND r.to > ${start})
            OR (r.status = 'OCCUPIED' AND r.to <= $now)
     }}
 """
 LIVE_CYPHER = """
     NOT EXISTS {{
         MATCH ({cell})<-[:IN_CELL]-(r:Reservation)
-        WHERE r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < $to AND r.to > $from
+        WHERE r.status IN ['BOOKED', 'OCCUPIED'] AND r.from < ${end} AND r.to > ${start}
     }}
 """
 CODE_CYPHER = """
 FOREACH (code IN [item IN $codes WHERE item.leg = '{leg}'] |
     CREATE ({leg_node})-[:HAS_CODE]->(:AccessCode {{id: code.id, purpose: code.purpose, codeHmac: code.hmac,
-                                                  sentToPhone: code.phone, validFrom: $from, validTo: $to,
+                                                  sentToPhone: code.phone, validFrom: {leg_node}.from,
+                                                  validTo: {leg_node}.to,
                                                   status: 'ACTIVE', createdAt: $now}}))
 """
 SHIP_CYPHER = f"""
 MATCH (ol:Lockermat {{id: $origin, status: 'ACTIVE'}})-[:HAS_CELL]->(oc:Cell {{size: $size, status: 'IN_SERVICE'}})
-{FREE_CYPHER.format(cell="oc")}
+{FREE_CYPHER.format(cell="oc", start="from", end="to")}
 WITH ol, oc ORDER BY oc.number LIMIT 1
 MATCH (dl:Lockermat {{id: $destination, status: 'ACTIVE'}})-[:HAS_CELL]->(dc:Cell {{size: $size, status: 'IN_SERVICE'}})
-{FREE_CYPHER.format(cell="dc")}
+{FREE_CYPHER.format(cell="dc", start="destination_from", end="destination_to")}
 WITH ol, oc, dl, dc ORDER BY dc.number LIMIT 1
 SET oc._guard = coalesce(oc._guard, 0) + 1, dc._guard = coalesce(dc._guard, 0) + 1
 WITH ol, oc, dl, dc
-WHERE {LIVE_CYPHER.format(cell="oc")} AND {LIVE_CYPHER.format(cell="dc")}
+WHERE {LIVE_CYPHER.format(cell="oc", start="from", end="to")}
+  AND {LIVE_CYPHER.format(cell="dc", start="destination_from", end="destination_to")}
 MATCH (t:Tariff {{size: $size}})
 WHERE t.validFrom <= $now AND (t.validTo IS NULL OR t.validTo > $now)
 MATCH (u:Customer {{id: $customer}})
@@ -140,8 +157,8 @@ CREATE (u)-[:PLACED]->(o:Order:Shipment {{id: $order, number: $number, customerI
                                          recipientPhone: $recipient_phone, declaredValue: $declared}})-[:PRICED_BY]->(t)
 CREATE (o)-[:HAS_LEG]->(ro:Reservation {{id: $origin_leg, size: $size, leg: 'ORIGIN', from: $from, to: $to,
                                         status: 'BOOKED'}})-[:IN_CELL]->(oc)
-CREATE (o)-[:HAS_LEG]->(rd:Reservation {{id: $destination_leg, size: $size, leg: 'DESTINATION', from: $from, to: $to,
-                                        status: 'BOOKED'}})-[:IN_CELL]->(dc)
+CREATE (o)-[:HAS_LEG]->(rd:Reservation {{id: $destination_leg, size: $size, leg: 'DESTINATION',
+                                        from: $destination_from, to: $destination_to, status: 'BOOKED'}})-[:IN_CELL]->(dc)
 CREATE (o)-[:HAS_PAYMENT]->(:Payment {{id: $payment, kind: 'CHARGE', amount: t.shipmentPrice, status: 'COMPLETED',
                                       provider: 'MOCK', providerRef: $provider_ref, createdAt: $now,
                                       completedAt: $now}})
@@ -169,8 +186,12 @@ def routes(cells):
 
 def shipments(pick):
     seed = yaml.safe_load(PROFILES.read_text())["seed"]
-    start = pick.t0 + timedelta(days=pick.config["days_after_t0"])
-    paths = routes(free_cells(pick.db, pick.config))
+    config = pick.config
+    start = pick.t0 + timedelta(days=config["days_after_t0"])
+    arrival = start + timedelta(days=config["destination_gap_days"])
+    later = config | {"days_after_t0": config["days_after_t0"] + config["destination_gap_days"],
+                      "window_hours": config["destination_hours"]}
+    paths = routes(set(free_cells(pick.db, config)) & set(free_cells(pick.db, later)))
     customers = [customer for customer, in pick.db.execute(CUSTOMERS).fetchall()]
     recipients = pick.db.execute(RECIPIENTS).fetchall()
     found = []
@@ -189,7 +210,8 @@ def shipments(pick):
         found.append({
             "order": order, "number": f"BAG-{order:010d}", "customer": buyer, "size": size,
             "origin": origin, "destination": destination, "now": pick.t0,
-            "from": start, "to": start + timedelta(hours=pick.config["window_hours"]),
+            "from": start, "to": start + timedelta(hours=config["window_hours"]),
+            "destination_from": arrival, "destination_to": arrival + timedelta(hours=config["destination_hours"]),
             "shipment": child_id(order, 0), "recipient_name": name, "recipient_phone": phone, "declared": declared,
             "origin_leg": child_id(order, 0), "destination_leg": child_id(order, 1),
             "payment": child_id(order, 0), "provider_ref": f"MOCK-{child_id(order, 0):010d}",
@@ -197,7 +219,12 @@ def shipments(pick):
             "hmacs": [digest(seed, code) for code in codes],
             "phones": [phone if (leg, purpose) == ("DESTINATION", "PICK_UP") else None for leg, purpose in CODES],
         })
-    return chunks(found, pick.config["batch"])
+    return chunks(found, config["batch"])
+
+
+def window(shipment, key):
+    start, end = WINDOWS[key]
+    return {"from": shipment[start], "to": shipment[end]}
 
 
 def every_shipment(params):
@@ -236,7 +263,7 @@ def ship_mysql(session, params):
             for shipment in batch:
                 scalars = {key: value for key, value in shipment.items() if not isinstance(value, list)}
                 for _, key in ROUTE:
-                    cursor.execute(PICK_MYSQL, scalars | {"locker": shipment[key]})
+                    cursor.execute(PICK_MYSQL, scalars | {"locker": shipment[key]} | window(shipment, key))
                     found = cursor.fetchall()
                     if not found:
                         raise missing(shipment)
@@ -248,8 +275,10 @@ def ship_mysql(session, params):
                 cursor.execute(LEGS_MYSQL, scalars)
                 cursor.execute(CHARGE_MYSQL, scalars)
                 legs = {leg: shipment[f"{key}_leg"] for leg, key in ROUTE}
+                windows = {leg: window(shipment, key) for leg, key in ROUTE}
                 cursor.executemany(CODES_MYSQL, [
-                    (code, legs[leg], purpose, checked(hmac), phone, shipment["from"], shipment["to"], shipment["now"])
+                    (code, legs[leg], purpose, checked(hmac), phone, windows[leg]["from"], windows[leg]["to"],
+                     shipment["now"])
                     for code, leg, purpose, hmac, phone in zip(shipment["code_ids"], shipment["code_legs"],
                                                                shipment["purposes"], shipment["hmacs"],
                                                                shipment["phones"], strict=True)])
@@ -265,15 +294,16 @@ def candidates(lockers, shipment, key):
 def order_document(shipment, tariff, cells):
     legs = []
     for leg, key in ROUTE:
-        codes = [{"id": Int64(code), "purpose": purpose, "codeHmac": hmac, "validFrom": shipment["from"],
-                  "validTo": shipment["to"], "status": "ACTIVE", "createdAt": shipment["now"]}
+        bounds = window(shipment, key)
+        codes = [{"id": Int64(code), "purpose": purpose, "codeHmac": hmac, "validFrom": bounds["from"],
+                  "validTo": bounds["to"], "status": "ACTIVE", "createdAt": shipment["now"]}
                  | ({"sentToPhone": phone} if phone else {})
                  for code, code_leg, purpose, hmac, phone in zip(shipment["code_ids"], shipment["code_legs"],
                                                                  shipment["purposes"], shipment["hmacs"],
                                                                  shipment["phones"], strict=True)
                  if code_leg == leg]
         legs.append({"id": Int64(shipment[f"{key}_leg"]), "size": shipment["size"], "cellId": Int64(cells[key]),
-                     "lockermatId": Int64(shipment[key]), "leg": leg, "from": shipment["from"], "to": shipment["to"],
+                     "lockermatId": Int64(shipment[key]), "leg": leg, "from": bounds["from"], "to": bounds["to"],
                      "status": "BOOKED", "accessCodes": codes})
     price = Int64(tariff["shipmentPrice"])
     charge = {"id": Int64(shipment["payment"]), "kind": "CHARGE", "amount": price, "status": "COMPLETED",
@@ -303,9 +333,8 @@ def ship_mongo(session, params):
                     {"_id": {"$in": [shipment[key] for _, key in ROUTE]}, "status": "ACTIVE"}, {"cells": 1},
                     session=transaction)}
                 offered = {key: candidates(lockers, shipment, key) for _, key in ROUTE}
-                busy = {found["_id"] for found in db.orders.aggregate(
-                    busy_pipeline([cell for cells in offered.values() for cell in cells], shipment),
-                    session=transaction)}
+                busy = {found["_id"] for _, key in ROUTE for found in db.orders.aggregate(
+                    busy_pipeline(offered[key], shipment | window(shipment, key)), session=transaction)}
                 free = {key: [cell for cell in offered[key] if cell not in busy] for _, key in ROUTE}
                 if not all(free.values()):
                     raise missing(shipment)
@@ -313,8 +342,8 @@ def ship_mongo(session, params):
                 for _, key in ROUTE:
                     db.lockermats.update_one({"_id": shipment[key], "cells.id": cells[key]},
                                              {"$inc": {"cells.$.guardSeq": 1}}, session=transaction)
-                if db.orders.find_one({"reservations": {"$elemMatch": live(list(cells.values()), shipment)}},
-                                      {"_id": 1}, session=transaction):
+                taken = [{"reservations": {"$elemMatch": live([cells[key]], window(shipment, key))}} for _, key in ROUTE]
+                if db.orders.find_one({"$or": taken}, {"_id": 1}, session=transaction):
                     raise RuntimeError(f"A cell of shipment order {shipment['order']} is already booked")
                 db.orders.insert_one(order_document(shipment, tariff, cells), session=transaction)
                 db.shipLinks.insert_one(link_document(shipment), session=transaction)
