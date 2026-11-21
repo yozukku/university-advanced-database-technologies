@@ -8,6 +8,7 @@ ENGINES = {"pg": "PostgreSQL", "mysql": "MySQL", "mongo": "MongoDB", "neo4j": "N
 SCHEMA = Path("docs/design/schema.sql")
 INDEXES = Path("docs/bench/indexes.yaml")
 DDL = {engine: Path(f"bench/ddl/{engine}/base/tables.sql") for engine in ("pg", "mysql")}
+CATALOGUE = Path("docs/bench/scenarios.md")
 SAMPLES = {"order": Path("bench/load/tests/golden/shipment_order.json"),
            "audit": Path("bench/load/tests/golden/audit_event.json")}
 CREATE_TABLE = re.compile(r"^create table (\w+)", re.MULTILINE)
@@ -216,4 +217,65 @@ def sample(name):
     return shell(json.loads(SAMPLES[name].read_text(encoding="utf-8")))
 
 
-TABLES = {"volume": volume, "parity": parity, "load": loading, "types": types, "objects": objects}
+def environments(results):
+    path = Path(results) / "env.json"
+    found = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
+    return {size: found[size] for size in SIZES if size in found}
+
+
+def gibibytes(value):
+    return number(int(value) / 2 ** 30, 1)
+
+
+def image(entry):
+    digests = entry.get("repo_digests") or []
+    digest = digests[0].partition("@sha256:")[2][:12] if digests else "—"
+    return f"`{entry['reference'].partition('@')[0]}` (`{digest}`)"
+
+
+def orbstack(value):
+    found = re.search(r"Version: (\S+)", value)
+    return found.group(1) if found else value
+
+
+def env(results):
+    found = environments(results)
+    if not found:
+        return None
+    rows = [
+        ("Komputer", lambda e: e["host"]["model"]),
+        ("macOS", lambda e: e["host"]["macos"]),
+        ("OrbStack", lambda e: orbstack(e["host"]["orbstack"])),
+        ("Docker Engine", lambda e: e["docker"]["server_version"]),
+        ("Maszyna wirtualna", lambda e: f"{e['docker']['operating_system']}, {e['docker']['architecture']}"),
+        ("Jądro Linuksa", lambda e: e["docker"]["kernel"]),
+        ("Procesory maszyny wirtualnej", lambda e: str(e["docker"]["cpus"])),
+        ("Pamięć maszyny wirtualnej [GiB]", lambda e: gibibytes(e["docker"]["memory_bytes"])),
+        ("Kopia migawki reflink", lambda e: "tak" if e["reflink"] else "nie"),
+        ("Python runnera", lambda e: e["runner"]["python"]),
+        ("Limit procesorów runnera", lambda e: str(e["runner"]["service"]["cpus"])),
+        *((f"Sterownik {driver}", lambda e, driver=driver: e["runner"]["drivers"][driver])
+          for driver in ("psycopg", "mysql-connector-python", "pymongo", "neo4j")),
+        ("Przebiegi odrzucane i mierzone", lambda e: f"{e['policy']['discarded_runs']} + {e['policy']['measured_runs']}"),
+        ("Limit czasu przebiegu [s]", lambda e: number(e["policy"]["timeout_seconds"])),
+    ]
+    for engine, name in ENGINES.items():
+        rows += [
+            (f"{name}: wersja", lambda e, engine=engine: e["engines"][engine].get("version") or "—"),
+            (f"{name}: obraz", lambda e, engine=engine: image(e["engines"][engine]["image"])),
+            (f"{name}: limit procesorów", lambda e, engine=engine: str(e["engines"][engine]["service"]["cpus"])),
+            (f"{name}: limit pamięci [GiB]",
+             lambda e, engine=engine: gibibytes(e["engines"][engine]["service"]["mem_limit"])),
+        ]
+    body = [[label, *(read(entry) for entry in found.values())] for label, read in rows]
+    return markdown(["Parametr", *found], body, ["---"] * (len(found) + 1))
+
+
+def scenarios(json_series):
+    lines = CATALOGUE.read_text(encoding="utf-8").split("## Przegląd", 1)[1].split("\n## ", 1)[0].strip().splitlines()
+    rows = [line for line in lines[2:] if line.startswith("| J") == json_series]
+    return "\n".join([lines[0], "|----|--------|--------------------------------------|----------|--------|", *rows])
+
+
+TABLES = {"volume": volume, "parity": parity, "load": loading, "types": types, "objects": objects, "env": env,
+          "scenarios-core": lambda results: scenarios(False), "scenarios-json": lambda results: scenarios(True)}

@@ -6,6 +6,7 @@ from pathlib import Path
 from bench.report import dataset, document
 from bench.report.document import MISSING
 
+FIXTURE = Path(__file__).with_name("results-S")
 TRANSFORM = Path("bench/transform/neo4j/transform.py")
 GRAPH = Path("report/assets/graph/model.svg")
 ASSETS = Path("report/assets")
@@ -45,7 +46,7 @@ def test_volume_lists_present_sizes_with_exact_totals(tmp_path):
 
 
 def test_dataset_tables_render_brak_danych_without_load_results(tmp_path):
-    for name in ("volume", "parity", "load"):
+    for name in ("volume", "parity", "load", "env"):
         text = document.resolve(f'{{{{ dataset("{name}", "Podpis") }}}}', tmp_path, "x.md")
         assert MISSING in text and f"{{#tab:{name}}}" in text
 
@@ -81,6 +82,22 @@ def test_object_table_maps_exclusions_partial_indexes_and_json_indexes():
     assert "`reservation_leg__uq` unikalny indeks funkcyjny" in text
     assert "`jx2__idx` indeks wielowartościowy" in text and "`excl_guard_` tabela" in text
     assert "`lockermat__pkey`" not in text and "__ck`" not in text
+
+
+def test_env_table_reads_env_json():
+    env = json.loads((FIXTURE / "env.json").read_text(encoding="utf-8"))["S"]
+    table = {row[0]: row[1:] for row in rows(dataset.env(FIXTURE))}
+    assert table["Parametr"] == ["S"]
+    assert table["macOS"] == [env["host"]["macos"]] and table["Procesory maszyny wirtualnej"] == ["11"]
+    assert table["PostgreSQL: wersja"] == [env["engines"]["pg"]["version"]]
+    assert table["MySQL: obraz"] == ["`mysql:8.4` (`a81d043930e5`)"] and table["Neo4j: limit pamięci [GiB]"] == ["8,0"]
+    assert table["Sterownik psycopg"] == [env["runner"]["drivers"]["psycopg"]]
+
+
+def test_scenario_tables_list_26_core_and_6_json_scenarios():
+    core, series = rows(dataset.scenarios(False))[2:], rows(dataset.scenarios(True))[2:]
+    assert [row[0] for row in core] == [f"{op}{n}" for op, count in zip("CRUD", (6, 8, 6, 6)) for n in range(1, count + 1)]
+    assert [row[0] for row in series] == [f"J{n}" for n in range(1, 7)]
 
 
 def test_samples_render_mongo_documents():

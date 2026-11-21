@@ -108,7 +108,7 @@ def test_report_builds_from_s_only_results(tmp_path):
 def test_report_without_results_renders_brak_danych(tmp_path):
     document.build(tmp_path / "missing", tmp_path)
     paragraphs, _ = docx_text(tmp_path / "sprawozdanie.docx")
-    assert [text for _, text in paragraphs].count(MISSING) == 5
+    assert [text for _, text in paragraphs].count(MISSING) == 6
 
 
 def test_presentation_opens(tmp_path):
