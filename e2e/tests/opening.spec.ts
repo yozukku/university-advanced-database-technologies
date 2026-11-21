@@ -22,6 +22,8 @@ const OPEN_ROUTE = '**/api/reservations/*/open'
 const OPEN_PATH = /^\/api\/reservations\/\d+\/open$/
 const DOOR_FAILED = 'Nie udało się otworzyć skrytki. Spróbuj ponownie.'
 const PENDING = 'Czekamy na potwierdzenie otwarcia skrytki.'
+const NOT_OPENABLE = 'Tej skrytki nie można teraz otworzyć.'
+const FAR_FUTURE = { from: '2036-06-01T08:00:00Z', to: '2036-06-01T12:00:00Z' }
 
 function slotFromNow(size: Size) {
   const from = new Date(Math.floor(Date.now() / MINUTE_MS) * MINUTE_MS)
@@ -250,4 +252,34 @@ test('stany otwierania: DOOR_FAILED daje toast z błędem przy aktywnym przycisk
   await expect(openButton(page)).toBeEnabled()
   await expect(openButton(page)).toHaveAttribute('aria-busy', 'false')
   expect((await findHistory('anna', order.id)).map(event => event.action)).toEqual(['CREATED', 'PAID', 'DEPOSITED'])
+})
+
+test('rezerwacja na odległy termin nie otwiera skrytki', async ({ page }) => {
+  const openings = recordOpenings(page)
+  await login(page, 'anna')
+  await page.goto(`/?${new URLSearchParams({ rozmiar: 'M', od: FAR_FUTURE.from, do: FAR_FUTURE.to })}`)
+  const krakowGlowny = page
+    .getByRole('list', { name: 'Punkty' })
+    .getByRole('listitem')
+    .filter({ has: page.getByRole('heading', { name: 'Kraków Główny', exact: true }) })
+  await krakowGlowny.getByRole('button', { name: 'Kraków Główny', exact: true }).click()
+  await krakowGlowny.getByRole('button', { name: 'Zarezerwuj' }).click()
+  await page.getByRole('button', { name: 'Zapłać (symulacja)' }).click()
+  await page.getByRole('link', { name: 'Przejdź do rezerwacji' }).click()
+
+  await expect(page).toHaveURL(url => /^\/rezerwacje\/\d+$/.test(url.pathname))
+  const order = await findOrder('anna', Number(new URL(page.url()).pathname.split('/').at(-1)))
+  expect([Date.parse(order.from), Date.parse(order.to)]).toEqual([Date.parse(FAR_FUTURE.from), Date.parse(FAR_FUTURE.to)])
+  await expect(page.getByText('Opłacona', { exact: true })).toBeVisible()
+  await expect(page.getByText('Zostaw bagaż', { exact: true })).toBeVisible()
+
+  await openButton(page).click()
+
+  await expect(page.getByRole('alert')).toContainText(NOT_OPENABLE)
+  await expect(openButton(page)).toBeEnabled()
+  await expect(page.getByText('Opłacona', { exact: true })).toBeVisible()
+  await expect(page.getByText('Zostaw bagaż', { exact: true })).toBeVisible()
+  expect(openings).toEqual([`/api/reservations/${order.reservationId}/open`])
+  expect((await findOrder('anna', order.id)).status).toBe('PAID')
+  expect((await findHistory('anna', order.id)).map(event => event.action)).toEqual(['CREATED', 'PAID'])
 })
