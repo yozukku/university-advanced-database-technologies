@@ -29,7 +29,9 @@ def plan(session, query):
         else:
             command = {"find": query.text, "filter": query.params or {}}
         return session.handle.command("explain", command, verbosity="executionStats")
-    return session.handle.run("PROFILE " + query.text, query.params).consume().profile
+    result = session.handle.run("PROFILE " + query.text, query.params)
+    result.values()
+    return result.consume().profile
 
 
 def nodes(item, skipped=frozenset()):

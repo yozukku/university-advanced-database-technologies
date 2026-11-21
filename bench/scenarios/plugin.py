@@ -11,7 +11,7 @@ from bench.runner.state.containers import engine_container, stopped
 
 from . import oracle
 from .executor import Outcome, Session, execute
-from .explain import explain
+from .explain import access, explain, plan
 from .normalise import digest, encode, result
 from .params import dataset, parameters
 from .registry import ENGINES, Scenario
@@ -26,6 +26,7 @@ class Run:
     results: list | None = None
     hash: str | None = None
     access: dict | None = None
+    plan: dict | None = None
     probe: dict | None = None
     rebuild: dict | None = None
     after: dict | None = None
@@ -103,10 +104,12 @@ class Harness:
     def write(self, scenario, session, before):
         params = self.params[scenario.id]
         impl = scenario.impls[session.engine]
+        found = plan(session, impl.plan(params)) if impl.plan else None
         keys = impl.keys(session, params)
         old = oracle.probe(session, self.schema, keys)
         outcome = execute(scenario, session, params)
-        run = Run(outcome=outcome, probe=oracle.diff(old, oracle.probe(session, self.schema, keys), self.schema))
+        run = Run(outcome=outcome, probe=oracle.diff(old, oracle.probe(session, self.schema, keys), self.schema),
+                  plan=found, access=None if found is None else access(session.engine, found))
         if impl.after:
             run.after = impl.after(session, params)
         if before is not None:
