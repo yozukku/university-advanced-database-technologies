@@ -107,7 +107,7 @@ def render(registry):
         "Parametry: `%(nazwa)s` i `%s` w SQL, `$nazwa` w Cypher, `:nazwa` w wywołaniach MongoDB. "
         "`{marks}` i `{rows}` to listy znaczników, które adapter MySQL wstawia dla partii. "
         "`<…>` oznacza wartość, którą klient wylicza w mierzonej jednostce z wyniku poprzedniego kroku, "
-        "albo słowny skrót fragmentu zapytania.", "",
+        "albo listę pól.", "",
         "## Przegląd", "",
         *table(("Id", "Operacja", "Opis", "Flagi", "Indeks IDX"),
                [(scenario.id, scenario.op, cell(scenario.description), flags(scenario), idx_indexes(plan, scenario))

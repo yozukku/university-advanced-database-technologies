@@ -6,7 +6,7 @@ Scenariusze podstawowe: 26 (C 6, R 8, U 6, D 6) we wszystkich czterech SZBD. Sce
 
 Flagi: CX — złożony odczyt (złączenie, agregacja, przejście grafu albo zapytanie przestrzenne); BA — pomiar w konfiguracji BASE i IDX (pozostałe scenariusze tylko w IDX); H1-S, H1-I, H1-U — zbiory SELECT, INSERT i UPDATE hipotezy H1. Kolumna „Indeks IDX” podaje dla odczytu indeks, który go obsługuje, a dla zapisu indeksy, które zapis utrzymuje.
 
-Parametry: `%(nazwa)s` i `%s` w SQL, `$nazwa` w Cypher, `:nazwa` w wywołaniach MongoDB. `{marks}` i `{rows}` to listy znaczników, które adapter MySQL wstawia dla partii. `<…>` oznacza wartość, którą klient wylicza w mierzonej jednostce z wyniku poprzedniego kroku, albo słowny skrót fragmentu zapytania.
+Parametry: `%(nazwa)s` i `%s` w SQL, `$nazwa` w Cypher, `:nazwa` w wywołaniach MongoDB. `{marks}` i `{rows}` to listy znaczników, które adapter MySQL wstawia dla partii. `<…>` oznacza wartość, którą klient wylicza w mierzonej jednostce z wyniku poprzedniego kroku, albo listę pól.
 
 ## Przegląd
 
