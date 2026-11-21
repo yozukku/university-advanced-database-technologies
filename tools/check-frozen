@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+import hashlib
+import subprocess
+import sys
+import tomllib
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+FROZEN = ROOT / "results" / "frozen-inputs.sha256"
+INPUTS = [
+    "bench/gen/",
+    "profiles.yaml",
+    "bench/ddl/",
+    "bench/transform/",
+    "bench/load/",
+    "docker/conf/",
+    "docker/postgres-postgis/",
+    "compose.bench.yaml",
+]
+PACKAGES = ["psycopg", "mysql-connector-python", "pymongo", "neo4j", "faker", "numpy", "pyarrow"]
+VERSIONS = "uv.lock"
+
+
+def files():
+    entries = subprocess.check_output(
+        ["git", "-C", str(ROOT), "ls-files", "-z", "--cached", "--others", "--exclude-standard", "--", *INPUTS]
+    ).split(b"\0")
+    return sorted({entry.decode() for entry in entries if entry and (ROOT / entry.decode()).is_file()})
+
+
+def versions():
+    lock = tomllib.loads((ROOT / VERSIONS).read_text(encoding="utf-8"))
+    found = {package["name"]: package["version"] for package in lock["package"]}
+    return " ".join(f"{name}=={found.get(name, '?')}" for name in PACKAGES)
+
+
+def current():
+    entries = {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest() for path in files()}
+    line = versions()
+    entries[VERSIONS] = hashlib.sha256(line.encode()).hexdigest() + "  " + line
+    return entries
+
+
+def render(entries):
+    return "".join(
+        f"{value}\n" if path == VERSIONS else f"{value}  {path}\n" for path, value in entries.items()
+    )
+
+
+def parse(text):
+    entries = {}
+    for line in text.splitlines():
+        digest, rest = line.split("  ", 1)
+        entries[VERSIONS if "==" in rest else rest] = line if "==" in rest else digest
+    return entries
+
+
+def main():
+    if sys.argv[1:] == ["--write"]:
+        FROZEN.write_text(render(current()), encoding="utf-8")
+        return 0
+
+    if not FROZEN.is_file():
+        return 0
+
+    expected = parse(FROZEN.read_text(encoding="utf-8"))
+    actual = current()
+    changed = sorted(path for path in expected.keys() | actual.keys() if expected.get(path) != actual.get(path))
+    for path in changed:
+        print(f"{path}: zamrożone wejście pomiarów zmienione", file=sys.stderr)
+    return int(bool(changed))
+
+
+if __name__ == "__main__":
+    sys.exit(main())

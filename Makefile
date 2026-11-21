@@ -20,10 +20,11 @@ RUNNER = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner
 RUNNER_ARGS = --size "$(SIZE)" $(foreach engine,$(ENGINE),--engine $(engine)) \
     $(foreach scenario,$(SCENARIO),--scenario $(scenario)) $(if $(TIMEOUT),--timeout $(TIMEOUT))
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report charts bench status forget explain warmup qa h1 full clean
+.PHONY: help check freeze up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue report charts bench status forget explain warmup qa h1 full clean
 
 help:
-	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
+	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze, wpisy o autorstwie i zamrożone wejścia pomiarów' \
+	    'freeze Zapisz skróty zamrożonych wejść pomiarów w results/frozen-inputs.sha256' \
 	    'up ENGINE=pg|mysql|mongo|neo4j    Uruchom bazę do pomiarów' \
 	    'ping ENGINE=pg|mysql|mongo|neo4j  Sprawdź wersję i architekturę bazy' \
 	    'down ENGINE=pg|mysql|mongo|neo4j  Zatrzymaj bazę do pomiarów' \
@@ -51,6 +52,10 @@ help:
 check:
 	@tools/check-comments
 	@tools/check-attribution
+	@tools/check-frozen
+
+freeze:
+	@tools/check-frozen --write
 
 require-engine:
 	@case "$(ENGINE)" in pg|mysql|mongo|neo4j) ;; *) echo 'Ustaw ENGINE na pg, mysql, mongo lub neo4j' >&2; exit 2;; esac
