@@ -1,0 +1,381 @@
+{
+  "canonical": {
+    "derived": {
+      "SHIPS_TO": {
+        "hash": "19c6890223be1f37bfbb74f384fcda5352214621370e3378d4358eb594ddd7d0",
+        "rows": 18467
+      },
+      "changes_new_": {
+        "hash": "23cc703bdfdb2b33c8c31bbd55ce718575b1097ad54b7fd1a880e6f9ce1fd482",
+        "rows": 292769
+      },
+      "reservations.lockermatId": {
+        "hash": "8ef8f357a1e84ce4e37b9493a24d5e902ad01053b0e768725d94d888a89f317b",
+        "rows": 110809
+      },
+      "shipLinks": {
+        "hash": "6c545272826abe6c595657bbd08bb2ac855df2e16b0e25cbec21ee453cd86a2a",
+        "rows": 18467
+      },
+      "shipment.lockermatIds": {
+        "hash": "32c98555d8132299ad89a5427a2b0693d4e71067c54568230489e96e0b2c9ea6",
+        "rows": 18467
+      }
+    },
+    "tables": {
+      "access_code_": {
+        "hash": "2a50e73a6d2c894942e933d3010e6da6fdee72f01b3070d14d862fcd5b5e3534",
+        "rows": 198534
+      },
+      "audit_event_": {
+        "hash": "a6fd69fe8cfdb080c7060f5263d9a6bbfcc6d8cd5f6425cc15d9de2cc5a455fc",
+        "rows": 292769
+      },
+      "cell_opening_": {
+        "hash": "8eb41668668d354f5ce9aaa1ea795fafaef05fd832fa9ecc7e55862df8694e10",
+        "rows": 159706
+      },
+      "customer_": {
+        "hash": "22ffb237ed25a29d345eb88ceb31078bcb1a57a907df3e8f4e928dfc9a07699b",
+        "rows": 11543
+      },
+      "incident_": {
+        "hash": "421dd39c3fbbc513bc8b05cd417f4951b550418b03238c6204e5644ba5755919",
+        "rows": 2770
+      },
+      "lockermat_": {
+        "hash": "b0c64721857257d814c3f2da77f77ba7ad981f3e1770e9977559727c61946b5f",
+        "rows": 250
+      },
+      "lockermat_cell_": {
+        "hash": "80f46bd2f18c0bc510015c2b68aa1e009602450a4b4e07704fbcc72ae642b0a7",
+        "rows": 10000
+      },
+      "lockermat_opening_hours_": {
+        "hash": "191ba8549527f67ba25ab64cc6eda1abe7a52700bf613028df196b3d995fc8a1",
+        "rows": 1225
+      },
+      "order_": {
+        "hash": "1bf7f37e9168040f45429a2422a922a0ee425182a866fdda49d6973efee663db",
+        "rows": 92342
+      },
+      "payment_": {
+        "hash": "e881fb62306725706810b58eb7f0525d8715caa9a5a948032325ef01ee44fa81",
+        "rows": 101576
+      },
+      "reservation_": {
+        "hash": "6068a53a12f06de7edb4f03caf74e712a490d79c4e85dfcc705038e4d81aeebb",
+        "rows": 110809
+      },
+      "shipment_": {
+        "hash": "58c875812021e775c4b4d46a098a6675ba835d66332ebc03c9103f70f196a766",
+        "rows": 18467
+      },
+      "tariff_": {
+        "hash": "e6281f5bf2daf40370396d4ad9975be7e354a40cf7fd29f69930cd78b7a21461",
+        "rows": 9
+      }
+    }
+  },
+  "dataset_sha256": "59aee0441e6a42005aef885bccbbceeea0c5167998f55e13f14c60eeb309bb62",
+  "engines": {
+    "mongo": {
+      "derived": {
+        "reservations.lockermatId": {
+          "hash": "8ef8f357a1e84ce4e37b9493a24d5e902ad01053b0e768725d94d888a89f317b",
+          "rows": 110809
+        },
+        "shipLinks": {
+          "hash": "6c545272826abe6c595657bbd08bb2ac855df2e16b0e25cbec21ee453cd86a2a",
+          "rows": 18467
+        },
+        "shipment.lockermatIds": {
+          "hash": "32c98555d8132299ad89a5427a2b0693d4e71067c54568230489e96e0b2c9ea6",
+          "rows": 18467
+        }
+      },
+      "disk_bytes": 95719424,
+      "distance_km": 251.601,
+      "load_phases": {
+        "import": 20.6,
+        "index": 1.8,
+        "transform": 3.4
+      },
+      "load_seconds": 25.8,
+      "problem_count": 0,
+      "problems": [],
+      "tables": {
+        "access_code_": {
+          "hash": "2a50e73a6d2c894942e933d3010e6da6fdee72f01b3070d14d862fcd5b5e3534",
+          "rows": 198534
+        },
+        "audit_event_": {
+          "hash": "a6fd69fe8cfdb080c7060f5263d9a6bbfcc6d8cd5f6425cc15d9de2cc5a455fc",
+          "rows": 292769
+        },
+        "cell_opening_": {
+          "hash": "8eb41668668d354f5ce9aaa1ea795fafaef05fd832fa9ecc7e55862df8694e10",
+          "rows": 159706
+        },
+        "customer_": {
+          "hash": "22ffb237ed25a29d345eb88ceb31078bcb1a57a907df3e8f4e928dfc9a07699b",
+          "rows": 11543
+        },
+        "incident_": {
+          "hash": "421dd39c3fbbc513bc8b05cd417f4951b550418b03238c6204e5644ba5755919",
+          "rows": 2770
+        },
+        "lockermat_": {
+          "hash": "b0c64721857257d814c3f2da77f77ba7ad981f3e1770e9977559727c61946b5f",
+          "rows": 250
+        },
+        "lockermat_cell_": {
+          "hash": "80f46bd2f18c0bc510015c2b68aa1e009602450a4b4e07704fbcc72ae642b0a7",
+          "rows": 10000
+        },
+        "lockermat_opening_hours_": {
+          "hash": "191ba8549527f67ba25ab64cc6eda1abe7a52700bf613028df196b3d995fc8a1",
+          "rows": 1225
+        },
+        "order_": {
+          "hash": "1bf7f37e9168040f45429a2422a922a0ee425182a866fdda49d6973efee663db",
+          "rows": 92342
+        },
+        "payment_": {
+          "hash": "e881fb62306725706810b58eb7f0525d8715caa9a5a948032325ef01ee44fa81",
+          "rows": 101576
+        },
+        "reservation_": {
+          "hash": "6068a53a12f06de7edb4f03caf74e712a490d79c4e85dfcc705038e4d81aeebb",
+          "rows": 110809
+        },
+        "shipment_": {
+          "hash": "58c875812021e775c4b4d46a098a6675ba835d66332ebc03c9103f70f196a766",
+          "rows": 18467
+        },
+        "tariff_": {
+          "hash": "e6281f5bf2daf40370396d4ad9975be7e354a40cf7fd29f69930cd78b7a21461",
+          "rows": 9
+        }
+      },
+      "verify_seconds": 9.4
+    },
+    "mysql": {
+      "derived": {
+        "changes_new_": {
+          "hash": "23cc703bdfdb2b33c8c31bbd55ce718575b1097ad54b7fd1a880e6f9ce1fd482",
+          "rows": 292769
+        }
+      },
+      "disk_bytes": 366903296,
+      "distance_km": 251.322,
+      "load_phases": {
+        "analyze": 0.0,
+        "data": 5.2,
+        "foreign keys": 2.7,
+        "indexes": 5.2
+      },
+      "load_seconds": 13.1,
+      "problem_count": 0,
+      "problems": [],
+      "tables": {
+        "access_code_": {
+          "hash": "2a50e73a6d2c894942e933d3010e6da6fdee72f01b3070d14d862fcd5b5e3534",
+          "rows": 198534
+        },
+        "audit_event_": {
+          "hash": "a6fd69fe8cfdb080c7060f5263d9a6bbfcc6d8cd5f6425cc15d9de2cc5a455fc",
+          "rows": 292769
+        },
+        "cell_opening_": {
+          "hash": "8eb41668668d354f5ce9aaa1ea795fafaef05fd832fa9ecc7e55862df8694e10",
+          "rows": 159706
+        },
+        "customer_": {
+          "hash": "22ffb237ed25a29d345eb88ceb31078bcb1a57a907df3e8f4e928dfc9a07699b",
+          "rows": 11543
+        },
+        "incident_": {
+          "hash": "421dd39c3fbbc513bc8b05cd417f4951b550418b03238c6204e5644ba5755919",
+          "rows": 2770
+        },
+        "lockermat_": {
+          "hash": "b0c64721857257d814c3f2da77f77ba7ad981f3e1770e9977559727c61946b5f",
+          "rows": 250
+        },
+        "lockermat_cell_": {
+          "hash": "80f46bd2f18c0bc510015c2b68aa1e009602450a4b4e07704fbcc72ae642b0a7",
+          "rows": 10000
+        },
+        "lockermat_opening_hours_": {
+          "hash": "191ba8549527f67ba25ab64cc6eda1abe7a52700bf613028df196b3d995fc8a1",
+          "rows": 1225
+        },
+        "order_": {
+          "hash": "1bf7f37e9168040f45429a2422a922a0ee425182a866fdda49d6973efee663db",
+          "rows": 92342
+        },
+        "payment_": {
+          "hash": "e881fb62306725706810b58eb7f0525d8715caa9a5a948032325ef01ee44fa81",
+          "rows": 101576
+        },
+        "reservation_": {
+          "hash": "6068a53a12f06de7edb4f03caf74e712a490d79c4e85dfcc705038e4d81aeebb",
+          "rows": 110809
+        },
+        "shipment_": {
+          "hash": "58c875812021e775c4b4d46a098a6675ba835d66332ebc03c9103f70f196a766",
+          "rows": 18467
+        },
+        "tariff_": {
+          "hash": "e6281f5bf2daf40370396d4ad9975be7e354a40cf7fd29f69930cd78b7a21461",
+          "rows": 9
+        }
+      },
+      "verify_seconds": 13.6
+    },
+    "neo4j": {
+      "derived": {
+        "SHIPS_TO": {
+          "hash": "19c6890223be1f37bfbb74f384fcda5352214621370e3378d4358eb594ddd7d0",
+          "rows": 18467
+        }
+      },
+      "disk_bytes": 441810944,
+      "distance_km": 251.603,
+      "load_phases": {
+        "base": 2.7,
+        "import": 24.2,
+        "transform": 0.8
+      },
+      "load_seconds": 27.8,
+      "problem_count": 0,
+      "problems": [],
+      "tables": {
+        "access_code_": {
+          "hash": "2a50e73a6d2c894942e933d3010e6da6fdee72f01b3070d14d862fcd5b5e3534",
+          "rows": 198534
+        },
+        "audit_event_": {
+          "hash": "a6fd69fe8cfdb080c7060f5263d9a6bbfcc6d8cd5f6425cc15d9de2cc5a455fc",
+          "rows": 292769
+        },
+        "cell_opening_": {
+          "hash": "8eb41668668d354f5ce9aaa1ea795fafaef05fd832fa9ecc7e55862df8694e10",
+          "rows": 159706
+        },
+        "customer_": {
+          "hash": "22ffb237ed25a29d345eb88ceb31078bcb1a57a907df3e8f4e928dfc9a07699b",
+          "rows": 11543
+        },
+        "incident_": {
+          "hash": "421dd39c3fbbc513bc8b05cd417f4951b550418b03238c6204e5644ba5755919",
+          "rows": 2770
+        },
+        "lockermat_": {
+          "hash": "b0c64721857257d814c3f2da77f77ba7ad981f3e1770e9977559727c61946b5f",
+          "rows": 250
+        },
+        "lockermat_cell_": {
+          "hash": "80f46bd2f18c0bc510015c2b68aa1e009602450a4b4e07704fbcc72ae642b0a7",
+          "rows": 10000
+        },
+        "lockermat_opening_hours_": {
+          "hash": "191ba8549527f67ba25ab64cc6eda1abe7a52700bf613028df196b3d995fc8a1",
+          "rows": 1225
+        },
+        "order_": {
+          "hash": "1bf7f37e9168040f45429a2422a922a0ee425182a866fdda49d6973efee663db",
+          "rows": 92342
+        },
+        "payment_": {
+          "hash": "e881fb62306725706810b58eb7f0525d8715caa9a5a948032325ef01ee44fa81",
+          "rows": 101576
+        },
+        "reservation_": {
+          "hash": "6068a53a12f06de7edb4f03caf74e712a490d79c4e85dfcc705038e4d81aeebb",
+          "rows": 110809
+        },
+        "shipment_": {
+          "hash": "58c875812021e775c4b4d46a098a6675ba835d66332ebc03c9103f70f196a766",
+          "rows": 18467
+        },
+        "tariff_": {
+          "hash": "e6281f5bf2daf40370396d4ad9975be7e354a40cf7fd29f69930cd78b7a21461",
+          "rows": 9
+        }
+      },
+      "verify_seconds": 32.3
+    },
+    "pg": {
+      "derived": {},
+      "disk_bytes": 301364915,
+      "distance_km": 251.505,
+      "load_phases": {
+        "base": 6.7,
+        "copy": 3.1,
+        "vacuum": 0.6
+      },
+      "load_seconds": 10.4,
+      "problem_count": 0,
+      "problems": [],
+      "tables": {
+        "access_code_": {
+          "hash": "2a50e73a6d2c894942e933d3010e6da6fdee72f01b3070d14d862fcd5b5e3534",
+          "rows": 198534
+        },
+        "audit_event_": {
+          "hash": "a6fd69fe8cfdb080c7060f5263d9a6bbfcc6d8cd5f6425cc15d9de2cc5a455fc",
+          "rows": 292769
+        },
+        "cell_opening_": {
+          "hash": "8eb41668668d354f5ce9aaa1ea795fafaef05fd832fa9ecc7e55862df8694e10",
+          "rows": 159706
+        },
+        "customer_": {
+          "hash": "22ffb237ed25a29d345eb88ceb31078bcb1a57a907df3e8f4e928dfc9a07699b",
+          "rows": 11543
+        },
+        "incident_": {
+          "hash": "421dd39c3fbbc513bc8b05cd417f4951b550418b03238c6204e5644ba5755919",
+          "rows": 2770
+        },
+        "lockermat_": {
+          "hash": "b0c64721857257d814c3f2da77f77ba7ad981f3e1770e9977559727c61946b5f",
+          "rows": 250
+        },
+        "lockermat_cell_": {
+          "hash": "80f46bd2f18c0bc510015c2b68aa1e009602450a4b4e07704fbcc72ae642b0a7",
+          "rows": 10000
+        },
+        "lockermat_opening_hours_": {
+          "hash": "191ba8549527f67ba25ab64cc6eda1abe7a52700bf613028df196b3d995fc8a1",
+          "rows": 1225
+        },
+        "order_": {
+          "hash": "1bf7f37e9168040f45429a2422a922a0ee425182a866fdda49d6973efee663db",
+          "rows": 92342
+        },
+        "payment_": {
+          "hash": "e881fb62306725706810b58eb7f0525d8715caa9a5a948032325ef01ee44fa81",
+          "rows": 101576
+        },
+        "reservation_": {
+          "hash": "6068a53a12f06de7edb4f03caf74e712a490d79c4e85dfcc705038e4d81aeebb",
+          "rows": 110809
+        },
+        "shipment_": {
+          "hash": "58c875812021e775c4b4d46a098a6675ba835d66332ebc03c9103f70f196a766",
+          "rows": 18467
+        },
+        "tariff_": {
+          "hash": "e6281f5bf2daf40370396d4ad9975be7e354a40cf7fd29f69930cd78b7a21461",
+          "rows": 9
+        }
+      },
+      "verify_seconds": 6.9
+    }
+  },
+  "equal": true,
+  "size": "M"
+}
