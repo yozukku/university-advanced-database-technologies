@@ -13,7 +13,7 @@ ENGINES = pg mysql mongo neo4j
 SNAPSHOTS = out/snapshots/$(COMPOSE_PROJECT_NAME)
 STATE = $(BENCH) run --rm -T --no-deps --build runner python -m bench.runner.state
 
-.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios
+.PHONY: help check up ping down require-engine app-up app-down data validate load verify compose-config snapshots restore test-scenarios catalogue
 
 help:
 	@printf '%s\n' 'help  Pokaż dostępne polecenia' 'check Sprawdź komentarze i wpisy o autorstwie' \
@@ -27,7 +27,8 @@ help:
 	    'verify SIZE=XS|S|M|L Porównaj dane w czterech bazach z danymi kanonicznymi' \
 	    'snapshots SIZE=XS|S|M|L [ENGINE=…] Zapisz migawki BASE i IDX załadowanych baz' \
 	    'restore ENGINE=pg|mysql|mongo|neo4j SIZE=XS|S|M|L CONFIG=base|idx Odtwórz bazę z migawki' \
-	    'test-scenarios SIZE=XS|S [K=…] Sprawdź scenariusze w czterech bazach na migawkach'
+	    'test-scenarios SIZE=XS|S [K=…] Sprawdź scenariusze w czterech bazach na migawkach' \
+	    'catalogue [CHECK=1] Zapisz katalog scenariuszy docs/bench/scenarios.md albo go sprawdź'
 
 check:
 	@tools/check-comments
@@ -110,3 +111,6 @@ test-scenarios: compose-config
 	@$(BENCH) stop $(ENGINES)
 	@$(BENCH) create $(ENGINES)
 	@$(BENCH) run --rm -T --no-deps --build runner python -m pytest -p no:cacheprovider tests/scenarios --size "$(SIZE)" $(if $(K),-k "$(K)")
+
+catalogue:
+	@$(BENCH) run --rm -T --no-deps --build runner python -m bench.scenarios.catalogue $(if $(CHECK),--check)
