@@ -14,9 +14,10 @@ from .executor import Outcome, Session, execute
 from .explain import access, explain, plan
 from .normalise import digest, encode, result
 from .params import dataset, parameters
-from .registry import ENGINES, Scenario
+from .registry import ENGINES, Scenario, load
 
 HASHED = ("XS", "S")
+HARNESS = pytest.StashKey()
 CHECKS = ("metadata", "errors", "hash", "empty", "union", "probe", "affected", "commits", "rebuild", "coverage")
 
 
@@ -193,4 +194,43 @@ def bench(request, size):
             chosen.setdefault(id(scenario), scenario)
     harness = Harness(size, list(chosen.values()))
     harness.run()
+    request.config.stash[HARNESS] = harness
     return harness
+
+
+def pytest_terminal_summary(terminalreporter, config):
+    harness = config.stash.get(HARNESS, None)
+    if harness is None:
+        return
+    chosen = {scenario.id for scenario in harness.scenarios}
+    rows = [(scenario, cells(harness, scenario)) for key, scenario in load().items() if key in chosen]
+    if not rows:
+        return
+    terminalreporter.write_sep("=", f"scenario equivalence {harness.size}")
+    terminalreporter.write_line(line("scenario", "op", ENGINES, "digest"), bold=True)
+    for scenario, found in rows:
+        green = "FAIL" not in found.values()
+        value = common(harness, scenario) if green else ""
+        terminalreporter.write_line(line(scenario.id, scenario.op, found.values(), value), green=green, red=not green)
+    core = sum(not scenario.id.startswith("J") for scenario, _ in rows)
+    total = sum(cell != "-" for _, found in rows for cell in found.values())
+    passed = sum(cell == "ok" for _, found in rows for cell in found.values())
+    terminalreporter.write_line(f"{core} × 4 + {len(rows) - core} × 3: {passed} of {total} cells ok",
+                                green=passed == total, red=passed != total, bold=True)
+
+
+def cells(harness, scenario):
+    failed = any(items for name, items in harness.problems(scenario).items() if name != "errors")
+    broken = {engine for engine in scenario.engines for config in scenario.configs
+              if harness.runs[(scenario.id, engine, config)].error}
+    return {engine: "-" if engine not in scenario.engines else "FAIL" if failed or engine in broken else "ok"
+            for engine in ENGINES}
+
+
+def common(harness, scenario):
+    run = harness.runs[(scenario.id, scenario.engines[0], "idx")]
+    return (run.hash if scenario.read else digest(run.probe))[:12]
+
+
+def line(name, op, found, value):
+    return f"{name:<9}{op:<4}" + "".join(f"{cell:<8}" for cell in found) + value
