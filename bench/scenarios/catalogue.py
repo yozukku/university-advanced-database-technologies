@@ -52,13 +52,6 @@ def table(header, rows):
     return [f"| {' | '.join(header)} |", f"|{'---|' * len(header)}", *(f"| {' | '.join(row)} |" for row in rows)]
 
 
-def objects(entry):
-    if isinstance(entry, dict):
-        return "—"
-    return "; ".join(f"`{item['name']}` na `{item['scope']}` ({', '.join(f'`{key}`' for key in item['keys'])})"
-                     for item in entry)
-
-
 def base_indexes(indexes, engine):
     found = {(item["scope"], item["name"]): item
              for entry in [*indexes["base"].values(), *indexes["base_extras"].values()]
@@ -131,9 +124,9 @@ def render(registry):
                   *table(("Indeks", "Tabela, kolekcja lub etykieta", "Klucze", "Rodzaj"), base_indexes(indexes, engine)),
                   ""]
     lines += ["## Indeksy IDX", "",
-              *table(("Indeks", *(NAMES[engine] for engine in ENGINES), "Obsługuje", "Utrzymują"),
-                     [(name, *(objects(row["engines"][engine]) for engine in ENGINES),
-                       ", ".join(row["serves"]), ", ".join(row["maintained_by"])) for name, row in plan.items()]),
+              "Definicje indeksów w każdym SZBD podają skrypty DDL w kolejnych podrozdziałach.", "",
+              *table(("Indeks", "Obsługuje", "Utrzymują"),
+                     [(name, ", ".join(row["serves"]), ", ".join(row["maintained_by"])) for name, row in plan.items()]),
               ""]
     for engine in ENGINES:
         lines += [f"### {NAMES[engine]} — `{DDL[engine]}`", "", f"```{DDL_LANGUAGES[engine]}",

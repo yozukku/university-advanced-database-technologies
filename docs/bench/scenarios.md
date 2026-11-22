@@ -2118,14 +2118,16 @@ Pełne skrypty: `bench/ddl/neo4j/base/`.
 
 ## Indeksy IDX
 
-| Indeks | PostgreSQL | MySQL | MongoDB | Neo4j | Obsługuje | Utrzymują |
-|---|---|---|---|---|---|---|
-| IX1 | `ix1__idx` na `shipment_` (`recipient_phone_`) | `ix1__idx` na `shipment_` (`recipient_phone_`) | `ix1__idx` na `orders` (`shipment.recipientPhone`) | `ix1__idx` na `Shipment` (`recipientPhone`) | R4 | C4, U5 |
-| IX2 | `ix2__idx` na `order_` (`status_`, `created_at_`) | `ix2__idx` na `order_` (`status_`, `created_at_`) | `ix2__idx` na `orders` (`status`, `createdAt`) | `ix2__idx` na `Order` (`status`, `createdAt`) | R5 | C3, C4, U1, U3 |
-| IX3 | `ix3__idx` na `payment_` (`created_at_`) | `ix3__idx` na `payment_` (`created_at_`) | `ix3__idx` na `orders` (`payments.createdAt`) | `ix3__idx` na `Payment` (`createdAt`) | R6 | C3, C4, C6 |
-| IX4 | `ix4__idx` na `cell_opening_` (`requested_at_`) | `ix4__idx` na `cell_opening_` (`requested_at_`) | `ix4__idx` na `orders` (`reservations.accessCodes.openings.requestedAt`) | `ix4__idx` na `CellOpening` (`requestedAt`) | R7 | C2 |
-| JX1 | `jx1_email__idx` na `audit_event_` (`actor_->>'email'`); `jx1_phone__idx` na `audit_event_` (`actor_->>'phone'`) | `jx1_email__idx` na `audit_event_` (`CAST(actor_->>'$.email' AS CHAR(320) CHARACTER SET utf8mb4) COLLATE utf8mb4_0900_bin`); `jx1_phone__idx` na `audit_event_` (`CAST(actor_->>'$.phone' AS CHAR(16) CHARACTER SET utf8mb4) COLLATE utf8mb4_0900_bin`) | `jx1_email__idx` na `auditEvents` (`actor.email`); `jx1_phone__idx` na `auditEvents` (`actor.phone`) | — | J2 | J1, J5 |
-| JX2 | `jx2__idx` na `audit_event_` (`changes_`) | `jx2__idx` na `audit_event_` (`CAST(changes_new_ AS CHAR(32) ARRAY)`) | `jx2__idx` na `auditEvents` (`changes.f`, `changes.new`) | — | J4 | J1 |
+Definicje indeksów w każdym SZBD podają skrypty DDL w kolejnych podrozdziałach.
+
+| Indeks | Obsługuje | Utrzymują |
+|---|---|---|
+| IX1 | R4 | C4, U5 |
+| IX2 | R5 | C3, C4, U1, U3 |
+| IX3 | R6 | C3, C4, C6 |
+| IX4 | R7 | C2 |
+| JX1 | J2 | J1, J5 |
+| JX2 | J4 | J1 |
 
 ### PostgreSQL — `bench/ddl/pg/idx/indexes.sql`
 
