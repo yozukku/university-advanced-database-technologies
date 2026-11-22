@@ -10,6 +10,15 @@ const dateTime = new Intl.DateTimeFormat(LOCALE, {
   hour: '2-digit',
   minute: '2-digit',
 })
+const dateTimeYear = new Intl.DateTimeFormat(LOCALE, {
+  timeZone: TIME_ZONE,
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+})
+const year = new Intl.DateTimeFormat(LOCALE, { timeZone: TIME_ZONE, year: 'numeric' })
 
 type Instant = string | Date
 
@@ -26,5 +35,9 @@ export function formatDateTime(value: Instant) {
 }
 
 export function formatWindow(from: Instant, to: Instant) {
-  return dateTime.formatRange(new Date(from), new Date(to))
+  const start = new Date(from)
+  const end = new Date(to)
+  const now = year.format(new Date())
+  const format = year.format(start) === now && year.format(end) === now ? dateTime : dateTimeYear
+  return format.formatRange(start, end)
 }

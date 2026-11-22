@@ -87,6 +87,10 @@
   cursor: pointer;
 }
 
+.toggle::marker {
+  color: var(--color-text-muted);
+}
+
 .events {
   display: flex;
   flex-direction: column;

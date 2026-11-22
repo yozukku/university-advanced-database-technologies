@@ -36,6 +36,7 @@ function camera(page: Page) {
     await expect.poll(() => pending, { timeout: 30_000 }).toBe(0)
     await page.evaluate(() => window.scrollTo(0, 0))
     await page.waitForTimeout(500)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
     const file = `${name}-${page.viewportSize()!.width}`
     await page.screenshot({ path: `${SCREENS_DIR}/${file}.png`, fullPage: true })
     if (REPORT_SHOTS[file]) {
