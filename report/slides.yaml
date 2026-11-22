@@ -16,9 +16,6 @@ slides:
       - Rezerwacje jednej skrytki nie mogą nakładać się w czasie
       - Najbliższe automaty to zapytanie przestrzenne, a sieć przesyłek to graf
       - Historia zdarzeń w JSON, z niej przebieg zamówienia i dostęp do danych (RODO)
-  - title: Schemat relacyjny Bagażomatu (13 tabel)
-    images:
-      - report/assets/erd/przeglad.png
   - title: "Schemat: zamówienie i rezerwacja"
     images:
       - report/assets/erd/zamowienie-i-rezerwacja.png
@@ -138,12 +135,15 @@ slides:
   - title: "Bagażomat: punkty z wolną skrytką"
     images:
       - report/assets/app/punkty.png
+    crop: [0.1, 0.089, 0.306, 0.222]
   - title: "Bagażomat: rezerwacja opłacona, kod PIN"
     images:
       - report/assets/app/platnosc.png
+    crop: [0.1, 0.089, 0.566, 0.439]
   - title: "Bagażomat: przesyłka do odbioru"
     images:
       - report/assets/app/przesylka.png
+    crop: [0.1, 0.089, 0.566, 0.361]
   - title: Harmonogram
     bullets:
       - "Zjazdy 1–2: zespół, SZBD, temat, opcje na 5.0, H1, schemat i diagram ER"

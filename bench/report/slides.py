@@ -9,6 +9,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Emu, Inches, Pt
 
+from bench.analysis.h1 import VERDICT_SIZE
 from bench.report.dataset import number
 from bench.report.document import MISSING, ReportError, resolve
 
@@ -28,13 +29,22 @@ OVERVIEW = re.compile(r"^\| ([CRUDJ]\d+) \| [CRUD] \| (.+?) \| (.+?) \| .+ \|$",
 HEADING = re.compile(r"^### ([CRUDJ]\d+) — (.+)$", re.MULTILINE)
 
 
+def listing(items):
+    return " i ".join([", ".join(items[:-1]), items[-1]] if len(items) > 1 else items)
+
+
 def h1(results, engine):
     path = Path(results) / "h1.json"
-    found = json.loads(path.read_text(encoding="utf-8"))["verdicts"].get(engine, {}) if path.is_file() else {}
+    content = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {"verdicts": {}, "cells": []}
+    found = content["verdicts"].get(engine, {})
     if not found.get("verdict"):
         return MISSING
-    failing = f" ({', '.join(found['failing'])})" if found["failing"] else ""
-    return found["verdict"] + failing
+    if not found["failing"]:
+        return found["verdict"]
+    if engine == "overall":
+        total = sum(cell["size"] == VERDICT_SIZE for cell in content["cells"])
+        return f"{found['verdict']} — {len(found['failing'])} z {total} komórek"
+    return f"{found['verdict']} — {listing([cell.split()[0] for cell in found['failing']])}"
 
 
 def plan(results, scenario, engine, config, size):
@@ -75,11 +85,11 @@ def check(items):
             raise ReportError(f"{where}: {len(item['bullets'])} punktów (limit {MAX_BULLETS}): {title}")
 
 
-def place(slide, path, left, top, width, height):
-    image = slide.shapes.add_picture(str(path), left, top, width=width)
-    if image.height > height:
-        image.width = int(image.width * height / image.height)
-        image.height = height
+def place(slide, path, left, top, width, height, crop=(0, 0, 0, 0)):
+    image = slide.shapes.add_picture(str(path), left, top)
+    image.crop_left, image.crop_top, image.crop_right, image.crop_bottom = crop
+    ratio = image.width * (1 - crop[0] - crop[2]) / (image.height * (1 - crop[1] - crop[3]))
+    image.width, image.height = (width, int(width / ratio)) if width / ratio <= height else (int(height * ratio), height)
     image.left = int(left + (width - image.width) / 2)
 
 
@@ -106,7 +116,7 @@ def pictures(deck, slide, item, results):
     top = title.top + title.height + GAP
     width = deck.slide_width - 2 * MARGIN
     if "note" in item:
-        text(slide, item["note"], MARGIN, top, width, NOTE, 18)
+        text(slide, item["note"], title.left, top, title.width, NOTE, 18)
         top += NOTE
     height = deck.slide_height - top - MARGIN
     if "figure" in item:
@@ -119,7 +129,7 @@ def pictures(deck, slide, item, results):
     paths = item["images"]
     each = int((width - GAP * (len(paths) - 1)) / len(paths))
     for position, path in enumerate(paths):
-        place(slide, path, MARGIN + position * (each + GAP), top, each, height)
+        place(slide, path, MARGIN + position * (each + GAP), top, each, height, item.get("crop", (0, 0, 0, 0)))
 
 
 def build(results, target):

@@ -40,6 +40,11 @@ def convert(desktop, source, docx, pdf):
         sys.exit("Dokument nie ma spisu treści")
     for position in range(indexes.getCount()):
         indexes.getByIndex(position).update()
+    tables = document.getTextTables()
+    for position in range(tables.getCount()):
+        rows = tables.getByIndex(position).getRows()
+        for row in range(rows.getCount()):
+            rows.getByIndex(row).setPropertyValue("IsSplitAllowed", False)
     document.storeToURL(Path(docx).as_uri(), (option("FilterName", "MS Word 2007 XML"),))
     document.storeToURL(Path(pdf).as_uri(), (option("FilterName", "writer_pdf_Export"),))
     document.close(True)

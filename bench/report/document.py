@@ -1,8 +1,12 @@
 import ast
+import functools
 import json
 import re
 import subprocess
 from pathlib import Path
+
+from matplotlib import font_manager
+from PIL import ImageFont
 
 from bench.report import cite, closing, crud, dataset, indexes
 
@@ -17,6 +21,10 @@ LEFTOVER = re.compile(r"\{\{.*?\}\}", re.DOTALL)
 CAPTION_ID = re.compile(r"\{#((?:fig|tab):[^\s{}]+)\}")
 CAPTIONS = {"Figure": ("fig", "Rys."), "Table": ("tab", "Tab.")}
 REFERENCES = {"fig": "rys.", "tab": "tab."}
+TEXT_WIDTH, CELL_PADDING = 453, 12
+FONTS = {False: ("Carlito", "bold", 10), True: ("DejaVu Sans Mono", "normal", 9)}
+BLOCKS = ("Table", "BulletList", "OrderedList")
+AFTER_BLOCK = ["", [], [["custom-style", "After Block"]]]
 TABLES = dataset.TABLES | crud.TABLES | indexes.TABLES | closing.TABLES
 
 
@@ -176,6 +184,77 @@ def link(blocks, targets):
         node["t"], node["c"] = "Str", ", ".join(labels)
 
 
+@functools.cache
+def typeface(code):
+    family, weight, size = FONTS[code]
+    found = font_manager.findfont(font_manager.FontProperties(family=family, weight=weight), fallback_to_default=False)
+    return ImageFont.truetype(found, size * 10)
+
+
+def span(value, code):
+    return typeface(code).getlength(value) / 10
+
+
+def words(cell):
+    found, current = [], 0.0
+    for node in nodes(cell):
+        if node["t"] in ("Space", "SoftBreak", "LineBreak"):
+            found.append(current)
+            current = 0.0
+        elif node["t"] in ("Str", "Code"):
+            first, *rest = (node["c"] if node["t"] == "Str" else node["c"][1]).split(" ")
+            current += span(first, node["t"] == "Code")
+            for piece in rest:
+                found.append(current)
+                current = span(piece, True)
+    return found + [current]
+
+
+def share(header, needs, most):
+    if sum(most) <= TEXT_WIDTH:
+        return most
+    chosen = list(header) if sum(header) <= TEXT_WIDTH else [TEXT_WIDTH * value / sum(header) for value in header]
+    while True:
+        steps = [(sum(chosen[position] < need <= target for need in column) / (target - chosen[position]),
+                  position, target)
+                 for position, column in enumerate(needs) for target in set(column)
+                 if target > chosen[position] and sum(chosen) - chosen[position] + target <= TEXT_WIDTH]
+        if not steps:
+            break
+        _, position, target = max(steps)
+        chosen[position] = target
+    spare = [high - low for low, high in zip(chosen, most)]
+    return [low + (TEXT_WIDTH - sum(chosen)) * extra / sum(spare) for low, extra in zip(chosen, spare)]
+
+
+def widths(blocks):
+    for node in nodes(blocks):
+        if node["t"] != "Table":
+            continue
+        _, _, columns, head, bodies, foot = node["c"]
+        body = [row for part in bodies for row in part[2] + part[3]] + foot[1]
+        cells = [[words(row[1][position][4]) for row in head[1] + body] for position in range(len(columns))]
+        needs = [[max(found) + CELL_PADDING for found in column] for column in cells]
+        header = [max(column[:len(head[1])], default=0) for column in needs]
+        most = [max(sum(found) + span(" ", False) * (len(found) - 1) for found in column) + CELL_PADDING
+                for column in cells]
+        shares = share(header, [column[len(head[1]):] for column in needs], most)
+        node["c"][2] = [[align, {"t": "ColWidth", "c": part / sum(shares)}] for (align, _), part in zip(columns, shares)]
+
+
+def separate(value):
+    if isinstance(value, dict):
+        for item in value.values():
+            separate(item)
+    elif isinstance(value, list):
+        for position, item in enumerate(value):
+            separate(item)
+            previous = value[position - 1] if position else None
+            if isinstance(item, dict) and item.get("t") == "Para" and isinstance(previous, dict) and previous.get(
+                    "t") in BLOCKS:
+                value[position] = {"t": "Div", "c": [AFTER_BLOCK, [item]]}
+
+
 def pandoc(arguments, source):
     result = subprocess.run(["pandoc", "--fail-if-warnings", *arguments], input=source, capture_output=True,
                             text=True, encoding="utf-8")
@@ -203,6 +282,8 @@ def build(results, out):
         else:
             document["blocks"] += parsed["blocks"]
     link(document["blocks"], targets)
+    widths(document["blocks"])
+    separate(document["blocks"])
     draft = work / "sprawozdanie.docx"
     pandoc(["-f", "json", "-t", "docx", "--toc", "--toc-depth=2", f"--reference-doc={REFERENCE}",
             f"--metadata-file={METADATA}", f"--output={draft}"], json.dumps(document))

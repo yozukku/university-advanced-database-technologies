@@ -6,11 +6,11 @@ Projekt porównuje dwa relacyjne i dwa nierelacyjne SZBD. Każdy z nich opisujem
 
 ### Opis
 
-PostgreSQL to obiektowo-relacyjny SZBD. Wywodzi się z projektu POSTGRES Uniwersytetu Kalifornijskiego w Berkeley, którego implementację rozpoczęto w 1986 r.[^pg-history] Rozwija go społeczność PostgreSQL Global Development Group na licencji podobnej do BSD i MIT, która pozwala bezpłatnie używać go w dowolnym celu, także komercyjnym[^pg-licence][^pg-whatis]. Nowa wersja główna ukazuje się mniej więcej raz w roku i ma 5 lat wsparcia. Wersja 17 ukazała się 26 września 2024 r., a jej wsparcie kończy się 8 listopada 2029 r.[^pg-versioning] PostgreSQL spełnia co najmniej 170 ze 177 obowiązkowych cech rdzenia standardu SQL:2023[^pg-sql]. Domyślny poziom izolacji to READ COMMITTED[^pg-iso].
+PostgreSQL to obiektowo-relacyjny SZBD. Wywodzi się z projektu POSTGRES Uniwersytetu Kalifornijskiego w Berkeley, którego implementację rozpoczęto w 1986 r.[^pg-history] Rozwija go społeczność PostgreSQL Global Development Group na licencji podobnej do BSD i MIT, która pozwala bezpłatnie używać go w dowolnym celu, także komercyjnym[^pg-licence]^,^[^pg-whatis]. Nowa wersja główna ukazuje się mniej więcej raz w roku i ma 5 lat wsparcia. Wersja 17 ukazała się 26 września 2024 r., a jej wsparcie kończy się 8 listopada 2029 r.[^pg-versioning] PostgreSQL spełnia co najmniej 170 ze 177 obowiązkowych cech rdzenia standardu SQL:2023[^pg-sql]. Domyślny poziom izolacji to READ COMMITTED[^pg-iso].
 
 ### Zalety
 
-Współbieżność opiera się na wielowersyjności (MVCC). Odczyt nie blokuje zapisu, a zapis nie blokuje odczytu, także na poziomie SERIALIZABLE[^pg-mvcc]. Oprócz kluczy, UNIQUE i CHECK baza ma ograniczenia wykluczające (EXCLUDE). Razem z typami zakresowymi wyrażają one regułę „przedziały tego samego obiektu się nie nakładają”[^pg-constraints][^pg-range]. Schemat Bagażomatu ma pięć takich reguł, m.in. zakaz podwójnej rezerwacji skrytki (rozdz. 3). Wbudowanych typów indeksów jest sześć: B-tree, Hash, GiST, SP-GiST, GIN i BRIN[^pg-idx]. Indeks częściowy obejmuje tylko wiersze spełniające predykat[^pg-partial]. Użytkownik może dodawać własne typy danych, funkcje, operatory i metody indeksowania[^pg-whatis].
+Współbieżność opiera się na wielowersyjności (MVCC). Odczyt nie blokuje zapisu, a zapis nie blokuje odczytu, także na poziomie SERIALIZABLE[^pg-mvcc]. Oprócz kluczy, UNIQUE i CHECK baza ma ograniczenia wykluczające (EXCLUDE). Razem z typami zakresowymi wyrażają one regułę „przedziały tego samego obiektu się nie nakładają”[^pg-constraints]^,^[^pg-range]. Schemat Bagażomatu ma pięć takich reguł, m.in. zakaz podwójnej rezerwacji skrytki (rozdz. 3). Wbudowanych typów indeksów jest sześć: B-tree, Hash, GiST, SP-GiST, GIN i BRIN[^pg-idx]. Indeks częściowy obejmuje tylko wiersze spełniające predykat[^pg-partial]. Użytkownik może dodawać własne typy danych, funkcje, operatory i metody indeksowania[^pg-whatis].
 
 ### Wady
 
@@ -34,7 +34,7 @@ Dostępem zarządzają role. Rola może być użytkownikiem, grupą albo jednym 
 
 ### Migracje
 
-pg_dump tworzy logiczny, spójny zrzut i nie blokuje przy tym zwykłych operacji. Zrzut można wczytać do nowszej wersji i na serwer o innej architekturze[^pg-dump]. pg_upgrade przenosi pliki danych do nowej wersji głównej bez zrzutu, a z opcją --link lub --clone prawie bez kopiowania[^pg-upgrade]. Replikacja logiczna działa między wersjami głównymi, więc serwer można zaktualizować przez przełączenie na zsynchronizowaną kopię[^pg-upgrading]. Przy aktualizacji z wersji 17 nie trzeba już usuwać slotów replikacji logicznej[^pg-17]. DDL jest transakcyjny, więc nieudaną migrację schematu, nawet z CREATE TABLE, można wycofać[^pg-ddl]. COPY przenosi dane między tabelami a plikami[^pg-copy].
+pg_dump tworzy logiczny, spójny zrzut i nie blokuje przy tym zwykłych operacji. Zrzut można wczytać do nowszej wersji i na serwer o innej architekturze[^pg-dump]. pg_upgrade przenosi pliki danych do nowej wersji głównej bez zrzutu, a z opcją `--link` lub `--clone` prawie bez kopiowania[^pg-upgrade]. Replikacja logiczna działa między wersjami głównymi, więc serwer można zaktualizować przez przełączenie na zsynchronizowaną kopię[^pg-upgrading]. Przy aktualizacji z wersji 17 nie trzeba już usuwać slotów replikacji logicznej[^pg-17]. DDL jest transakcyjny, więc nieudaną migrację schematu, nawet z CREATE TABLE, można wycofać[^pg-ddl]. COPY przenosi dane między tabelami a plikami[^pg-copy].
 
 ### Integracje
 
@@ -95,7 +95,7 @@ Producent podkreśla niezawodność, integralność danych i rozszerzalność. P
 
 ### Opis
 
-MySQL to relacyjny SZBD typu klient-serwer z wielowątkowym serwerem SQL. Rozwija go Oracle Corporation. Kod jest dostępny na licencji GPL, a do osadzenia w produkcie komercyjnym Oracle sprzedaje licencję komercyjną[^my-what]. Wydania dzielą się na linię Innovation z nowymi funkcjami i linię LTS z samymi poprawkami, 5 latami wsparcia podstawowego i 3 latami rozszerzonego[^my-releases]. Wersja 8.4.0 ukazała się 30 kwietnia 2024 r.[^my-840] Domyślnym silnikiem składowania jest InnoDB, a jego domyślny poziom izolacji to REPEATABLE READ[^my-innodb][^my-iso].
+MySQL to relacyjny SZBD typu klient-serwer z wielowątkowym serwerem SQL. Rozwija go Oracle Corporation. Kod jest dostępny na licencji GPL, a do osadzenia w produkcie komercyjnym Oracle sprzedaje licencję komercyjną[^my-what]. Wydania dzielą się na linię Innovation z nowymi funkcjami i linię LTS z samymi poprawkami, 5 latami wsparcia podstawowego i 3 latami rozszerzonego[^my-releases]. Wersja 8.4.0 ukazała się 30 kwietnia 2024 r.[^my-840] Domyślnym silnikiem składowania jest InnoDB, a jego domyślny poziom izolacji to REPEATABLE READ[^my-innodb]^,^[^my-iso].
 
 ### Zalety
 
@@ -123,7 +123,7 @@ Uprawnienia nadaje się kontom i rolom, czyli nazwanym zbiorom uprawnień[^my-ro
 
 ### Migracje
 
-mysqldump tworzy kopię logiczną: polecenia SQL, które odtwarzają obiekty i dane, także na innym serwerze. Z opcją --single-transaction zapisuje spójny stan tabel InnoDB bez blokowania aplikacji. Dokumentacja zastrzega, że przy dużych danych nie jest to rozwiązanie szybkie ani skalowalne, i poleca narzędzia MySQL Shell, które zrzucają dane wieloma wątkami i z kompresją[^my-dump][^my-shell]. Wtyczka clone kopiuje fizyczny stan danych InnoDB z innego serwera i służy do zakładania replik[^my-clone]. W obrębie serii LTS można aktualizować i cofać wersję w miejscu, a przejście do kolejnej serii LTS nie może żadnej pominąć[^my-releases]. Słownik danych i tabele systemowe serwer aktualizuje sam przy starcie[^my-upgrade]. DDL nie jest transakcyjny: każde polecenie DDL niejawnie kończy bieżącą transakcję, więc nieudanej migracji schematu nie wycofa ROLLBACK[^my-atomic]. Dodanie kolumny domyślnie zmienia tylko metadane, a indeks pomocniczy powstaje bez blokowania zapisów[^my-ddl].
+mysqldump tworzy kopię logiczną: polecenia SQL, które odtwarzają obiekty i dane, także na innym serwerze. Z opcją `--single-transaction` zapisuje spójny stan tabel InnoDB bez blokowania aplikacji. Dokumentacja zastrzega, że przy dużych danych nie jest to rozwiązanie szybkie ani skalowalne, i poleca narzędzia MySQL Shell, które zrzucają dane wieloma wątkami i z kompresją[^my-dump]^,^[^my-shell]. Wtyczka clone kopiuje fizyczny stan danych InnoDB z innego serwera i służy do zakładania replik[^my-clone]. W obrębie serii LTS można aktualizować i cofać wersję w miejscu, a przejście do kolejnej serii LTS nie może żadnej pominąć[^my-releases]. Słownik danych i tabele systemowe serwer aktualizuje sam przy starcie[^my-upgrade]. DDL nie jest transakcyjny: każde polecenie DDL niejawnie kończy bieżącą transakcję, więc nieudanej migracji schematu nie wycofa ROLLBACK[^my-atomic]. Dodanie kolumny domyślnie zmienia tylko metadane, a indeks pomocniczy powstaje bez blokowania zapisów[^my-ddl].
 
 ### Integracje
 
@@ -131,7 +131,7 @@ Oracle rozwija sterowniki Connector/J (JDBC), Connector/ODBC, Connector/NET, Con
 
 ### Skalowalność
 
-W pionie serwer korzysta z wielu wątków[^my-what]. Partycjonowanie dzieli tabelę według reguł RANGE, LIST, HASH lub KEY na najwyżej 8192 partycje[^my-part][^my-partlim]. Odczyty skalują się poziomo przez repliki, ale wszystkie zapisy trafiają do serwera źródłowego[^my-repl]. Group Replication w trybie wielu serwerów głównych przyjmuje zapisy na każdym członku grupy[^my-gr]. Grupa liczy jednak najwyżej 9 serwerów, a ten tryb nie obsługuje kaskadowych kluczy obcych ani, domyślnie, poziomu SERIALIZABLE[^my-grlim]. Klaster bez współdzielonych zasobów (shared-nothing) z danymi w pamięci daje osobna technologia NDB Cluster[^my-ndb].
+W pionie serwer korzysta z wielu wątków[^my-what]. Partycjonowanie dzieli tabelę według reguł RANGE, LIST, HASH lub KEY na najwyżej 8192 partycje[^my-part]^,^[^my-partlim]. Odczyty skalują się poziomo przez repliki, ale wszystkie zapisy trafiają do serwera źródłowego[^my-repl]. Group Replication w trybie wielu serwerów głównych przyjmuje zapisy na każdym członku grupy[^my-gr]. Grupa liczy jednak najwyżej 9 serwerów, a ten tryb nie obsługuje kaskadowych kluczy obcych ani, domyślnie, poziomu SERIALIZABLE[^my-grlim]. Klaster bez współdzielonych zasobów (shared-nothing) z danymi w pamięci daje osobna technologia NDB Cluster[^my-ndb].
 
 ### Obszary biznesowe
 
@@ -190,7 +190,7 @@ Dokumenty odpowiadają typom danych języków programowania. Osadzone dokumenty 
 
 ### Wady
 
-Transakcja na wielu dokumentach zwykle kosztuje więcej niż zapis jednego dokumentu i nie zastępuje dobrego projektu schematu[^mg-tx]. Osadzanie powiela dane. Zwiększa to zajętość dysku, a częste zmiany powielonych danych obciążają bazę[^mg-dup]. Walidacja schematu sprawdza pola dokumentu, np. typy i zakresy wartości[^mg-validation]. Regułę obejmującą wiele dokumentów, np. zakaz podwójnej rezerwacji skrytki, musi więc pilnować aplikacja (rozdz. 3). Kontrola dostępu jest domyślnie wyłączona[^mg-authz]. We własnej instalacji szyfrowanie plików danych i audyt są tylko w edycji Enterprise[^mg-ear][^mg-audit].
+Transakcja na wielu dokumentach zwykle kosztuje więcej niż zapis jednego dokumentu i nie zastępuje dobrego projektu schematu[^mg-tx]. Osadzanie powiela dane. Zwiększa to zajętość dysku, a częste zmiany powielonych danych obciążają bazę[^mg-dup]. Walidacja schematu sprawdza pola dokumentu, np. typy i zakresy wartości[^mg-validation]. Regułę obejmującą wiele dokumentów, np. zakaz podwójnej rezerwacji skrytki, musi więc pilnować aplikacja (rozdz. 3). Kontrola dostępu jest domyślnie wyłączona[^mg-authz]. We własnej instalacji szyfrowanie plików danych i audyt są tylko w edycji Enterprise[^mg-ear]^,^[^mg-audit].
 
 ### Udogodnienia
 
@@ -206,7 +206,7 @@ Silnik WiredTiger zapisuje punkty kontrolne i dziennik (journal). Po awarii baza
 
 ### Bezpieczeństwo
 
-Dostęp opiera się na rolach (RBAC). Rola nadaje uprawnienia do akcji na zasobie: bazie, kolekcji lub klastrze. Są role wbudowane i definiowane przez użytkownika. Kontrolę dostępu włącza opcja `security.authorization`[^mg-authz]. Domyślny mechanizm uwierzytelniania to SCRAM. Edycja Community obsługuje też certyfikaty x.509, a Kerberos, LDAP i OpenID Connect są w edycji Enterprise[^mg-authn]. Producent zaleca TLS dla wszystkich połączeń[^mg-checklist]. Szyfrowanie w spoczynku (AES-256) obejmuje wszystkie pliki danych, tylko w edycji Enterprise[^mg-ear]. Queryable Encryption szyfruje pola po stronie klienta i pozwala je przeszukiwać bez ujawniania danych serwerowi. Od wersji 8.0 obsługuje też zapytania zakresowe[^mg-qe][^mg-80].
+Dostęp opiera się na rolach (RBAC). Rola nadaje uprawnienia do akcji na zasobie: bazie, kolekcji lub klastrze. Są role wbudowane i definiowane przez użytkownika. Kontrolę dostępu włącza opcja `security.authorization`[^mg-authz]. Domyślny mechanizm uwierzytelniania to SCRAM. Edycja Community obsługuje też certyfikaty x.509, a Kerberos, LDAP i OpenID Connect są w edycji Enterprise[^mg-authn]. Producent zaleca TLS dla wszystkich połączeń[^mg-checklist]. Szyfrowanie w spoczynku (AES-256) obejmuje wszystkie pliki danych, tylko w edycji Enterprise[^mg-ear]. Queryable Encryption szyfruje pola po stronie klienta i pozwala je przeszukiwać bez ujawniania danych serwerowi. Od wersji 8.0 obsługuje też zapytania zakresowe[^mg-qe]^,^[^mg-80].
 
 ### Migracje
 
@@ -287,7 +287,7 @@ Domyślny format magazynu w Community (aligned) mieści do 2^35^ (ok. 34 mld) w�
 
 ### Awaryjność
 
-Dziennik transakcji zapisuje wszystkie zmiany danych, indeksów i ograniczeń[^neo-txlog]. Punkt kontrolny zapisuje oczekujące zmiany z pamięci na dysk, domyślnie co 15 min lub co 100 000 transakcji. Po awarii baza przy starcie powtarza transakcje, których nie utrwalił jeszcze punkt kontrolny[^neo-checkpoint]. Edycja Community nie ma klastra ani automatycznego przełączania na inny serwer. Kopie zapasowe wykonuje tylko offline[^neo-intro][^neo-dump]. W edycji Enterprise baza przyjmuje zapisy, dopóki działa większość jej serwerów głównych. Trzy takie serwery przetrwają awarię jednego, a pięć – awarię dwóch[^neo-cluster].
+Dziennik transakcji zapisuje wszystkie zmiany danych, indeksów i ograniczeń[^neo-txlog]. Punkt kontrolny zapisuje oczekujące zmiany z pamięci na dysk, domyślnie co 15 min lub co 100 000 transakcji. Po awarii baza przy starcie powtarza transakcje, których nie utrwalił jeszcze punkt kontrolny[^neo-checkpoint]. Edycja Community nie ma klastra ani automatycznego przełączania na inny serwer. Kopie zapasowe wykonuje tylko offline[^neo-intro]^,^[^neo-dump]. W edycji Enterprise baza przyjmuje zapisy, dopóki działa większość jej serwerów głównych. Trzy takie serwery przetrwają awarię jednego, a pięć – awarię dwóch[^neo-cluster].
 
 ### Bezpieczeństwo
 
