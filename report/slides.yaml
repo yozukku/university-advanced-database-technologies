@@ -123,7 +123,12 @@ slides:
       - 'Werdykt ogólny: {{ h1("overall") }}'
   - title: Wnioski i rekomendacja
     bullets:
-      - brak danych
+      - "PostgreSQL: najszybszy w większości scenariuszy przy rozmiarze L"
+      - "MySQL: najszybsze zapisy C3, C4 i aktualizacje według klucza"
+      - "MongoDB: dane osadzone w dokumencie (U3, U4, D5), R8 i JSON"
+      - "Neo4j: średnio najwolniejszy, bez scenariuszy JSON"
+      - "H1 obalona: 7 z 49 komórek bez potwierdzenia, głównie C3 i C4"
+      - "Rekomendacja dla Bagażomatu: PostgreSQL (EXCLUDE, PostGIS, jsonb)"
   - title: "Bagażomat: punkty, płatność, przesyłka"
     images:
       - report/assets/app/punkty.png

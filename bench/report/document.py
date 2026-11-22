@@ -4,7 +4,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from bench.report import crud, dataset, indexes
+from bench.report import closing, crud, dataset, indexes
 
 CHAPTERS = Path("report/chapters")
 METADATA = Path("report/metadata.yaml")
@@ -17,7 +17,7 @@ LEFTOVER = re.compile(r"\{\{.*?\}\}", re.DOTALL)
 CAPTION_ID = re.compile(r"\{#((?:fig|tab):[^\s{}]+)\}")
 CAPTIONS = {"Figure": ("fig", "Rys."), "Table": ("tab", "Tab.")}
 REFERENCES = {"fig": "rys.", "tab": "tab."}
-TABLES = dataset.TABLES | crud.TABLES | indexes.TABLES
+TABLES = dataset.TABLES | crud.TABLES | indexes.TABLES | closing.TABLES
 
 
 class ReportError(Exception):
@@ -48,7 +48,11 @@ def sample(results, name, caption):
     return f"::: {{#fig:{name} .figure .listing}}\n```\n{dataset.sample(name)}\n```\n\n{caption}\n:::"
 
 
-MARKERS = {"fig": figure, "table": table, "dataset": data, "sample": sample}
+def insert(results, name):
+    return closing.TEXTS[name]()
+
+
+MARKERS = {"fig": figure, "table": table, "dataset": data, "sample": sample, "insert": insert}
 
 
 def resolve(text, results, source, markers=MARKERS):
