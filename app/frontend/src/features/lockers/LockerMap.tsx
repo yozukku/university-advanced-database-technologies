@@ -9,7 +9,7 @@ setWorkerUrl(workerUrl)
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/positron'
 const POLAND: [number, number, number, number] = [14.1, 49, 24.2, 54.9]
-const FIT = { padding: 48, maxZoom: 14 }
+const FIT = { padding: 48, maxZoom: 14, maxDuration: 800 }
 const FOCUS_ZOOM = 14
 const LOCALE = { 'Map.Title': 'Mapa', 'AttributionControl.ToggleAttribution': 'Pokaż lub ukryj źródła mapy' }
 const POLISH_NAME: ExpressionSpecification = ['coalesce', ['get', 'name:pl'], ['get', 'name']]
@@ -87,7 +87,7 @@ export function LockerMap({ points, activeId, onSelect, className }: LockerMapPr
     if (!map || activeLng === undefined || activeLat === undefined) {
       return
     }
-    return whenSized(map, () => map.flyTo({ center: [activeLng, activeLat], zoom: Math.max(map.getZoom(), FOCUS_ZOOM) }))
+    return whenSized(map, () => map.flyTo({ center: [activeLng, activeLat], zoom: Math.max(map.getZoom(), FOCUS_ZOOM), maxDuration: 800 }))
   }, [map, activeLng, activeLat])
 
   return <div ref={container} className={className} />
