@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router'
 import { paths } from '../../app/paths'
-import { Button, Card, EmptyState, Loading, Page, formatPrice, formatTime, formatWindow } from '../../ui'
+import { Button, Card, EmptyState, Loading, Page, cx, formatPrice, formatTime, formatWindow, useReveal } from '../../ui'
 import styles from './CheckoutPage.module.css'
 import { useAccessCodes, useOrder, usePay, type Order, type OrderStatus } from './orders'
 
@@ -79,7 +79,8 @@ function Payment({ order }: { order: Order }) {
 
 function Paid({ order }: { order: Order }) {
   const codes = useAccessCodes(order.id)
-  const dropOff = codes.data?.find(code => code.purpose === 'DROP_OFF')
+  const pin = codes.data?.find(code => code.purpose === 'DROP_OFF')?.pin
+  const reveal = useReveal(pin)
 
   return (
     <Page title="Rezerwacja opłacona">
@@ -92,7 +93,11 @@ function Paid({ order }: { order: Order }) {
           </div>
           <div className={styles.fact}>
             <dt>PIN</dt>
-            <dd>{dropOff?.pin ?? '…'}</dd>
+            <dd>
+              <span key={pin} className={cx(styles.pin, reveal)}>
+                {pin ?? '…'}
+              </span>
+            </dd>
           </div>
         </dl>
         <p className={styles.muted}>Ten PIN otworzy skrytkę, gdy zostawisz bagaż. Znajdziesz go też w „Moje rezerwacje”.</p>

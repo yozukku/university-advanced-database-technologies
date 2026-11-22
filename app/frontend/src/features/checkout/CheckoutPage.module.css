@@ -76,6 +76,10 @@
   letter-spacing: 0.04em;
 }
 
+.pin {
+  display: inline-block;
+}
+
 .link {
   align-self: flex-start;
   font-size: var(--text-sm);

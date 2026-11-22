@@ -6,6 +6,12 @@
   align-items: flex-end;
   justify-content: center;
   background: var(--color-overlay);
+  animation: fade-in var(--dur-slow) var(--ease-out);
+}
+
+.overlay[data-state='closed'] {
+  pointer-events: none;
+  animation: fade-out var(--dur-fast) var(--ease-in) forwards;
 }
 
 .panel {
@@ -20,6 +26,11 @@
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   box-shadow: var(--shadow-raised);
   outline: none;
+  animation: slide-in var(--dur-slow) var(--ease-out);
+}
+
+.overlay[data-state='closed'] .panel {
+  animation: slide-out var(--dur-fast) var(--ease-in) forwards;
 }
 
 .header {
@@ -45,5 +56,46 @@
     max-width: 28rem;
     padding: var(--space-5);
     border-radius: var(--radius-lg);
+    animation-name: rise-in;
+  }
+
+  .overlay[data-state='closed'] .panel {
+    animation-name: rise-out;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slide-out {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(0.5rem) scale(0.98);
+  }
+}
+
+@keyframes rise-out {
+  to {
+    transform: translateY(0.5rem) scale(0.98);
   }
 }

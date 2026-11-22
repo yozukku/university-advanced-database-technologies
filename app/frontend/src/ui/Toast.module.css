@@ -22,6 +22,21 @@
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-raised);
   pointer-events: auto;
+  animation: enter var(--dur-base) var(--ease-out);
+}
+
+.check {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  margin-right: calc(var(--space-1) * -1);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  animation: draw var(--dur-slow) var(--ease-out) var(--dur-fast) backwards;
 }
 
 .message {
@@ -30,7 +45,8 @@
   font-size: var(--text-sm);
 }
 
-.neutral {
+.neutral,
+.success {
   color: var(--color-bg);
   background: var(--color-text);
 }
@@ -39,4 +55,17 @@
   color: var(--color-danger);
   background: var(--color-danger-soft);
   border-color: var(--color-danger-border);
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
 }

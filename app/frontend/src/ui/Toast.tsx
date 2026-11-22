@@ -4,7 +4,7 @@ import { CloseButton } from './CloseButton'
 import styles from './Toast.module.css'
 import { cx } from './cx'
 
-type Tone = 'neutral' | 'error'
+type Tone = 'neutral' | 'success' | 'error'
 type Toast = { id: number; message: string; tone: Tone }
 type ShowToast = (message: string, tone?: Tone) => void
 
@@ -54,6 +54,11 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: number)
 
   return (
     <div role={toast.tone === 'error' ? 'alert' : 'status'} className={cx(styles.toast, styles[toast.tone])}>
+      {toast.tone === 'success' && (
+        <svg className={styles.check} viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M3 8.5l3.5 3.5L13 4.5" pathLength={1} />
+        </svg>
+      )}
       <p className={styles.message}>{toast.message}</p>
       <CloseButton onClick={() => onDismiss(toast.id)} />
     </div>

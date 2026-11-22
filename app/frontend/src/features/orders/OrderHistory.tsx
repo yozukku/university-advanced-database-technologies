@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Loading, formatDateTime } from '../../ui'
+import { Loading, cx, formatDateTime, reveal } from '../../ui'
 import styles from './Detail.module.css'
 import { useOrderHistory } from './queries'
 import { actorLabel, eventLabel } from './status'
@@ -22,7 +22,7 @@ function Events({ orderId }: { orderId: number }) {
     return history.isError ? <p className={styles.muted}>Nie udało się wczytać historii.</p> : <Loading />
   }
   return (
-    <ol aria-label="Historia zamówienia" className={styles.events}>
+    <ol aria-label="Historia zamówienia" className={cx(styles.events, reveal)}>
       {history.data.map(event => (
         <li key={event.id} className={styles.event}>
           <time dateTime={event.at} className={styles.time}>

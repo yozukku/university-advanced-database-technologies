@@ -70,6 +70,10 @@
   letter-spacing: 0.04em;
 }
 
+.pin {
+  display: inline-block;
+}
+
 .actions {
   display: flex;
   flex-direction: column;

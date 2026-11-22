@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useId, useRef, type ReactNode } from 'react'
+import { useEffect, useEffectEvent, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { CloseButton } from './CloseButton'
 import styles from './Sheet.module.css'
@@ -11,9 +11,27 @@ type SheetProps = {
 }
 
 export function Sheet({ open, title, onClose, children }: SheetProps) {
+  const overlay = useRef<HTMLDivElement>(null)
   const panel = useRef<HTMLDivElement>(null)
   const titleId = useId()
   const close = useEffectEvent(onClose)
+  const [shown, setShown] = useState(open)
+
+  if (open && !shown) {
+    setShown(true)
+  }
+
+  useLayoutEffect(() => {
+    if (open || !shown) {
+      return
+    }
+    let current = true
+    const animations = overlay.current?.getAnimations({ subtree: true }) ?? []
+    Promise.allSettled(animations.map(animation => animation.finished)).then(() => current && setShown(false))
+    return () => {
+      current = false
+    }
+  }, [open, shown])
 
   useEffect(() => {
     if (!open) {
@@ -38,11 +56,16 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
     }
   }, [open])
 
-  if (!open) {
+  if (!shown) {
     return null
   }
   return createPortal(
-    <div className={styles.overlay} onClick={event => event.target === event.currentTarget && onClose()}>
+    <div
+      ref={overlay}
+      className={styles.overlay}
+      data-state={open ? 'open' : 'closed'}
+      onClick={event => open && event.target === event.currentTarget && onClose()}
+    >
       <div ref={panel} className={styles.panel} role="dialog" aria-modal="true" aria-labelledby={titleId} tabIndex={-1}>
         <div className={styles.header}>
           <h2 id={titleId} className={styles.title}>{title}</h2>

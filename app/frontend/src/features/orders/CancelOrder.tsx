@@ -9,7 +9,7 @@ export function CancelOrder({ order }: { order: Order }) {
   const toast = useToast()
   const cancel = useCancelOrder(order.id, cancelled => {
     setOpen(false)
-    toast(`Rezerwacja anulowana. Zwrot ${formatPrice(cancelled.refund)}.`)
+    toast(`Rezerwacja anulowana. Zwrot ${formatPrice(cancelled.refund)}.`, 'success')
   })
 
   return (

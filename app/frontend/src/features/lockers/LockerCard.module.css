@@ -5,6 +5,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
 
 .selectable:hover {

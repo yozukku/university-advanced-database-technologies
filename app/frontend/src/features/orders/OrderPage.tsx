@@ -1,6 +1,6 @@
 import { Link, Navigate, useParams } from 'react-router'
 import { paths } from '../../app/paths'
-import { Card, EmptyState, Loading, Page, formatWindow } from '../../ui'
+import { Card, EmptyState, Loading, Page, cx, formatWindow, useReveal } from '../../ui'
 import { useAccessCodes, useOrder, type AccessCode } from '../checkout/orders'
 import { OpenCell } from '../opening/OpenCell'
 import { CancelOrder } from './CancelOrder'
@@ -57,8 +57,10 @@ function OrderDetail({ id }: { id: number }) {
 
 function Pin({ orderId, purpose }: { orderId: number; purpose: AccessCode['purpose'] }) {
   const codes = useAccessCodes(orderId)
+  const pin = codes.data?.find(code => code.purpose === purpose)?.pin
+  const reveal = useReveal(pin)
 
-  return <Fact label="PIN" value={codes.data?.find(code => code.purpose === purpose)?.pin ?? '…'} wide />
+  return <Fact label="PIN" value={<span key={pin} className={cx(styles.pin, reveal)}>{pin ?? '…'}</span>} wide />
 }
 
 function Missing() {

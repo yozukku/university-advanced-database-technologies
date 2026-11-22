@@ -19,7 +19,7 @@ export function useOpenCell(reservationId: number, cellNumber: number) {
       } else if (opening.result === 'PENDING') {
         toast(PENDING)
       } else {
-        toast(`Skrytka nr ${cellNumber} jest otwarta.`)
+        toast(`Skrytka nr ${cellNumber} jest otwarta.`, 'success')
       }
     },
     onSettled: () =>

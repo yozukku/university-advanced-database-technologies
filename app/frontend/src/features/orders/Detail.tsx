@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Badge, cx } from '../../ui'
+import { Badge, cx, useReveal } from '../../ui'
 import styles from './Detail.module.css'
 import type { Status } from './status'
 
@@ -14,8 +14,10 @@ export function Summary({ name, address, details }: { name: string; address: str
 }
 
 export function StatusLine({ status }: { status: Status }) {
+  const reveal = useReveal(status.label)
+
   return (
-    <p className={styles.status}>
+    <p key={status.label} className={cx(styles.status, reveal)}>
       <Badge tone={status.tone}>{status.label}</Badge>
       {status.action && <span className={styles.action}>{status.action}</span>}
     </p>
