@@ -59,3 +59,14 @@ def test_the_chart_of_a_ba_scenario_reads_exactly_the_three_current_idx_lines(tm
     captions = charts.write(tmp_path)
     assert sorted(captions) == ["R4", "R4-ba", "heatmap-S"]
     assert (tmp_path / "charts" / "R4.png").is_file() and (tmp_path / "charts" / "R4-ba.png").is_file()
+
+
+def test_the_h1_chart_reads_the_l_cells_of_h1_json(tmp_path):
+    cells = [{"set": "H1-S", "scenario": "R4", "engine": "pg", "size": size, "ratio": 0.1, "holds": True}
+             for size in ("S", "L")] + [{"set": "H1-I", "scenario": "C3", "engine": "mysql", "size": "L", "ratio": 0.95,
+                                         "holds": False}]
+    (tmp_path / "h1.json").write_text(json.dumps({"cells": cells, "verdicts": {}}))
+    assert "h1-L" in charts.write(tmp_path)
+    figure, caption = charts.h1_chart([cell for cell in cells if cell["size"] == "L"], "L")
+    assert figure.axes[0].get_yscale() == "log" and charts.LOG_NOTE in caption
+    assert [len(collection.get_offsets()) for collection in figure.axes[0].collections] == [1, 1]

@@ -138,6 +138,34 @@ def verdicts(results):
     return markdown(["SZBD", "Werdykt", "Komórki, które nie potwierdzają H1"], rows, ["---", "---", "------"])
 
 
+def complete(results, size, scenario, engine, config):
+    qa = read(results, "qa.json") or {}
+    return next((cell for cell in qa.get(size, {}).get("cells", []) if cell["state"] == "complete"
+                 and (cell["scenario"], cell["engine"], cell["config"]) == (scenario, engine, config)), None)
+
+
+def mean_of(results, scenario, engine, config, size="L"):
+    cell = complete(results, size, scenario, engine, config)
+    return milliseconds(cell["mean"]) if cell else None
+
+
+def ratio_of(results, scenario, engine, size="L"):
+    base, idx = (complete(results, size, scenario, engine, config) for config in ("base", "idx"))
+    return ratio(idx["mean"] / base["mean"]) if base and idx else None
+
+
+def examined_of(results, scenario, engine, config, size="L"):
+    path = Path(results) / "explain_summary.csv"
+    if not path.is_file():
+        return None
+    with path.open(newline="", encoding="utf-8") as source:
+        return next((count(row["rows_examined"]) for row in csv.DictReader(source)
+                     if (row["size"], row["scenario"], row["engine"], row["config"]) == (size, scenario, engine, config)),
+                    None)
+
+
+VALUES = {"mean": mean_of, "ratio": ratio_of, "examined": examined_of}
+
 TABLES = {
     "ba-core-L": lambda results: pairs(results, "L", False),
     "ba-json-L": lambda results: pairs(results, "L", True),

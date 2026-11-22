@@ -45,3 +45,8 @@ test('model grafowy', async ({ page }) => {
   await page.goto(pathToFileURL(`${ASSETS_DIR}/graph/model.svg`).href)
   await shoot(page, page.locator('svg').first(), `${ASSETS_DIR}/graph/model.png`)
 })
+
+test('potok make full', async ({ page }) => {
+  await page.goto(pathToFileURL(`${ASSETS_DIR}/pipeline/pipeline.svg`).href)
+  await shoot(page, page.locator('svg').first(), `${ASSETS_DIR}/pipeline/pipeline.png`)
+})

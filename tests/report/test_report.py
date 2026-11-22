@@ -13,7 +13,7 @@ from bench.report import document, slides
 from bench.report.document import MISSING, ReportError
 
 FIXTURE = Path(__file__).with_name("results-S")
-INDEX_MARKERS = 31
+INDEX_MARKERS = 33
 CLOSING_MARKERS = 8
 
 
@@ -101,7 +101,7 @@ def test_report_builds_from_s_only_results(tmp_path):
     assert any(text.startswith("Rys.\u00a03.10. Model grafowy w Neo4j") for text in texts)
     assert any(text.startswith("Tab.\u00a03.1. Liczba rekordów") for text in texts)
     assert "500\u00a0000" in texts and "`" not in "".join(texts)
-    assert "R2" in texts and len(media) == 15
+    assert "R2" in texts and len(media) == 16
     assert texts.count(MISSING) == 7 + INDEX_MARKERS + CLOSING_MARKERS
     assert not [text for text in texts if "{{" in text or "@fig:" in text or "@tab:" in text]
     assert (tmp_path / "sprawozdanie.pdf").read_bytes().startswith(b"%PDF")

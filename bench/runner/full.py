@@ -27,7 +27,7 @@ from .matrix import CONFIGS, Bench
 from .state import snapshot as state
 from .state.containers import engine_container, others_running, project, stopped, wait_ready
 
-STEPS = ("data", "validate", "load", "verify", "snapshots", "bench", "explain", "qa", "charts", "h1", "report")
+STEPS = ("data", "validate", "load", "verify", "snapshots", "bench", "explain", "qa", "h1", "charts", "report")
 PLANNED = ("XS", "S", "L")
 LIBRARIES = ("faker", "numpy", "pyarrow")
 JOURNAL = "full-run.jsonl"
@@ -205,8 +205,8 @@ def steps(size):
 
 
 def tail(directory, out):
-    return [Step("charts", None, partial(report_image, "bench.analysis.charts", "--results", str(directory))),
-            Step("h1", None, partial(module, "bench.analysis", "h1", "--results", str(directory))),
+    return [Step("h1", None, partial(module, "bench.analysis", "h1", "--results", str(directory))),
+            Step("charts", None, partial(report_image, "bench.analysis.charts", "--results", str(directory))),
             Step("report", None, partial(report_image, "bench.report", "--results", str(directory), "--out", str(out)))]
 
 

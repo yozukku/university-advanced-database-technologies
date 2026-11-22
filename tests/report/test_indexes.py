@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from bench.report import indexes
+from bench.report import crud, document, indexes
 from bench.report.dataset import ENGINES
 
 RESULTS = Path("results")
@@ -56,3 +56,23 @@ def test_censored_base_and_missing_results(tmp_path):
     (tmp_path / "h1.json").write_text(json.dumps({"cells": [cell], "verdicts": {}}))
     assert rows(indexes.TABLES["h1-L"](tmp_path)) == [
         ["H1-S", "R4", "PostgreSQL", "> 600 000", "1 500,0", "—", "szybciej", "tak", "tak"]]
+
+
+def test_inline_values_equal_the_l_tables_and_render_brak_danych_without_results(tmp_path):
+    pairs = {row[0] + " " + row[1]: row for row in rows(indexes.TABLES["ba-json-L"](RESULTS))}
+    assert document.resolve('{{ mean("J2", "pg", "base") }} {{ ratio("J2", "pg") }}', RESULTS, "x") == \
+        f'{pairs["J2 PostgreSQL"][2]} {pairs["J2 PostgreSQL"][4]}'
+    access = {(row[0], row[1], row[2]): row for row in rows(indexes.TABLES["access-core-L"](RESULTS))}
+    assert document.resolve('{{ examined("R5", "pg", "idx") }}', RESULTS, "x") == access["R5", "PostgreSQL", "IDX"][5]
+    assert document.resolve('{{ ratio("J2", "pg", "M") }}', tmp_path, "x") == document.MISSING
+
+
+def test_clean_clone_table_sums_the_clone_steps(tmp_path):
+    steps = [{"size": "XS", "step": "load", "engine": engine, "state_id": "a", "seconds": 2.0, "exit": 0}
+             for engine in ("pg", "mysql")] + [{"size": None, "step": "report", "engine": None, "state_id": None,
+                                                "seconds": 3.5, "exit": 0}]
+    (tmp_path / "clean-clone.json").write_text(json.dumps(
+        {"sha": "0123456789abcdef", "date": "2026-11-22", "sizes": "XS", "exit": 0, "steps": steps}))
+    assert rows(crud.TABLES["clean-clone"](tmp_path)) == [
+        ["Commit", "`0123456789ab`"], ["Data", "2026-11-22"], ["Polecenie", "`make full SIZES=XS`"],
+        ["Kod wyjścia", "0"], ["`load` [s]", "4,0"], ["`report` [s]", "3,5"], ["**Razem [s]**", "**7,5**"]]

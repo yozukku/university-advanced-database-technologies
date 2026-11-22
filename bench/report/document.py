@@ -52,7 +52,12 @@ def insert(results, name):
     return closing.TEXTS[name]()
 
 
-MARKERS = {"fig": figure, "table": table, "dataset": data, "sample": sample, "insert": insert}
+def inline(function):
+    return lambda results, *arguments: function(results, *arguments) or MISSING
+
+
+MARKERS = {"fig": figure, "table": table, "dataset": data, "sample": sample, "insert": insert,
+           **{name: inline(function) for name, function in indexes.VALUES.items()}}
 
 
 def resolve(text, results, source, markers=MARKERS):

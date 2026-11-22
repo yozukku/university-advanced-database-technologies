@@ -80,11 +80,45 @@ Koszt indeksów uzupełniają czas budowy i rozmiar każdego dodanego indeksu w 
 
 {{ dataset("h1-L", "Komórki H1 dla rozmiaru L") }}
 
+@Fig:h1-L pokazuje ilorazy IDX / BASE tych samych komórek na osi logarytmicznej. Odczyty leżą wyraźnie poniżej 1, a prawie wszystkie zapisy tuż przy 1, po obu jego stronach.
+
+{{ fig("h1-L", "Iloraz IDX / BASE komórek H1 dla rozmiaru L; pusty znacznik: komórka nie potwierdza H1; skala logarytmiczna") }}
+
 ## Werdykt
 
 @Tab:h1-verdicts podaje werdykt dla każdego SZBD i werdykt ogólny z `results/h1.json` oraz komórki, które nie potwierdzają hipotezy.
 
 {{ dataset("h1-verdicts", "Werdykty hipotezy H1") }}
+
+Hipoteza H1 jest obalona dla każdego z czterech SZBD, więc także ogólnie. Hipotezy nie potwierdza siedem komórek: jedna komórka odczytu (R5 w PostgreSQL) i sześć komórek zapisu (C3 i C4 w MySQL, C4 w PostgreSQL i MongoDB, C3 i C6 w Neo4j). Pozostałe 21 z 22 komórek odczytu i 21 z 27 komórek zapisu potwierdza hipotezę. Obie części zdania H1 mają więc różną siłę. Część o odczytach potwierdzamy z jednym wyjątkiem. Część o zapisach nie wytrzymuje reguły rozstrzygnięcia, bo koszt indeksu przy wstawianiu jest w większości komórek mniejszy od rozrzutu przebiegów.
+
+## Analiza według SZBD
+
+### PostgreSQL
+
+R5 to jedyna komórka odczytu, która nie potwierdza H1, i to z powodu planu, nie czasu. Przy L planista PostgreSQL wybiera w BASE i w IDX ten sam plan: równoległy `Seq Scan` tabeli `order_` (proces główny i dwa procesy robocze) i złączenia haszowe z `reservation_`, którą oba plany czytają w całości. Oba plany przeglądają {{ examined("R5", "pg", "idx") }} wierszy, a IX2 nie występuje w planie IDX. Iloraz {{ ratio("R5", "pg") }} to różnica przebiegów tego samego planu. Przy S plan IDX tego samego zapytania czyta `order_` przez `Bitmap Index Scan` na IX2, choć warunek wybiera taki sam odsetek zamówień (około 9%) jak przy L. PostgreSQL wybiera plan według szacowanego kosztu. Przy L koszt równoległego przeglądu tabeli wychodzi mniejszy niż koszt odczytu przez indeks i pobrania wybranych wierszy. Indeks istnieje, ale planista uznaje go za nieopłacalny dla zapytania, które wybiera kilka procent tabeli i i tak czyta całą tabelę rezerwacji. Przy M R5 w IDX też działa wolniej, ale dla M planów nie zapisujemy.
+
+C4 (nadanie przesyłki) ma iloraz {{ ratio("C4", "pg") }}. Scenariusz to 1000 osobnych transakcji. Każda wybiera wolne skrytki, wstawia zamówienie, przesyłkę, dwie rezerwacje, kody i opłatę i zatwierdza zmiany z pełną trwałością (rozdz. 5). IDX dodaje w tej transakcji trzy wpisy indeksów: IX1, IX2 i IX3. Ich koszt jest mały wobec wyszukania skrytek, kilku wstawień z kontrolą ograniczeń i zapisu dziennika WAL na dysk przy każdym zatwierdzeniu. Jeden z trzech przebiegów IDX był wyraźnie krótszy od pozostałych, a różnica średnich jest mniejsza od rozrzutu przebiegów IDX (dodatek A). Wynik C4 w PostgreSQL odczytujemy jako brak mierzalnej różnicy, a reguła liczy go jako kierunek przeciwny do H1.
+
+Ten sam mechanizm widać w komórkach, które formalnie potwierdzają H1: C2 ma iloraz {{ ratio("C2", "pg") }}, a C3 {{ ratio("C3", "pg") }}. U1 ma iloraz {{ ratio("U1", "pg") }}, bo zmiana `status_` w PostgreSQL nie jest aktualizacją HOT już w BASE: kolumna występuje w warunku indeksu częściowego schematu, więc każda zmiana i tak aktualizuje wszystkie indeksy tabeli `order_`, a IDX dodaje do nich tylko IX2. Wyraźny koszt pokazują J1 ({{ ratio("J1", "pg") }}) i U5 ({{ ratio("U5", "pg") }}).
+
+### MySQL
+
+Odczyty potwierdzają H1 bez wyjątku. Nie potwierdzają jej C3 ({{ ratio("C3", "mysql") }}) i C4 ({{ ratio("C4", "mysql") }}). To jedyny przypadek, w którym kierunek wygląda na systematyczny: przebiegi obu konfiguracji mają mały rozrzut, a C3 w IDX działa szybciej przy S, M i L. Liczniki odczytów z dysku BASE i IDX w tych zapisach są prawie równe, więc różnica nie wynika z zimnej pamięci podręcznej. Przyczyny nie potrafimy wskazać na podstawie zebranych danych, bo plany zapisujemy tylko dla zapytań wyszukujących cele zapisów C6, U3 i J5, a nie dla C3 i C4. Możliwy powód to statystyki: po utworzeniu IX1–IX4 MySQL przelicza trwałe statystyki tabel `shipment_`, `order_`, `payment_` i `cell_opening_` (rozdz. 5), więc wyszukanie wolnej skrytki i wyzwalacze wykluczeń mogą w IDX dostać inny plan. Tej hipotezy nie sprawdziliśmy. Pozostałe zapisy w MySQL mają najwyraźniejszy koszt indeksów z czterech SZBD: U1 {{ ratio("U1", "mysql") }}, U5 {{ ratio("U5", "mysql") }} i J1 {{ ratio("J1", "mysql") }}.
+
+### MongoDB
+
+Nie potwierdza H1 tylko C4 ({{ ratio("C4", "mongo") }}). Nadanie przesyłki to 1000 transakcji, a każda wstawia jeden dokument zamówienia z osadzoną przesyłką, rezerwacjami i płatnością i kończy się zatwierdzeniem z zapisem dziennika na dysk (`j: true`). IDX dodaje do tego dokumentu wpisy IX1, IX2 i IX3 w kolekcji `orders`. Różnica średnich jest mniejsza od rozrzutu przebiegów IDX. C3 ma iloraz {{ ratio("C3", "mongo") }}, czyli również prawie bez zmian. Odczyty R4, R6 i R7 zyskują w MongoDB najwięcej z czterech SZBD, bo bez dodanego indeksu każde z tych zapytań przegląda całą kolekcję `orders` (`COLLSCAN`, rozdz. 8).
+
+### Neo4j
+
+Nie potwierdzają H1 C3 ({{ ratio("C3", "neo4j") }}) i C6 ({{ ratio("C6", "neo4j") }}). W obu ilorazach różnica jest mniejsza od rozrzutu przebiegów. C6 tworzy węzły opłat i ich relacje dla wszystkich zaległych rezerwacji, a IDX dodaje do tego wpisy IX3. Ilorazy bliskie 1 pokazują, że wpis indeksu zakresowego to niewielka część pracy obok tworzenia węzłów, relacji i zapisu dziennika transakcji. C4 w Neo4j potwierdza H1 ({{ ratio("C4", "neo4j") }}), a U1 i U5 pokazują wyraźny koszt. Neo4j nie wykonuje scenariuszy JSON, więc ma 10 komórek zamiast 13 (rozdz. 9).
+
+## Wielkość zmian
+
+Odczyty zyskują na indeksach od kilkudziesięciu procent do kilku rzędów wielkości. Największy zysk mają zapytania, które bez indeksu przeglądają całą tabelę, aby znaleźć kilka wierszy: R4 (iloraz od {{ ratio("R4", "mongo") }} w MongoDB do {{ ratio("R4", "neo4j") }} w Neo4j) i J2 (iloraz poniżej 0,001 we wszystkich trzech SZBD, rozdz. 9). Odczyty, które wybierają większy zakres i potem łączą tabele, zyskują mniej: R5, R6 i R7 mają ilorazy od {{ ratio("R7", "mongo") }} (R7 w MongoDB) do {{ ratio("R6", "pg") }} (R6 w PostgreSQL), poza R5 w PostgreSQL. Zysk jest zwykle największy w MongoDB, w której BASE nie ma do tych danych innej drogi niż przegląd całej kolekcji `orders`.
+
+Zapisy w IDX działają od kilku procent szybciej do kilkudziesięciu procent wolniej. Wyraźny koszt mają zapisy, w których utrzymanie indeksów to duża część pracy: J1 wstawia dla każdego zdarzenia wpisy JX1 i wiele wpisów JX2, a U1 i U5 zmieniają kolumnę indeksu w wierszach wyszukanych po kluczu głównym, w transakcjach po 1000 wierszy. Rezerwacja C3 i nadanie przesyłki C4 to transakcje z wyszukaniem skrytek, kilkoma wstawieniami i zatwierdzeniem na dysk, średnio kilka milisekund każda. Dodatkowe dwa lub trzy wpisy indeksów nie zmieniają ich czasu w sposób mierzalny przy trzech przebiegach. Werdykt *obalona* wynika więc głównie z tych zapisów: kierunek bez progu liczbowego zalicza iloraz nieco poniżej 1 do komórek przeciwnych H1 tak samo, jak iloraz nieco powyżej 1 do komórek zgodnych z H1. Reguły nie zmieniamy po pomiarach, bo ustaliliśmy ją przed pierwszym pomiarem.
 
 ## Wyniki dla rozmiarów S i M
 
@@ -93,5 +127,7 @@ Koszt indeksów uzupełniają czas budowy i rozmiar każdego dodanego indeksu w 
 {{ dataset("h1-S", "Komórki H1 dla rozmiaru S") }}
 
 {{ dataset("h1-M", "Komórki H1 dla rozmiaru M") }}
+
+Przy S i M odczyty również działają w IDX szybciej, z wyjątkiem R5 w PostgreSQL przy M. Przy S plan IDX każdego odczytu używa dodanego indeksu. Zbiór zapisów, w których IDX działa szybciej, zmienia się między rozmiarami, a we wszystkich trzech powtarza się tylko C3 w MySQL. To wspiera odczytanie tych komórek jako rozrzutu pomiaru, a nie trwałego zysku zapisu z indeksu.
 
 [^regulamin-h1]: Politechnika Krakowska, „Zaawansowane technologie baz danych – Regulamin zajęć”, rok akademicki 2026/27, studia niestacjonarne, §3.

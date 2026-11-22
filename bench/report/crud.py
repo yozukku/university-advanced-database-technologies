@@ -8,7 +8,7 @@ from bench.report.dataset import ENGINES, SIZES, loads, markdown, number
 OPS = ("C", "R", "U", "D")
 MODELS = {"pg": "relacyjny", "mysql": "relacyjny", "mongo": "dokumentowy", "neo4j": "grafowy"}
 MODEL_CASES = {"R1": "szczegóły zamówienia", "D2": "usunięcie zamówień z zależnymi", "R8": "zasięg po połączeniach przesyłek"}
-STEPS = ("data", "validate", "load", "verify", "snapshots", "bench", "explain", "qa", "charts", "h1", "report")
+STEPS = ("data", "validate", "load", "verify", "snapshots", "bench", "explain", "qa", "h1", "charts", "report")
 
 
 def order(scenario):
@@ -69,14 +69,18 @@ def models(results):
     return markdown(header, rows, ["---", "---"] + ["--:"] * len(ENGINES))
 
 
+def summed(lines):
+    totals = {}
+    for (size, step, _), seconds in durations(lines).items():
+        totals[size, step] = totals.get((size, step), 0) + seconds
+    return totals
+
+
 def steps(results):
     path = Path(results) / "full-run.jsonl"
     if not path.is_file():
         return None
-    totals = {}
-    for (size, step, _), seconds in durations([json.loads(raw) for raw in path.read_text().splitlines()
-                                                if raw.strip()]).items():
-        totals[size, step] = totals.get((size, step), 0) + seconds
+    totals = summed([json.loads(raw) for raw in path.read_text().splitlines() if raw.strip()])
     sizes = [size for size in SIZES if any(key[0] == size for key in totals)]
     rows = []
     for step in STEPS:
@@ -90,4 +94,19 @@ def steps(results):
     return markdown(["Krok", *(f"{size} [s]" for size in sizes), "Razem [s]"], rows)
 
 
-TABLES = {"scaling": scaling, "models": models, "steps": steps}
+def clean_clone(results):
+    path = Path(results) / "clean-clone.json"
+    if not path.is_file():
+        return None
+    found = json.loads(path.read_text())
+    totals = {}
+    for (_, step), seconds in summed(found["steps"]).items():
+        totals[step] = totals.get(step, 0) + seconds
+    rows = [["Commit", f"`{found['sha'][:12]}`"], ["Data", found["date"]],
+            ["Polecenie", f"`make full SIZES={found['sizes']}`"], ["Kod wyjścia", str(found["exit"])],
+            *([f"`{step}` [s]", number(totals[step], 1)] for step in STEPS if step in totals),
+            ["**Razem [s]**", f"**{number(sum(totals.values()), 1)}**"]]
+    return markdown(["Pozycja", "Wartość"], rows, ["---", "---"])
+
+
+TABLES = {"scaling": scaling, "models": models, "steps": steps, "clean-clone": clean_clone}

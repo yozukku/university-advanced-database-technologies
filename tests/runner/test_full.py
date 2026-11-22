@@ -22,11 +22,11 @@ def test_a_failure_in_the_first_size_fails_the_run_after_a_green_second_size(tmp
         return [stub("data", size, 1 if size == "XS" else 0), stub("load", size), stub("qa", size)]
 
     def finish(directory, out):
-        return [stub("charts", None), stub("h1", None), stub("report", None)]
+        return [stub("h1", None), stub("charts", None), stub("report", None)]
 
     assert full.run(["XS", "S"], None, plan, finish) == 1
     assert calls == [("XS", "data"), ("XS", "qa"), ("S", "data"), ("S", "load"), ("S", "qa"),
-                     (None, "charts"), (None, "h1"), (None, "report")]
+                     (None, "h1"), (None, "charts"), (None, "report")]
     assert [line["exit"] for line in journal(tmp_path / full.JOURNAL)] == [1, 0, 0, 0, 0, 0, 0, 0]
 
 

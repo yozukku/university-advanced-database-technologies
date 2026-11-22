@@ -8,6 +8,7 @@ from statistics import mean
 import matplotlib
 from matplotlib.colors import LinearSegmentedColormap, LogNorm
 from matplotlib.figure import Figure
+from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 from matplotlib.ticker import FuncFormatter, LogLocator, NullFormatter
 
@@ -23,6 +24,7 @@ THIN = " "
 INK = "#52514e"
 TEXT = "#1f1f1e"
 OPS = "CRUD"
+H1_SETS = {"H1-S": "SELECT", "H1-I": "INSERT", "H1-U": "UPDATE"}
 RAMP = LinearSegmentedColormap.from_list("ramp", ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b"])
 
 matplotlib.rcParams.update({
@@ -171,6 +173,47 @@ def heat_map(cells, size):
     return figure, caption
 
 
+def h1_chart(cells, size):
+    sets = {name: sorted({cell["scenario"] for cell in cells if cell["set"] == name},
+                         key=lambda scenario: (scenario[0] == "J", int(scenario[1:]))) for name in H1_SETS}
+    scenarios = [scenario for name in H1_SETS for scenario in sets[name]]
+    engines = [engine for engine in ENGINES if any(cell["engine"] == engine for cell in cells)]
+    width = 0.7 / len(engines)
+    figure = Figure(figsize=(6.3, 3.4), layout="constrained")
+    axes = figure.add_subplot()
+    axes.axhline(1, color=INK, linewidth=0.8)
+    for slot, engine in enumerate(engines):
+        for holds in (True, False):
+            points = [(scenarios.index(cell["scenario"]) + (slot - (len(engines) - 1) / 2) * width, cell["ratio"])
+                      for cell in cells if cell["engine"] == engine and cell["ratio"] and bool(cell["holds"]) == holds]
+            if points:
+                axes.scatter(*zip(*points), s=22, zorder=3, linewidths=1.2, edgecolors=COLOURS[engine],
+                             facecolors=COLOURS[engine] if holds else "white")
+    start = 0
+    for name in H1_SETS:
+        end = start + len(sets[name])
+        if start:
+            axes.axvline(start - 0.5, color="#c9c8c3", linewidth=0.8)
+        axes.text((start + end - 1) / 2, 1.02, f"{name}: {H1_SETS[name]}", transform=axes.get_xaxis_transform(),
+                  ha="center", color=TEXT)
+        start = end
+    axes.set_yscale("log")
+    axes.yaxis.set_major_locator(LogLocator(subs=(1, 2, 5)))
+    axes.yaxis.set_minor_formatter(NullFormatter())
+    axes.yaxis.set_major_formatter(FuncFormatter(lambda value, _: polish(value)))
+    axes.set_ylabel(f"IDX / BASE [×], {LOG_NOTE}")
+    axes.set_xticks(range(len(scenarios)), scenarios)
+    axes.set_xlim(-0.6, len(scenarios) - 0.4)
+    handles = [Line2D([], [], linestyle="", marker="o", markersize=5, color=COLOURS[engine], label=ENGINES[engine])
+               for engine in engines]
+    handles.append(Line2D([], [], linestyle="", marker="o", markersize=5, markerfacecolor="white",
+                          markeredgecolor=INK, label="nie potwierdza H1"))
+    figure.legend(handles=handles, ncols=len(handles), loc="outside lower center")
+    caption = (f"Stosunek średnich czasów IDX / BASE komórek H1 przy rozmiarze {size}; poniżej 1 IDX działa szybciej, "
+               f"pusty znacznik: komórka nie potwierdza H1; {LOG_NOTE}.")
+    return figure, caption
+
+
 def save(figure, path):
     labels = [axes.get_ylabel() for axes in figure.axes if axes.get_ylabel()]
     if not labels or not all(UNIT.search(label) for label in labels):
@@ -191,6 +234,11 @@ def write(results):
     for size in SIZES:
         if any(cell[1] == size and cell[2] == "idx" and cell[3][0] in OPS for cell in cells):
             charts[f"heatmap-{size}"] = heat_map(cells, size)
+    found = Path(results) / "h1.json"
+    if found.is_file():
+        evidence = [cell for cell in json.loads(found.read_text())["cells"] if cell["size"] == "L"]
+        if evidence:
+            charts["h1-L"] = h1_chart(evidence, "L")
     for name, (figure, _) in charts.items():
         save(figure, target / f"{name}.png")
     captions = {name: caption for name, (_, caption) in charts.items()}
