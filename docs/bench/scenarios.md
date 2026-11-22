@@ -1908,9 +1908,11 @@ auditEvents.deleteMany({_id: {$in: :events}})
 
 ## Indeksy BASE
 
-Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń CHECK, walidatorów i wyzwalaczy. Pełne skrypty: `bench/ddl/<silnik>/base/`.
+Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń CHECK, walidatorów i wyzwalaczy.
 
 ### PostgreSQL
+
+Pełne skrypty: `bench/ddl/pg/base/`.
 
 | Indeks | Tabela, kolekcja lub etykieta | Klucze | Rodzaj |
 |---|---|---|---|
@@ -1972,6 +1974,8 @@ Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń 
 | `tariff_no_overlap__ex` | `tariff_` | `size_`, `tstzrange(valid_from_, valid_to_, '[)')` | exclude |
 
 ### MySQL
+
+Pełne skrypty: `bench/ddl/mysql/base/`.
 
 | Indeks | Tabela, kolekcja lub etykieta | Klucze | Rodzaj |
 |---|---|---|---|
@@ -2037,6 +2041,8 @@ Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń 
 
 ### MongoDB
 
+Pełne skrypty: `bench/ddl/mongo/base/`.
+
 | Indeks | Tabela, kolekcja lub etykieta | Klucze | Rodzaj |
 |---|---|---|---|
 | `_id_` | `auditEvents` | `_id` | primary |
@@ -2070,6 +2076,8 @@ Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń 
 | `_id_` | `tariffs` | `_id` | primary |
 
 ### Neo4j
+
+Pełne skrypty: `bench/ddl/neo4j/base/`.
 
 | Indeks | Tabela, kolekcja lub etykieta | Klucze | Rodzaj |
 |---|---|---|---|

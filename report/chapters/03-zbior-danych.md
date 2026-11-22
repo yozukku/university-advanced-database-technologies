@@ -64,7 +64,7 @@ Walidatory `$jsonSchema` sprawdzają typy, pola wymagane i wartości wyliczeniow
 
 ## Model grafowy
 
-Neo4j ma 12 etykiet węzłów i 15 typów relacji (@fig:graf). Zamówienie przesyłki ma dodatkową etykietę `Shipment`, a relacja `SHIPS_TO` łączy punkt nadania z punktem odbioru. Węzeł `AuditEvent` nie ma relacji. Jego pola `actor` i `changes` są tekstem JSON, bo właściwość węzła w Neo4j nie może zawierać zagnieżdżonej mapy.
+Neo4j ma 13 etykiet węzłów i 15 typów relacji (@fig:graf). Etykieta `Shipment` nie tworzy osobnych węzłów: węzeł zamówienia przesyłki ma obie etykiety, `Order` i `Shipment`. Relacja `SHIPS_TO` łączy punkt nadania z punktem odbioru. Węzeł `AuditEvent` nie ma relacji. Jego pola `actor` i `changes` są tekstem JSON, bo właściwość węzła w Neo4j nie może zawierać zagnieżdżonej mapy.
 
 Wiersz tabeli to węzeł, a klucz obcy to relacja. Wyjątkiem jest `shipment_`: jego kolumny są właściwościami węzła zamówienia z etykietą `Shipment`. Relacja `SHIPS_TO` to dane pochodne, jak `shipLinks` w MongoDB. Niektóre węzły przechowują też id powiązanego węzła jako właściwość, np. `Order.customerId`, bo właściwość można indeksować. Weryfikacja sprawdza, że taka właściwość wskazuje ten sam węzeł co relacja.
 

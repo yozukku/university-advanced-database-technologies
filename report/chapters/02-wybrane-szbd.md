@@ -342,7 +342,7 @@ Według producenta Neo4j używają tysiące organizacji, od startupów po firmy 
 
 ## Porównanie czterech SZBD
 
-Tabela zestawia najważniejsze różnice. Każda komórka streszcza opis z tego rozdziału, a źródła podano przy opisach.
+@Tab:porownanie zestawia najważniejsze różnice. Każda komórka streszcza opis z tego rozdziału, a źródła podano przy opisach.
 
 | Cecha | PostgreSQL 17 | MySQL 8.4 LTS | MongoDB 8.0 | Neo4j 5.26 Community |
 |---|---|---|---|---|
@@ -359,4 +359,4 @@ Tabela zestawia najważniejsze różnice. Każda komórka streszcza opis z tego 
 | JSON | jsonb z indeksami | JSON z indeksem funkcyjnym i wielowartościowym | natywne dokumenty | brak map we właściwościach |
 | Rola w projekcie | pomiary i aplikacja Bagażomat | pomiary | pomiary | pomiary bez scenariuszy JSON |
 
-: Porównanie czterech SZBD. Źródło: opracowanie własne na podstawie źródeł podanych w tym rozdziale.
+: Porównanie czterech SZBD. Źródło: opracowanie własne na podstawie źródeł podanych w tym rozdziale. {#tab:porownanie}

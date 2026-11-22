@@ -10,6 +10,7 @@ CHAPTERS = Path("report/chapters")
 FOOTNOTE = re.compile(r"^\[\^[^\]]+\]:\s*(.+?)\s*$", re.MULTILINE)
 CONFIGS = ("base", "idx")
 CATALOGUE_START = "## Scenariusze podstawowe"
+HEADING = re.compile(r"^(#{2,3}) (.+)$")
 OPS = "CRUDJ"
 
 
@@ -84,8 +85,17 @@ def full(results, size, config):
 
 
 def catalogue():
-    text = CATALOGUE.read_text(encoding="utf-8")
-    return CATALOGUE_START + text.split(CATALOGUE_START, 1)[1]
+    text = CATALOGUE_START + CATALOGUE.read_text(encoding="utf-8").split(CATALOGUE_START, 1)[1]
+    lines, titles = [], []
+    for line in [*text.splitlines(), ""]:
+        heading = HEADING.match(line)
+        if heading:
+            titles[len(heading.group(1)) - 2:] = [heading.group(2)]
+        if lines and lines[-1].startswith("|") and not line.startswith("|"):
+            title = ": ".join(titles)
+            lines += ["", f": {title} {{#tab:{re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')}}}"]
+        lines.append(line)
+    return "\n".join(lines)
 
 
 def sources():

@@ -125,9 +125,9 @@ def render(registry):
         lines += section(plan, scenario)
     lines += ["## Indeksy BASE", "",
               "Indeksy fizyczne konfiguracji BASE z `docs/bench/indexes.yaml`, bez ograniczeń CHECK, walidatorów "
-              "i wyzwalaczy. Pełne skrypty: `bench/ddl/<silnik>/base/`.", ""]
+              "i wyzwalaczy.", ""]
     for engine in ENGINES:
-        lines += [f"### {NAMES[engine]}", "",
+        lines += [f"### {NAMES[engine]}", "", f"Pełne skrypty: `bench/ddl/{engine}/base/`.", "",
                   *table(("Indeks", "Tabela, kolekcja lub etykieta", "Klucze", "Rodzaj"), base_indexes(indexes, engine)),
                   ""]
     lines += ["## Indeksy IDX", "",

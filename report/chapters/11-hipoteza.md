@@ -13,7 +13,7 @@ Hipoteza jest jakościowa. Słowu „znacząco” nie przypisujemy progu liczbow
 H1 sprawdzamy porównaniem dwóch konfiguracji indeksów na tych samych danych (rozdz. 8):
 
 - BASE to schemat w zaprojektowanej postaci: klucze główne i obce, ograniczenia unikalności i wykluczające, indeksy, które je obsługują, oraz własne indeksy schematu. MongoDB i Neo4j mają ich logiczne odpowiedniki.
-- IDX to BASE i sześć dodanych indeksów logicznych: cztery indeksy pomocnicze IX1–IX4, po jednym dla każdego złożonego odczytu z pomiarem przed i po, oraz dwa indeksy JSON, JX1 (osobno dla e-maila i telefonu) i JX2.
+- IDX to BASE i sześć dodanych indeksów logicznych: cztery indeksy pomocnicze IX1–IX4, po jednym dla każdego złożonego odczytu z pomiarem przed i po, oraz dwa indeksy JSON, JX1 (osobno dla e-maila i telefonu) i JX2. @Tab:idx-zestaw podaje ich klucze oraz odczyty i zapisy, których dotyczą.
 
 | Indeks | Klucz | Obsługuje odczyt | Utrzymują zapisy |
 |---|---|---|---|
@@ -24,17 +24,21 @@ H1 sprawdzamy porównaniem dwóch konfiguracji indeksów na tych samych danych (
 | JX1 | e-mail i telefon w migawce aktora (`audit_event_.actor_`) | J2 | J1, J5 |
 | JX2 | nazwy pól i nowe wartości w liście zmian (`audit_event_.changes_`) | J4 | J1 |
 
+: Indeksy dodane w konfiguracji IDX {#tab:idx-zestaw}
+
 Ten sam logiczny zestaw indeksów istnieje we wszystkich czterech SZBD. Wyjątkiem są JX1 i JX2 w Neo4j: Neo4j przechowuje `actor_` i `changes_` jako tekst JSON i nie indeksuje ich ścieżek (rozdz. 9). Polecenia DDL każdego SZBD zawiera dodatek C.
 
 ## Zbiory scenariuszy
 
-H1 obejmuje trzy zbiory scenariuszy z katalogu (rozdz. 6). Każdy scenariusz z tych zbiorów mierzymy w konfiguracjach BASE i IDX.
+H1 obejmuje trzy zbiory scenariuszy z katalogu (rozdz. 6), zestawione w @tab:h1-zbiory. Każdy scenariusz z tych zbiorów mierzymy w konfiguracjach BASE i IDX.
 
 | Zbiór | Operacja | Scenariusze | Związek z dodanymi indeksami |
 |---|---|---|---|
 | H1-S | SELECT | R4, R5, R6, R7, J2, J4 | każdy odczyt ma dodany indeks, który może go obsłużyć |
 | H1-I | INSERT | C2, C3, C4, C6, J1 | każdy zapis wstawia wpisy co najmniej jednego dodanego indeksu |
 | H1-U | UPDATE | U1, U5 | zapis znajduje wiersze po kluczu głównym i zmienia kolumnę dodanego indeksu: U1 status zamówienia (IX2), U5 telefon odbiorcy (IX1) |
+
+: Zbiory scenariuszy hipotezy H1 {#tab:h1-zbiory}
 
 W PostgreSQL, MySQL i MongoDB zbiory liczą 13 scenariuszy. Neo4j nie wykonuje scenariuszy JSON, więc ma 10 scenariuszy bez J1, J2 i J4.
 

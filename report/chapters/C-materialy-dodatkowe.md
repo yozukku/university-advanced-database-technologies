@@ -4,4 +4,6 @@ Dodatek zawiera treść wszystkich zapytań każdego SZBD dla 32 scenariuszy (ro
 
 Oznaczenia w zapytaniach: `%(nazwa)s` i `%s` to parametry SQL, `$nazwa` to parametry Cypher, a `:nazwa` to parametry wywołań MongoDB. `{marks}` i `{rows}` to listy znaczników, które adapter MySQL wstawia dla partii. `<…>` oznacza wartość, którą klient wylicza w mierzonej jednostce z wyniku poprzedniego kroku, albo listę pól.
 
+Tabele od @tab:indeksy-base-postgresql do @tab:indeksy-base-neo4j podają indeksy konfiguracji BASE każdego SZBD, a @tab:indeksy-idx indeksy dodane w konfiguracji IDX.
+
 {{ insert("catalogue") }}

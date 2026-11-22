@@ -2,7 +2,7 @@ FROM python:3.13-slim-trixie@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d981
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        pandoc libreoffice-writer-nogui libreoffice-impress-nogui python3-uno \
+        git pandoc poppler-utils libreoffice-writer-nogui libreoffice-impress-nogui python3-uno \
         fonts-crosextra-carlito fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*
 

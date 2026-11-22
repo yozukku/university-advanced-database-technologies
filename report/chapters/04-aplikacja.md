@@ -51,6 +51,10 @@ Aplikacja testowa działa w Pythonie 3.13, a zależności instaluje uv 0.13.8. T
 
 @Tab:biblioteki zestawia wszystkie bezpośrednie zależności z plików `pyproject.toml`, `app/backend/pom.xml`, `app/frontend/package.json` i `e2e/package.json`. Wersje Pythona pochodzą z `uv.lock`, a wersje npm z `package-lock.json`. Maven nie ma pliku blokady: wersje zależności bez numeru w `pom.xml` ustala Spring Boot 4.1.3 (`spring-boot-starter-parent`), a tabela podaje wersje rozwiązane przez Maven.
 
+```{=openxml}
+<w:p><w:pPr><w:pageBreakBefore/><w:spacing w:before="0" w:after="0" w:line="20" w:lineRule="exact"/></w:pPr></w:p>
+```
+
 | Plik | Biblioteka | Wersja | Zastosowanie |
 |---|---|---|---|
 | `pyproject.toml` | docker | 7.1.0 | Sterowanie kontenerami baz i migawkami |
