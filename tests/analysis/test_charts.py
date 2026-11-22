@@ -57,5 +57,5 @@ def test_the_chart_of_a_ba_scenario_reads_exactly_the_three_current_idx_lines(tm
     figure, _ = charts.scenario_chart(cells, "R4")
     assert heights(figure) == [20]
     captions = charts.write(tmp_path)
-    assert sorted(captions) == ["R4", "R4-ba"]
+    assert sorted(captions) == ["R4", "R4-ba", "heatmap-S"]
     assert (tmp_path / "charts" / "R4.png").is_file() and (tmp_path / "charts" / "R4-ba.png").is_file()

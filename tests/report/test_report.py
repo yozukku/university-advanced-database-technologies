@@ -52,7 +52,7 @@ def test_markers_render_missing_inputs_as_brak_danych(tmp_path):
 
 
 def test_markers_include_existing_inputs():
-    text = document.resolve('{{ fig("R1", "Podpis") }}\n{{ table("R-S", "Tabela") }}', FIXTURE, "x.md")
+    text = document.resolve('{{ fig("R1", "Podpis") }}\n{{ table("R", "Tabela") }}', FIXTURE, "x.md")
     assert f"![](<{FIXTURE / 'charts' / 'R1.png'}>)" in text
     assert "| R1 | 1,2 |" in text and MISSING not in text
 
@@ -65,8 +65,8 @@ def test_unresolved_markers_fail(marker, tmp_path):
 
 def test_numbering_of_sections_captions_and_references(tmp_path):
     markdown = document.resolve("\n".join([
-        "# Wyniki", "", "Na @fig:R1 i @Tab:R-S widać [@fig:R1; @tab:inna].", "", "## Odczyt", "", "### R1", "",
-        '{{ fig("R1", "Wykres") }}', "", '{{ table("R-S", "Tabela") }}', "", "| a |", "|---|", "| 1 |", "",
+        "# Wyniki", "", "Na @fig:R1 i @Tab:R widać [@fig:R1; @tab:inna].", "", "## Odczyt", "", "### R1", "",
+        '{{ fig("R1", "Wykres") }}', "", '{{ table("R", "Tabela") }}', "", "| a |", "|---|", "| 1 |", "",
         ": Inna {#tab:inna}", "", "## Zapis {-}", "", "## Usuwanie"]), FIXTURE, "x.md")
     found = strings(parse(markdown))
     assert {"3.", "3.1.", "3.1.1.", "3.2.", "Rys.\u00a03.1.", "Tab.\u00a03.1.", "Tab.\u00a03.2."} <= set(found)
@@ -94,13 +94,14 @@ def test_report_builds_from_s_only_results(tmp_path):
     assert any(text.startswith("7. Wyniki CRUD") for text in toc)
     assert any(text.startswith("13. Harmonogram i podział prac") for text in toc)
     assert any(text.startswith("Rys.\u00a07.1. Czas odczytu R1") for text in texts)
-    assert any(text.startswith("Tab.\u00a07.1. Średnie czasy odczytów") for text in texts)
+    assert any(text.startswith("Tab.\u00a07.2. Średnie czasy scenariuszy odczytu") for text in texts)
     assert any(text.startswith("Rys.\u00a03.1. Diagram ERD: przegląd 13 tabel") for text in texts)
     assert any(text.startswith("Rys.\u00a03.10. Model grafowy w Neo4j") for text in texts)
     assert any(text.startswith("Tab.\u00a03.1. Liczba rekordów") for text in texts)
     assert "500\u00a0000" in texts and "`" not in "".join(texts)
     assert "R2" in texts and len(media) == 15
-    assert not [text for text in texts if MISSING in text or "{{" in text or "@fig:" in text or "@tab:" in text]
+    assert texts.count(MISSING) == 7
+    assert not [text for text in texts if "{{" in text or "@fig:" in text or "@tab:" in text]
     assert (tmp_path / "sprawozdanie.pdf").read_bytes().startswith(b"%PDF")
     assert opens(tmp_path / "sprawozdanie.docx", tmp_path)
 
@@ -108,7 +109,7 @@ def test_report_builds_from_s_only_results(tmp_path):
 def test_report_without_results_renders_brak_danych(tmp_path):
     document.build(tmp_path / "missing", tmp_path)
     paragraphs, _ = docx_text(tmp_path / "sprawozdanie.docx")
-    assert [text for _, text in paragraphs].count(MISSING) == 6
+    assert [text for _, text in paragraphs].count(MISSING) == 13
 
 
 def test_presentation_opens(tmp_path):

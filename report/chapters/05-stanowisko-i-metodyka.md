@@ -119,5 +119,6 @@ Wykresy rysuje aplikacja testowa (biblioteka matplotlib, PNG 300 dpi) z `results
 - liczby mają przecinek dziesiętny i spację tysięcy;
 - wykres scenariusza pokazuje konfigurację IDX: grupy słupków według rozmiaru, słupek na SZBD i wąsy min–max;
 - wykres pary BASE / IDX ma panel na SZBD z parą słupków dla każdego rozmiaru i ilorazem IDX / BASE nad parą. Takie wykresy są tylko w rozdz. 8, 9 i 11, a pozostałe wykresy i tabele porównawcze pokazują IDX.
+- mapa cieplna (rozdz. 7) ma wiersz na scenariusz podstawowy i kolumnę na SZBD; komórka to średni czas w IDX podzielony przez czas najszybszego SZBD w scenariuszu, a kolor jednego odcienia ciemnieje na skali logarytmicznej.
 
 Zasada osi logarytmicznej: wykres scenariusza ma oś logarytmiczną, gdy największa średnia jest co najmniej 50 razy większa od najmniejszej. Wykres pary BASE / IDX ma zawsze oś logarytmiczną. Oś logarytmiczna ma dopisek „skala logarytmiczna”, a podpis takiego wykresu w sprawozdaniu zawiera te same słowa.

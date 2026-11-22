@@ -45,5 +45,8 @@
   "U4": "U4: średni czas trzech przebiegów w konfiguracji IDX według SZBD i rozmiaru danych, wąsy: min–max.",
   "U5": "U5: średni czas trzech przebiegów w konfiguracji IDX według SZBD i rozmiaru danych, wąsy: min–max.",
   "U5-ba": "U5: średni czas trzech przebiegów w konfiguracjach BASE i IDX, nad parą stosunek IDX / BASE; skala logarytmiczna.",
-  "U6": "U6: średni czas trzech przebiegów w konfiguracji IDX według SZBD i rozmiaru danych, wąsy: min–max; skala logarytmiczna."
+  "U6": "U6: średni czas trzech przebiegów w konfiguracji IDX według SZBD i rozmiaru danych, wąsy: min–max; skala logarytmiczna.",
+  "heatmap-S": "Średni czas scenariuszy CRUD w konfiguracji IDX przy rozmiarze S jako krotność czasu najszybszego SZBD w danym scenariuszu; skala logarytmiczna.",
+  "heatmap-M": "Średni czas scenariuszy CRUD w konfiguracji IDX przy rozmiarze M jako krotność czasu najszybszego SZBD w danym scenariuszu; skala logarytmiczna.",
+  "heatmap-L": "Średni czas scenariuszy CRUD w konfiguracji IDX przy rozmiarze L jako krotność czasu najszybszego SZBD w danym scenariuszu; skala logarytmiczna."
 }

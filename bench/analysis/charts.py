@@ -6,6 +6,7 @@ from pathlib import Path
 from statistics import mean
 
 import matplotlib
+from matplotlib.colors import LinearSegmentedColormap, LogNorm
 from matplotlib.figure import Figure
 from matplotlib.patches import Patch
 from matplotlib.ticker import FuncFormatter, LogLocator, NullFormatter
@@ -17,10 +18,12 @@ CELL = ("engine", "size", "config", "scenario")
 RUNS = 3
 LOG_RATIO = 50
 LOG_NOTE = "skala logarytmiczna"
-UNIT = re.compile(r"\[(ms|s)\]")
+UNIT = re.compile(r"\[(ms|s|×)\]")
 THIN = " "
 INK = "#52514e"
 TEXT = "#1f1f1e"
+OPS = "CRUD"
+RAMP = LinearSegmentedColormap.from_list("ramp", ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b"])
 
 matplotlib.rcParams.update({
     "font.size": 8, "axes.edgecolor": "#8a8984", "axes.labelcolor": TEXT, "xtick.color": INK,
@@ -130,6 +133,44 @@ def pair_chart(cells, scenario):
     return figure, caption
 
 
+def heat_map(cells, size):
+    found = {(scenario, engine): mean(times) for (engine, kind_size, config, scenario), times in cells.items()
+             if kind_size == size and config == "idx" and scenario[0] in OPS}
+    scenarios = sorted({scenario for scenario, _ in found}, key=lambda name: (OPS.index(name[0]), int(name[1:])))
+    engines = [engine for engine in ENGINES if any(key[1] == engine for key in found)]
+    fastest = {scenario: min(value for key, value in found.items() if key[0] == scenario) for scenario in scenarios}
+    ratios = [[found[scenario, engine] / fastest[scenario] if (scenario, engine) in found else float("nan")
+               for engine in engines] for scenario in scenarios]
+    top = max(max(value for value in row if value == value) for row in ratios)
+    norm = LogNorm(1, max(top, 2))
+    figure = Figure(figsize=(5.2, 0.22 * len(scenarios) + 1.1), layout="constrained")
+    axes = figure.add_subplot()
+    image = axes.imshow(ratios, cmap=RAMP, norm=norm, aspect="auto")
+    for row, values in enumerate(ratios):
+        for column, value in enumerate(values):
+            if value == value:
+                axes.text(column, row, "×" + polish(float(f"{value:.2g}")), ha="center", va="center", fontsize=7,
+                          color="white" if norm(value) > 0.5 else TEXT)
+    for row in range(1, len(scenarios)):
+        if scenarios[row][0] != scenarios[row - 1][0]:
+            axes.axhline(row - 0.5, color="white", linewidth=2)
+    axes.set_xticks(range(len(engines)), [ENGINES[engine] for engine in engines])
+    axes.set_yticks(range(len(scenarios)), scenarios)
+    axes.xaxis.tick_top()
+    axes.tick_params(length=0)
+    axes.grid(False)
+    for spine in axes.spines.values():
+        spine.set_visible(False)
+    bar = figure.colorbar(image, ax=axes, shrink=0.6)
+    bar.set_label("Czas względem najszybszego SZBD [×], skala logarytmiczna")
+    bar.ax.yaxis.set_major_locator(LogLocator(subs=(1, 2, 5)))
+    bar.ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _: polish(value)))
+    bar.ax.yaxis.set_minor_formatter(NullFormatter())
+    caption = (f"Średni czas scenariuszy CRUD w konfiguracji IDX przy rozmiarze {size} jako krotność czasu "
+               f"najszybszego SZBD w danym scenariuszu; {LOG_NOTE}.")
+    return figure, caption
+
+
 def save(figure, path):
     labels = [axes.get_ylabel() for axes in figure.axes if axes.get_ylabel()]
     if not labels or not all(UNIT.search(label) for label in labels):
@@ -147,6 +188,9 @@ def write(results):
             charts[scenario] = scenario_chart(cells, scenario)
         if series(cells, scenario, "base"):
             charts[f"{scenario}-ba"] = pair_chart(cells, scenario)
+    for size in SIZES:
+        if any(cell[1] == size and cell[2] == "idx" and cell[3][0] in OPS for cell in cells):
+            charts[f"heatmap-{size}"] = heat_map(cells, size)
     for name, (figure, _) in charts.items():
         save(figure, target / f"{name}.png")
     captions = {name: caption for name, (_, caption) in charts.items()}

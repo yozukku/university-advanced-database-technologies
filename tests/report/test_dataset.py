@@ -39,7 +39,7 @@ def test_volume_lists_present_sizes_with_exact_totals(tmp_path):
     load_file(tmp_path, "S", 500_000)
     (tmp_path / "load" / "L.json").write_text(json.dumps({"engines": {"pg": {"load_seconds": 1}}}))
     table = rows(dataset.volume(tmp_path))
-    assert table[0] == ["Tabela", "S", "M"]
+    assert table[0] == ["Tabela", "S [rekordy]", "M [rekordy]"]
     assert [row[0] for row in table[2:-1]] == [f"`{name}`" for name in dataset.tables()]
     assert len(table[2:-1]) == 13 and table[2][0] == "`lockermat_`" and table[-2][0] == "`audit_event_`"
     assert table[-1] == ["**Razem**", "**500 000**", "**1 000 000**"]

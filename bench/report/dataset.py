@@ -57,7 +57,7 @@ def volume(results):
             for table in tables()]
     totals = [sum(data["canonical"]["tables"][table]["rows"] for table in tables()) for data in found.values()]
     rows.append(["**Razem**", *(f"**{number(total)}**" for total in totals)])
-    return markdown(["Tabela", *found], rows)
+    return markdown(["Tabela", *(f"{size} [rekordy]" for size in found)], rows)
 
 
 def agreement(data, table):
