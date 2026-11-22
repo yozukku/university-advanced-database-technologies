@@ -72,6 +72,26 @@ Werdykt ogólny brzmi *potwierdzona* tylko wtedy, gdy werdykty wszystkich cztere
 
 Werdykt wymaga kompletnych danych. Każda komórka H1 dla rozmiaru L musi mieć pomiary BASE i IDX, a każda komórka H1-S także plany BASE i IDX. Bez tego werdykt brzmi „weryfikacja po pomiarach L”. Wyniki S i M pokazujemy w tabeli dowodów z ilorazem i kierunkiem, a rozstrzygnięcie opiera się na rozmiarze L. Średnie, ilorazy, kierunki, kontrolę planów i werdykty aplikacja testowa zapisuje w `results/h1.json`, a ten rozdział cytuje je bez zmian.
 
-Koszt indeksów uzupełniają czas budowy i rozmiar każdego dodanego indeksu w każdym SZBD (rozdz. 8). Wyjątki od oczekiwanego kierunku, na przykład zapis, w którym koszt utrzymania indeksu ginie w koszcie zatwierdzenia transakcji, omawiamy jako część analizy.
+Koszt indeksów uzupełniają czas budowy i rozmiar każdego dodanego indeksu w każdym SZBD (rozdz. 8 i 9). Wyjątki od oczekiwanego kierunku, na przykład zapis, w którym koszt utrzymania indeksu ginie w koszcie zatwierdzenia transakcji, omawiamy jako część analizy.
+
+## Wyniki dla rozmiaru L
+
+@Tab:h1-L zawiera wszystkie komórki H1 dla rozmiaru L w postaci z `results/h1.json`: średnie BASE i IDX, iloraz IDX / BASE, kierunek zmiany, kontrolę planu odczytu i wynik reguły rozstrzygnięcia. Kontrola planu dotyczy tylko odczytów, więc zapisy mają w tej kolumnie „—”. Wykresy par BASE i IDX zawierają rozdz. 8 i 9.
+
+{{ dataset("h1-L", "Komórki H1 dla rozmiaru L") }}
+
+## Werdykt
+
+@Tab:h1-verdicts podaje werdykt dla każdego SZBD i werdykt ogólny z `results/h1.json` oraz komórki, które nie potwierdzają hipotezy.
+
+{{ dataset("h1-verdicts", "Werdykty hipotezy H1") }}
+
+## Wyniki dla rozmiarów S i M
+
+@Tab:h1-S i @tab:h1-M pokazują te same komórki dla rozmiarów S i M. Nie wchodzą one do werdyktu. Dla rozmiaru M nie zapisujemy planów, więc odczyty nie mają kontroli planu ani wyniku reguły.
+
+{{ dataset("h1-S", "Komórki H1 dla rozmiaru S") }}
+
+{{ dataset("h1-M", "Komórki H1 dla rozmiaru M") }}
 
 [^regulamin-h1]: Politechnika Krakowska, „Zaawansowane technologie baz danych – Regulamin zajęć”, rok akademicki 2026/27, studia niestacjonarne, §3.
