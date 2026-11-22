@@ -5,7 +5,9 @@ from pathlib import Path
 
 import yaml
 from pptx import Presentation
-from pptx.util import Inches, Pt
+from pptx.dml.color import RGBColor
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.util import Emu, Inches, Pt
 
 from bench.report.dataset import number
 from bench.report.document import MISSING, ReportError, resolve
@@ -18,7 +20,10 @@ GAP = Inches(0.2)
 NOTE = Inches(1.0)
 TITLE, CONTENT, TITLE_ONLY = 0, 1, 5
 MAX_TITLE, MAX_BULLETS = 60, 6
-BULLET = 24
+BULLET = 26
+NUMBER = Inches(1.0)
+FOOTER_TOP, FOOTER_HEIGHT, FOOTER_RIGHT = Emu(6450000), Emu(300000), Emu(11582400)
+GREY = RGBColor(0x7F, 0x7F, 0x7F)
 OVERVIEW = re.compile(r"^\| ([CRUDJ]\d+) \| [CRUD] \| (.+?) \| (.+?) \| .+ \|$", re.MULTILINE)
 HEADING = re.compile(r"^### ([CRUDJ]\d+) — (.+)$", re.MULTILINE)
 
@@ -85,9 +90,20 @@ def text(slide, value, left, top, width, height, size):
     box.text_frame.paragraphs[0].runs[0].font.size = Pt(size)
 
 
+def page(slide, position):
+    box = slide.shapes.add_textbox(FOOTER_RIGHT - NUMBER, FOOTER_TOP, NUMBER, FOOTER_HEIGHT)
+    box.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
+    box.text_frame.margin_top = box.text_frame.margin_bottom = box.text_frame.margin_right = 0
+    paragraph = box.text_frame.paragraphs[0]
+    paragraph.alignment = PP_ALIGN.RIGHT
+    paragraph.text = str(position)
+    paragraph.runs[0].font.size = Pt(12)
+    paragraph.runs[0].font.color.rgb = GREY
+
+
 def pictures(deck, slide, item, results):
     title = slide.shapes.title
-    top = title.top + title.height
+    top = title.top + title.height + GAP
     width = deck.slide_width - 2 * MARGIN
     if "note" in item:
         text(slide, item["note"], MARGIN, top, width, NOTE, 18)
@@ -119,6 +135,7 @@ def build(results, target):
             slide = deck.slides.add_slide(deck.slide_layouts[TITLE_ONLY])
             slide.shapes.title.text = item["title"]
             pictures(deck, slide, item, results)
+            page(slide, position)
             continue
         slide = deck.slides.add_slide(deck.slide_layouts[CONTENT])
         slide.shapes.title.text = item["title"]
@@ -129,4 +146,5 @@ def build(results, target):
             body.add_paragraph().text = bullet
         for paragraph in body.paragraphs:
             paragraph.runs[0].font.size = Pt(BULLET)
+        page(slide, position)
     deck.save(str(target))

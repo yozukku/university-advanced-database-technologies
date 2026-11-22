@@ -10,7 +10,7 @@ Rozdział pokazuje wyniki 26 scenariuszy podstawowych w konfiguracji IDX, w któ
 
 {{ table("C", "Średnie czasy scenariuszy tworzenia (C) w konfiguracji IDX") }}
 
-Scenariusze C1–C5 wykonują stałą liczbę operacji, więc ich czasy prawie nie zależą od rozmiaru danych (@tab:C). C6 nalicza opłaty dla wszystkich zaległych rezerwacji, a ich liczba rośnie razem ze zbiorem danych. Neo4j jest najwolniejszy we wszystkich scenariuszach tworzenia. W C1 przy rozmiarze L potrzebuje {{ mean("C1", "neo4j", "idx") }} ms, a PostgreSQL {{ mean("C1", "pg", "idx") }} ms. Czas każdego zapisu w Neo4j obejmuje pierwszą kompilację zapytań Cypher na świeżo uruchomionej JVM (rozdz. 5).
+Scenariusze C1–C5 wykonują stałą liczbę operacji, więc ich czasy nie rosną z rozmiarem danych (@tab:C); wahania między rozmiarami omawia podrozdz. „Zapisy w wielu krótkich transakcjach”. C6 nalicza opłaty dla wszystkich zaległych rezerwacji, a ich liczba rośnie razem ze zbiorem danych. Neo4j jest najwolniejszy we wszystkich scenariuszach tworzenia. W C1 przy rozmiarze L potrzebuje {{ mean("C1", "neo4j", "idx") }} ms, a PostgreSQL {{ mean("C1", "pg", "idx") }} ms. Czas każdego zapisu w Neo4j obejmuje pierwszą kompilację zapytań Cypher na świeżo uruchomionej JVM (rozdz. 5).
 
 W C2 MongoDB potrzebuje {{ mean("C2", "mongo", "idx") }} ms, a PostgreSQL {{ mean("C2", "pg", "idx") }} ms. W modelu dokumentowym wpis dziennika drzwi jest osadzony w dokumencie zamówienia, w tablicy otwarć kodu dostępu (rozdz. 3). C2 nie wstawia więc w MongoDB małych wierszy, tylko zmienia dokumenty zamówień operacją `$push` z filtrami tablic.
 
@@ -28,13 +28,13 @@ PostgreSQL jest najszybszy w siedmiu z ośmiu odczytów (@tab:R). Wyjątkiem jes
 
 {{ table("U", "Średnie czasy scenariuszy aktualizacji (U) w konfiguracji IDX") }}
 
-W aktualizacjach żaden SZBD nie wygrywa we wszystkich scenariuszach (@tab:U). Przy rozmiarze L MySQL jest najszybszy w U1, U5 i U6, MongoDB w U3 i U4, a PostgreSQL w U2. U2 to 1000 krótkich transakcji, jedna na użycie kodu, więc jego czas prawie nie zależy od rozmiaru danych. U3 i U6 zmieniają wszystkie wiersze spełniające warunek daty, a ich liczba rośnie z rozmiarem danych. Przypadek U6 w PostgreSQL omawiamy niżej.
+W aktualizacjach żaden SZBD nie wygrywa we wszystkich scenariuszach (@tab:U). Przy rozmiarze L MySQL jest najszybszy w U1, U5 i U6, MongoDB w U3 i U4, a PostgreSQL w U2. U2 to 1000 krótkich transakcji, jedna na użycie kodu, więc jego czas nie rośnie z rozmiarem danych, choć różni się między sesjami pomiarowymi. Kolejność SZBD w U2 omawia podrozdz. „Zapisy w wielu krótkich transakcjach”. U3 i U6 zmieniają wszystkie wiersze spełniające warunek daty, a ich liczba rośnie z rozmiarem danych. Przypadek U6 w PostgreSQL omawiamy niżej.
 
 ### Usuwanie (D)
 
 {{ table("D", "Średnie czasy scenariuszy usuwania (D) w konfiguracji IDX") }}
 
-Przy rozmiarze L PostgreSQL jest najszybszy w D1, D2, D3, D4 i D6, a MongoDB w D5 (@tab:D). W D4 MongoDB potrzebuje {{ mean("D4", "mongo", "idx") }} ms, a PostgreSQL {{ mean("D4", "pg", "idx") }} ms. D4 szuka klientów bez zamówień. W MongoDB robi to etap `$lookup` z kolekcji `customers` do `orders`, czyli osobne wyszukanie zamówień dla każdego klienta. PostgreSQL i MySQL wykonują jedno zapytanie z antyzłączeniem `not exists`.
+Przy rozmiarze L PostgreSQL jest najszybszy w D1, D2, D3, D4 i D6, a MongoDB w D5 (@tab:D). Kolejność w D2 nie jest pewna (podrozdz. „Zapisy w wielu krótkich transakcjach”). W D4 MongoDB potrzebuje {{ mean("D4", "mongo", "idx") }} ms, a PostgreSQL {{ mean("D4", "pg", "idx") }} ms. D4 szuka klientów bez zamówień. W MongoDB robi to etap `$lookup` z kolekcji `customers` do `orders`, czyli osobne wyszukanie zamówień dla każdego klienta. PostgreSQL i MySQL wykonują jedno zapytanie z antyzłączeniem `not exists`.
 
 ## Porównanie SZBD
 
@@ -42,7 +42,7 @@ Przy rozmiarze L PostgreSQL jest najszybszy w D1, D2, D3, D4 i D6, a MongoDB w D
 
 {{ fig("heatmap-L", "Czas scenariuszy CRUD przy rozmiarze L względem najszybszego SZBD w scenariuszu, konfiguracja IDX; skala logarytmiczna") }}
 
-PostgreSQL ma wartość ×1 w większości scenariuszy podstawowych, w tym we wszystkich odczytach poza R8. MySQL jest najszybszy w C3, C4, U1, U5 i U6, przy czym w C4 jego czas prawie równa się czasowi PostgreSQL. MongoDB jest najszybszy w R8, U3, U4 i D5. Neo4j nie jest najszybszy w żadnym scenariuszu podstawowym. Najmniejsze krotności we wszystkich SZBD mają zapisy w wielu krótkich transakcjach: U2, C3, C4 i D2. Najciemniejsze komórki to R3 w Neo4j i MySQL oraz D4 w MongoDB.
+PostgreSQL ma wartość ×1 w większości scenariuszy podstawowych, w tym we wszystkich odczytach poza R8. MySQL jest najszybszy w C3, C4, U1, U5 i U6, przy czym w C4 jego czas prawie równa się czasowi PostgreSQL. MongoDB jest najszybszy w R8, U3, U4 i D5. Neo4j nie jest najszybszy w żadnym scenariuszu podstawowym. Najmniejsze krotności we wszystkich SZBD mają zapisy w wielu krótkich transakcjach: U2, C3, C4 i D2. Część różnic w tych czterech scenariuszach leży w granicach zmienności między sesjami pomiarowymi, więc kolejność SZBD jest w nich mniej pewna niż w pozostałych (podrozdz. „Zapisy w wielu krótkich transakcjach”). Najciemniejsze komórki to R3 w Neo4j i MySQL oraz D4 w MongoDB.
 
 ## Wybrane przypadki
 
@@ -64,9 +64,19 @@ MongoDB i Neo4j czytają gotowe połączenia między punktami: kolekcję `shipLi
 
 ### Zapisy w wielu krótkich transakcjach (C3, C4, U2, D2)
 
-C3, C4, U2 i D2 wykonują po 1000 transakcji, każda z trwałym zatwierdzeniem (rozdz. 5). W tych scenariuszach różnice między SZBD są najmniejsze w całym zestawie (@fig:heatmap-L), a czasy prawie nie zależą od rozmiaru danych (@tab:scaling). Każda transakcja dotyka kilku wierszy znalezionych przez indeksy, więc jej koszt nie rośnie z liczbą rekordów. SZBD różnią się liczbą wywołań w transakcji (rozdz. 6). W PostgreSQL rezerwacja C3 to jedno polecenie z wyrażeniami `with`, w MySQL pięć poleceń, w MongoDB sześć wywołań, a w Neo4j jedno zapytanie Cypher. Mimo to MySQL jest w C3 szybszy od PostgreSQL: {{ mean("C3", "mysql", "idx") }} ms wobec {{ mean("C3", "pg", "idx") }} ms (@fig:C3). Sama liczba wywołań nie wyjaśnia więc kolejności SZBD.
+C3, C4, U2 i D2 wykonują po 1000 transakcji, każda z trwałym zatwierdzeniem (rozdz. 5). W tych scenariuszach różnice między SZBD są najmniejsze w całym zestawie (@fig:heatmap-L), a czasy nie rosną z rozmiarem danych (@tab:scaling). Każda transakcja dotyka kilku wierszy znalezionych przez indeksy, więc jej koszt nie rośnie z liczbą rekordów. SZBD różnią się liczbą wywołań w transakcji (dodatek C). W PostgreSQL rezerwacja C3 to jedno polecenie z wyrażeniami `with`, w MySQL pięć poleceń, w MongoDB sześć wywołań, a w Neo4j jedno zapytanie Cypher. Mimo to przy rozmiarze L MySQL ma w C3 krótszy czas niż PostgreSQL: {{ mean("C3", "mysql", "idx") }} ms wobec {{ mean("C3", "pg", "idx") }} ms (@fig:C3). Sama liczba wywołań nie wyznacza więc kolejności SZBD.
 
 {{ fig("C3", "Czas zapisu C3 (rezerwacja skrytki, 1000 transakcji) w czterech SZBD") }}
+
+Czasy tych scenariuszy różnią się jednak między rozmiarami niemonotonicznie. U2 w MySQL trwa {{ mean("U2", "mysql", "idx", "S") }} ms przy S, {{ mean("U2", "mysql", "idx", "M") }} ms przy M i {{ mean("U2", "mysql", "idx") }} ms przy L, a D2 w PostgreSQL {{ mean("D2", "pg", "idx", "S") }}, {{ mean("D2", "pg", "idx", "M") }} i {{ mean("D2", "pg", "idx") }} ms. C3 i C4 w MySQL są przy S o ponad połowę wolniejsze niż przy M i L. Rozrzut trzech przebiegów jednej komórki jest przy tym zwykle dużo mniejszy (dodatek A). Kolejność SZBD też się zmienia: w C3 i C4 przy S najszybszy jest PostgreSQL, a przy M i L MySQL; w U2 i D2 przy M najszybszy jest MySQL, a przy S i L PostgreSQL.
+
+Te odwrócenia sprawdziliśmy po pomiarach w osobnej sesji diagnostycznej. Jej dane i skrypt leżą w katalogu `results/diag-g3/` i nie wchodzą do tabel sprawozdania. Komputer był w niej bardziej obciążony niż podczas pomiarów, więc jej czasy bezwzględne są wyższe i porównujemy tylko czasy z tej samej sesji. Wyniki są następujące:
+
+- D2 w PostgreSQL, MySQL i MongoDB oraz U2 w PostgreSQL i MySQL zmierzone ponownie przy M i L w jednej sesji mają przy obu rozmiarach podobne czasy (różnica do 14%). Nie powtórzyły się ani krótki czas D2 w PostgreSQL przy L, ani krótki czas U2 w MySQL przy M. W U2 PostgreSQL był przy obu rozmiarach szybszy od MySQL, a w D2 MySQL był najwolniejszy z trzech SZBD. PostgreSQL i MongoDB różniły się w D2 o najwyżej 11%, w różnej kolejności przy M i L.
+- Pomiar czasu poszczególnych poleceń C3 w MySQL przy S, M i L pokazał, że około dwóch trzecich czasu przebiegu zajmuje zatwierdzenie transakcji, czyli zapis dziennika redo na dysk. Wyszukanie wolnej skrytki zajmuje około 7% czasu przy każdym rozmiarze. Przy S przegląda kilka zajętych skrytek więcej niż przy L, bo na jeden punkt przypada więcej rezerwacji scenariusza, ale trwa poniżej 0,2 ms na rezerwację (`EXPLAIN ANALYZE` pod koniec przebiegu).
+- C3 w MySQL trwał w sesji diagnostycznej przy S krócej niż przy L, odwrotnie niż w @tab:C.
+
+Czas tych scenariuszy zależy więc w dużej mierze od opóźnienia trwałego zapisu na dysk maszyny wirtualnej, a ono zmienia się między sesjami. Każdy rozmiar mierzyliśmy w osobnej sesji, dlatego różnice między rozmiarami w C3, C4, U2 i D2 odczytujemy jako zmienność stanowiska, a nie wpływ rozmiaru danych. W granicach tej zmienności leżą różnice między SZBD w tych scenariuszach, także większe niż w innych scenariuszach: w D2 przy L MongoDB potrzebuje w @tab:D o ponad połowę więcej czasu niż PostgreSQL, a w sesji diagnostycznej był od niego szybszy. Z kolejności SZBD w C3, C4, U2 i D2 wyciągamy więc tylko te wnioski, które powtarzają się przy L w obu sesjach: w U2 PostgreSQL jest szybszy od MySQL, a w D2 MySQL jest wolniejszy od PostgreSQL i MongoDB. Przewagi MySQL nad PostgreSQL w C3 i C4 przy M i L nie uznajemy za rozstrzygniętą.
 
 ### U6 w PostgreSQL
 
@@ -106,6 +116,6 @@ Trzy scenariusze pokazują różnicę między modelem relacyjnym, dokumentowym i
 
 W R1 model dokumentowy nie daje MongoDB przewagi. Zamówienie z rezerwacjami, kodami i płatnościami to jeden dokument, ale nazwa i adres punktu leżą w kolekcji `lockermats`. MongoDB wykonuje więc dwa wywołania na zamówienie, a PostgreSQL i MySQL jedno zapytanie. PostgreSQL ({{ mean("R1", "pg", "idx") }} ms) jest szybszy od MongoDB ({{ mean("R1", "mongo", "idx") }} ms) i MySQL ({{ mean("R1", "mysql", "idx") }} ms). Neo4j ({{ mean("R1", "neo4j", "idx") }} ms) jest najwolniejszy, choć cały wynik zbiera jedno zapytanie po relacjach węzła zamówienia.
 
-W D2 MongoDB ({{ mean("D2", "mongo", "idx") }} ms) jest szybszy od MySQL ({{ mean("D2", "mysql", "idx") }} ms) i Neo4j ({{ mean("D2", "neo4j", "idx") }} ms), ale wolniejszy od PostgreSQL ({{ mean("D2", "pg", "idx") }} ms). Osadzenie zastępuje usuwanie wierszy z sześciu tabel usunięciem jednego dokumentu. Zgłoszenia `incidents` i pochodne połączenia `shipLinks` są jednak osobnymi kolekcjami, więc wymagają dodatkowych wywołań w tej samej transakcji.
+W D2 MongoDB ({{ mean("D2", "mongo", "idx") }} ms) jest szybszy od MySQL ({{ mean("D2", "mysql", "idx") }} ms) i Neo4j ({{ mean("D2", "neo4j", "idx") }} ms), ale wolniejszy od PostgreSQL ({{ mean("D2", "pg", "idx") }} ms). Osadzenie zastępuje usuwanie wierszy z sześciu tabel usunięciem jednego dokumentu. Zgłoszenia `incidents` i pochodne połączenia `shipLinks` są jednak osobnymi kolekcjami, więc wymagają dodatkowych wywołań w tej samej transakcji. Przy M kolejność jest inna (@tab:D), a w sesji diagnostycznej PostgreSQL i MongoDB różniły się w D2 o najwyżej 11% (podrozdz. „Zapisy w wielu krótkich transakcjach”), więc D2 nie rozstrzyga o przewadze modelu.
 
 W R8 model danych decyduje o wyniku najwyraźniej: MongoDB i Neo4j czytają gotowe połączenia między punktami, a model relacyjny wyznacza je złączeniami w każdym kroku rekurencji (podrozdz. „Wybrane przypadki”). W C2, D3 i D5 o wyniku decyduje osadzenie w MongoDB. Przyspiesza usuwanie całych zamówień (D5), ale spowalnia dopisywanie i usuwanie pojedynczych wpisów dziennika drzwi (C2, D3), bo każda taka zmiana jest aktualizacją dokumentu zamówienia, a nie wstawieniem lub usunięciem małego wiersza.

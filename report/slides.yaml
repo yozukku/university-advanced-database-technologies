@@ -19,6 +19,12 @@ slides:
   - title: Schemat relacyjny Bagażomatu (13 tabel)
     images:
       - report/assets/erd/przeglad.png
+  - title: "Schemat: zamówienie i rezerwacja"
+    images:
+      - report/assets/erd/zamowienie-i-rezerwacja.png
+  - title: "Schemat: klient i pieniądze"
+    images:
+      - report/assets/erd/klient-i-pieniadze.png
   - title: "Aplikacja testowa: wymagania"
     bullets:
       - Generuje deterministyczny zbiór danych (stałe ziarno, Faker)
@@ -124,15 +130,19 @@ slides:
   - title: Wnioski i rekomendacja
     bullets:
       - "PostgreSQL: najszybszy w większości scenariuszy przy rozmiarze L"
-      - "MySQL: najszybsze zapisy C3, C4 i aktualizacje według klucza"
+      - "MySQL: najszybsze aktualizacje według klucza U1 i U5"
       - "MongoDB: dane osadzone w dokumencie (U3, U4, D5), R8 i JSON"
       - "Neo4j: średnio najwolniejszy, bez scenariuszy JSON"
       - "H1 obalona: 7 z 49 komórek bez potwierdzenia, głównie C3 i C4"
       - "Rekomendacja dla Bagażomatu: PostgreSQL (EXCLUDE, PostGIS, jsonb)"
-  - title: "Bagażomat: punkty, płatność, przesyłka"
+  - title: "Bagażomat: punkty z wolną skrytką"
     images:
       - report/assets/app/punkty.png
+  - title: "Bagażomat: rezerwacja opłacona, kod PIN"
+    images:
       - report/assets/app/platnosc.png
+  - title: "Bagażomat: przesyłka do odbioru"
+    images:
       - report/assets/app/przesylka.png
   - title: Harmonogram
     bullets:

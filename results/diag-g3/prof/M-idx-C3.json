@@ -1,0 +1,26 @@
+{
+  "size": "M",
+  "config": "idx",
+  "scenario": "C3",
+  "pick_first": [
+    "-> Limit: 1 row(s)  (cost=17.3 rows=1) (actual time=0.0495..0.0496 rows=1 loops=1)\n    -> Nested loop antijoin  (cost=17.3 rows=46.6) (actual time=0.0486..0.0486 rows=1 loops=1)\n        -> Nested loop antijoin  (cost=11.6 rows=4.32) (actual time=0.042..0.042 rows=1 loops=1)\n            -> Filter: ((c.status_ = 'IN_SERVICE') and (c.size_ = 'M'))  (cost=10 rows=0.4) (actual time=0.0188..0.0188 rows=1 loops=1)\n                -> Index lookup on c using lockermat_cell_number__uq (lockermat_id_=133)  (cost=10 rows=40) (actual time=0.0147..0.0158 rows=21 loops=1)\n            -> Filter: ((r.status_ in ('BOOKED','OCCUPIED')) and (r.from_ < '2026-12-11 04:00:00') and (r.to_ > '2026-12-11 00:00:00'))  (cost=58.2 rows=10.8) (actual time=0.021..0.021 rows=0 loops=1)\n                -> Index lookup on r using reservation_cell_from__idx (cell_id_=c.id_)  (cost=58.2 rows=10.8) (actual time=0.0182..0.0189 rows=10 loops=1)\n        -> Filter: ((r.status_ = 'OCCUPIED') and (r.to_ <= '2026-11-01 00:00:00'))  (cost=58.2 rows=10.8) (actual time=0.00625..0.00625 rows=0 loops=1)\n            -> Index lookup on r using reservation_cell_from__idx (cell_id_=c.id_)  (cost=58.2 rows=10.8) (actual time=0.00546..0.00596 rows=10 loops=1)\n"
+  ],
+  "total_ms": 3974.6,
+  "parts_ms": {
+    "commit": 2684.6,
+    "insert into access_code_ (id_, reservation_id_, ": 317.4,
+    "select c.id_ from lockermat_cell_ c join lockerm": 269.0,
+    "insert into order_ (id_, number_, customer_id_, ": 223.6,
+    "insert into reservation_ (id_, order_id_, size_,": 194.1,
+    "insert into payment_ (id_, order_id_, kind_, amo": 162.3
+  },
+  "pick_last": [
+    "-> Limit: 1 row(s)  (cost=17.3 rows=1) (actual time=0.0631..0.0631 rows=1 loops=1)\n    -> Nested loop antijoin  (cost=17.3 rows=46.6) (actual time=0.0626..0.0626 rows=1 loops=1)\n        -> Nested loop antijoin  (cost=11.6 rows=4.32) (actual time=0.0557..0.0557 rows=1 loops=1)\n            -> Filter: ((c.status_ = 'IN_SERVICE') and (c.size_ = 'S'))  (cost=10 rows=0.4) (actual time=0.0153..0.0157 rows=3 loops=1)\n                -> Index lookup on c using lockermat_cell_number__uq (lockermat_id_=38)  (cost=10 rows=40) (actual time=0.0149..0.0151 rows=3 loops=1)\n            -> Filter: ((r.status_ in ('BOOKED','OCCUPIED')) and (r.from_ < '2026-12-11 04:00:00') and (r.to_ > '2026-12-11 00:00:00'))  (cost=58.2 rows=10.8) (actual time=0.0131..0.0131 rows=0.667 loops=3)\n                -> Index lookup on r using reservation_cell_from__idx (cell_id_=c.id_)  (cost=58.2 rows=10.8) (actual time=0.0116..0.0122 rows=10.3 loops=3)\n        -> Filter: ((r.status_ = 'OCCUPIED') and (r.to_ <= '2026-11-01 00:00:00'))  (cost=58.2 rows=10.8) (actual time=0.00675..0.00675 rows=0 loops=1)\n            -> Index lookup on r using reservation_cell_from__idx (cell_id_=c.id_)  (cost=58.2 rows=10.8) (actual time=0.00575..0.00629 rows=11 loops=1)\n"
+  ],
+  "overlap_last": [
+    "-> Aggregate: count(0)  (cost=4.83 rows=1) (actual time=0.0187..0.0188 rows=1 loops=1)\n    -> Filter: ((reservation_.to_ > TIMESTAMP'2026-12-11 00:00:00') and (reservation_.status_ in ('BOOKED','OCCUPIED')))  (cost=4.76 rows=0.667) (actual time=0.0172..0.0175 rows=1 loops=1)\n        -> Index range scan on reservation_ using reservation_cell_from__idx over (cell_id_ = 1482 AND from_ < '2026-12-11 04:00:00.000'), with index condition: ((reservation_.cell_id_ = 1482) and (reservation_.from_ < TIMESTAMP'2026-12-11 04:00:00'))  (cost=4.76 rows=10) (actual time=0.00871..0.00962 rows=10 loops=1)\n"
+  ],
+  "bookings_per_locker": 4.13,
+  "cells_per_locker_size": 13.3333,
+  "reservations_per_cell": 11.1809
+}

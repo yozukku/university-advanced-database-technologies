@@ -1,0 +1,15 @@
+{
+  "size": "S",
+  "config": "idx",
+  "scenario": "C4",
+  "total_ms": 4555.3,
+  "parts_ms": {
+    "commit": 2414.5,
+    "select c.id_ from lockermat_cell_ c join lockerm": 581.3,
+    "insert into access_code_ (id_, reservation_id_, ": 488.7,
+    "insert into reservation_ (id_, order_id_, size_,": 377.2,
+    "insert into order_ (id_, number_, customer_id_, ": 230.3,
+    "insert into payment_ (id_, order_id_, kind_, amo": 177.6,
+    "insert into shipment_ (id_, order_id_, recipient": 131.5
+  }
+}

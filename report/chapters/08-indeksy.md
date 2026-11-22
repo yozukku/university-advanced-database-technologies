@@ -39,6 +39,8 @@ Każdy zapis z H1-I i H1-U dopisuje lub zmienia wpisy co najmniej jednego dodane
 - C6 dopisuje płatności partiami po 5000, każdą z wpisem w IX3. W PostgreSQL, MySQL i MongoDB działa w IDX wolniej, w Neo4j minimalnie szybciej.
 - C3 i C4 to 1000 osobnych transakcji. Każda wstawia kilka wierszy, a w dodanych indeksach dwa wpisy (C3: IX2 i IX3) albo trzy (C4: IX1, IX2 i IX3). Kierunek zmiany różni się tu między SZBD i między rozmiarami danych.
 
+Iloraz C3 w MongoDB przy M ({{ ratio("C3", "mongo", "M") }}, @fig:C3-ba) nie pokazuje kosztu indeksów. Przebiegi BASE trwają {{ span("C3", "mongo", "base", "M") }} ms, a IDX {{ span("C3", "mongo", "idx", "M") }} ms. Trzeci przebieg BASE i wszystkie przebiegi IDX są o około 2 s dłuższe od dwóch pierwszych przebiegów BASE. Czas wzrósł więc skokowo w trakcie sesji, jeszcze w BASE, i ten skok wchodzi do ilorazu.
+
 W PostgreSQL ilorazy U5 są wyższe niż ilorazy U1 we wszystkich rozmiarach, np. przy S {{ ratio("U5", "pg", "S") }} wobec {{ ratio("U1", "pg", "S") }}. Zmiana kolumny objętej indeksem wyklucza aktualizację HOT, czyli nową wersję wiersza bez nowych wpisów w indeksach. Kolumna `status_`, którą zmienia U1, już w BASE występuje w predykacie indeksu częściowego `order_awaiting_payment__idx`, więc U1 nie korzysta z HOT w żadnej konfiguracji. Telefon odbiorcy, który zmienia U5, w BASE nie występuje w żadnym indeksie `shipment_`, a w IDX jest kluczem IX1. Wyniki są z tym zgodne, ale planów zapisów nie zapisujemy (rozdz. 5), więc HOT nie jest potwierdzony planem.
 
 {{ fig("C2-ba", "C2 (dopisanie wpisów dziennika drzwi) w konfiguracjach BASE i IDX; skala logarytmiczna") }}
@@ -114,7 +116,13 @@ Werdykt H1, regułę rozstrzygnięcia i analizę według SZBD podaje rozdz. 11. 
 
 W PostgreSQL C4, MongoDB C4 i obu komórkach Neo4j różnica średnich jest mniejsza od rozrzutu przebiegów. Dwa albo trzy dodatkowe wpisy indeksów na transakcję (C3, C4) i wpisy IX3 dla nowych płatności (C6) są tu małą częścią pracy obok wyszukania wierszy, wstawień z kontrolą ograniczeń i trwałego zatwierdzenia. W Neo4j stałą część czasu zwiększa dodatkowo świeża JVM i kompilacja zapytań w każdym przebiegu zapisu (rozdz. 5).
 
-MySQL jest wyjątkiem: w C3 i C4 IDX jest szybsze, a zakresy przebiegów się nie nakładają. Liczniki odczytów z dysku są w obu konfiguracjach prawie równe. Planów instrukcji C3 i C4 nie zapisujemy (rozdz. 5), więc przyczyny nie umiemy wskazać. Pewne jest tylko tyle, że IDX wykonuje więcej pracy niż BASE, a mimo to działa szybciej. Jakiś inny czynnik, różny w przebiegach BASE i IDX, działa więc silniej niż koszt dodatkowych wpisów B-drzewa. Znane różnice to nowa próbka statystyk tabel z indeksami IX1–IX4 i kolejność przebiegów: IDX zawsze następuje zaraz po BASE (rozdz. 5).
+MySQL jest wyjątkiem: w C3 i C4 przy L IDX jest szybsze, a zakresy przebiegów się nie nakładają. Liczniki odczytów z dysku są w obu konfiguracjach prawie równe. IDX wykonuje więcej pracy niż BASE, więc szybszy przebieg IDX wymaga innej przyczyny niż indeksy. Sprawdziliśmy ją po pomiarach w sesji diagnostycznej (rozdz. 7, dane w `results/diag-g3/`):
+
+- Plany. `EXPLAIN ANALYZE` wyszukania wolnej skrytki i zapytania wyzwalacza o nakładające się rezerwacje ma w BASE i IDX te same kroki, te same indeksy i te same szacunki. Nowa próbka statystyk tabel z IX1–IX4 nie zmienia więc tych planów.
+- Kolejność przebiegów. W pilotażu przy S przebiegi IDX szły przed przebiegami BASE i MySQL miał w IDX czasy dłuższe: ilorazy C2, C3 i C4 wynosiły 1,21, 1,19 i 1,10. Po zmianie kolejności na BASE, a zaraz potem IDX (rozdz. 5) te same scenariusze przy S dały 0,99, 0,97 i 1,04.
+- Powtórzenie. W sesji diagnostycznej zmierzyliśmy C3 i C4 w MySQL przy S i L w obu kolejnościach. IDX było wolniejsze od BASE w sześciu z ośmiu par, z ilorazami od 1,02 do 1,27. Szybsze było tylko C4 przy S, z ilorazami 0,98 i 0,99, w obu kolejnościach.
+
+Przewaga IDX w C3 i C4 przy L nie powtórzyła się więc w innej sesji. Odczytujemy ją jako zmienność kolejnych przebiegów, a nie skutek indeksów. W sesji diagnostycznej zatwierdzenie z zapisem na dysk zajmowało w C3 i C4 ponad połowę czasu przebiegu (rozdz. 7), a dwa albo trzy wpisy indeksów to mała część pracy.
 
 ## Koszt budowy indeksów
 
