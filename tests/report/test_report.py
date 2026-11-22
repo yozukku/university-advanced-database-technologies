@@ -15,6 +15,7 @@ from bench.report.document import MISSING, ReportError
 FIXTURE = Path(__file__).with_name("results-S")
 INDEX_MARKERS = 33
 CLOSING_MARKERS = 8
+PROSE_MARKERS = 14
 
 
 def parse(markdown, label="3"):
@@ -102,7 +103,7 @@ def test_report_builds_from_s_only_results(tmp_path):
     assert any(text.startswith("Tab.\u00a03.1. Liczba rekordów") for text in texts)
     assert "500\u00a0000" in texts and "`" not in "".join(texts)
     assert "R2" in texts and len(media) == 16
-    assert texts.count(MISSING) == 7 + INDEX_MARKERS + CLOSING_MARKERS
+    assert texts.count(MISSING) == 7 + INDEX_MARKERS + CLOSING_MARKERS + PROSE_MARKERS
     assert not [text for text in texts if "{{" in text or "@fig:" in text or "@tab:" in text]
     assert (tmp_path / "sprawozdanie.pdf").read_bytes().startswith(b"%PDF")
     assert opens(tmp_path / "sprawozdanie.docx", tmp_path)
@@ -111,7 +112,7 @@ def test_report_builds_from_s_only_results(tmp_path):
 def test_report_without_results_renders_brak_danych(tmp_path):
     document.build(tmp_path / "missing", tmp_path)
     paragraphs, _ = docx_text(tmp_path / "sprawozdanie.docx")
-    assert [text for _, text in paragraphs].count(MISSING) == 13 + INDEX_MARKERS + CLOSING_MARKERS
+    assert [text for _, text in paragraphs].count(MISSING) == 13 + INDEX_MARKERS + CLOSING_MARKERS + PROSE_MARKERS
 
 
 def test_presentation_opens(tmp_path):

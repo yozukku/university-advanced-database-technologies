@@ -4,7 +4,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from bench.report import closing, crud, dataset, indexes
+from bench.report import cite, closing, crud, dataset, indexes
 
 CHAPTERS = Path("report/chapters")
 METADATA = Path("report/metadata.yaml")
@@ -56,8 +56,8 @@ def inline(function):
     return lambda results, *arguments: function(results, *arguments) or MISSING
 
 
-MARKERS = {"fig": figure, "table": table, "dataset": data, "sample": sample, "insert": insert,
-           **{name: inline(function) for name, function in indexes.VALUES.items()}}
+MARKERS = {"fig": figure, "table": table, "dataset": data, "sample": sample, "insert": insert, "plan": cite.plan,
+           **{name: inline(function) for name, function in (indexes.VALUES | cite.VALUES).items()}}
 
 
 def resolve(text, results, source, markers=MARKERS):
