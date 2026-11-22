@@ -1,0 +1,224 @@
+{
+ "sha": "eb197209bf3d9e1a93b972aa33acb574b140f0f0",
+ "date": "2026-11-22T02:22:17Z",
+ "sizes": "XS",
+ "exit": 0,
+ "steps": [
+  {
+   "engine": null,
+   "exit": 0,
+   "seconds": 0.48,
+   "size": "XS",
+   "state_id": "ebbbe7a4b345e914d82a0e5d78892f3a388df9c5d2b1f8d5610fc05d2baa012e",
+   "step": "data"
+  },
+  {
+   "engine": null,
+   "exit": 0,
+   "seconds": 0.336,
+   "size": "XS",
+   "state_id": "3727a95322ae65e145cc66603bc7702a23cfd6036fd6a90dd28b1fd710c6d2a0",
+   "step": "validate"
+  },
+  {
+   "engine": "pg",
+   "exit": 0,
+   "seconds": 3.809,
+   "size": "XS",
+   "state_id": "a9193fbda1dab3a2e505d9d4b06f1f3df7daea0552b99781d445abc5b2e8eb4b",
+   "step": "load"
+  },
+  {
+   "engine": "mysql",
+   "exit": 0,
+   "seconds": 11.843,
+   "size": "XS",
+   "state_id": "db17c4d394e51b20871c270d4fc9aae25a9b630fe507a13f13f353d972ae71ff",
+   "step": "load"
+  },
+  {
+   "engine": "mongo",
+   "exit": 0,
+   "seconds": 9.385,
+   "size": "XS",
+   "state_id": "82cbe9c216a42c822c5a0591d5c8fdbb3e6dcf39fe9427aa571cf650ed28729e",
+   "step": "load"
+  },
+  {
+   "engine": "neo4j",
+   "exit": 0,
+   "seconds": 40.837,
+   "size": "XS",
+   "state_id": "56cb7cf0ba11af96530acbabf95192056ce96fa2679faf31613010e434ffe5bb",
+   "step": "load"
+  },
+  {
+   "engine": "pg",
+   "exit": 0,
+   "seconds": 3.438,
+   "size": "XS",
+   "state_id": "a9193fbda1dab3a2e505d9d4b06f1f3df7daea0552b99781d445abc5b2e8eb4b",
+   "step": "verify"
+  },
+  {
+   "engine": "mysql",
+   "exit": 0,
+   "seconds": 4.428,
+   "size": "XS",
+   "state_id": "db17c4d394e51b20871c270d4fc9aae25a9b630fe507a13f13f353d972ae71ff",
+   "step": "verify"
+  },
+  {
+   "engine": "mongo",
+   "exit": 0,
+   "seconds": 3.668,
+   "size": "XS",
+   "state_id": "82cbe9c216a42c822c5a0591d5c8fdbb3e6dcf39fe9427aa571cf650ed28729e",
+   "step": "verify"
+  },
+  {
+   "engine": "neo4j",
+   "exit": 0,
+   "seconds": 20.099,
+   "size": "XS",
+   "state_id": "56cb7cf0ba11af96530acbabf95192056ce96fa2679faf31613010e434ffe5bb",
+   "step": "verify"
+  },
+  {
+   "engine": null,
+   "exit": 0,
+   "seconds": 0.55,
+   "size": "XS",
+   "state_id": "7866e030ec09c2568dc6191dab41217d2adb0f823a731b9ac99910afa7b60345",
+   "step": "verify"
+  },
+  {
+   "engine": "pg",
+   "exit": 0,
+   "seconds": 5.87,
+   "size": "XS",
+   "state_id": "18b55306962acf117fe1c93846f797ec165fad5587c42f0fe83b10322e3b5233",
+   "step": "snapshots"
+  },
+  {
+   "engine": "mysql",
+   "exit": 0,
+   "seconds": 9.352,
+   "size": "XS",
+   "state_id": "e4623d5d837c0af4aad43b5ad8a0c55b13804bb103194118e7cdf597391a8233",
+   "step": "snapshots"
+  },
+  {
+   "engine": "mongo",
+   "exit": 0,
+   "seconds": 7.712,
+   "size": "XS",
+   "state_id": "fd07fde89919f1291969faa770bbbccf51c9968758288eaa56839f3ae0878ac5",
+   "step": "snapshots"
+  },
+  {
+   "engine": "neo4j",
+   "exit": 0,
+   "seconds": 40.728,
+   "size": "XS",
+   "state_id": "021377a5cbb3966b14377f000e718f72aaa7056e83575d5e68944bdb15f4c1fc",
+   "step": "snapshots"
+  },
+  {
+   "engine": "pg",
+   "exit": 0,
+   "seconds": 308.05,
+   "size": "XS",
+   "state_id": "18b55306962acf117fe1c93846f797ec165fad5587c42f0fe83b10322e3b5233",
+   "step": "bench"
+  },
+  {
+   "engine": "mysql",
+   "exit": 0,
+   "seconds": 325.718,
+   "size": "XS",
+   "state_id": "e4623d5d837c0af4aad43b5ad8a0c55b13804bb103194118e7cdf597391a8233",
+   "step": "bench"
+  },
+  {
+   "engine": "mongo",
+   "exit": 0,
+   "seconds": 315.195,
+   "size": "XS",
+   "state_id": "fd07fde89919f1291969faa770bbbccf51c9968758288eaa56839f3ae0878ac5",
+   "step": "bench"
+  },
+  {
+   "engine": "neo4j",
+   "exit": 0,
+   "seconds": 766.452,
+   "size": "XS",
+   "state_id": "021377a5cbb3966b14377f000e718f72aaa7056e83575d5e68944bdb15f4c1fc",
+   "step": "bench"
+  },
+  {
+   "engine": "pg",
+   "exit": 0,
+   "seconds": 6.628,
+   "size": "XS",
+   "state_id": "18b55306962acf117fe1c93846f797ec165fad5587c42f0fe83b10322e3b5233",
+   "step": "explain"
+  },
+  {
+   "engine": "mysql",
+   "exit": 0,
+   "seconds": 6.78,
+   "size": "XS",
+   "state_id": "e4623d5d837c0af4aad43b5ad8a0c55b13804bb103194118e7cdf597391a8233",
+   "step": "explain"
+  },
+  {
+   "engine": "mongo",
+   "exit": 0,
+   "seconds": 6.983,
+   "size": "XS",
+   "state_id": "fd07fde89919f1291969faa770bbbccf51c9968758288eaa56839f3ae0878ac5",
+   "step": "explain"
+  },
+  {
+   "engine": "neo4j",
+   "exit": 0,
+   "seconds": 17.804,
+   "size": "XS",
+   "state_id": "021377a5cbb3966b14377f000e718f72aaa7056e83575d5e68944bdb15f4c1fc",
+   "step": "explain"
+  },
+  {
+   "engine": null,
+   "exit": 0,
+   "seconds": 0.498,
+   "size": "XS",
+   "state_id": null,
+   "step": "qa"
+  },
+  {
+   "engine": null,
+   "exit": 0,
+   "seconds": 0.345,
+   "size": null,
+   "state_id": null,
+   "step": "h1"
+  },
+  {
+   "engine": null,
+   "exit": 0,
+   "seconds": 5.786,
+   "size": null,
+   "state_id": null,
+   "step": "charts"
+  },
+  {
+   "engine": null,
+   "exit": 0,
+   "seconds": 7.74,
+   "size": null,
+   "state_id": null,
+   "step": "report"
+  }
+ ]
+}
