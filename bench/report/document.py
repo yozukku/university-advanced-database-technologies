@@ -18,11 +18,12 @@ MISSING = "brak danych"
 EMPTY_TABLE = f"| {MISSING} |\n|---|"
 MARKER = re.compile(r"\{\{\s*(\w+)\((.*?)\)\s*\}\}")
 LEFTOVER = re.compile(r"\{\{.*?\}\}", re.DOTALL)
+UNDERSCORES = re.compile(r"_+(?=[^_\s])")
 CAPTION_ID = re.compile(r"\{#((?:fig|tab):[^\s{}]+)\}")
 CAPTIONS = {"Figure": ("fig", "Rys."), "Table": ("tab", "Tab.")}
 REFERENCES = {"fig": "rys.", "tab": "tab."}
-TEXT_WIDTH, CELL_PADDING = 453, 12
-FONTS = {False: ("Carlito", "bold", 10), True: ("DejaVu Sans Mono", "normal", 9)}
+TEXT_WIDTH, CELL_PADDING = 453, 11
+FONTS = {"head": ("Carlito", "bold", 10), "body": ("Carlito", "normal", 10), "code": ("DejaVu Sans Mono", "normal", 9)}
 BLOCKS = ("Table", "BulletList", "OrderedList")
 AFTER_BLOCK = ["", [], [["custom-style", "After Block"]]]
 TABLES = dataset.TABLES | crud.TABLES | indexes.TABLES | closing.TABLES
@@ -185,17 +186,17 @@ def link(blocks, targets):
 
 
 @functools.cache
-def typeface(code):
-    family, weight, size = FONTS[code]
+def typeface(kind):
+    family, weight, size = FONTS[kind]
     found = font_manager.findfont(font_manager.FontProperties(family=family, weight=weight), fallback_to_default=False)
     return ImageFont.truetype(found, size * 10)
 
 
-def span(value, code):
-    return typeface(code).getlength(value) / 10
+def span(value, kind):
+    return typeface(kind).getlength(value) / 10
 
 
-def words(cell):
+def words(cell, kind):
     found, current = [], 0.0
     for node in nodes(cell):
         if node["t"] in ("Space", "SoftBreak", "LineBreak"):
@@ -203,10 +204,10 @@ def words(cell):
             current = 0.0
         elif node["t"] in ("Str", "Code"):
             first, *rest = (node["c"] if node["t"] == "Str" else node["c"][1]).split(" ")
-            current += span(first, node["t"] == "Code")
+            current += span(first, "code" if node["t"] == "Code" else kind)
             for piece in rest:
                 found.append(current)
-                current = span(piece, True)
+                current = span(piece, "code")
     return found + [current]
 
 
@@ -227,19 +228,29 @@ def share(header, needs, most):
     return [low + (TEXT_WIDTH - sum(chosen)) * extra / sum(spare) for low, extra in zip(chosen, spare)]
 
 
+def breakable(cell, room):
+    for node in nodes(cell):
+        if node["t"] == "Code" and max(span(piece, "code") for piece in node["c"][1].split(" ")) > room:
+            node["c"][1] = UNDERSCORES.sub("\\g<0>\u200b", node["c"][1])
+
+
 def widths(blocks):
     for node in nodes(blocks):
         if node["t"] != "Table":
             continue
         _, _, columns, head, bodies, foot = node["c"]
         body = [row for part in bodies for row in part[2] + part[3]] + foot[1]
-        cells = [[words(row[1][position][4]) for row in head[1] + body] for position in range(len(columns))]
+        cells = [[words(row[1][position][4], "head" if line < len(head[1]) else "body")
+                  for line, row in enumerate(head[1] + body)] for position in range(len(columns))]
         needs = [[max(found) + CELL_PADDING for found in column] for column in cells]
         header = [max(column[:len(head[1])], default=0) for column in needs]
-        most = [max(sum(found) + span(" ", False) * (len(found) - 1) for found in column) + CELL_PADDING
+        most = [max(sum(found) + span(" ", "body") * (len(found) - 1) for found in column) + CELL_PADDING
                 for column in cells]
         shares = share(header, [column[len(head[1]):] for column in needs], most)
         node["c"][2] = [[align, {"t": "ColWidth", "c": part / sum(shares)}] for (align, _), part in zip(columns, shares)]
+        for position, part in enumerate(shares):
+            for row in body:
+                breakable(row[1][position][4], TEXT_WIDTH * part / sum(shares) - CELL_PADDING)
 
 
 def separate(value):

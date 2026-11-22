@@ -75,14 +75,15 @@ def access(results, size, json_series):
                  if row["size"] == size and row["scenario"].startswith("J") == json_series}
     rows = []
     for scenario in sorted({scenario for scenario, _, config in plans if config == "base"}, key=position):
+        rows.append([f"**{scenario}**", "", "", "", ""])
         for engine, name in ENGINES.items():
             for config in ("base", "idx"):
                 row = plans.get((scenario, engine, config))
                 if row:
-                    rows.append([scenario, name, config.upper(), row["access_path"].replace("; ", ", "),
+                    rows.append([f"{name} {config.upper()}", row["access_path"].replace("; ", ", "),
                                  names(row["index"]), count(row["rows_examined"]), count(row["rows_returned"])])
-    return markdown(["Scenariusz", "SZBD", "Konfiguracja", "Ścieżka dostępu", "Indeksy", "Przejrzane [wiersze]",
-                     "Zwrócone [wiersze]"], rows, widths([12, 13, 15, 17, 19, -13, -12])) if rows else None
+    return markdown(["SZBD i konfiguracja", "Ścieżka dostępu", "Indeksy", "Przejrzane [wiersze]",
+                     "Zwrócone [wiersze]"], rows, widths([17, 17, 19, -13, -12])) if rows else None
 
 
 def label(name):

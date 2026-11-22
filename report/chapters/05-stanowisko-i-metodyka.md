@@ -22,13 +22,13 @@ Jedynym strojeniem SZBD są ustawienia z katalogu `docker/conf/`, zebrane w @tab
 
 | Ustawienie | PostgreSQL 17 | MySQL 8.4 | MongoDB 8.0 | Neo4j 5.26 |
 |------|-------|-------|-------|-------|
-| Pamięć podręczna danych | shared_buffers = 2GB i pamięć podręczna systemu | innodb-buffer-pool-size=5G | WiredTiger cacheSizeGB: 4 | sterta 2 GB, pagecache_size 4 GB |
+| Pamięć podręczna danych | shared_buffers = 2GB i pamięć podręczna systemu | innodb-buffer-pool-size=5G | WiredTiger cacheSizeGB: 4 | sterta 2 GB, pamięć podręczna stron 4 GB |
 | Trwałość zatwierdzenia | synchronous_commit = on | innodb-flush-log-at-trx-commit=1, dziennik binarny wyłączony | zapis w: 1, j: true, oplogSizeMB: 1024 | domyślna |
 | Dziennik i punkty kontrolne | max_wal_size = 4GB, checkpoint_timeout = 15min | innodb-redo-log-capacity=4G | domyślne | domyślne |
 | Poziom izolacji | READ COMMITTED | READ COMMITTED | domyślny | domyślny |
-| Wczytanie pamięci podręcznej | brak pg_prewarm w shared_preload_libraries | zrzut i wczytanie puli buforów wyłączone | — | — |
+| Wczytanie pamięci podręcznej | autoprewarm z pg_prewarm wyłączony | zrzut i wczytanie puli buforów wyłączone | — | — |
 | Statystyki | autovacuum = off | innodb-stats-auto-recalc=OFF | — | próbkowanie indeksów w tle wyłączone |
-| Limit czasu transakcji | — | — | transactionLifetimeLimitSeconds: 600 | — |
+| Limit czasu transakcji | — | — | 600 s | — |
 
 : Ustawienia SZBD z katalogu docker/conf/ {#tab:konfiguracja}
 
@@ -85,7 +85,7 @@ W MySQL indeksów SPATIAL (`lockermat_location_geog__idx`) i FULLTEXT (`lockerma
 
 Wynikiem komórki (SZBD, rozmiar, konfiguracja, scenariusz) jest średnia z trzech przebiegów mierzonych. Minimum, maksimum, medianę i współczynnik zmienności CV podaje dodatek A. CV powyżej 15% to ostrzeżenie w `results/qa.json`. Runner nie powtarza automatycznie takiej komórki. Ponowny pomiar komórki wymaga polecenia `make forget`, które usuwa jej przebiegi z `results/runs.jsonl` i zapisuje powód w `results/notes.md`. Pełna komórka ma więc zawsze dokładnie trzy przebiegi `ok`.
 
-Limit przebiegu wynosi 600 s. Runner ustawia go tylko w swoich sesjach: `statement_timeout` w PostgreSQL, `max_execution_time` w MySQL, `maxTimeMS` w MongoDB i limit transakcji sterownika w Neo4j. Niezależnie od tego zegar runnera po 600 s przerywa polecenia przebiegu w bazie i sprawdza, że żadne nie działa dalej. Po pierwszym przekroczeniu limitu pozostałe przebiegi komórki dostają status `skipped`, a komórka pokazuje „> 600 s” zamiast liczby. Przekroczenie limitu w IDX przerywa pomiary: liczbę operacji lub próg daty scenariusza zmniejszamy wtedy we wszystkich SZBD i rozmiarach. Przekroczenie limitu w BASE daje komórkę ocenzurowaną bez średniej (rozdz. 11).
+Limit przebiegu wynosi 600 s. Runner ustawia go tylko w swoich sesjach: `statement_timeout` w PostgreSQL, `max_execution_time` w MySQL, `maxTimeMS` w MongoDB i limit transakcji sterownika w Neo4j. Serwer MongoDB ma też własny limit transakcji `transactionLifetimeLimitSeconds`, równy 600 s (@tab:konfiguracja). Niezależnie od tego zegar runnera po 600 s przerywa polecenia przebiegu w bazie i sprawdza, że żadne nie działa dalej. Po pierwszym przekroczeniu limitu pozostałe przebiegi komórki dostają status `skipped`, a komórka pokazuje „> 600 s” zamiast liczby. Przekroczenie limitu w IDX przerywa pomiary: liczbę operacji lub próg daty scenariusza zmniejszamy wtedy we wszystkich SZBD i rozmiarach. Przekroczenie limitu w BASE daje komórkę ocenzurowaną bez średniej (rozdz. 11).
 
 Wyniki trafiają do `results/runs.jsonl`, jedna linia na przebieg. Kluczem przebiegu jest SZBD, rozmiar, konfiguracja, scenariusz, numer przebiegu, `qhash` i `state_id`. `qhash` to skrót scenariusza: tekstów zapytań, parametrów, ziarna, polityki pomiaru i wersji sterowników. `state_id` to skrót danych, skryptów DDL, transformacji, ładowania, ustawień i obrazu SZBD. Każda zmiana zapytania, danych lub ustawień zmienia jeden z tych skrótów, więc dotknięte komórki są mierzone ponownie, a stare linie są pomijane. Przerwany pomiar po ponownym uruchomieniu mierzy tylko brakujące przebiegi.
 

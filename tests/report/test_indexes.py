@@ -62,8 +62,10 @@ def test_inline_values_equal_the_l_tables_and_render_brak_danych_without_results
     pairs = {row[0] + " " + row[1]: row for row in rows(indexes.TABLES["ba-json-L"](RESULTS))}
     assert document.resolve('{{ mean("J2", "pg", "base") }} {{ ratio("J2", "pg") }}', RESULTS, "x") == \
         f'{pairs["J2 PostgreSQL"][2]} {pairs["J2 PostgreSQL"][4]}'
-    access = {(row[0], row[1], row[2]): row for row in rows(indexes.TABLES["access-core-L"](RESULTS))}
-    assert document.resolve('{{ examined("R5", "pg", "idx") }}', RESULTS, "x") == access["R5", "PostgreSQL", "IDX"][5]
+    table = rows(indexes.TABLES["access-core-L"](RESULTS))
+    group = table.index(["**R5**", "", "", "", ""])
+    access = next(row for row in table[group:] if row[0] == "PostgreSQL IDX")
+    assert document.resolve('{{ examined("R5", "pg", "idx") }}', RESULTS, "x") == access[3]
     assert document.resolve('{{ ratio("J2", "pg", "M") }}', tmp_path, "x") == document.MISSING
 
 
